@@ -72,7 +72,7 @@ int main() {
     }
     cout << endl;
 
-    const char *message = "5";
+    const char *message = "50";
     size_t length = strlen(message);
 
     while(true){
