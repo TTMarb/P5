@@ -1,0 +1,151 @@
+ÿ
+U-Boot SPL 2014.10-rc2-00002-g105d2f3 (Jun 25 2015 - 15:19:50)
+
+
+U-Boot 2014.10-rc2-00002-g105d2f3 (Jun 25 2015 - 15:19:50)
+
+TEGRA124
+Board: NVIDIA Jetson TK1
+I2C:   ready
+DRAM:  2 GiB
+MMC:   Tegra SD/MMC: 0, Tegra SD/MMC: 1
+*** Warning - bad CRC, using default environment
+
+tegra-pcie: PCI regions:
+tegra-pcie:   I/O: 0x12000000-0x12010000
+tegra-pcie:   non-prefetchable memory: 0x13000000-0x20000000
+tegra-pcie:   prefetchable memory: 0x20000000-0x40000000
+tegra-pcie: 2x1, 1x1 configuration
+tegra-pcie: probing port 0, using 2 lanes
+tegra-pcie: probing port 1, using 1 lanes
+In:    serial
+Out:   serial
+Err:   serial
+Net:   RTL8169#0
+Warning: RTL8169#0 using MAC address from net device
+
+Hit any key to stop autoboot:  2  1  0 
+MMC: no card present
+switch to partitions #0, OK
+mmc0(part 0) is current device
+Scanning mmc 0...
+(Re)start USB...
+USB0:   USB EHCI 1.10
+scanning bus 0 for devices... 1 USB Device(s) found
+USB1:   USB EHCI 1.10
+scanning bus 1 for devices... 3 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+       scanning usb for ethernet devices... 0 Ethernet Device(s) found
+
+USB device 0: unknown device
+BOOTP broadcast 1
+BOOTP broadcast 2
+BOOTP broadcast 3
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 29
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 29
+*** Unhandled DHCP Option in OFFER/ACK: 0
+DHCP client bound to address 172.26.12.128 (950 ms)
+*** Warning: no boot file name; using 'AC1A0C80.img'
+Using RTL8169#0 device
+TFTP from server 172.18.38.50; our IP address is 172.26.12.128; sending through gateway 172.26.12.1
+Filename 'AC1A0C80.img'.
+Load address: 0x80408000
+Loading: *T T T T T T T T T T 
+Retry count exceeded; starting again
+BOOTP broadcast 1
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 29
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 0
+*** Unhandled DHCP Option in OFFER/ACK: 29
+*** Unhandled DHCP Option in OFFER/ACK: 0
+DHCP client bound to address 172.26.12.128 (207 ms)
+*** Warning: no boot file name; using 'AC1A0C80.img'
+Using RTL8169#0 device
+TFTP from server 172.18.38.50; our IP address is 172.26.12.128; sending through gateway 172.26.12.1
+Filename 'AC1A0C80.img'.
+Load address: 0x80408000
+Loading: *

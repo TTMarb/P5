@@ -1,0 +1,5 @@
+Kernel dump kan tilgås via TTL usb på UART4
+UART4 sidder på exspansion header
+GND - pin 16
+UART4_RXD_COM - pin 21
+UART4_TXD_CON - pin 23
