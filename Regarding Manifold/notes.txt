@@ -1,5 +1,16 @@
 Kernel dump kan tilgås via TTL usb på UART4
 UART4 sidder på exspansion header
-GND - pin 16
-UART4_RXD_COM - pin 21
-UART4_TXD_CON - pin 23
+GND - pin 16 (sort wire på USB)
+UART4_RXD_COM - pin 21 (Orange wire på USB)
+UART4_TXD_CON - pin 23 (Gul wire på USB)
+
+Hvis sudo ./flash .....
+fejler med "mapping system.img to loop device failed."
+
+Køres kommandoen 
+"sudo losetup --find"
+
+Herfra vil et loop komme frem i stil med /dev/loop15
+
+Denne skal ændres i flash.sh på linie 450
+
