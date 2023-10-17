@@ -55,6 +55,7 @@ getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
   // fly the drone with your RC to get different values.
 
   Telemetry::Status           status;
+  Telemetry::Battery          bat;
   Telemetry::GlobalPosition   globalPosition;
   Telemetry::RC               rc;
   Telemetry::Vector3f         velocity;
@@ -73,6 +74,7 @@ getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
     status         = vehicle->broadcast->getStatus();
     globalPosition = vehicle->broadcast->getGlobalPosition();
     rc             = vehicle->broadcast->getRC();
+    bat            = vehicle->broadcast->getBatteryInfo();
     velocity       = vehicle->broadcast->getVelocity();
     quaternion     = vehicle->broadcast->getQuaternion();
     avoidData      = vehicle->broadcast->getRelativePosition();
@@ -88,6 +90,9 @@ getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
               << rc.pitch << ", " << rc.yaw << ", " << rc.throttle << "\n";
     std::cout << "Velocity              (vx,vy,vz)      = " << velocity.x
               << ", " << velocity.y << ", " << velocity.z << "\n";
+    std::cout << "Battery Info              (cap,volt,curr,per)      = "
+              << bat.capacity << ", " << bat.voltage << ", " << bat.current
+              << ", " << bat.percentage << "\n";
     std::cout << "Attitude Quaternion   (w,x,y,z)       = " << quaternion.q0
               << ", " << quaternion.q1 << ", " << quaternion.q2 << ", "
               << quaternion.q3 << "\n";
@@ -104,6 +109,7 @@ getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
   std::cout << "Done printing!\n";
   return true;
 }
+
 bool
 getBAT(DJI::OSDK::Vehicle* vehicle)
 {
