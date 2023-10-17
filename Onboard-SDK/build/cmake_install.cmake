@@ -36,6 +36,7 @@ IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/osdk-core/cmake_install.cmake")
   INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/cmake_install.cmake")
+  INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/test/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
