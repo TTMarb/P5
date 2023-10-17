@@ -137,9 +137,10 @@ getGPS(DJI::OSDK::Vehicle* vehicle)
 
     std::cout << "Counter = " << elapsedTimeInMs << ":\n";
     std::cout << "-------\n";
-    std::cout << "Get fucked";
-    // std::cout << "GPS state           (time, long, lat)     = " << gps.time
-    //           << ", " << gps.longitude << ", " << gps.latitude << "\n";
+    std::cout << "GPS state           (time, long, lat)     = " << gps.time
+              << "\n";
+    //           << ", " << gps.longitude << ", " << gps.latitude
+    //           << "\n";
     std::cout << "-------\n\n";
 
     usleep(500000);
