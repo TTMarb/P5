@@ -124,7 +124,7 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
 
   Telemetry::Battery bat;
 
-  const int TIMEOUT = 20;
+  const int TIMEOUT = 1000;
 
   // Re-set Broadcast frequencies to their default values
   ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
