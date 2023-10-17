@@ -1,6 +1,6 @@
 # P5 - UAS for avalanche SAR operations
 
-**Project participants - EIT5**
+**Project participants**
 - Tobias Thelin Marburger
 - Christian Kjærsgaard Nielsen
 - Rasmus Haupt Dybkjær
