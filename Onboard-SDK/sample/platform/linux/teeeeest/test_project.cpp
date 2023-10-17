@@ -141,29 +141,75 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
   {
     std::cout << "Takeoff failed:";
     ACK::getErrorCodeMessage(takeoffStatus, func);
-    return false;
+    return true;
   }
-  /*
-  // Print in a loop for 2 seconds
-  while (elapsedTimeInMs < timeToPrintInMs)
+
   {
-    // Matrice 100 broadcasts only flight status
-    bat = vehicle->broadcast->getBatteryInfo();
+    while ((vehicle->broadcast->getStatus().flight <
+            DJI::OSDK::VehicleStatus::M100FlightStatus::TAKEOFF) &&
+           motorsNotStarted < timeoutCycles)
+    {
+      motorsNotStarted++;
+      usleep(100000);
+    }
 
-    std::cout << "Counter = " << elapsedTimeInMs << ":\n";
-    std::cout << "-------\n";
-    std::cout
-      << "BAT state           (cap, volt, curr, perc)     = \n" //<< gps.time
-      << ", " << bat.capacity << ", " << bat.voltage << ", " << bat.current
-      << ", " << bat.percentage << "\n";
-    std::cout << "-------\n\n";
+    if (motorsNotStarted < timeoutCycles)
+    {
+      std::cout << "Successful TakeOff!" << std::endl;
+    }
+  }
 
-    usleep(500000);
-    elapsedTimeInMs += 500;
-  }*/
+  {
+    while ((vehicle->broadcast->getStatus().flight !=
+            DJI::OSDK::VehicleStatus::M100FlightStatus::IN_AIR_STANDBY) &&
+           stillOnGround < timeoutCycles)
+    {
+      stillOnGround++;
+      usleep(100000);
+    }
 
-  std::cout << "Done printing!\n";
-  return true;
+    if (stillOnGround < timeoutCycles)
+    {
+      std::cout << "Aircraft in air!" << std::endl;
+    }
+  }
+
+  float32_t                 delta;
+  Telemetry::GlobalPosition currentHeight;
+  Telemetry::GlobalPosition deltaHeight =
+    vehicle->broadcast->getGlobalPosition();
+
+  do
+  {
+    sleep(4);
+    currentHeight        = vehicle->broadcast->getGlobalPosition();
+    delta                = fabs(currentHeight.altitude - deltaHeight.altitude);
+    deltaHeight.altitude = currentHeight.altitude;
+  } while (delta >= 0.009);
+
+  std::cout << "Aircraft hovering at " << currentHeight.altitude << "m!\n";
+}
+/*
+// Print in a loop for 2 seconds
+while (elapsedTimeInMs < timeToPrintInMs)
+{
+  // Matrice 100 broadcasts only flight status
+  bat = vehicle->broadcast->getBatteryInfo();
+
+  std::cout << "Counter = " << elapsedTimeInMs << ":\n";
+  std::cout << "-------\n";
+  std::cout
+    << "BAT state           (cap, volt, curr, perc)     = \n" //<< gps.time
+    << ", " << bat.capacity << ", " << bat.voltage << ", " << bat.current
+    << ", " << bat.percentage << "\n";
+  std::cout << "-------\n\n";
+
+  usleep(500000);
+  elapsedTimeInMs += 500;
+}*/
+
+std::cout << "Done printing!\n";
+return true;
 }
 
 bool
