@@ -44,6 +44,7 @@ IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/time-sync/cmake_install.cmake")
   INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/payload-3rd-party/cmake_install.cmake")
   INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/payloads/cmake_install.cmake")
+  INCLUDE("/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/teeeeest/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 

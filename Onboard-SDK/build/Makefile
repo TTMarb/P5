@@ -308,6 +308,32 @@ camera_manager_sync_sample/fast:
 	$(MAKE) -f sample/platform/linux/payloads/CMakeFiles/camera_manager_sync_sample.dir/build.make sample/platform/linux/payloads/CMakeFiles/camera_manager_sync_sample.dir/build
 .PHONY : camera_manager_sync_sample/fast
 
+#=============================================================================
+# Target rules for targets named djiosdk-teeeeest-sample
+
+# Build rule for target.
+djiosdk-teeeeest-sample: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 djiosdk-teeeeest-sample
+.PHONY : djiosdk-teeeeest-sample
+
+# fast build rule for target.
+djiosdk-teeeeest-sample/fast:
+	$(MAKE) -f sample/platform/linux/teeeeest/CMakeFiles/djiosdk-teeeeest-sample.dir/build.make sample/platform/linux/teeeeest/CMakeFiles/djiosdk-teeeeest-sample.dir/build
+.PHONY : djiosdk-teeeeest-sample/fast
+
+#=============================================================================
+# Target rules for targets named djiosdk-test-sample
+
+# Build rule for target.
+djiosdk-test-sample: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 djiosdk-test-sample
+.PHONY : djiosdk-test-sample
+
+# fast build rule for target.
+djiosdk-test-sample/fast:
+	$(MAKE) -f test/CMakeFiles/djiosdk-test-sample.dir/build.make test/CMakeFiles/djiosdk-test-sample.dir/build
+.PHONY : djiosdk-test-sample/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -333,6 +359,8 @@ help:
 	@echo "... djiosdk-payload-control-sample"
 	@echo "... camera_manager_async_sample"
 	@echo "... camera_manager_sync_sample"
+	@echo "... djiosdk-teeeeest-sample"
+	@echo "... djiosdk-test-sample"
 .PHONY : help
 
 

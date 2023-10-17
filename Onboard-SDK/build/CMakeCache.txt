@@ -227,10 +227,22 @@ djiosdk-payloads-sample_BINARY_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/
 djiosdk-payloads-sample_SOURCE_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/sample/platform/linux/payloads
 
 //Value Computed by CMake
+djiosdk-teeeeest-sample_BINARY_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/teeeeest
+
+//Value Computed by CMake
+djiosdk-teeeeest-sample_SOURCE_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/sample/platform/linux/teeeeest
+
+//Value Computed by CMake
 djiosdk-telemetry-sample_BINARY_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux/telemetry
 
 //Value Computed by CMake
 djiosdk-telemetry-sample_SOURCE_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/sample/platform/linux/telemetry
+
+//Value Computed by CMake
+djiosdk-test-sample_BINARY_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/build/test
+
+//Value Computed by CMake
+djiosdk-test-sample_SOURCE_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/test
 
 //Value Computed by CMake
 onboardsdk-linux-samples_BINARY_DIR:STATIC=/home/ubuntu/Documents/P5/Onboard-SDK/build/sample/platform/linux
@@ -341,7 +353,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=13
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=15
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
