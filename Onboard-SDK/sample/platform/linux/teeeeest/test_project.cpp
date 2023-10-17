@@ -179,43 +179,43 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
       std::cout << "Aircraft in air!" << std::endl;
     }
   }
-
-  float32_t                 delta;
-  Telemetry::GlobalPosition currentHeight;
-  Telemetry::GlobalPosition deltaHeight =
-    vehicle->broadcast->getGlobalPosition();
-
-  do
   {
-    sleep(4);
-    currentHeight        = vehicle->broadcast->getGlobalPosition();
-    delta                = fabs(currentHeight.altitude - deltaHeight.altitude);
-    deltaHeight.altitude = currentHeight.altitude;
-  } while (delta >= 0.009);
+    float32_t                 delta;
+    Telemetry::GlobalPosition currentHeight;
+    Telemetry::GlobalPosition deltaHeight =
+      vehicle->broadcast->getGlobalPosition();
 
-  std::cout << "Aircraft hovering at " << currentHeight.altitude << "m!\n";
-}
-/*
-// Print in a loop for 2 seconds
-while (elapsedTimeInMs < timeToPrintInMs)
-{
-  // Matrice 100 broadcasts only flight status
-  bat = vehicle->broadcast->getBatteryInfo();
+    do
+    {
+      sleep(4);
+      currentHeight = vehicle->broadcast->getGlobalPosition();
+      delta         = fabs(currentHeight.altitude - deltaHeight.altitude);
+      deltaHeight.altitude = currentHeight.altitude;
+    } while (delta >= 0.009);
 
-  std::cout << "Counter = " << elapsedTimeInMs << ":\n";
-  std::cout << "-------\n";
-  std::cout
-    << "BAT state           (cap, volt, curr, perc)     = \n" //<< gps.time
-    << ", " << bat.capacity << ", " << bat.voltage << ", " << bat.current
-    << ", " << bat.percentage << "\n";
-  std::cout << "-------\n\n";
+    std::cout << "Aircraft hovering at " << currentHeight.altitude << "m!\n";
+  }
+  /*
+  // Print in a loop for 2 seconds
+  while (elapsedTimeInMs < timeToPrintInMs)
+  {
+    // Matrice 100 broadcasts only flight status
+    bat = vehicle->broadcast->getBatteryInfo();
 
-  usleep(500000);
-  elapsedTimeInMs += 500;
-}*/
+    std::cout << "Counter = " << elapsedTimeInMs << ":\n";
+    std::cout << "-------\n";
+    std::cout
+      << "BAT state           (cap, volt, curr, perc)     = \n" //<< gps.time
+      << ", " << bat.capacity << ", " << bat.voltage << ", " << bat.current
+      << ", " << bat.percentage << "\n";
+    std::cout << "-------\n\n";
 
-std::cout << "Done printing!\n";
-return true;
+    usleep(500000);
+    elapsedTimeInMs += 500;
+  }*/
+
+  std::cout << "Done printing!\n";
+  return true;
 }
 
 bool
