@@ -136,7 +136,7 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
   // Re-set Broadcast frequencies to their default values
   ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
   // Start takeoff
-  ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(timeout);
+  ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(TIMEOUT);
   if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
   {
     std::cout << "Takeoff failed:";
