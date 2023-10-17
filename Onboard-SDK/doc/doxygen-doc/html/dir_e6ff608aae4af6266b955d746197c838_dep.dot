@@ -1,0 +1,12 @@
+digraph "doc/doxygen-resources"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  compound=true
+  subgraph clusterdir_e68e8157741866f444e17edd764ebbae {
+    graph [ bgcolor="#edf0f7", pencolor="grey25", style="filled,dashed,", label="doc", fontname="Helvetica", fontsize="10", URL="dir_e68e8157741866f444e17edd764ebbae.html"]
+  dir_e6ff608aae4af6266b955d746197c838 [shape=box, label="doxygen-resources", style="filled,bold,", fillcolor="#edf0f7", color="grey25", URL="dir_e6ff608aae4af6266b955d746197c838.html"];
+  }
+}

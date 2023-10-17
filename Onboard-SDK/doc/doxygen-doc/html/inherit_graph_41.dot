@@ -5,5 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="DJI::OSDK::Gimbal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classDJI_1_1OSDK_1_1Gimbal.html",tooltip="The Gimbal class for controlling gimbal-related functions."];
+  Node0 [label="DJI::OSDK::ErrorCode\l::MissionACK::Follow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structDJI_1_1OSDK_1_1ErrorCode_1_1MissionACK_1_1Follow.html",tooltip="Follow Mission ACK Error Code."];
 }

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['task',['Task',['../classDJI_1_1OSDK_1_1ErrorCode_1_1ControlACK.html#af6ca9c3a051c7fa0ddb5f89cd26bc31b',1,'DJI::OSDK::ErrorCode::ControlACK']]],
-  ['timestamp',['TimeStamp',['../namespaceDJI_1_1OSDK_1_1Telemetry.html#ac413584451e586917d9f6c7ebbd0d217',1,'DJI::OSDK::Telemetry']]]
+  ['task_0',['Task',['../classDJI_1_1OSDK_1_1ErrorCode_1_1ControlACK.html#a498c57b72d5ad1c3421875b18333e7bc',1,'DJI::OSDK::ErrorCode::ControlACK']]],
+  ['timestamp_1',['TimeStamp',['../namespaceDJI_1_1OSDK_1_1Telemetry.html#ae9920033bd786ce1ab9667e0c7648474',1,'DJI::OSDK::Telemetry']]]
 ];

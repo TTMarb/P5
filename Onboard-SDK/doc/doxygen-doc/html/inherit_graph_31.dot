@@ -5,5 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="DJI::OSDK::ErrorCode\l::MFIOACK::get",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structDJI_1_1OSDK_1_1ErrorCode_1_1MFIOACK_1_1get.html",tooltip="CMDID: get."];
+  Node0 [label="DJI::OSDK::ErrorCode\l::ControlACK::SetArm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structDJI_1_1OSDK_1_1ErrorCode_1_1ControlACK_1_1SetArm.html",tooltip="CMDID: SetArm supported in products with firmware version < 3.3."];
 }

@@ -5,5 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="DJI::OSDK::HotPointSettings",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structDJI_1_1OSDK_1_1HotPointSettings.html",tooltip="HotPoint Mission Initialization settings."];
+  Node0 [label="DJI::OSDK::ErrorCode\l::PSDKCommonErr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classDJI_1_1OSDK_1_1ErrorCode_1_1PSDKCommonErr.html",tooltip="camera api error code"];
 }
