@@ -133,6 +133,12 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
   char      func[50];
   int       pkgIndex;
 
+  int motorsNotStarted = 0;
+  int timeoutCycles    = 20;
+
+  int stillOnGround = 0;
+  timeoutCycles     = 110;
+
   // Re-set Broadcast frequencies to their default values
   ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
   // Start takeoff
