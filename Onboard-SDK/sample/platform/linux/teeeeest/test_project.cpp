@@ -105,7 +105,7 @@ getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
   return true;
 }
 bool
-getGPS(DJI::OSDK::Vehicle* vehicle)
+getBAT(DJI::OSDK::Vehicle* vehicle)
 {
   // Counters
   int elapsedTimeInMs = 0;
@@ -122,7 +122,7 @@ getGPS(DJI::OSDK::Vehicle* vehicle)
   // Please make sure your drone is in simulation mode. You can
   // fly the drone with your RC to get different values.
 
-  Telemetry::GPSInfo gps;
+  Telemetry::Battery bat;
 
   const int TIMEOUT = 20;
 
@@ -133,12 +133,14 @@ getGPS(DJI::OSDK::Vehicle* vehicle)
   while (elapsedTimeInMs < timeToPrintInMs)
   {
     // Matrice 100 broadcasts only flight status
-    gps = vehicle->broadcast->getGPSInfo();
+    bat = vehicle->broadcast->getBatteryInfo();
 
     std::cout << "Counter = " << elapsedTimeInMs << ":\n";
     std::cout << "-------\n";
-    std::cout << "GPS state           (time, long, lat)     = \n" //<< gps.time
-              << ", " << gps.longitude << ", " << gps.latitude << "\n";
+    std::cout
+      << "BAT state           (cap, volt, curr, perc)     = \n" //<< gps.time
+      << ", " << bat.capacity << ", " << bat.voltage << ", " << bat.current
+      << ", " << bat.percentage << "\n";
     std::cout << "-------\n\n";
 
     usleep(500000);

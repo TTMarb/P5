@@ -53,7 +53,7 @@ main(int argc, char** argv)
     << "| [a] Get telemetry data and print                               |\n"
     << "| [b] Select some subscription topics to print                   |\n"
     << "| [c] Get telemetry data and save to file                        |\n"
-    << "| [d] Git good                                                   |"
+    << "| [d] Get Battery info                                           |"
     << std::endl;
   char inputChar;
   std::cin >> inputChar;
@@ -77,7 +77,7 @@ main(int argc, char** argv)
       subscribeToDataAndSaveLogToFile(vehicle);
       break;
     case 'd':
-      getGPS(vehicle);
+      getBAT(vehicle);
       break;
     default:
       break;

@@ -53,5 +53,5 @@ subscribeToDataAndSaveLogToFile(DJI::OSDK::Vehicle* vehiclePtr,
 bool
 getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout = 1);
 bool
-getGPS(DJI::OSDK::Vehicle* vehicle);
+getBAT(DJI::OSDK::Vehicle* vehicle);
 #endif // DJIOSDK_TELEMETRYSAMPLE_HPP
