@@ -35,6 +35,7 @@
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
+using namespace DJI::OSDK::FlightController;
 
 bool
 getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
@@ -114,9 +115,10 @@ bool
 getBAT(DJI::OSDK::Vehicle* vehicle)
 {
   // Counters
+  /*
   int elapsedTimeInMs = 0;
-  int timeToPrintInMs = 60000;
-
+  int timeToPrintInMs = 5000;
+  */
   // We will listen to five broadcast data sets:
   // 1. Flight Status
   // 2. Global Position
@@ -128,13 +130,21 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
   // Please make sure your drone is in simulation mode. You can
   // fly the drone with your RC to get different values.
 
-  Telemetry::Battery bat;
-
   const int TIMEOUT = 1000;
+  char      func[50];
+  int       pkgIndex;
 
   // Re-set Broadcast frequencies to their default values
   ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
-
+  // Start takeoff
+  ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(timeout);
+  if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
+  {
+    std::cout << "Takeoff failed:";
+    ACK::getErrorCodeMessage(takeoffStatus, func);
+    return false;
+  }
+  /*
   // Print in a loop for 2 seconds
   while (elapsedTimeInMs < timeToPrintInMs)
   {
@@ -151,7 +161,7 @@ getBAT(DJI::OSDK::Vehicle* vehicle)
 
     usleep(500000);
     elapsedTimeInMs += 500;
-  }
+  }*/
 
   std::cout << "Done printing!\n";
   return true;
