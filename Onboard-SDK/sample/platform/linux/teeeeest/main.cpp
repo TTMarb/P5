@@ -57,9 +57,8 @@ main(int argc, char** argv)
     << std::endl;
   char inputChar;
   std::cin >> inputChar;
-  get
 
-    switch (inputChar)
+  switch (inputChar)
   {
     case 'a':
       if (vehicle->getFwVersion() == Version::M100_31)
