@@ -142,7 +142,7 @@ getGPS(DJI::OSDK::Vehicle* vehicle)
     //           << ", " << gps.longitude << ", " << gps.latitude << "\n";
     std::cout << "-------\n\n";
 
-    msleep(500);
+    usleep(500000);
     elapsedTimeInMs += 500;
   }
 
