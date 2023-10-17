@@ -35,7 +35,6 @@
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
-using namespace DJI::OSDK::FlightController;
 
 bool
 getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
