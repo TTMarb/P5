@@ -1,0 +1,296 @@
+<!-- HTML header for doxygen 1.8.8-->
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- For Mobile Devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta name="generator" content="Doxygen 1.9.3" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <title>DJI Onboard SDK: osdk-core/api/inc/dji_flight_controller.hpp Source File</title>
+    <!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
+    <script type="text/javascript" src="dynsections.js"></script>
+    <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+    <link href="doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="jquery.smartmenus.bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap-theme.css">
+    <script src="bootstrap.min.js"></script>
+    <link href="jquery.smartmenus.bootstrap.css" rel="stylesheet">
+    <!-- SmartMenus jQuery plugin -->
+    <script type="text/javascript" src="jquery.smartmenus.min.js"></script>
+    <!-- SmartMenus jQuery Bootstrap Addon -->
+    <script type="text/javascript" src="jquery.smartmenus.bootstrap.min.js"></script>
+    <style>
+        .has-submenu {
+            position: relative;
+        }
+        #main-nav {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="site-header" class="site-header navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="/" class="logo"><img src="dji-logo@2x.png">Developer</a></div>
+            <div id="header-navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/mobile-sdk">Mobile SDK</a></li>
+                    <li><a href="/ux-sdk">UX SDK</a></li>
+                    <li><a href="/onboard-sdk">Onboard SDK</a></li>
+                    <li><a href="/payload-sdk">Payload SDK</a></li>
+                    <li><a href="/windows-sdk">Windows SDK</a></li>
+                </ul>
+                <ul v-cloak="" v-show="!loggedIn" class="nav navbar-nav navbar-right nav-user">
+                    <li><a
+                            href="https://account.dji.com/login?appId=dji_sdk&backUrl=https%3A%2F%2Fdeveloper.dji.com%2Fuser&locale=en_US">Login</a>
+                    </li>
+                    <li><a href="https://account.dji.com/register?appId=dji_sdk&backUrl=https%3A%2F%2Fdeveloper.dji.com%2Fuser&locale=en_US"
+                            class="head-cta">Register</a></li>
+                </ul>
+                <ul v-cloak="" v-show="loggedIn" class="nav navbar-nav navbar-right nav-user">
+                    <li class="hovedown"><a href="javascript:void(0);" class="hovedown-toggle"><i
+                                class="fa fa-user"></i></a>
+                        <ul class="hovedown-menu hovedown-menu-right">
+                            <li><a href="/user">User Center</a></li>
+                            <li><a href="javascript:void(0);" v-on="click: logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div data-offset-top="60" data-spy="affix" class="sub-nav">
+        <div class="container">
+            <h1 class="logo">Onboard SDK</h1>
+            <nav><a href="/onboard-sdk">Overview</a><a href="/onboard-sdk/documentation">Documentation</a><a
+                    href="/onboard-api-reference/index.html" class="active">API Reference</a><a
+                    href="/onboard-sdk/downloads">Downloads</a>
+            </nav>
+        </div>
+    </div>
+    <!--<nav class="navbar navbar-default" role="navigation">-->
+    <!--<div class="container">-->
+    <!--<div class="navbar-header">-->
+    <!--<a href="#" class="navbar-left"><img src="dji_logo_gray_small.png" alt="DJI OSDK API Documentation" width="32px"/></a>-->
+    <!--<a class="navbar-brand" href="index.html">ONBOARD SDK 3.3</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</nav>-->
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div class="content" id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 panel " style="padding-bottom: 15px;">
+                        <div style="margin-bottom: 15px;">
+                            <!-- end header part --><!-- Generated by Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_95d02babf7f2c2cbb8138434e234b0a4.html">osdk-core</a></li><li class="navelem"><a class="el" href="dir_ef926edda2a887b065db034fc3005c14.html">api</a></li><li class="navelem"><a class="el" href="dir_0fb058e33548cd6e720172c5f012eda8.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">dji_flight_controller.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="dji__flight__controller_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#ifndef DJI_FLIGHT_CONTROLLER_HPP</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define DJI_FLIGHT_CONTROLLER_HPP</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &quot;dji_flight_actions_module.hpp&quot;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;dji_flight_assistant_module.hpp&quot;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &quot;<a class="code" href="dji__telemetry_8hpp.html">dji_telemetry.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceDJI.html">DJI</a> {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">namespace </span>OSDK {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1FlightController.html">   42</a></span><span class="keyword">class </span><a class="code hl_class" href="classDJI_1_1OSDK_1_1FlightController.html">FlightController</a> {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <a class="code hl_class" href="classDJI_1_1OSDK_1_1FlightController.html">FlightController</a>(<a class="code hl_class" href="classDJI_1_1OSDK_1_1Vehicle.html">Vehicle</a> *vehicle);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <a class="code hl_class" href="classDJI_1_1OSDK_1_1FlightController.html">~FlightController</a>();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keyword">typedef</span> <span class="keyword">struct </span>Telemetry::HomeLocationData HomeLocation;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="keyword">typedef</span> FlightAssistant::RtkEnableData</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">   49</a></span>      <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">RtkEnabled</a>; </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keyword">typedef</span> FlightAssistant::GoHomeAltitude</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">   51</a></span>      <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">GoHomeHeight</a>; </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a4b806f7dc703be8f89f5d643a90539c7">setRtkEnableSync</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">RtkEnabled</a> rtkEnable, <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a361e9ccc0d545739890a3a71de65c863">setRtkEnableAsync</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">RtkEnabled</a> rtkEnable,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                         <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                                              <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                         <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#abd22ffb1ae2911db9826ed26f33a1857">getRtkEnableSync</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">RtkEnabled</a> &amp;rtkEnable, <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a3dac00051d2df4c19a3feb0962c70fd7">getRtkEnableAsync</a>(<span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode,</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                                              <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">RtkEnabled</a> rtkEnable,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                                              <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                         <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a18e380f619128fc06b7dbd186e0f7218">setGoHomeAltitudeSync</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">GoHomeHeight</a> altitude,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                                                 <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a32908e2be079b3a2dfd53eac04fc1bfa">setGoHomeAltitudeAsync</a>(</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">GoHomeHeight</a> altitude,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>      <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a7ff324ed7feea98fda11c11205b7696d">getGoHomeAltitudeSync</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">GoHomeHeight</a> &amp;altitude,</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                                                 <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#af891e1e8345341b8d3bec4fcfeca3906">getGoHomeAltitudeAsync</a>(</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode,</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                           <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">GoHomeHeight</a> altitude, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#acd1dba0ec1a3d406b53d511b6dc7285f">setHomeLocationSync</a>(HomeLocation homeLocation,</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                                               <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#ab82fd02fcabfa7beb18cfc95af259ade">setHomeLocationAsync</a>(</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>      HomeLocation homeLocation,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>      <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>      <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a83520c78c7019b3ae1a2bec538c1ca7e">setHomeLocationUsingCurrentAircraftLocationSync</a>(</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>      <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a04917e7e481eac1c504574453b320d31">setHomeLocationUsingCurrentAircraftLocationAsync</a>(</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#aebea11fe5a77f9ab3f4751066ae3d892">startTakeoffSync</a>(<span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#aa755b3bbceea1b9d8803ffdc1e15fa98">startTakeoffAsync</a>(<span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode,</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                                              <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                         <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a6db3360aaca675e95494274d54b5aa55">startForceLandingSync</a>(<span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a2c125df1cfc28fc122501cd7e040f49b">startForceLandingAsync</a>(</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>      <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>      <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a8baf1a121226109973f6bb2dea08cc1d">startConfirmLandingSync</a>(<span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#afccef259458c22368144d0e321dd03ba">startConfirmLandingAsync</a>(</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>      <span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>      <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#a30d9adac394d7eb82e30c1cd9e812b8b">startGoHomeSync</a>(<span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1FlightController.html#abddd4bf193acaa8a3ad72a5631a3cd7d">startGoHomeAsync</a>(<span class="keywordtype">void</span> (*UserCallBack)(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">ErrorCode::ErrorCodeType</a> retCode,</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                                             <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData),</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                        <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>  FlightAssistant *flightAssistant;</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>  FlightActions *flightActions;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>};</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>}  <span class="comment">// namespace OSDK</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>}  <span class="comment">// namespace DJI</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><span class="preprocessor">#endif  </span><span class="comment">// DJI_FLIGHT_CONTROLLER_HPP</span></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1ErrorCode_html_aef071119e69a6f47b19657138c74c933"><div class="ttname"><a href="classDJI_1_1OSDK_1_1ErrorCode.html#aef071119e69a6f47b19657138c74c933">DJI::OSDK::ErrorCode::ErrorCodeType</a></div><div class="ttdeci">int64_t ErrorCodeType</div><div class="ttdoc">Unified error type.</div><div class="ttdef"><b>Definition:</b> dji_error.hpp:127</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html">DJI::OSDK::FlightController</a></div><div class="ttdoc">Flight controller API: set or get parameter, execute flight actions.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.hpp:42</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a01b8e59cbdae526f59fdd82ce982e7ed"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a01b8e59cbdae526f59fdd82ce982e7ed">DJI::OSDK::FlightController::GoHomeHeight</a></div><div class="ttdeci">FlightAssistant::GoHomeAltitude GoHomeHeight</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.hpp:51</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a04917e7e481eac1c504574453b320d31"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a04917e7e481eac1c504574453b320d31">DJI::OSDK::FlightController::setHomeLocationUsingCurrentAircraftLocationAsync</a></div><div class="ttdeci">void setHomeLocationUsingCurrentAircraftLocationAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Set home location using current aircraft GPS(not RTK) location, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:167</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a18e380f619128fc06b7dbd186e0f7218"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a18e380f619128fc06b7dbd186e0f7218">DJI::OSDK::FlightController::setGoHomeAltitudeSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType setGoHomeAltitudeSync(GoHomeHeight altitude, int timeout)</div><div class="ttdoc">Set go home altitude, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:86</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a2c125df1cfc28fc122501cd7e040f49b"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a2c125df1cfc28fc122501cd7e040f49b">DJI::OSDK::FlightController::startForceLandingAsync</a></div><div class="ttdeci">void startForceLandingAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Wrapper function for aircraft force landing, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:209</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a30d9adac394d7eb82e30c1cd9e812b8b"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a30d9adac394d7eb82e30c1cd9e812b8b">DJI::OSDK::FlightController::startGoHomeSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType startGoHomeSync(int timeout)</div><div class="ttdoc">Wrapper function for go home action, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:244</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a32908e2be079b3a2dfd53eac04fc1bfa"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a32908e2be079b3a2dfd53eac04fc1bfa">DJI::OSDK::FlightController::setGoHomeAltitudeAsync</a></div><div class="ttdeci">void setGoHomeAltitudeAsync(GoHomeHeight altitude, void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Set go home altitude, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:94</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a361e9ccc0d545739890a3a71de65c863"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a361e9ccc0d545739890a3a71de65c863">DJI::OSDK::FlightController::setRtkEnableAsync</a></div><div class="ttdeci">void setRtkEnableAsync(RtkEnabled rtkEnable, void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Set RTK enable or disable, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:52</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a3dac00051d2df4c19a3feb0962c70fd7"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a3dac00051d2df4c19a3feb0962c70fd7">DJI::OSDK::FlightController::getRtkEnableAsync</a></div><div class="ttdeci">void getRtkEnableAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, RtkEnabled rtkEnable, UserData userData), UserData userData)</div><div class="ttdoc">Get RTK enable or disable, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:72</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a4b806f7dc703be8f89f5d643a90539c7"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a4b806f7dc703be8f89f5d643a90539c7">DJI::OSDK::FlightController::setRtkEnableSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType setRtkEnableSync(RtkEnabled rtkEnable, int timeout)</div><div class="ttdoc">Set RTK enable or disable, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:44</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a6db3360aaca675e95494274d54b5aa55"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a6db3360aaca675e95494274d54b5aa55">DJI::OSDK::FlightController::startForceLandingSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType startForceLandingSync(int timeout)</div><div class="ttdoc">Wrapper function for aircraft force landing, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:201</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a71abd079541c6a5ac062437a9a78ffdd"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a71abd079541c6a5ac062437a9a78ffdd">DJI::OSDK::FlightController::RtkEnabled</a></div><div class="ttdeci">FlightAssistant::RtkEnableData RtkEnabled</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.hpp:49</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a7ff324ed7feea98fda11c11205b7696d"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a7ff324ed7feea98fda11c11205b7696d">DJI::OSDK::FlightController::getGoHomeAltitudeSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType getGoHomeAltitudeSync(GoHomeHeight &amp;altitude, int timeout)</div><div class="ttdoc">Get go home altitude, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:106</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a83520c78c7019b3ae1a2bec538c1ca7e"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a83520c78c7019b3ae1a2bec538c1ca7e">DJI::OSDK::FlightController::setHomeLocationUsingCurrentAircraftLocationSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType setHomeLocationUsingCurrentAircraftLocationSync(int timeout)</div><div class="ttdoc">Set home location using current aircraft GPS(not RTK) location, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:158</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_a8baf1a121226109973f6bb2dea08cc1d"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#a8baf1a121226109973f6bb2dea08cc1d">DJI::OSDK::FlightController::startConfirmLandingSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType startConfirmLandingSync(int timeout)</div><div class="ttdoc">Wrapper function for aircraft confirm landing and avoid ground, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:222</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_aa755b3bbceea1b9d8803ffdc1e15fa98"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#aa755b3bbceea1b9d8803ffdc1e15fa98">DJI::OSDK::FlightController::startTakeoffAsync</a></div><div class="ttdeci">void startTakeoffAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Wrapper function for aircraft takeoff, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:188</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_ab82fd02fcabfa7beb18cfc95af259ade"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#ab82fd02fcabfa7beb18cfc95af259ade">DJI::OSDK::FlightController::setHomeLocationAsync</a></div><div class="ttdeci">void setHomeLocationAsync(HomeLocation homeLocation, void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Set customized GPS(not RTK) home location, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:139</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_abd22ffb1ae2911db9826ed26f33a1857"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#abd22ffb1ae2911db9826ed26f33a1857">DJI::OSDK::FlightController::getRtkEnableSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType getRtkEnableSync(RtkEnabled &amp;rtkEnable, int timeout)</div><div class="ttdoc">Get rtk enable or disable, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:64</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_abddd4bf193acaa8a3ad72a5631a3cd7d"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#abddd4bf193acaa8a3ad72a5631a3cd7d">DJI::OSDK::FlightController::startGoHomeAsync</a></div><div class="ttdeci">void startGoHomeAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Wrapper function for go home action, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:252</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_acd1dba0ec1a3d406b53d511b6dc7285f"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#acd1dba0ec1a3d406b53d511b6dc7285f">DJI::OSDK::FlightController::setHomeLocationSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType setHomeLocationSync(HomeLocation homeLocation, int timeout)</div><div class="ttdoc">Set customized GPS(not RTK) home location, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:128</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_aebea11fe5a77f9ab3f4751066ae3d892"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#aebea11fe5a77f9ab3f4751066ae3d892">DJI::OSDK::FlightController::startTakeoffSync</a></div><div class="ttdeci">ErrorCode::ErrorCodeType startTakeoffSync(int timeout)</div><div class="ttdoc">Wrapper function for aircraft takeoff, blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:180</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_af891e1e8345341b8d3bec4fcfeca3906"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#af891e1e8345341b8d3bec4fcfeca3906">DJI::OSDK::FlightController::getGoHomeAltitudeAsync</a></div><div class="ttdeci">void getGoHomeAltitudeAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, GoHomeHeight altitude, UserData userData), UserData userData)</div><div class="ttdoc">Get go home altitude, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:114</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1FlightController_html_afccef259458c22368144d0e321dd03ba"><div class="ttname"><a href="classDJI_1_1OSDK_1_1FlightController.html#afccef259458c22368144d0e321dd03ba">DJI::OSDK::FlightController::startConfirmLandingAsync</a></div><div class="ttdeci">void startConfirmLandingAsync(void(*UserCallBack)(ErrorCode::ErrorCodeType retCode, UserData userData), UserData userData)</div><div class="ttdoc">Wrapper function for aircraft confirm landing and avoid ground, non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_flight_controller.cpp:231</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Vehicle_html"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Vehicle.html">DJI::OSDK::Vehicle</a></div><div class="ttdoc">A top-level encapsulation of a DJI drone/FC connected to your OES.</div><div class="ttdef"><b>Definition:</b> dji_vehicle.hpp:94</div></div>
+<div class="ttc" id="adji__telemetry_8hpp_html"><div class="ttname"><a href="dji__telemetry_8hpp.html">dji_telemetry.hpp</a></div><div class="ttdoc">Enumeration of all telemetry data types, structures and maps.</div></div>
+<div class="ttc" id="anamespaceDJI_1_1OSDK_html_aded24c93a2d064658a1f59cbf0e6eb9d"><div class="ttname"><a href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">DJI::OSDK::UserData</a></div><div class="ttdeci">void * UserData</div><div class="ttdoc">This is used as the datatype for all data arguments in callbacks.</div><div class="ttdef"><b>Definition:</b> dji_type.hpp:75</div></div>
+<div class="ttc" id="anamespaceDJI_html"><div class="ttname"><a href="namespaceDJI.html">DJI</a></div><div class="ttdef"><b>Definition:</b> dji_ack.cpp:40</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.8-->
+<!-- start footer part -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr class="footer"/><address class="footer"><small>
+  <footer id="site-footer" class="site-footer">
+    <div class="container">
+      <div class="foot-nav row">
+        <nav class="link-list col-xs-2"><span class="title">SDK</span><a href="/mobile-sdk">Mobile SDK</a><a href="/ux-sdk">UX SDK</a><a href="/onboard-sdk">Onboard SDK</a><a href="/payload-sdk">Payload SDK</a><a href="/windows-sdk">Windows SDK</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Info</span><a href="/products">Products</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Community</span><a href="http://stackoverflow.com/questions/tagged/dji-sdk" target="_blank">Stack Overflow</a><a href="https://www.youtube.com/channel/UCPQwN5xsob8zZGIcDhkYqUA" target="_blank">YouTube</a><a href="https://twitter.com/djidevelopers" target="_blank">Twitter</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Contact Us</span><a href="mailto:dev@dji.com"> dev@dji.com</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Business Cooperation</span><a href="mailto:dev@dji.com"> dev@dji.com</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">BILLING</span><a href="mailto:billing-dev@dji.com"> billing-dev@dji.com</a></nav>
+      </div>
+      <div class="foot-copyright row">
+        <div class="col-xs-3 foot-logo"><img src="dji-logo-foot.png"></div>
+        <div class="copyright col-xs-7"><span>Copyright © 2018 DJI All Rights Reserved</span><a href="/policies/privacy">Privacy Policy</a><a href="/policies/terms">Terms of Use</a></div>
+        <div class="col-xs-2">
+          <div class="lang-selector">
+            <select dir="rtl" v-model="lang">
+              <option value="en">English</option>
+              <option value="cn">中文</option>
+            </select><i class="fa fa-globe"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</small></address>
+</body>
+<script type="text/javascript" src="doxy-boot.js"></script>
+</html>

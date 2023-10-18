@@ -1,0 +1,433 @@
+<!-- HTML header for doxygen 1.8.8-->
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- For Mobile Devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta name="generator" content="Doxygen 1.9.3" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <title>DJI Onboard SDK: osdk-core/api/inc/dji_control.hpp Source File</title>
+    <!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
+    <script type="text/javascript" src="dynsections.js"></script>
+    <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+    <link href="doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="jquery.smartmenus.bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap-theme.css">
+    <script src="bootstrap.min.js"></script>
+    <link href="jquery.smartmenus.bootstrap.css" rel="stylesheet">
+    <!-- SmartMenus jQuery plugin -->
+    <script type="text/javascript" src="jquery.smartmenus.min.js"></script>
+    <!-- SmartMenus jQuery Bootstrap Addon -->
+    <script type="text/javascript" src="jquery.smartmenus.bootstrap.min.js"></script>
+    <style>
+        .has-submenu {
+            position: relative;
+        }
+        #main-nav {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="site-header" class="site-header navbar">
+        <div class="container">
+            <div class="navbar-header"><a href="/" class="logo"><img src="dji-logo@2x.png">Developer</a></div>
+            <div id="header-navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/mobile-sdk">Mobile SDK</a></li>
+                    <li><a href="/ux-sdk">UX SDK</a></li>
+                    <li><a href="/onboard-sdk">Onboard SDK</a></li>
+                    <li><a href="/payload-sdk">Payload SDK</a></li>
+                    <li><a href="/windows-sdk">Windows SDK</a></li>
+                </ul>
+                <ul v-cloak="" v-show="!loggedIn" class="nav navbar-nav navbar-right nav-user">
+                    <li><a
+                            href="https://account.dji.com/login?appId=dji_sdk&backUrl=https%3A%2F%2Fdeveloper.dji.com%2Fuser&locale=en_US">Login</a>
+                    </li>
+                    <li><a href="https://account.dji.com/register?appId=dji_sdk&backUrl=https%3A%2F%2Fdeveloper.dji.com%2Fuser&locale=en_US"
+                            class="head-cta">Register</a></li>
+                </ul>
+                <ul v-cloak="" v-show="loggedIn" class="nav navbar-nav navbar-right nav-user">
+                    <li class="hovedown"><a href="javascript:void(0);" class="hovedown-toggle"><i
+                                class="fa fa-user"></i></a>
+                        <ul class="hovedown-menu hovedown-menu-right">
+                            <li><a href="/user">User Center</a></li>
+                            <li><a href="javascript:void(0);" v-on="click: logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div data-offset-top="60" data-spy="affix" class="sub-nav">
+        <div class="container">
+            <h1 class="logo">Onboard SDK</h1>
+            <nav><a href="/onboard-sdk">Overview</a><a href="/onboard-sdk/documentation">Documentation</a><a
+                    href="/onboard-api-reference/index.html" class="active">API Reference</a><a
+                    href="/onboard-sdk/downloads">Downloads</a>
+            </nav>
+        </div>
+    </div>
+    <!--<nav class="navbar navbar-default" role="navigation">-->
+    <!--<div class="container">-->
+    <!--<div class="navbar-header">-->
+    <!--<a href="#" class="navbar-left"><img src="dji_logo_gray_small.png" alt="DJI OSDK API Documentation" width="32px"/></a>-->
+    <!--<a class="navbar-brand" href="index.html">ONBOARD SDK 3.3</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</nav>-->
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div class="content" id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 panel " style="padding-bottom: 15px;">
+                        <div style="margin-bottom: 15px;">
+                            <!-- end header part --><!-- Generated by Doxygen 1.9.3 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_95d02babf7f2c2cbb8138434e234b0a4.html">osdk-core</a></li><li class="navelem"><a class="el" href="dir_ef926edda2a887b065db034fc3005c14.html">api</a></li><li class="navelem"><a class="el" href="dir_0fb058e33548cd6e720172c5f012eda8.html">inc</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">dji_control.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="dji__control_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#ifndef DJI_CONTROL_H</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define DJI_CONTROL_H</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="dji__ack_8hpp.html">dji_ack.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &quot;dji_open_protocol.hpp&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &quot;<a class="code" href="dji__type_8hpp.html">dji_type.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &quot;<a class="code" href="dji__vehicle__callback_8hpp.html">dji_vehicle_callback.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceDJI.html">DJI</a></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>{</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">namespace </span>OSDK</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// Forward Declarations</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">class </span>Vehicle;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html">   49</a></span><span class="keyword">class </span><a class="code hl_class" href="classDJI_1_1OSDK_1_1Control.html">Control</a></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>{</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html">   55</a></span>  <span class="keyword">class </span><a class="code hl_class" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html">FlightCommand</a></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">/*</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">     * @note Matrice 100 flight commands</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">typedef</span> <span class="keyword">struct </span>LegacyCMD</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>      <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a82bb82f61ceaea0177d0d8224ff117e6">goHome</a>  = 1;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#ab69f0f163923b3e4c7c7ecc8654d03e1">takeOff</a> = 4;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a92a4c70cf12f4b61076e496830d6183c">landing</a> = 6;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    } LegacyCMD;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="comment">/*</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">     * @note OSDK release 3.3</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#ab69f0f163923b3e4c7c7ecc8654d03e1">   71</a></span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#ab69f0f163923b3e4c7c7ecc8654d03e1">takeOff</a> = 1; </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a92a4c70cf12f4b61076e496830d6183c">   72</a></span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a92a4c70cf12f4b61076e496830d6183c">landing</a> = 2; </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#aed2304ca06f54995d815491c289483ec">   75</a></span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#aed2304ca06f54995d815491c289483ec">courseLock</a>       = 5;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a82bb82f61ceaea0177d0d8224ff117e6">   76</a></span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a82bb82f61ceaea0177d0d8224ff117e6">goHome</a>           = 6; </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> startMotor       = 7;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> stopMotor        = 8;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> calibrateCompass = 9;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> exitGoHome       = 12;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> exitTakeOff      = 13;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> exitLanding      = 14;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> exitCalibrateCompass = 21;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> landingGearDown      = 28;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> landingGearUp        = 29;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  };</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4">   97</a></span><span class="comment"></span>  <span class="keyword">enum</span> <a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4">VerticalLogic</a></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4a0f2b954b107697ef0440b12fe8e2971d">  104</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4a0f2b954b107697ef0440b12fe8e2971d">VERTICAL_VELOCITY</a> = 0x00,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4ade41ada954074bde5034d0cbe8922df7">  109</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4ade41ada954074bde5034d0cbe8922df7">VERTICAL_POSITION</a> = 0x10,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4a2890b616ae5f29b86190484418525af3">  114</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4a2890b616ae5f29b86190484418525af3">VERTICAL_THRUST</a> = 0x20,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  };</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86">  127</a></span>  <span class="keyword">enum</span> <a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86">HorizontalLogic</a></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86afa13fb0e7f44b2bf531191496c5c1258">  136</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86afa13fb0e7f44b2bf531191496c5c1258">HORIZONTAL_ANGLE</a> = 0x00,</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86ae7874e310fad4f148bb466f5d4395b9c">  144</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86ae7874e310fad4f148bb466f5d4395b9c">HORIZONTAL_VELOCITY</a> = 0x40,</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86afcd1f8678a31d8fc8b3d7eb761f97bf4">  152</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86afcd1f8678a31d8fc8b3d7eb761f97bf4">HORIZONTAL_POSITION</a> = 0x80,</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86a95f1aae2ad3952dd330c45a1ce217dd7">HORIZONTAL_ANGULAR_RATE</a> = 0xC0</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86a95f1aae2ad3952dd330c45a1ce217dd7">  161</a></span>  };</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604">  164</a></span>  <span class="keyword">enum</span> <a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604">YawLogic</a></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>  {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604a6f6ccb42dcbab49794c1f0e6cc3cd505">  171</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604a6f6ccb42dcbab49794c1f0e6cc3cd505">YAW_ANGLE</a> = 0x00,</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604ad91380b605d1d747a29e27ff87b2b7f3">YAW_RATE</a> = 0x08</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604ad91380b605d1d747a29e27ff87b2b7f3">  178</a></span>  };</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183b">  182</a></span>  <span class="keyword">enum</span> <a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183b">HorizontalCoordinate</a></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>  {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183ba4577f4a941fbd773df320edc70f01cf2">  185</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183ba4577f4a941fbd773df320edc70f01cf2">HORIZONTAL_GROUND</a> = 0x00,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183bab9c7a8be9631f7f67145aa60b4ac6de2">HORIZONTAL_BODY</a> = 0x02</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183bab9c7a8be9631f7f67145aa60b4ac6de2">  188</a></span>  };</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781">  200</a></span>  <span class="keyword">enum</span> <a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781">StableMode</a></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781a0fd217005553a1b639fb4cb88854ac75">  202</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781a0fd217005553a1b639fb4cb88854ac75">STABLE_DISABLE</a> = 0x00, </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781acf5c565aa23ff2152cf8a09d05e4f334">STABLE_ENABLE</a>  = 0x01  </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781acf5c565aa23ff2152cf8a09d05e4f334">  204</a></span>  };</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6">  209</a></span>  <span class="keyword">enum</span> <a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6">KillSwitch</a></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>  {</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6ab19b561650e5df7ca2ae81cb3361c383">  211</a></span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6ab19b561650e5df7ca2ae81cb3361c383">ENABLE</a>  = 0x01, </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <a class="code hl_enumvalue" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6ad8b732eee86030041f9399d8056f5daa">DISABLE</a> = 0x02  </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6ad8b732eee86030041f9399d8056f5daa">  213</a></span>  };</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="preprocessor">#pragma pack(1)</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html">  223</a></span>  <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html">CtrlData</a></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  {</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a5f683c6c69478dc720245c9c2b79cf5e">  225</a></span>    uint8_t <a class="code hl_variable" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a5f683c6c69478dc720245c9c2b79cf5e">flag</a>;  </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a828fe8790ecbba283df6e99742673487">  233</a></span>    float32_t <a class="code hl_variable" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a828fe8790ecbba283df6e99742673487">x</a>;   </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a69e9b1c703d80aa850120365e26d1fa5">  235</a></span>    float32_t <a class="code hl_variable" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a69e9b1c703d80aa850120365e26d1fa5">y</a>;   </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#aa902800c979934df1cef1e3354342534">  237</a></span>    float32_t <a class="code hl_variable" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#aa902800c979934df1cef1e3354342534">z</a>;   </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a9025e995572cac7fa029b56cb07131b6">  238</a></span>    float32_t <a class="code hl_variable" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a9025e995572cac7fa029b56cb07131b6">yaw</a>; </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <a class="code hl_function" href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#aff12437ea62b8565aa42068e5257b3e0">CtrlData</a>(uint8_t in_flag, float32_t in_x, float32_t in_y, float32_t in_z,</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>             float32_t in_yaw);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#ad2ee30dad1782ed128340bd8c8fb91ae">  250</a></span>  } <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1Control.html#ad2ee30dad1782ed128340bd8c8fb91ae">CtrlData</a>; <span class="comment">// pack(1)</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno"><a class="line" href="structDJI_1_1OSDK_1_1Control_1_1AdvancedCtrlData.html">  256</a></span>  <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structDJI_1_1OSDK_1_1Control_1_1AdvancedCtrlData.html">AdvancedCtrlData</a></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  {</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    uint8_t   flag;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    uint8_t   advFlag;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    float32_t x;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    float32_t y;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    float32_t z;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    float32_t yaw;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    float32_t xFeedforward;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    float32_t yFeedforward;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <a class="code hl_struct" href="structDJI_1_1OSDK_1_1Control_1_1AdvancedCtrlData.html">AdvancedCtrlData</a>(uint8_t in_flag, float32_t in_x, float32_t in_y,</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                     float32_t in_z, float32_t in_yaw, float32_t x_forw,</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                     float32_t y_forw);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="classDJI_1_1OSDK_1_1Control.html#a07b794bc37b8434159e1fbbefe107889">  270</a></span>  } <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1Control.html#a07b794bc37b8434159e1fbbefe107889">AdvancedCtrlData</a>; <span class="comment">// pack(1)</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>  <span class="comment">// CMD data supported in Matrice 100</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  <span class="keyword">typedef</span> <span class="keyword">struct </span>LegacyCMDData</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  {</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    uint8_t sequence;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    uint8_t cmd;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  } LegacyCMDData; <span class="comment">// pack (1)</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  <span class="keyword">typedef</span> <span class="keyword">struct </span>KillSwitchData</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  {</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    uint8_t high_version;    </div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    uint8_t low_version;     </div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    uint8_t debug_description[10]; </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    uint8_t cmd : 2;  </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    uint8_t reserved : 6;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  } KillSwitchData; <span class="comment">// pack(1)</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="preprocessor">#pragma pack()</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> wait_timeout;</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>  Control(Vehicle* vehicle = 0);</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>  ~Control();</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>  Vehicle* vehicle;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a29a7c4aab568fb82dd372bc758885a2a">action</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> cmd, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0,</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>              <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a29a7c4aab568fb82dd372bc758885a2a">action</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> cmd, <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#ac4742f9e7155e0bf4651cde4ee39b116">armMotors</a>(<span class="keywordtype">int</span> wait_timeout);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#ac4742f9e7155e0bf4651cde4ee39b116">armMotors</a>(<a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a97b2f4d031f4b6898310c220f72eece0">disArmMotors</a>(<span class="keywordtype">int</span> wait_timeout);</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a97b2f4d031f4b6898310c220f72eece0">disArmMotors</a>(<a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a7f79c6ed6e9c399fff2354d0403be6f5">takeoff</a>(<span class="keywordtype">int</span> wait_timeout);</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a7f79c6ed6e9c399fff2354d0403be6f5">takeoff</a>(<a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a5fda2b2c0466333328c364b29200a153">goHome</a>(<span class="keywordtype">int</span> wait_timeout);</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a5fda2b2c0466333328c364b29200a153">goHome</a>(<a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span> </div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a4a9092bb63a1c309a54841f851bb16d7">land</a>(<span class="keywordtype">int</span> wait_timeout);</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a4a9092bb63a1c309a54841f851bb16d7">land</a>(<a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a1f2c5a277f091fb5fb5b39baf6f6fa0f">flightCtrl</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1Control.html#ad2ee30dad1782ed128340bd8c8fb91ae">CtrlData</a> data);</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span> </div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a1f2c5a277f091fb5fb5b39baf6f6fa0f">flightCtrl</a>(<a class="code hl_typedef" href="classDJI_1_1OSDK_1_1Control.html#a07b794bc37b8434159e1fbbefe107889">AdvancedCtrlData</a> data);</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span> </div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a6ed4bc74691c3e4fb0d5b30bcb67d6f5">positionAndYawCtrl</a>(float32_t x, float32_t y, float32_t z, float32_t yaw);</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span> </div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a24c02f8db0ce0ae10a784c3c998e979f">velocityAndYawRateCtrl</a>(float32_t Vx, float32_t Vy, float32_t Vz,</div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>                              float32_t yawRate);</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span> </div>
+<div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a70947186cffb7d0047a02db237afd19e">attitudeAndVertPosCtrl</a>(float32_t roll, float32_t pitch, float32_t yaw,</div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>                              float32_t z);</div>
+<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span> </div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#ab3c9ebc4484a235549ea5c85589757bc">angularRateAndVertPosCtrl</a>(float32_t rollRate, float32_t pitchRate,</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>                                 float32_t yawRate, float32_t z);</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span> </div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#afdf111f752a36ccf541198ca7212331a">emergencyBrake</a>();</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span> </div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#ad1cf1aeed4e91f03634895ce151ff4d7">actionCallback</a>(Vehicle* vehiclePtr, RecvContainer recvFrame,</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>                             <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData);</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span> </div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a2a70c775ac5032cd3ea9e7ef8eb4fc41">killSwitch</a>(<a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6">KillSwitch</a> cmd, <span class="keywordtype">int</span> wait_timeout = 10, <span class="keywordtype">char</span> debugMsg[10] = (<span class="keywordtype">char</span> *)<span class="stringliteral">&quot;OSDK_API&quot;</span>);</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classDJI_1_1OSDK_1_1Control.html#a2a70c775ac5032cd3ea9e7ef8eb4fc41">killSwitch</a>(<a class="code hl_enumeration" href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6">KillSwitch</a> cmd, <span class="keywordtype">char</span> debugMsg[10] = (<span class="keywordtype">char</span> *)<span class="stringliteral">&quot;OSDK_API&quot;</span>, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span> </div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>  <a class="code hl_typedef" href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">ACK::ErrorCode</a> setArm(<span class="keywordtype">bool</span> armSetting, <span class="keywordtype">int</span> timeout);</div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>  <span class="keywordtype">void</span> setArm(<span class="keywordtype">bool</span> armSetting, <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">VehicleCallBack</a> callback = 0,</div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>              <a class="code hl_typedef" href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">UserData</a> userData = 0);</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span> </div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>  <span class="comment">/*</span></div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span><span class="comment">   * Task CMD data to send to the flight controller (supported in Matrice 100)</span></div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span><span class="comment">   */</span></div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>  LegacyCMDData legacyCMDData;</div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>}; <span class="comment">// class Control</span></div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span> </div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>} <span class="comment">// OSDK</span></div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>} <span class="comment">// DJI</span></div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span> </div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span><span class="preprocessor">#endif </span><span class="comment">// DJI_CONTROL_H</span></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1ACK_html_ac635f5dabbed37e58a4bf669f7f3171c"><div class="ttname"><a href="classDJI_1_1OSDK_1_1ACK.html#ac635f5dabbed37e58a4bf669f7f3171c">DJI::OSDK::ACK::ErrorCode</a></div><div class="ttdeci">struct DJI::OSDK::ACK::ErrorCode ErrorCode</div><div class="ttdoc">This struct is returned from all blocking calls, except certain mission calls that have explicit type...</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_1_1FlightCommand_html"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html">DJI::OSDK::Control::FlightCommand</a></div><div class="ttdoc">Flight control commands.</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:56</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_1_1FlightCommand_html_a82bb82f61ceaea0177d0d8224ff117e6"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a82bb82f61ceaea0177d0d8224ff117e6">DJI::OSDK::Control::FlightCommand::goHome</a></div><div class="ttdeci">static const int goHome</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:76</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_1_1FlightCommand_html_a92a4c70cf12f4b61076e496830d6183c"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#a92a4c70cf12f4b61076e496830d6183c">DJI::OSDK::Control::FlightCommand::landing</a></div><div class="ttdeci">static const int landing</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:72</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_1_1FlightCommand_html_ab69f0f163923b3e4c7c7ecc8654d03e1"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#ab69f0f163923b3e4c7c7ecc8654d03e1">DJI::OSDK::Control::FlightCommand::takeOff</a></div><div class="ttdeci">static const int takeOff</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:71</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_1_1FlightCommand_html_aed2304ca06f54995d815491c289483ec"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control_1_1FlightCommand.html#aed2304ca06f54995d815491c289483ec">DJI::OSDK::Control::FlightCommand::courseLock</a></div><div class="ttdeci">static const int courseLock</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:75</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html">DJI::OSDK::Control</a></div><div class="ttdoc">Flight control API: high-level actions and low-level control modes.</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:50</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a07b794bc37b8434159e1fbbefe107889"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a07b794bc37b8434159e1fbbefe107889">DJI::OSDK::Control::AdvancedCtrlData</a></div><div class="ttdeci">struct DJI::OSDK::Control::AdvancedCtrlData AdvancedCtrlData</div><div class="ttdoc">AdvancedCtrlData.</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a1f2c5a277f091fb5fb5b39baf6f6fa0f"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a1f2c5a277f091fb5fb5b39baf6f6fa0f">DJI::OSDK::Control::flightCtrl</a></div><div class="ttdeci">void flightCtrl(CtrlData data)</div><div class="ttdoc">Control the vehicle using user-specified mode.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:332</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a24c02f8db0ce0ae10a784c3c998e979f"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a24c02f8db0ce0ae10a784c3c998e979f">DJI::OSDK::Control::velocityAndYawRateCtrl</a></div><div class="ttdeci">void velocityAndYawRateCtrl(float32_t Vx, float32_t Vy, float32_t Vz, float32_t yawRate)</div><div class="ttdoc">Control the velocity and yaw rate of the vehicle. The reference frame is the DJI::OSDK::Control::HORI...</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:374</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a29a7c4aab568fb82dd372bc758885a2a"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a29a7c4aab568fb82dd372bc758885a2a">DJI::OSDK::Control::action</a></div><div class="ttdeci">void action(const int cmd, VehicleCallBack callback=0, UserData userData=0)</div><div class="ttdoc">Basic action command for the vehicle, see FlightCommand for cmd choices.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:47</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a2a70c775ac5032cd3ea9e7ef8eb4fc41"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a2a70c775ac5032cd3ea9e7ef8eb4fc41">DJI::OSDK::Control::killSwitch</a></div><div class="ttdeci">ACK::ErrorCode killSwitch(KillSwitch cmd, int wait_timeout=10, char debugMsg[10]=(char *)&quot;OSDK_API&quot;)</div><div class="ttdoc">Turn on or off the kill switch.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:448</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a2d81493e9c6b0246811cbe71d8825db6"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6">DJI::OSDK::Control::KillSwitch</a></div><div class="ttdeci">KillSwitch</div><div class="ttdoc">turn on or off the motors for emergency reasons</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:210</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a2d81493e9c6b0246811cbe71d8825db6ab19b561650e5df7ca2ae81cb3361c383"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6ab19b561650e5df7ca2ae81cb3361c383">DJI::OSDK::Control::ENABLE</a></div><div class="ttdeci">@ ENABLE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:211</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a2d81493e9c6b0246811cbe71d8825db6ad8b732eee86030041f9399d8056f5daa"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a2d81493e9c6b0246811cbe71d8825db6ad8b732eee86030041f9399d8056f5daa">DJI::OSDK::Control::DISABLE</a></div><div class="ttdeci">@ DISABLE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:212</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a4a9092bb63a1c309a54841f851bb16d7"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a4a9092bb63a1c309a54841f851bb16d7">DJI::OSDK::Control::land</a></div><div class="ttdeci">ACK::ErrorCode land(int wait_timeout)</div><div class="ttdoc">Wrapper function for landing.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:298</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a5fda2b2c0466333328c364b29200a153"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a5fda2b2c0466333328c364b29200a153">DJI::OSDK::Control::goHome</a></div><div class="ttdeci">ACK::ErrorCode goHome(int wait_timeout)</div><div class="ttdoc">Wrapper function for go Home.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:264</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a6ed4bc74691c3e4fb0d5b30bcb67d6f5"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a6ed4bc74691c3e4fb0d5b30bcb67d6f5">DJI::OSDK::Control::positionAndYawCtrl</a></div><div class="ttdeci">void positionAndYawCtrl(float32_t x, float32_t y, float32_t z, float32_t yaw)</div><div class="ttdoc">Control the position and yaw angle of the vehicle. The reference frame is the DJI::OSDK::Control::HOR...</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:362</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a70947186cffb7d0047a02db237afd19e"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a70947186cffb7d0047a02db237afd19e">DJI::OSDK::Control::attitudeAndVertPosCtrl</a></div><div class="ttdeci">void attitudeAndVertPosCtrl(float32_t roll, float32_t pitch, float32_t yaw, float32_t z)</div><div class="ttdoc">Control the attitude and vertical position of the vehicle.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:386</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a7a7cab0e2d2c9415556837880ddf9e86"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86">DJI::OSDK::Control::HorizontalLogic</a></div><div class="ttdeci">HorizontalLogic</div><div class="ttdoc">bit 7:6 of the 8-bit (7:0) CtrlData.flag</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:128</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a7a7cab0e2d2c9415556837880ddf9e86a95f1aae2ad3952dd330c45a1ce217dd7"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86a95f1aae2ad3952dd330c45a1ce217dd7">DJI::OSDK::Control::HORIZONTAL_ANGULAR_RATE</a></div><div class="ttdeci">@ HORIZONTAL_ANGULAR_RATE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:160</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a7a7cab0e2d2c9415556837880ddf9e86ae7874e310fad4f148bb466f5d4395b9c"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86ae7874e310fad4f148bb466f5d4395b9c">DJI::OSDK::Control::HORIZONTAL_VELOCITY</a></div><div class="ttdeci">@ HORIZONTAL_VELOCITY</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:144</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a7a7cab0e2d2c9415556837880ddf9e86afa13fb0e7f44b2bf531191496c5c1258"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86afa13fb0e7f44b2bf531191496c5c1258">DJI::OSDK::Control::HORIZONTAL_ANGLE</a></div><div class="ttdeci">@ HORIZONTAL_ANGLE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:136</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a7a7cab0e2d2c9415556837880ddf9e86afcd1f8678a31d8fc8b3d7eb761f97bf4"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a7a7cab0e2d2c9415556837880ddf9e86afcd1f8678a31d8fc8b3d7eb761f97bf4">DJI::OSDK::Control::HORIZONTAL_POSITION</a></div><div class="ttdeci">@ HORIZONTAL_POSITION</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:152</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a7f79c6ed6e9c399fff2354d0403be6f5"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a7f79c6ed6e9c399fff2354d0403be6f5">DJI::OSDK::Control::takeoff</a></div><div class="ttdeci">ACK::ErrorCode takeoff(int wait_timeout)</div><div class="ttdoc">Wrapper function for take off.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:230</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a91f574c79c663ed6c1e1514a6feb86b4"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4">DJI::OSDK::Control::VerticalLogic</a></div><div class="ttdeci">VerticalLogic</div><div class="ttdoc">bit 5:4 of the 8-bit (7:0) CtrlData.flag</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:98</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a91f574c79c663ed6c1e1514a6feb86b4a0f2b954b107697ef0440b12fe8e2971d"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4a0f2b954b107697ef0440b12fe8e2971d">DJI::OSDK::Control::VERTICAL_VELOCITY</a></div><div class="ttdeci">@ VERTICAL_VELOCITY</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:104</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a91f574c79c663ed6c1e1514a6feb86b4a2890b616ae5f29b86190484418525af3"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4a2890b616ae5f29b86190484418525af3">DJI::OSDK::Control::VERTICAL_THRUST</a></div><div class="ttdeci">@ VERTICAL_THRUST</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:114</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a91f574c79c663ed6c1e1514a6feb86b4ade41ada954074bde5034d0cbe8922df7"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a91f574c79c663ed6c1e1514a6feb86b4ade41ada954074bde5034d0cbe8922df7">DJI::OSDK::Control::VERTICAL_POSITION</a></div><div class="ttdeci">@ VERTICAL_POSITION</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:109</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_a97b2f4d031f4b6898310c220f72eece0"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#a97b2f4d031f4b6898310c220f72eece0">DJI::OSDK::Control::disArmMotors</a></div><div class="ttdeci">ACK::ErrorCode disArmMotors(int wait_timeout)</div><div class="ttdoc">Wrapper function for disarming the motors.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:196</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_aa0e638a43e9de3fe82dcb369e798b604"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604">DJI::OSDK::Control::YawLogic</a></div><div class="ttdeci">YawLogic</div><div class="ttdoc">bit 3 of the 8-bit (7:0) CtrlData.flag</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:165</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_aa0e638a43e9de3fe82dcb369e798b604a6f6ccb42dcbab49794c1f0e6cc3cd505"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604a6f6ccb42dcbab49794c1f0e6cc3cd505">DJI::OSDK::Control::YAW_ANGLE</a></div><div class="ttdeci">@ YAW_ANGLE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:171</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_aa0e638a43e9de3fe82dcb369e798b604ad91380b605d1d747a29e27ff87b2b7f3"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#aa0e638a43e9de3fe82dcb369e798b604ad91380b605d1d747a29e27ff87b2b7f3">DJI::OSDK::Control::YAW_RATE</a></div><div class="ttdeci">@ YAW_RATE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:177</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_aa89e5fd518382c94fb6149a5b9a6183b"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183b">DJI::OSDK::Control::HorizontalCoordinate</a></div><div class="ttdeci">HorizontalCoordinate</div><div class="ttdoc">bit 2:1 of the 8-bit (7:0) CtrlData.flag</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:183</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_aa89e5fd518382c94fb6149a5b9a6183ba4577f4a941fbd773df320edc70f01cf2"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183ba4577f4a941fbd773df320edc70f01cf2">DJI::OSDK::Control::HORIZONTAL_GROUND</a></div><div class="ttdeci">@ HORIZONTAL_GROUND</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:185</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_aa89e5fd518382c94fb6149a5b9a6183bab9c7a8be9631f7f67145aa60b4ac6de2"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#aa89e5fd518382c94fb6149a5b9a6183bab9c7a8be9631f7f67145aa60b4ac6de2">DJI::OSDK::Control::HORIZONTAL_BODY</a></div><div class="ttdeci">@ HORIZONTAL_BODY</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:187</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_ab3c9ebc4484a235549ea5c85589757bc"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#ab3c9ebc4484a235549ea5c85589757bc">DJI::OSDK::Control::angularRateAndVertPosCtrl</a></div><div class="ttdeci">void angularRateAndVertPosCtrl(float32_t rollRate, float32_t pitchRate, float32_t yawRate, float32_t z)</div><div class="ttdoc">Control the attitude rate and vertical position of the vehicle.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:398</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_ac4742f9e7155e0bf4651cde4ee39b116"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#ac4742f9e7155e0bf4651cde4ee39b116">DJI::OSDK::Control::armMotors</a></div><div class="ttdeci">ACK::ErrorCode armMotors(int wait_timeout)</div><div class="ttdoc">Wrapper function for arming the motors.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:162</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_ad1cf1aeed4e91f03634895ce151ff4d7"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#ad1cf1aeed4e91f03634895ce151ff4d7">DJI::OSDK::Control::actionCallback</a></div><div class="ttdeci">static void actionCallback(Vehicle *vehiclePtr, RecvContainer recvFrame, UserData userData)</div><div class="ttdoc">A callback function for action non-blocking calls.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:514</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_ad2ee30dad1782ed128340bd8c8fb91ae"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#ad2ee30dad1782ed128340bd8c8fb91ae">DJI::OSDK::Control::CtrlData</a></div><div class="ttdeci">struct DJI::OSDK::Control::CtrlData CtrlData</div><div class="ttdoc">CtrlData used for flight control.</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_af272070f4394375c6e7bd9b822df4781"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781">DJI::OSDK::Control::StableMode</a></div><div class="ttdeci">StableMode</div><div class="ttdoc">bit 0 of the 8-bit (7:0) CtrlData.flag.</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:201</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_af272070f4394375c6e7bd9b822df4781a0fd217005553a1b639fb4cb88854ac75"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781a0fd217005553a1b639fb4cb88854ac75">DJI::OSDK::Control::STABLE_DISABLE</a></div><div class="ttdeci">@ STABLE_DISABLE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:202</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_af272070f4394375c6e7bd9b822df4781acf5c565aa23ff2152cf8a09d05e4f334"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#af272070f4394375c6e7bd9b822df4781acf5c565aa23ff2152cf8a09d05e4f334">DJI::OSDK::Control::STABLE_ENABLE</a></div><div class="ttdeci">@ STABLE_ENABLE</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:203</div></div>
+<div class="ttc" id="aclassDJI_1_1OSDK_1_1Control_html_afdf111f752a36ccf541198ca7212331a"><div class="ttname"><a href="classDJI_1_1OSDK_1_1Control.html#afdf111f752a36ccf541198ca7212331a">DJI::OSDK::Control::emergencyBrake</a></div><div class="ttdeci">void emergencyBrake()</div><div class="ttdoc">Stop the vehicle in horiz velocity, vert velocity, yaw rate mode (body frame)</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:424</div></div>
+<div class="ttc" id="adji__ack_8hpp_html"><div class="ttname"><a href="dji__ack_8hpp.html">dji_ack.hpp</a></div><div class="ttdoc">All DJI OSDK ACK parsing.</div></div>
+<div class="ttc" id="adji__type_8hpp_html"><div class="ttname"><a href="dji__type_8hpp.html">dji_type.hpp</a></div><div class="ttdoc">Data type and Data Structure definitions for use throughout DJI OSDK.</div></div>
+<div class="ttc" id="adji__vehicle__callback_8hpp_html"><div class="ttname"><a href="dji__vehicle__callback_8hpp.html">dji_vehicle_callback.hpp</a></div><div class="ttdoc">Type definition for new Vehicle-style callbacks.</div></div>
+<div class="ttc" id="anamespaceDJI_1_1OSDK_html_a20a68c21abe449cf5f133f7d398055d3"><div class="ttname"><a href="namespaceDJI_1_1OSDK.html#a20a68c21abe449cf5f133f7d398055d3">DJI::OSDK::VehicleCallBack</a></div><div class="ttdeci">void(* VehicleCallBack)(Vehicle *vehicle, RecvContainer recvFrame, UserData userData)</div><div class="ttdoc">Function prototype for all callback functions used in the OSDK.</div><div class="ttdef"><b>Definition:</b> dji_vehicle_callback.hpp:49</div></div>
+<div class="ttc" id="anamespaceDJI_1_1OSDK_html_aded24c93a2d064658a1f59cbf0e6eb9d"><div class="ttname"><a href="namespaceDJI_1_1OSDK.html#aded24c93a2d064658a1f59cbf0e6eb9d">DJI::OSDK::UserData</a></div><div class="ttdeci">void * UserData</div><div class="ttdoc">This is used as the datatype for all data arguments in callbacks.</div><div class="ttdef"><b>Definition:</b> dji_type.hpp:75</div></div>
+<div class="ttc" id="anamespaceDJI_html"><div class="ttname"><a href="namespaceDJI.html">DJI</a></div><div class="ttdef"><b>Definition:</b> dji_ack.cpp:40</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1AdvancedCtrlData_html"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1AdvancedCtrlData.html">DJI::OSDK::Control::AdvancedCtrlData</a></div><div class="ttdoc">AdvancedCtrlData.</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:257</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html">DJI::OSDK::Control::CtrlData</a></div><div class="ttdoc">CtrlData used for flight control.</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:224</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html_a5f683c6c69478dc720245c9c2b79cf5e"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a5f683c6c69478dc720245c9c2b79cf5e">DJI::OSDK::Control::CtrlData::flag</a></div><div class="ttdeci">uint8_t flag</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:225</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html_a69e9b1c703d80aa850120365e26d1fa5"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a69e9b1c703d80aa850120365e26d1fa5">DJI::OSDK::Control::CtrlData::y</a></div><div class="ttdeci">float32_t y</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:235</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html_a828fe8790ecbba283df6e99742673487"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a828fe8790ecbba283df6e99742673487">DJI::OSDK::Control::CtrlData::x</a></div><div class="ttdeci">float32_t x</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:233</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html_a9025e995572cac7fa029b56cb07131b6"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#a9025e995572cac7fa029b56cb07131b6">DJI::OSDK::Control::CtrlData::yaw</a></div><div class="ttdeci">float32_t yaw</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:238</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html_aa902800c979934df1cef1e3354342534"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#aa902800c979934df1cef1e3354342534">DJI::OSDK::Control::CtrlData::z</a></div><div class="ttdeci">float32_t z</div><div class="ttdef"><b>Definition:</b> dji_control.hpp:237</div></div>
+<div class="ttc" id="astructDJI_1_1OSDK_1_1Control_1_1CtrlData_html_aff12437ea62b8565aa42068e5257b3e0"><div class="ttname"><a href="structDJI_1_1OSDK_1_1Control_1_1CtrlData.html#aff12437ea62b8565aa42068e5257b3e0">DJI::OSDK::Control::CtrlData::CtrlData</a></div><div class="ttdeci">CtrlData(uint8_t in_flag, float32_t in_x, float32_t in_y, float32_t in_z, float32_t in_yaw)</div><div class="ttdoc">CtrlData initialize the CtrlData variable.</div><div class="ttdef"><b>Definition:</b> dji_control.cpp:536</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.8-->
+<!-- start footer part -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr class="footer"/><address class="footer"><small>
+  <footer id="site-footer" class="site-footer">
+    <div class="container">
+      <div class="foot-nav row">
+        <nav class="link-list col-xs-2"><span class="title">SDK</span><a href="/mobile-sdk">Mobile SDK</a><a href="/ux-sdk">UX SDK</a><a href="/onboard-sdk">Onboard SDK</a><a href="/payload-sdk">Payload SDK</a><a href="/windows-sdk">Windows SDK</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Info</span><a href="/products">Products</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Community</span><a href="http://stackoverflow.com/questions/tagged/dji-sdk" target="_blank">Stack Overflow</a><a href="https://www.youtube.com/channel/UCPQwN5xsob8zZGIcDhkYqUA" target="_blank">YouTube</a><a href="https://twitter.com/djidevelopers" target="_blank">Twitter</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Contact Us</span><a href="mailto:dev@dji.com"> dev@dji.com</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">Business Cooperation</span><a href="mailto:dev@dji.com"> dev@dji.com</a></nav>
+        <nav class="link-list col-xs-2"><span class="title">BILLING</span><a href="mailto:billing-dev@dji.com"> billing-dev@dji.com</a></nav>
+      </div>
+      <div class="foot-copyright row">
+        <div class="col-xs-3 foot-logo"><img src="dji-logo-foot.png"></div>
+        <div class="copyright col-xs-7"><span>Copyright © 2018 DJI All Rights Reserved</span><a href="/policies/privacy">Privacy Policy</a><a href="/policies/terms">Terms of Use</a></div>
+        <div class="col-xs-2">
+          <div class="lang-selector">
+            <select dir="rtl" v-model="lang">
+              <option value="en">English</option>
+              <option value="cn">中文</option>
+            </select><i class="fa fa-globe"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</small></address>
+</body>
+<script type="text/javascript" src="doxy-boot.js"></script>
+</html>

@@ -1,0 +1,21 @@
+digraph "osdk-core/api/inc/dji_subscription.hpp"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="osdk-core/api/inc/dji\l_subscription.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Telemetry Subscription API for DJI OSDK library."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="dji_open_protocol.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="dji_telemetry.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__telemetry_8hpp.html",tooltip="Enumeration of all telemetry data types, structures and maps."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="dji_type.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__type_8hpp.html",tooltip="Data type and Data Structure definitions for use throughout DJI OSDK."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cstdio",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="stdint.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="dji_vehicle_callback.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__vehicle__callback_8hpp.html",tooltip="Type definition for new Vehicle-style callbacks."];
+  Node7 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

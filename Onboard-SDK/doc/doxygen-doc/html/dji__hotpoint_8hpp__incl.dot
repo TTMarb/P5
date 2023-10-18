@@ -1,0 +1,32 @@
+digraph "osdk-core/api/inc/dji_hotpoint.hpp"
+{
+ // INTERACTIVE_SVG=YES
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="osdk-core/api/inc/dji\l_hotpoint.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Implementation of HotPoint (Point of Interest) Missions for DJI OSDK."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="dji_mission_base.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__mission__base_8hpp.html",tooltip="Mission-Base abstract class for DJI OSDK library."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="dji_command.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__command_8hpp.html",tooltip="All DJI OSDK OpenProtocol Command IDs."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="dji_error.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__error_8hpp.html",tooltip="All DJI OSDK OpenProtocol ACK Error Codes."];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="cstdint",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="stdint.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="dji_type.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__type_8hpp.html",tooltip="Data type and Data Structure definitions for use throughout DJI OSDK."];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="cstdio",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="dji_vehicle_callback.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__vehicle__callback_8hpp.html",tooltip="Type definition for new Vehicle-style callbacks."];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="dji_open_protocol.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="dji_telemetry.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dji__telemetry_8hpp.html",tooltip="Enumeration of all telemetry data types, structures and maps."];
+  Node12 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
