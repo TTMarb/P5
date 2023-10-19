@@ -310,10 +310,10 @@ const uint8_t DJI::OSDK::ErrorCode::MFIOACK::get::SUCCESS               = 0x00;
 
 // Backward compatibility
 
-const uint8_t& DJI::OSDK::ErrorCode::MissionACK::WayPoint::DISTANCE_OVERFLOW = DJI::OSDK::ErrorCode::MissionACK::WayPoint::TRACE_TOO_LONG;
-const uint8_t& DJI::OSDK::ErrorCode::MissionACK::WayPoint::TIMEOUT = DJI::OSDK::ErrorCode::MissionACK::WayPoint::TOTAL_DISTANCE_TOO_LONG;
-
-
+const uint8_t& DJI::OSDK::ErrorCode::MissionACK::WayPoint::DISTANCE_OVERFLOW =
+  DJI::OSDK::ErrorCode::MissionACK::WayPoint::TRACE_TOO_LONG;
+const uint8_t& DJI::OSDK::ErrorCode::MissionACK::WayPoint::TIMEOUT =
+  DJI::OSDK::ErrorCode::MissionACK::WayPoint::TOTAL_DISTANCE_TOO_LONG;
 
 // clang-format off
 /*! flight controller parameter table read and write error code*/
@@ -560,54 +560,76 @@ const ErrorCode::FunctionDataType ErrorCode::PSDKFunction[functionMaxCnt] = {
 
 // clang-format on
 
-ErrorCode::ErrorCodeMsg ErrorCode::getErrorCodeMsg(int64_t errCode) {
-  ModuleIDType moduleID = getModuleID(errCode);
-  FunctionIDType functionID = getFunctionID(errCode);
-  RawRetCodeType rawRetCode = getRawRetCode(errCode);
-  char defaultResolutionMsg[100] = {0};
-  snprintf(defaultResolutionMsg, sizeof(defaultResolutionMsg),
-           "Unknown error code : 0X%lX, please contact <dev@dji.com> for help.",
-           errCode);
+ErrorCode::ErrorCodeMsg
+ErrorCode::getErrorCodeMsg(int64_t errCode)
+{
+  ModuleIDType   moduleID                  = getModuleID(errCode);
+  FunctionIDType functionID                = getFunctionID(errCode);
+  RawRetCodeType rawRetCode                = getRawRetCode(errCode);
+  char           defaultResolutionMsg[100] = { 0 };
+  snprintf(
+    defaultResolutionMsg,
+    sizeof(defaultResolutionMsg),
+    "Unknown error code : 0X %l X, please contact <dev@dji.com> for help.",
+    errCode);
   ErrorCodeMsg retMsg(getModuleName(errCode), "Unknown", defaultResolutionMsg);
 
   if ((moduleID < ModuleMaxCnt) && (functionID < functionMaxCnt) &&
-      (module[moduleID].data)) {
+      (module[moduleID].data))
+  {
     auto msg = module[moduleID].data[functionID].getMap();
-    if (msg.find(rawRetCode) != msg.end()) {
+    if (msg.find(rawRetCode) != msg.end())
+    {
       retMsg = msg.find(rawRetCode)->second;
     }
   }
   return retMsg;
 }
 
-void ErrorCode::printErrorCodeMsg(int64_t errCode) {
+void
+ErrorCode::printErrorCodeMsg(int64_t errCode)
+{
   ErrorCodeMsg errMsg = getErrorCodeMsg(errCode);
-  if (errCode == ErrorCode::SysCommonErr::Success) {
+  if (errCode == ErrorCode::SysCommonErr::Success)
+  {
     DSTATUS("Execute successfully.");
-  } else {
+  }
+  else
+  {
     DERROR(">>>>Error module   : %s", errMsg.moduleMsg);
     DERROR(">>>>Error message  : %s", errMsg.errorMsg);
     DERROR(">>>>Error solution : %s", errMsg.solutionMsg);
   }
 }
 
-ErrorCode::ModuleIDType ErrorCode::getModuleID(ErrorCodeType errCode) {
+ErrorCode::ModuleIDType
+ErrorCode::getModuleID(ErrorCodeType errCode)
+{
   return (ModuleIDType)((errCode >> moduleIDLeftMove) & 0xFF);
 }
 
-const char* ErrorCode::getModuleName(ErrorCodeType errCode) {
+const char*
+ErrorCode::getModuleName(ErrorCodeType errCode)
+{
   ModuleIDType moduleID = getModuleID(errCode);
-  if (moduleID < ModuleMaxCnt) {
+  if (moduleID < ModuleMaxCnt)
+  {
     return module[moduleID].ModuleName;
-  } else {
+  }
+  else
+  {
     return "Unknown";
   }
 }
 
-ErrorCode::FunctionIDType ErrorCode::getFunctionID(ErrorCodeType errCode) {
+ErrorCode::FunctionIDType
+ErrorCode::getFunctionID(ErrorCodeType errCode)
+{
   return (FunctionIDType)((errCode >> functionIDLeftMove) & 0xFF);
 }
 
-ErrorCode::RawRetCodeType ErrorCode::getRawRetCode(ErrorCodeType errCode) {
+ErrorCode::RawRetCodeType
+ErrorCode::getRawRetCode(ErrorCodeType errCode)
+{
   return (RawRetCodeType)(errCode & 0xFFFFFFFF);
 }
