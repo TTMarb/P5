@@ -42,18 +42,9 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-bool
-subscribeToData(DJI::OSDK::Vehicle* vehiclePtr, int responseTimeout = 1);
-bool
-subscribeToDataForInteractivePrint(DJI::OSDK::Vehicle* vehiclePtr,
-                                   int                 responseTimeout = 1);
-bool
-subscribeToDataAndSaveLogToFile(DJI::OSDK::Vehicle* vehiclePtr,
-                                int                 responseTimeout = 1);
-
-// Broadcast data implementation for Matrice 100
-bool
-getBroadcastData(DJI::OSDK::Vehicle* vehicle, int responseTimeout = 1);
-bool
-getBAT(DJI::OSDK::Vehicle* vehicle);
+general(DJI::OSDK::Vehicle* vehicle);
+takeoff(DJI::OSDK::Vehicle* vehicle);
+flytohight(DJI::OSDK::Vehicle* vehicle, uint8_t hight);
+flyforward(DJI::OSDK::Vehicle* vehicle, uint8_t distance);
+rotate(DJI::OSDK::Vehicle* vehicle, uint8_t angle);
 #endif // DJIOSDK_TELEMETRYSAMPLE_HPP

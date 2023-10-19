@@ -46,42 +46,8 @@ main(int argc, char** argv)
   }
 
   // Display interactive prompt
-  std::cout
-    << "| Available commands:                                            |"
-    << std::endl;
-  std::cout
-    << "| [a] Get telemetry data and print                               |\n"
-    << "| [b] Select some subscription topics to print                   |\n"
-    << "| [c] Get telemetry data and save to file                        |\n"
-    << "| [d] Get Battery info                                           |"
-    << std::endl;
-  char inputChar;
-  std::cin >> inputChar;
-
-  switch (inputChar)
-  {
-    case 'a':
-      if (vehicle->getFwVersion() == Version::M100_31)
-      {
-        getBroadcastData(vehicle);
-      }
-      else
-      {
-        subscribeToData(vehicle);
-      }
-      break;
-    case 'b':
-      subscribeToDataForInteractivePrint(vehicle);
-      break;
-    case 'c':
-      subscribeToDataAndSaveLogToFile(vehicle);
-      break;
-    case 'd':
-      getBAT(vehicle);
-      break;
-    default:
-      break;
-  }
+  std::cout << "| STARTING TEST MISSION|" << std::endl;
+  general(vehicle);
 
   return 0;
 }
