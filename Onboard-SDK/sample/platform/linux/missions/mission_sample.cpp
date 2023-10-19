@@ -151,9 +151,9 @@ runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout)
   }
 
   sleep(10);
-  ACK::ErrorCode startAck =
+  ACK::ErrorCode stopAck =
     vehicle->missionManager->wpMission->stop(responseTimeout);
-  if (ACK::getError(startAck))
+  if (ACK::getError(stopAck))
   {
     std::cout << "ERROR: Stopping Waypoint Mission.\n";
     ACK::getErrorCodeMessage(initAck, __func__);
