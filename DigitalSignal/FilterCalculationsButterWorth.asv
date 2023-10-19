@@ -33,6 +33,7 @@ ylabel('Im')
 xlabel('Re')
 axis equal
 saveas(gcf,'PolesScaled.pdf')
+%legend({'Poles','Zeros'});
 hold off
 close
 hold on
@@ -51,7 +52,7 @@ H_lp=1;
 for x=1:n/2
     H_lp=H_lp*1/((s/kf)^2-2*real(p_k(x))*s/kf+1);
 end
-%bode(H_lp)
+bode(H_lp)
 close
 
 %bandpass time
@@ -60,8 +61,7 @@ Bw=w_p2-w_p1;   %bandwidth
 w_0=457000*2*pi;%center frequency
 
 H=1;
-S=((s^2)+((w_0)^2))/(Bw*s);%lp to bp conversion
-
+S=((s/kf)^2+(w_0)^2)/(Bw*s/kf);%lp to bp conversion
 
 for x=1:n/2
     H=H*1/((S)^2-2*real(p_k(x))*S+1);
