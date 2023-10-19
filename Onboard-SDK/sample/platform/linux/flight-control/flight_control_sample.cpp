@@ -64,8 +64,8 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
     int       freq            = 10;
     TopicName topicList10Hz[] = { TOPIC_STATUS_FLIGHT,
                                   TOPIC_STATUS_DISPLAYMODE };
-    int  numTopic        = sizeof(topicList10Hz) / sizeof(topicList10Hz[0]);
-    bool enableTimestamp = false;
+    int       numTopic = sizeof(topicList10Hz) / sizeof(topicList10Hz[0]);
+    bool      enableTimestamp = false;
 
     bool pkgStatus = vehicle->subscribe->initPackageFromTopicList(
       pkgIndex, numTopic, topicList10Hz, enableTimestamp, freq);
@@ -84,7 +84,9 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
   }
 
   // Start takeoff
+
   ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(timeout);
+  std::cout << "takeoffStatus: " << takeoffStatus << std::endl;
   if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
   {
     ACK::getErrorCodeMessage(takeoffStatus, func);
@@ -291,10 +293,13 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
     and use velocity control.
 !*/
 bool
-moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
-                     float yOffsetDesired, float zOffsetDesired,
-                     float yawDesired, float posThresholdInM,
-                     float yawThresholdInDeg)
+moveByPositionOffset(Vehicle* vehicle,
+                     float    xOffsetDesired,
+                     float    yOffsetDesired,
+                     float    zOffsetDesired,
+                     float    yawDesired,
+                     float    posThresholdInM,
+                     float    yawThresholdInDeg)
 {
   // Set timeout: this timeout is the time you allow the drone to take to finish
   // the
@@ -345,8 +350,8 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
       return false;
     }
 
-    // Also, since we don't have a source for relative height through subscription,
-    // start using broadcast height
+    // Also, since we don't have a source for relative height through
+    // subscription, start using broadcast height
     if (!startGlobalPositionBroadcast(vehicle))
     {
       // Cleanup before return
@@ -374,7 +379,8 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
   {
     currentSubscriptionGPS = vehicle->subscribe->getValue<TOPIC_GPS_FUSED>();
     originSubscriptionGPS  = currentSubscriptionGPS;
-    localOffsetFromGpsOffset(vehicle, localOffset,
+    localOffsetFromGpsOffset(vehicle,
+                             localOffset,
                              static_cast<void*>(&currentSubscriptionGPS),
                              static_cast<void*>(&originSubscriptionGPS));
 
@@ -385,7 +391,8 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
   {
     currentBroadcastGP = vehicle->broadcast->getGlobalPosition();
     originBroadcastGP  = currentBroadcastGP;
-    localOffsetFromGpsOffset(vehicle, localOffset,
+    localOffsetFromGpsOffset(vehicle,
+                             localOffset,
                              static_cast<void*>(&currentBroadcastGP),
                              static_cast<void*>(&originBroadcastGP));
   }
@@ -448,7 +455,9 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
 
   if (!vehicle->isM100() && !vehicle->isLegacyM600())
   {
-    zCmd = currentBroadcastGP.height + zOffsetDesired; //Since subscription cannot give us a relative height, use broadcast.
+    zCmd = currentBroadcastGP.height +
+           zOffsetDesired; // Since subscription cannot give us a relative
+                           // height, use broadcast.
   }
   else
   {
@@ -458,8 +467,8 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
   //! Main closed-loop receding setpoint position control
   while (elapsedTimeInMs < timeoutInMilSec)
   {
-    vehicle->control->positionAndYawCtrl(xCmd, yCmd, zCmd,
-                                         yawDesiredRad / DEG2RAD);
+    vehicle->control->positionAndYawCtrl(
+      xCmd, yCmd, zCmd, yawDesiredRad / DEG2RAD);
 
     usleep(cycleTimeInMs * 1000);
     elapsedTimeInMs += cycleTimeInMs;
@@ -470,7 +479,8 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
       subscriptionQ = vehicle->subscribe->getValue<TOPIC_QUATERNION>();
       yawInRad      = toEulerAngle((static_cast<void*>(&subscriptionQ))).z;
       currentSubscriptionGPS = vehicle->subscribe->getValue<TOPIC_GPS_FUSED>();
-      localOffsetFromGpsOffset(vehicle, localOffset,
+      localOffsetFromGpsOffset(vehicle,
+                               localOffset,
                                static_cast<void*>(&currentSubscriptionGPS),
                                static_cast<void*>(&originSubscriptionGPS));
 
@@ -482,7 +492,8 @@ moveByPositionOffset(Vehicle *vehicle, float xOffsetDesired,
       broadcastQ         = vehicle->broadcast->getQuaternion();
       yawInRad           = toEulerAngle((static_cast<void*>(&broadcastQ))).z;
       currentBroadcastGP = vehicle->broadcast->getGlobalPosition();
-      localOffsetFromGpsOffset(vehicle, localOffset,
+      localOffsetFromGpsOffset(vehicle,
+                               localOffset,
                                static_cast<void*>(&currentBroadcastGP),
                                static_cast<void*>(&originBroadcastGP));
     }
@@ -610,8 +621,8 @@ monitoredLanding(Vehicle* vehicle, int timeout)
     int       freq            = 10;
     TopicName topicList10Hz[] = { TOPIC_STATUS_FLIGHT,
                                   TOPIC_STATUS_DISPLAYMODE };
-    int  numTopic        = sizeof(topicList10Hz) / sizeof(topicList10Hz[0]);
-    bool enableTimestamp = false;
+    int       numTopic = sizeof(topicList10Hz) / sizeof(topicList10Hz[0]);
+    bool      enableTimestamp = false;
 
     bool pkgStatus = vehicle->subscribe->initPackageFromTopicList(
       pkgIndex, numTopic, topicList10Hz, enableTimestamp, freq);
@@ -669,7 +680,8 @@ monitoredLanding(Vehicle* vehicle, int timeout)
     {
       // Cleanup before return
       ACK::ErrorCode ack = vehicle->subscribe->removePackage(pkgIndex, timeout);
-      if (ACK::getError(ack)) {
+      if (ACK::getError(ack))
+      {
         std::cout << "Error unsubscribing; please restart the drone/FC to get "
                      "back to a clean state.\n";
       }
@@ -790,8 +802,10 @@ monitoredLanding(Vehicle* vehicle, int timeout)
     Accurate when distances are small.
 !*/
 void
-localOffsetFromGpsOffset(Vehicle* vehicle, Telemetry::Vector3f& deltaNed,
-                         void* target, void* origin)
+localOffsetFromGpsOffset(Vehicle*             vehicle,
+                         Telemetry::Vector3f& deltaNed,
+                         void*                target,
+                         void*                origin)
 {
   Telemetry::GPSFused*       subscriptionTarget;
   Telemetry::GPSFused*       subscriptionOrigin;
@@ -848,7 +862,8 @@ toEulerAngle(void* quaternionData)
   return ans;
 }
 
-bool startGlobalPositionBroadcast(Vehicle* vehicle)
+bool
+startGlobalPositionBroadcast(Vehicle* vehicle)
 {
   uint8_t freq[16];
 
