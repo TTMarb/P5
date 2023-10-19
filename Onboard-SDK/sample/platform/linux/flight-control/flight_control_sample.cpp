@@ -51,6 +51,7 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
   if (!vehicle->isM100() && !vehicle->isLegacyM600())
   {
     // Telemetry: Verify the subscription
+    std::cout << "This is neither an M100 or M600\n";
     ACK::ErrorCode subscribeStatus;
     subscribeStatus = vehicle->subscribe->verify(timeout);
     if (ACK::getError(subscribeStatus) != ACK::SUCCESS)
@@ -86,9 +87,9 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
   // Start takeoff
 
   ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(timeout);
-  std::cout << "takeoffStatus: " << takeoffStatus << std::endl;
   if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
   {
+    std::cout << "Takeoff failed" << std::endl;
     ACK::getErrorCodeMessage(takeoffStatus, func);
     return false;
   }
