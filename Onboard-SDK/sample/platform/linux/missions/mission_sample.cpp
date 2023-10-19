@@ -139,7 +139,6 @@ runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout)
   std::cout << "Uploading Waypoints..\n";
 
   // Waypoint Mission: Start
-  std::cout << "ITEM 1.\n";
   ACK::ErrorCode startAck =
     vehicle->missionManager->wpMission->start(responseTimeout);
   if (ACK::getError(startAck))
@@ -151,6 +150,16 @@ runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout)
     std::cout << "Starting Waypoint Mission.\n";
   }
 
+  sleep(10);
+  ACK::ErrorCode startAck =
+    vehicle->missionManager->wpMission->stop(responseTimeout);
+  if (ACK::getError(startAck))
+  {
+    std::cout << "ERROR: Stopping Waypoint Mission.\n";
+    ACK::getErrorCodeMessage(initAck, __func__);
+  }
+  std::cout << "ERROR: Stopping Waypoint Mission.\n";
+
   // Cleanup before return. The mission isn't done yet, but it doesn't need any
   // more input from our side.
   if (!vehicle->isM100() && !vehicle->isLegacyM600())
@@ -158,8 +167,6 @@ runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout)
     return teardownSubscription(
       vehicle, DEFAULT_PACKAGE_INDEX, responseTimeout);
   }
-
-  std::cout << "ITEM 2.\n";
 
   return true;
 }
