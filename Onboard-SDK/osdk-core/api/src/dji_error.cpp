@@ -567,10 +567,11 @@ ErrorCode::getErrorCodeMsg(int64_t errCode)
   FunctionIDType functionID                = getFunctionID(errCode);
   RawRetCodeType rawRetCode                = getRawRetCode(errCode);
   char           defaultResolutionMsg[100] = { 0 };
-  snprintf(defaultResolutionMsg,
-           sizeof(defaultResolutionMsg),
-           "Unknown error code : 0X%iX, please contact <dev@dji.com> for help.",
-           errCode);
+  snprintf(
+    defaultResolutionMsg,
+    sizeof(defaultResolutionMsg),
+    "Unknown error code : 0X%llX, please contact <dev@dji.com> for help.",
+    errCode);
   ErrorCodeMsg retMsg(getModuleName(errCode), "Unknown", defaultResolutionMsg);
 
   if ((moduleID < ModuleMaxCnt) && (functionID < functionMaxCnt) &&
