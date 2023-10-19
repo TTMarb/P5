@@ -90,6 +90,7 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
   if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
   {
     std::cout << "Takeoff failed" << std::endl;
+    std::cout << takeOffStatus << std::endl;
     ACK::getErrorCodeMessage(takeoffStatus, func);
     return false;
   }
