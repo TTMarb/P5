@@ -85,14 +85,14 @@ monitoredTakeoff(Vehicle* vehicle, int timeout)
   }
 
   // Start takeoff
-
-  // ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(timeout);
-  /*if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
+  std::cout << "Aircraft taking off...\n";
+  ACK::ErrorCode takeoffStatus = vehicle->control->takeoff(timeout);
+  if (ACK::getError(takeoffStatus) != ACK::SUCCESS)
   {
     std::cout << "Takeoff failed" << std::endl;
     ACK::getErrorCodeMessage(takeoffStatus, func);
     return false;
-  }*/
+  }
   std::cout << "Successful takeoff!" << std::endl;
 
   // First check: Motors started
