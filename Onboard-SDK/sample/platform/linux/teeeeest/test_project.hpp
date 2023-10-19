@@ -42,9 +42,14 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
+bool
 general(DJI::OSDK::Vehicle* vehicle);
+bool
 takeoff(DJI::OSDK::Vehicle* vehicle);
+bool
 flytohight(DJI::OSDK::Vehicle* vehicle, uint8_t hight);
+bool
 flyforward(DJI::OSDK::Vehicle* vehicle, uint8_t distance);
+bool
 rotate(DJI::OSDK::Vehicle* vehicle, uint8_t angle);
 #endif // DJIOSDK_TELEMETRYSAMPLE_HPP
