@@ -45,6 +45,6 @@ endif()
 add_subdirectory(osdk-core)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Linux)
-  add_subdirectory(sample/platform/linux)
   add_subdirectory(project_folder)
+  add_subdirectory(sample/platform/linux)
 endif()
