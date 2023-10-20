@@ -62,18 +62,17 @@ main(int argc, char** argv)
   int     W;
 
   // Display interactive prompt
-  std::cout << "| Beginning waypoint mission. |"
+  std::cout << "| Beginning waypoint mission.        \t|"
             << "\n"
-            << "Choose S" << std::endl;
+            << "|            Choose S                \t|" << std::endl;
   std::cin >> S;
-  std::cout << "| S has been selected as |" << S << "\t|\n"
-            << "Choose W" << std::endl;
+  std::cout << "| S has been selected as: " << S << "\t|\n"
+            << "|            Choose W                \t|" << std::endl;
   std::cin >> W;
-  std::cout << "| W has been selected as :" << W << "\t|\n"
-            << "Choose W" << std::endl;
+  std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
 
   wayptPolygonSides = 6;
-  delayBeforeStop   = 15;
+  delayBeforeStop   = S;
   runWaypointMission(vehicle, wayptPolygonSides, responseTimeout);
   stopMission(vehicle, responseTimeout, delayBeforeStop);
 
