@@ -182,11 +182,11 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
 
     std::cout << "SW: " << S << " & " << W << std::endl;
-    float inc = 0.00001;
+    float inc = 0.000001;
     float newS = S * inc;
     float newW = W * inc;
 
-    std::cout << "SW: " << S << " & " << W << std::endl;
+    std::cout << "SW: " << newS << " & " << newW << std::endl;
 
     // First waypoint
     start_data->index = 0;
