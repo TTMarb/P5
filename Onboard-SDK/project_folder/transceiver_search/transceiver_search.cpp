@@ -187,6 +187,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     std::cout << "SW: " << S << " & " << W << std::endl;
     //@TODO: calculate S and W from meters to longitude and latitude difference
     int r_earth = 6378000;
+    float pi = 3.14159265359;
     float newS = (S / r_earth) * (180 / pi);
     float newW = (W / r_earth) * (180 / pi) / cos(latitude * pi / 180);
 
