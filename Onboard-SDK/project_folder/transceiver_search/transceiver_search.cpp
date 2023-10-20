@@ -208,7 +208,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         //Så er den nedadgående :)
         if (i % 2 == 0) {
 
-            wp.longitude = (prevWp->longitude + (W / r_earth) * (180 / pi) / cos(prevWp->latitude * pi / 180));
+            wp.longitude = (prevWp->longitude + ((W / r_earth) * (180 / pi) / cos(prevWp->latitude * pi / 180)));
             std::cout << "prevWp->longitude: " << prevWp->longitude << std::endl;
             std::cout << "new longitude: " << wp.longitude << std::endl;
             wp.latitude = (prevWp->latitude);
@@ -216,7 +216,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         {
             mult = mult * -1;
             wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + (S * mult / r_earth) * (180 / pi));
+            wp.latitude = (prevWp->latitude + ((S * mult / r_earth) * (180 / pi)));
             std::cout << "prevWp->latitude: " << prevWp->latitude << std::endl;
             std::cout << "new latitude: " << wp.latitude << std::endl;
         }
