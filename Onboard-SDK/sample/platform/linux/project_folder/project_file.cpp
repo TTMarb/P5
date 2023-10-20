@@ -79,7 +79,7 @@ setUpSubscription(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
   }
   return true;
 }
-
+/*
 bool
 teardownSubscription(DJI::OSDK::Vehicle* vehicle,
                      const int           pkgIndex,
@@ -94,7 +94,7 @@ teardownSubscription(DJI::OSDK::Vehicle* vehicle,
     return false;
   }
   return true;
-}
+}*/
 
 bool
 runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout)
@@ -278,142 +278,6 @@ uploadWaypoints(Vehicle*                                  vehicle,
     ACK::getErrorCodeMessage(wpDataACK.ack, __func__);
   }
 }
-/*
-bool
-runHotpointMission(Vehicle* vehicle, int initialRadius, int responseTimeout)
-{
-  if (!vehicle->isM100() && !vehicle->isLegacyM600())
-  {
-    if (!setUpSubscription(vehicle, responseTimeout))
-    {
-      std::cout << "Failed to set up Subscription!" << std::endl;
-      return false;
-    }
-    sleep(1);
-  }
-
-  // Global position retrieved via subscription
-  Telemetry::TypeMap<TOPIC_GPS_FUSED>::type subscribeGPosition;
-  // Global position retrieved via broadcast
-  Telemetry::GlobalPosition broadcastGPosition;
-
-  // Hotpoint Mission Initialize
-  vehicle->missionManager->init(
-    DJI_MISSION_TYPE::HOTPOINT, responseTimeout, NULL);
-  vehicle->missionManager->printInfo();
-
-  if (!vehicle->isM100() && !vehicle->isLegacyM600())
-  {
-    subscribeGPosition = vehicle->subscribe->getValue<TOPIC_GPS_FUSED>();
-    vehicle->missionManager->hpMission->setHotPoint(
-      subscribeGPosition.longitude, subscribeGPosition.latitude, initialRadius);
-  }
-  else
-  {
-    broadcastGPosition = vehicle->broadcast->getGlobalPosition();
-    vehicle->missionManager->hpMission->setHotPoint(
-      broadcastGPosition.longitude, broadcastGPosition.latitude, initialRadius);
-  }
-
-  // Takeoff
-  ACK::ErrorCode takeoffAck = vehicle->control->takeoff(responseTimeout);
-  if (ACK::getError(takeoffAck))
-  {
-    ACK::getErrorCodeMessage(takeoffAck, __func__);
-
-    if (takeoffAck.info.cmd_set == OpenProtocolCMD::CMDSet::control &&
-        takeoffAck.data == ErrorCode::CommonACK::START_MOTOR_FAIL_MOTOR_STARTED)
-    {
-      DSTATUS("Take off command sent failed. Please Land the drone and disarm "
-              "the motors first.\n");
-    }
-
-    if (!vehicle->isM100() && !vehicle->isLegacyM600())
-    {
-      teardownSubscription(vehicle, DEFAULT_PACKAGE_INDEX, responseTimeout);
-    }
-    return false;
-  }
-  else
-  {
-    sleep(15);
-  }
-
-  // Start
-  std::cout << "Start with default rotation rate: 15 deg/s" << std::endl;
-  ACK::ErrorCode startAck =
-    vehicle->missionManager->hpMission->start(responseTimeout);
-  if (ACK::getError(startAck))
-  {
-    ACK::getErrorCodeMessage(startAck, __func__);
-    if (!vehicle->isM100() && !vehicle->isLegacyM600())
-    {
-      teardownSubscription(vehicle, DEFAULT_PACKAGE_INDEX, responseTimeout);
-    }
-    return false;
-  }
-  sleep(20);
-
-  // Pause
-  std::cout << "Pause for 5s" << std::endl;
-  ACK::ErrorCode pauseAck =
-    vehicle->missionManager->hpMission->pause(responseTimeout);
-  if (ACK::getError(pauseAck))
-  {
-    ACK::getErrorCodeMessage(pauseAck, __func__);
-  }
-  sleep(5);
-
-  // Resume
-  std::cout << "Resume" << std::endl;
-  ACK::ErrorCode resumeAck =
-    vehicle->missionManager->hpMission->resume(responseTimeout);
-  if (ACK::getError(resumeAck))
-  {
-    ACK::getErrorCodeMessage(resumeAck, __func__);
-  }
-  sleep(10);
-
-  // Update radius, no ACK
-  std::cout << "Update radius to 1.5x: new radius = " << 1.5 * initialRadius
-            << std::endl;
-  vehicle->missionManager->hpMission->updateRadius(1.5 * initialRadius);
-  sleep(10);
-
-  // Update velocity (yawRate), no ACK
-  std::cout << "Update hotpoint rotation rate: new rate = 5 deg/s" << std::endl;
-  HotpointMission::YawRate yawRateStruct;
-  yawRateStruct.clockwise = 1;
-  yawRateStruct.yawRate   = 5;
-  vehicle->missionManager->hpMission->updateYawRate(yawRateStruct);
-  sleep(10);
-
-  // Stop
-  std::cout << "Stop" << std::endl;
-  ACK::ErrorCode stopAck =
-    vehicle->missionManager->hpMission->stop(responseTimeout);
-
-  std::cout << "land" << std::endl;
-  ACK::ErrorCode landAck = vehicle->control->land(responseTimeout);
-  if (ACK::getError(landAck))
-  {
-    ACK::getErrorCodeMessage(landAck, __func__);
-  }
-  else
-  {
-    // No error. Wait for a few seconds to land
-    sleep(10);
-  }
-
-  // Clean up
-  ACK::getErrorCodeMessage(startAck, __func__);
-  if (!vehicle->isM100() && !vehicle->isLegacyM600())
-  {
-    teardownSubscription(vehicle, DEFAULT_PACKAGE_INDEX, responseTimeout);
-  }
-
-  return true;
-}*/
 
 bool
 stopMission(DJI::OSDK::Vehicle* vehicle,
