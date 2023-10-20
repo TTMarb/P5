@@ -67,15 +67,15 @@ int main(int argc, char** argv) {
               << "\n"
               << "| Input length of avalanche:         \t|" << std::endl;
     std::cin >> avLength;
-    std::cout << "| S has been selected as: " << avLength << "\t|\n"
+    std::cout << "| The length is: " << avLength << "\t|\n"
               << "|            Choose W                \t|" << std::endl;
     std::cin >> W;
     std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
 
     // Calculations for avalanche size inputs
-    searchWidth
+    searchWidth;
 
-        numWaypoints = 10;
+    numWaypoints = 10;
     //delayBeforeStop = 360;
 
     runWaypointMission(vehicle, numWaypoints, responseTimeout, S, W);
