@@ -65,9 +65,9 @@ int main(int argc, char** argv) {
     // Display interactive prompt, that allows user to select mission parameters
     std::cout << "| Beginning waypoint mission.        \t|"
               << "\n"
-              << "|            Length of avalanche     \t|" << std::endl;
-    std::cin >> ;
-    std::cout << "| S has been selected as: " << S << "\t|\n"
+              << "| Input length of avalanche:         \t|" << std::endl;
+    std::cin >> avLength;
+    std::cout << "| S has been selected as: " << avLength << "\t|\n"
               << "|            Choose W                \t|" << std::endl;
     std::cin >> W;
     std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
