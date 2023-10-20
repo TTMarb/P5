@@ -83,7 +83,9 @@ runHotpointMission(DJI::OSDK::Vehicle* vehicle,
                    int                 responseTimeout);
 
 bool
-stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout);
+stopMission(DJI::OSDK::Vehicle* vehicle,
+            int                 responseTimeout,
+            int                 delayBeforeStop);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 
