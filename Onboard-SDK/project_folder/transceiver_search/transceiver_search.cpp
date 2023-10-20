@@ -170,6 +170,9 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     printf("Waypoint created at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
            start_alt);
 
+    int searchWidth = 10;
+    S = S - searchWidth;
+
     std::vector<DJI::OSDK::WayPointSettings> wpVector =
         generateWaypoints(&start_wp, distanceIncrement, numWaypoints, S, W);
     return wpVector;
@@ -182,9 +185,10 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
 
     std::cout << "SW: " << S << " & " << W << std::endl;
-    float inc = 0.000001;
-    float newS = S * inc;
-    float newW = W * inc;
+    //@TODO: calculate S and W from meters to longitude and latitude difference
+    int r_earth = 6378000;
+    float newS = latitude + (S / r_earth) * (180 / pi);
+    float newW = longitude + (W / r_earth) * (180 / pi) / cos(latitude * pi / 180);
 
     std::cout << "SW: " << newS << " & " << newW << std::endl;
 
@@ -193,6 +197,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     wp_list.push_back(*start_data);
 
     int mult = -1;
+
     // Iterative algorithm
     for (int i = 1; i < num_wp; i++) {
         WayPointSettings wp;
