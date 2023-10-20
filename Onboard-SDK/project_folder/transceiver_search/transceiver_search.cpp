@@ -228,8 +228,8 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
     sleep(delayBeforeStop);
     ACK::ErrorCode stopAck = vehicle->missionManager->wpMission->stop(responseTimeout);
     if (ACK::getError(stopAck)) {
-        std::cout << "ERROR: Stopping Waypoint Mission.\n";
+        std::cout << "ERROR in Stopping Waypoint Mission.\n";
         ACK::getErrorCodeMessage(stopAck, __func__);
     }
-    std::cout << "ERROR: Stopping Waypoint Mission.\n";
+    std::cout << "Succes: Stopping Waypoint Mission.\n";
 }

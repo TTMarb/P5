@@ -72,9 +72,9 @@ int main(int argc, char** argv) {
     std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
 
     numWaypoints = 6;
-    delayBeforeStop = S;
+    //delayBeforeStop = 360;
     runWaypointMission(vehicle, numWaypoints, responseTimeout, S, W);
-    stopMission(vehicle, responseTimeout, delayBeforeStop);
+    //stopMission(vehicle, responseTimeout, delayBeforeStop);
 
     return 0;
 }
