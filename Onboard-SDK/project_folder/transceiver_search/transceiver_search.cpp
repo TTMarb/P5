@@ -214,7 +214,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         {
             mult = mult * -1;
             wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + latitude + (S * mult / r_earth) * (180 / pi));
+            wp.latitude = (prevWp->latitude + (S * mult / r_earth) * (180 / pi));
         }
         wp.altitude = (prevWp->altitude);
         wp_list.push_back(wp);
