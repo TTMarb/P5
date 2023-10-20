@@ -47,22 +47,21 @@
 bool setUpSubscription(DJI::OSDK::Vehicle* vehicle, int responseTimeout);
 bool teardownSubscription(DJI::OSDK::Vehicle* vehicle, const int pkgIndex, int responseTimeout);
 
-bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout);
+bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, int S, int W);
 
 void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
 void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints,
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int S, int W,
                                                          DJI::OSDK::float64_t distanceIncrement,
                                                          DJI::OSDK::float32_t start_alt);
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypointsPolygon(DJI::OSDK::WayPointSettings* start_data,
-                                                                  DJI::OSDK::float64_t increment, int num_wp);
+                                                                  DJI::OSDK::float64_t increment, int num_wp, int S,
+                                                                  int W);
 
 void uploadWaypoints(DJI::OSDK::Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>& wp_list,
                      int responseTimeout);
-
-bool runHotpointMission(DJI::OSDK::Vehicle* vehicle, int initialRadius, int responseTimeout);
 
 bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBeforeStop);
 
