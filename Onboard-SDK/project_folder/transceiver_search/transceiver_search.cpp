@@ -176,7 +176,7 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
 }
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypointsPolygon(WayPointSettings* start_data, float64_t increment,
-                                                                  int num_wp, int S, int W, ) {
+                                                                  int num_wp, int S, int W) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
