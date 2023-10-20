@@ -36,4 +36,4 @@ if(NOT FLIGHT_MODULES_HEADER_DIR)
     set(FLIGHT_MODULES_HEADER_DIR "${ONBOARDSDK_SOURCE}/modules/inc/flight")
 endif()
 
-add_subdirectory(project)
+add_subdirectory(transceiver_search)

@@ -44,48 +44,27 @@
 #include <dji_linux_helpers.hpp>
 
 // Subscription not supported in Matrice 100
-bool
-setUpSubscription(DJI::OSDK::Vehicle* vehicle, int responseTimeout);
-bool
-teardownSubscription(DJI::OSDK::Vehicle* vehicle,
-                     const int           pkgIndex,
-                     int                 responseTimeout);
+bool setUpSubscription(DJI::OSDK::Vehicle* vehicle, int responseTimeout);
+bool teardownSubscription(DJI::OSDK::Vehicle* vehicle, const int pkgIndex, int responseTimeout);
 
-bool
-runWaypointMission(DJI::OSDK::Vehicle* vehicle,
-                   uint8_t             numWaypoints,
-                   int                 responseTimeout);
+bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout);
 
-void
-setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
-void
-setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
+void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
+void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
 
-std::vector<DJI::OSDK::WayPointSettings>
-createWaypoints(DJI::OSDK::Vehicle*  vehicle,
-                int                  numWaypoints,
-                DJI::OSDK::float64_t distanceIncrement,
-                DJI::OSDK::float32_t start_alt);
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints,
+                                                         DJI::OSDK::float64_t distanceIncrement,
+                                                         DJI::OSDK::float32_t start_alt);
 
-std::vector<DJI::OSDK::WayPointSettings>
-generateWaypointsPolygon(DJI::OSDK::WayPointSettings* start_data,
-                         DJI::OSDK::float64_t         increment,
-                         int                          num_wp);
+std::vector<DJI::OSDK::WayPointSettings> generateWaypointsPolygon(DJI::OSDK::WayPointSettings* start_data,
+                                                                  DJI::OSDK::float64_t increment, int num_wp);
 
-void
-uploadWaypoints(DJI::OSDK::Vehicle*                       vehicle,
-                std::vector<DJI::OSDK::WayPointSettings>& wp_list,
-                int                                       responseTimeout);
+void uploadWaypoints(DJI::OSDK::Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>& wp_list,
+                     int responseTimeout);
 
-bool
-runHotpointMission(DJI::OSDK::Vehicle* vehicle,
-                   int                 initialRadius,
-                   int                 responseTimeout);
+bool runHotpointMission(DJI::OSDK::Vehicle* vehicle, int initialRadius, int responseTimeout);
 
-bool
-stopMission(DJI::OSDK::Vehicle* vehicle,
-            int                 responseTimeout,
-            int                 delayBeforeStop);
+bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBeforeStop);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 
