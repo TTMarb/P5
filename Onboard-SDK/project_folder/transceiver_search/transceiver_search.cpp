@@ -84,7 +84,7 @@ bool teardownSubscription(DJI::OSDK::Vehicle* vehicle, const int pkgIndex, int r
 }
 */
 
-bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, int S, int W) {
+bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float S, float W) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
@@ -152,8 +152,8 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->altitude = 0;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int S, int W,
-                                                         float64_t distanceIncrement, float32_t start_alt) {
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float S,
+                                                         float W, float64_t distanceIncrement, float32_t start_alt) {
     // Create Start Waypoint
     WayPointSettings start_wp;
     setWaypointDefaults(&start_wp);
@@ -179,7 +179,7 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
 }
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, float64_t increment,
-                                                           int num_wp, int S, int W) {
+                                                           int num_wp, float S, float W) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;

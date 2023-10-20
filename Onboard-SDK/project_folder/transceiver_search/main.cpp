@@ -1,12 +1,8 @@
 /*! @file missions/main.cpp
- *  @version 3.3
  *  @date Jun 05 2017
- *
+
  *  @brief
- *  main for GPS Missions API usage in a Linux environment.
- *  Shows example usage of the Waypoint Missions and Hotpoint Missions through
- *  the
- *  Mission Manager API.
+ *  Flight control application for the initial transceiver seach.
  *
  *  @Copyright (c) 2017 DJI
  *
@@ -52,11 +48,16 @@ int main(int argc, char** argv) {
     vehicle->obtainCtrlAuthority(functionTimeout);
 
     // Setup variables for use
-    uint8_t numWaypoints;
+
     int responseTimeout = 1;
-    //Sets S and W parameters for transceiver search
-    int S; //Width per module
-    int W; //Heigth per module
+
+    uint8_t numWaypoints;
+    float searchWidth = 10;
+    // Sets S and W parameters for transceiver search
+    float S; //Width per module
+    float W; //Heigth per module
+
+    float avLength, avWidth;
 
     //Delay before stopping mission - purely for testing purposes
     int delayBeforeStop;
@@ -64,15 +65,19 @@ int main(int argc, char** argv) {
     // Display interactive prompt, that allows user to select mission parameters
     std::cout << "| Beginning waypoint mission.        \t|"
               << "\n"
-              << "|            Choose S                \t|" << std::endl;
-    std::cin >> S;
+              << "|            Length of avalanche     \t|" << std::endl;
+    std::cin >> ;
     std::cout << "| S has been selected as: " << S << "\t|\n"
               << "|            Choose W                \t|" << std::endl;
     std::cin >> W;
     std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
 
-    numWaypoints = 10;
+    // Calculations for avalanche size inputs
+    searchWidth
+
+        numWaypoints = 10;
     //delayBeforeStop = 360;
+
     runWaypointMission(vehicle, numWaypoints, responseTimeout, S, W);
     //stopMission(vehicle, responseTimeout, delayBeforeStop);
 
