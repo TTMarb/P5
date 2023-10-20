@@ -55,8 +55,8 @@ int main(int argc, char** argv) {
     uint8_t numWaypoints;
     int responseTimeout = 1;
     //Sets S and W parameters for transceiver search
-    int S; //Height per module
-    int W; //Width per module
+    int S; //Width per module
+    int W; //Heigth per module
 
     //Delay before stopping mission - purely for testing purposes
     int delayBeforeStop;

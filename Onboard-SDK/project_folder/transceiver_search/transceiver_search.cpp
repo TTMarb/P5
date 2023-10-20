@@ -91,8 +91,8 @@ bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTime
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
 
-    float64_t increment = 0.000001;
-    float32_t start_alt = 10;
+    float64_t increment = 1;
+    float32_t start_alt = 4;
 
     ACK::ErrorCode initAck = vehicle->missionManager->init(DJI_MISSION_TYPE::WAYPOINT, responseTimeout, &fdata);
     if (ACK::getError(initAck)) {
@@ -171,34 +171,40 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
            start_alt);
 
     std::vector<DJI::OSDK::WayPointSettings> wpVector =
-        generateWaypointsPolygon(&start_wp, distanceIncrement, numWaypoints, S, W);
+        generateWaypoints(&start_wp, distanceIncrement, numWaypoints, S, W);
     return wpVector;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> generateWaypointsPolygon(WayPointSettings* start_data, float64_t increment,
-                                                                  int num_wp, int S, int W) {
+std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, float64_t increment,
+                                                           int num_wp, int S, int W) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
 
     std::cout << "SW: " << S << " & " << W << std::endl;
 
-    // Some calculation for the polygon
-    float64_t extAngle = 2 * M_PI / num_wp;
-
     // First waypoint
     start_data->index = 0;
     wp_list.push_back(*start_data);
 
+    int mult = -1;
     // Iterative algorithm
     for (int i = 1; i < num_wp; i++) {
         WayPointSettings wp;
         WayPointSettings* prevWp = &wp_list[i - 1];
         setWaypointDefaults(&wp);
         wp.index = i;
-        wp.latitude = (prevWp->latitude + (increment * cos(i * extAngle)));
-        wp.longitude = (prevWp->longitude + (increment * sin(i * extAngle)));
-        wp.altitude = (prevWp->altitude + 1);
+        //Så er den nedadgående :)
+        if (i % 2 == 0) {
+            wp.longitude = (prevWp->longitude + W);
+            wp.latitude = (prevWp->latitude);
+        } else //Så er den henadgående
+        {
+            mult = mult * -1;
+            wp.longitude = (prevWp->longitude);
+            wp.latitude = (prevWp->latitude + S * mult);
+        }
+        wp.altitude = (prevWp->altitude);
         wp_list.push_back(wp);
     }
 
