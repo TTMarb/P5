@@ -58,35 +58,23 @@ main(int argc, char** argv)
   int     hotptInitRadius;
   int     responseTimeout = 1;
   int     delayBeforeStop;
+  int     S;
+  int     W;
 
   // Display interactive prompt
-  std::cout
-    << "| Available commands:                                            |"
-    << std::endl;
-  std::cout
-    << "| [a] Waypoint Mission                                           |"
-    << std::endl;
-  std::cout
-    << "| [b] Hotpoint Mission                                           |"
-    << std::endl;
-  char inputChar;
-  std::cin >> inputChar;
-  switch (inputChar)
-  {
-    case 'a':
-      // Waypoint call
-      wayptPolygonSides = 6;
-      delayBeforeStop   = 15;
-      runWaypointMission(vehicle, wayptPolygonSides, responseTimeout);
-      stopMission(vehicle, responseTimeout, delayBeforeStop);
-      break;
-    case 'b':
-      hotptInitRadius = 10;
-      runHotpointMission(vehicle, hotptInitRadius, responseTimeout);
-      break;
-    default:
-      break;
-  }
+  std::cout << "| Beginning waypoint mission. |"
+            << "\n"
+            << "Choose S" << std::endl;
+  std::cin >> S;
+  std::cout << "| S has been selected as |" << S << "\n"
+            << "Choose W" << std::endl;
+  std::cin >> W;
+  std::cout << "| W has been selected as |" << S << "\n"
+            << "Choose W" << std::endl;
+  wayptPolygonSides = 6;
+  delayBeforeStop   = 15;
+  runWaypointMission(vehicle, wayptPolygonSides, responseTimeout);
+  stopMission(vehicle, responseTimeout, delayBeforeStop);
 
   return 0;
 }

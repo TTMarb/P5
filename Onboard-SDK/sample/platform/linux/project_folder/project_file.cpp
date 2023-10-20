@@ -426,7 +426,7 @@ stopMission(DJI::OSDK::Vehicle* vehicle,
   if (ACK::getError(stopAck))
   {
     std::cout << "ERROR: Stopping Waypoint Mission.\n";
-    ACK::getErrorCodeMessage(stopAck, __func__);
+    ACK::getErrorCodeMessage(cd ., __func__);
   }
   std::cout << "ERROR: Stopping Waypoint Mission.\n";
 }
