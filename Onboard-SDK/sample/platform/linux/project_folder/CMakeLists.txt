@@ -42,7 +42,7 @@ add_executable(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/dji_linux_environment.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/dji_linux_helpers.cpp
     main.cpp
-    mission_sample.cpp)
+    project_file.cpp)
 target_link_libraries(${PROJECT_NAME} djiosdk-core)
 
 if(WAYPT2_CORE)
