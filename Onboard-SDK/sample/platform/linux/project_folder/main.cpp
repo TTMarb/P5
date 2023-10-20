@@ -66,11 +66,12 @@ main(int argc, char** argv)
             << "\n"
             << "Choose S" << std::endl;
   std::cin >> S;
-  std::cout << "| S has been selected as |" << S << "\n"
+  std::cout << "| S has been selected as |" << S << "\t|\n"
             << "Choose W" << std::endl;
   std::cin >> W;
-  std::cout << "| W has been selected as |" << S << "\n"
+  std::cout << "| W has been selected as :" << W << "\t|\n"
             << "Choose W" << std::endl;
+
   wayptPolygonSides = 6;
   delayBeforeStop   = 15;
   runWaypointMission(vehicle, wayptPolygonSides, responseTimeout);

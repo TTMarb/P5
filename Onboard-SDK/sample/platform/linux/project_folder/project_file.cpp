@@ -278,7 +278,7 @@ uploadWaypoints(Vehicle*                                  vehicle,
     ACK::getErrorCodeMessage(wpDataACK.ack, __func__);
   }
 }
-
+/*
 bool
 runHotpointMission(Vehicle* vehicle, int initialRadius, int responseTimeout)
 {
@@ -413,7 +413,7 @@ runHotpointMission(Vehicle* vehicle, int initialRadius, int responseTimeout)
   }
 
   return true;
-}
+}*/
 
 bool
 stopMission(DJI::OSDK::Vehicle* vehicle,
