@@ -35,7 +35,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-/*
+/* Subscription kan formodenligt fjernes
 bool setUpSubscription(DJI::OSDK::Vehicle* vehicle, int responseTimeout) {
     // Telemetry: Verify the subscription
     ACK::ErrorCode subscribeStatus;
@@ -84,7 +84,7 @@ bool teardownSubscription(DJI::OSDK::Vehicle* vehicle, const int pkgIndex, int r
 }
 */
 
-bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout) {
+bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, int S, int W) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
@@ -103,7 +103,7 @@ bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTime
     std::cout << "Initializing Waypoint Mission..\n";
 
     // Waypoint Mission: Create Waypoints
-    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, increment, start_alt);
+    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, S, W, increment, start_alt);
     std::cout << "Creating Waypoints..\n";
 
     // Waypoint Mission: Upload the waypoints
@@ -152,7 +152,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->altitude = 0;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints,
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int S, int W,
                                                          float64_t distanceIncrement, float32_t start_alt) {
     // Create Start Waypoint
     WayPointSettings start_wp;
@@ -163,32 +163,25 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     // Global position retrieved via broadcast
     Telemetry::GlobalPosition broadcastGPosition;
 
-    if (!vehicle->isM100() && !vehicle->isLegacyM600()) {
-        subscribeGPosition = vehicle->subscribe->getValue<TOPIC_GPS_FUSED>();
-        start_wp.latitude = subscribeGPosition.latitude;
-        start_wp.longitude = subscribeGPosition.longitude;
-        start_wp.altitude = start_alt;
-        printf("Waypoint created at (LLA): %f \t%f \t%f\n", subscribeGPosition.latitude, subscribeGPosition.longitude,
-               start_alt);
-    } else {
-        broadcastGPosition = vehicle->broadcast->getGlobalPosition();
-        start_wp.latitude = broadcastGPosition.latitude;
-        start_wp.longitude = broadcastGPosition.longitude;
-        start_wp.altitude = start_alt;
-        printf("Waypoint created at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
-               start_alt);
-    }
+    broadcastGPosition = vehicle->broadcast->getGlobalPosition();
+    start_wp.latitude = broadcastGPosition.latitude;
+    start_wp.longitude = broadcastGPosition.longitude;
+    start_wp.altitude = start_alt;
+    printf("Waypoint created at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
+           start_alt);
 
     std::vector<DJI::OSDK::WayPointSettings> wpVector =
-        generateWaypointsPolygon(&start_wp, distanceIncrement, numWaypoints);
+        generateWaypointsPolygon(&start_wp, distanceIncrement, numWaypoints, S, W);
     return wpVector;
 }
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypointsPolygon(WayPointSettings* start_data, float64_t increment,
-                                                                  int num_wp) {
+                                                                  int num_wp, int S, int W, ) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
+
+    std::cout << "SW: " << S << " & " << W << std::endl;
 
     // Some calculation for the polygon
     float64_t extAngle = 2 * M_PI / num_wp;

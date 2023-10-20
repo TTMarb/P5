@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
     vehicle->obtainCtrlAuthority(functionTimeout);
 
     // Setup variables for use
-    uint8_t wayptPolygonSides;
+    uint8_t numWaypoints;
     int responseTimeout = 1;
     //Sets S and W parameters for transceiver search
     int S; //Height per module
@@ -71,10 +71,9 @@ int main(int argc, char** argv) {
     std::cin >> W;
     std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
 
-    //@TODO: Remove this later
-    wayptPolygonSides = 6;
+    numWaypoints = 6;
     delayBeforeStop = S;
-    runWaypointMission(vehicle, wayptPolygonSides, responseTimeout);
+    runWaypointMission(vehicle, numWaypoints, responseTimeout, S, W);
     stopMission(vehicle, responseTimeout, delayBeforeStop);
 
     return 0;
