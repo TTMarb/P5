@@ -30,7 +30,7 @@
  *
  */
 
-#include "mission_sample.hpp"
+#include "project_file.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
@@ -416,10 +416,11 @@ runHotpointMission(Vehicle* vehicle, int initialRadius, int responseTimeout)
 }
 
 bool
-stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout)
+stopMission(DJI::OSDK::Vehicle* vehicle,
+            int                 responseTimeout,
+            int                 delayBeforeStop)
 {
-
-  sleep(10);
+  sleep(delayBeforeStop);
   ACK::ErrorCode stopAck =
     vehicle->missionManager->wpMission->stop(responseTimeout);
   if (ACK::getError(stopAck))

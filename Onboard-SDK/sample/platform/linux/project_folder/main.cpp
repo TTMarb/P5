@@ -30,7 +30,7 @@
  *
  */
 
-#include "mission_sample.hpp"
+#include "project_file.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
