@@ -21,7 +21,7 @@
 # *
 
 cmake_minimum_required(VERSION 2.8)
-project(djiosdk-project)
+project(djiosdk-project2)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread -g -O0")
 
@@ -44,4 +44,3 @@ add_executable(${PROJECT_NAME}
     main.cpp
     project_file.cpp)
 target_link_libraries(${PROJECT_NAME} djiosdk-core)
-
