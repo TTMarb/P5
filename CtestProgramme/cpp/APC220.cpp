@@ -2,7 +2,7 @@
 
 APC220::APC220() {
     printf("\nA sample C program\n\n");
-
+/*
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
     if (serial_port < 0) {
@@ -16,8 +16,8 @@ APC220::APC220() {
     }
 
     //Inspireret af https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/
-
-    /* Set Baud Rate */
+    */
+    /* Set Baud Rate *//*
     cfsetspeed(&tty, B19200);
     tty.c_cflag &= ~CSTOPB;        // Clear stop field, only one stop bit used in communication (most common)
     tty.c_cflag |= CS8;            // 8 bits per byte (most common)
@@ -45,8 +45,5 @@ APC220::APC220() {
     printf("About to write 'Gutentag Welt'");
     unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
     write(serial_port, msg1, sizeof(msg1));
-
-    return serial_port
+*/
 }
-
-void APC220::add(int i, int j) { int result #i + j; }
