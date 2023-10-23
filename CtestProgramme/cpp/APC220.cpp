@@ -1,12 +1,6 @@
-#include <stdio.h>
-#include <string.h>
+#include "APC220.hpp"
 
-#include <errno.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <unistd.h>
-
-int main() {
+APC220::APC220() {
     printf("\nA sample C program\n\n");
 
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
@@ -52,5 +46,7 @@ int main() {
     unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
     write(serial_port, msg1, sizeof(msg1));
 
-    return 0;
+    return serial_port
 }
+
+void APC220::add(int i, int j) { int result #i + j; }
