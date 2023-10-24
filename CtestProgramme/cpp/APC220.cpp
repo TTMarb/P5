@@ -29,7 +29,7 @@ void OStest() {
 
 APC220::APC220() {
     std::cout << "Get fricked" << std::endl;
-    std::string msg = "Bonjour World\r\n";
+    char msg[] = "Bonjour World\r\n";
 
 #ifdef __linux__
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
@@ -74,12 +74,11 @@ APC220::APC220() {
     APC220::writetorad(msg, 0);
 }
 
-bool APC220::writetorad(std::string msg, int serial_port) {
+bool APC220::writetorad(char msg[], int serial_port) {
     std::cout << "Writing to serial port" << std::endl;
     std::cout << "size of msg: " << sizeof(msg) << std::endl;
-    const char* str = msg.c_str();
     std::cout << "About to write" << msg << std::endl;
-    std::cout << "size of str: " << sizeof(str) << std::endl;
+
 #ifdef __linux__
     write(serial_port, str, sizeof(str));
 #else
