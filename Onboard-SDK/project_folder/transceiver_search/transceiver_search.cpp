@@ -125,8 +125,8 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     return wpVector;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, float64_t increment,
-                                                           int num_wp, float64_t latM, float64_t lonM) {
+std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, int num_wp, float64_t latM,
+                                                           float64_t lonM) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
