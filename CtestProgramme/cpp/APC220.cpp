@@ -76,12 +76,14 @@ int APC220::init() {
 #endif
 }
 
-bool APC220::writetorad(int serial_port, char msg[]) {
+bool APC220::write(int serial_port, char msg[]) {
+    char delim[] = "##";
     std::cout << "Writing to serial port" << std::endl;
     std::cout << "\t Size of msg: " << strlen(msg) << std::endl;
     std::cout << "\t Msg content: " << msg << std::endl;
 #ifdef __linux__
     write(serial_port, msg, strlen(msg));
+    write(serial_port, delim, strlen(delim));
 #else
     std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
