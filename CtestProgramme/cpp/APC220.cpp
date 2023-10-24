@@ -89,7 +89,7 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 #endif
 }
 
-bool APC220::read2radio(int serial_port, char* msg[100]) {
+bool APC220::read2radio(int serial_port) {
     char buffer[256];
     while (1) {
         char delim[] = "##";
