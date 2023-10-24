@@ -35,56 +35,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-/* Subscription kan formodenligt fjernes
-bool setUpSubscription(DJI::OSDK::Vehicle* vehicle, int responseTimeout) {
-    // Telemetry: Verify the subscription
-    ACK::ErrorCode subscribeStatus;
-
-    subscribeStatus = vehicle->subscribe->verify(responseTimeout);
-    if (ACK::getError(subscribeStatus) != ACK::SUCCESS) {
-        ACK::getErrorCodeMessage(subscribeStatus, __func__);
-        return false;
-    }
-
-    // Telemetry: Subscribe to flight status and mode at freq 10 Hz
-    int freq = 10;
-    TopicName topicList10Hz[] = {TOPIC_GPS_FUSED};
-    int numTopic = sizeof(topicList10Hz) / sizeof(topicList10Hz[0]);
-    bool enableTimestamp = false;
-
-    bool pkgStatus = vehicle->subscribe->initPackageFromTopicList(DEFAULT_PACKAGE_INDEX, numTopic, topicList10Hz,
-                                                                  enableTimestamp, freq);
-    if (!(pkgStatus)) {
-        return pkgStatus;
-    }
-
-    // Start listening to the telemetry data
-    subscribeStatus = vehicle->subscribe->startPackage(DEFAULT_PACKAGE_INDEX, responseTimeout);
-    if (ACK::getError(subscribeStatus) != ACK::SUCCESS) {
-        ACK::getErrorCodeMessage(subscribeStatus, __func__);
-        // Cleanup
-        ACK::ErrorCode ack = vehicle->subscribe->removePackage(DEFAULT_PACKAGE_INDEX, responseTimeout);
-        if (ACK::getError(ack)) {
-            std::cout << "Error unsubscribing; please restart the drone/FC to get "
-                         "back to a clean state.\n";
-        }
-        return false;
-    }
-    return true;
-}
-
-bool teardownSubscription(DJI::OSDK::Vehicle* vehicle, const int pkgIndex, int responseTimeout) {
-    ACK::ErrorCode ack = vehicle->subscribe->removePackage(pkgIndex, responseTimeout);
-    if (ACK::getError(ack)) {
-        std::cout << "Error unsubscribing; please restart the drone/FC to get back "
-                     "to a clean state.\n";
-        return false;
-    }
-    return true;
-}
-*/
-
-bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float S, float W) {
+bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float latM, float lonM) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
@@ -103,7 +54,7 @@ bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTime
     std::cout << "Initializing Waypoint Mission..\n";
 
     // Waypoint Mission: Create Waypoints
-    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, S, W, increment, start_alt);
+    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, increment, start_alt);
     std::cout << "Creating Waypoints..\n";
 
     // Waypoint Mission: Upload the waypoints
@@ -152,8 +103,8 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->altitude = 0;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float S,
-                                                         float W, float64_t distanceIncrement, float32_t start_alt) {
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float latM,
+                                                         float lonM, float64_t distanceIncrement, float32_t start_alt) {
     // Create Start Waypoint
     WayPointSettings start_wp;
     setWaypointDefaults(&start_wp);
@@ -170,26 +121,24 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     printf("Waypoint created at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
            start_alt);
 
-    int searchWidth = 10;
-    S = S - searchWidth;
 
     std::vector<DJI::OSDK::WayPointSettings> wpVector =
-        generateWaypoints(&start_wp, distanceIncrement, numWaypoints, S, W);
+        generateWaypoints(&start_wp, distanceIncrement, numWaypoints, latM, lonM);
     return wpVector;
 }
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, float64_t increment,
-                                                           int num_wp, float S, float W) {
+                                                           int num_wp, float latM, float lonM) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
 
-    std::cout << "SW: " << S << " & " << W << std::endl;
-    //@TODO: calculate S and W from meters to longitude and latitude difference
+    std::cout << "SW: " << latM << " & " << lonM << std::endl;
+    //@TODO: calculate latM and lonM from meters to longitude and latitude difference
     int r_earth = 6378000;
     int pi = 3.14159265359;
-    //float newS = latitude + (S / r_earth) * (180 / pi);
-    //float newW = longitude + (W / r_earth) * (180 / pi) / cos(latitude * pi / 180);
+    //float newS = latitude + (latM / r_earth) * (180 / pi);
+    //float newW = longitude + (lonM / r_earth) * (180 / pi) / cos(latitude * pi / 180);
 
     //std::cout << "SW: " << newS << " & " << newW << std::endl;
 
@@ -205,18 +154,18 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         WayPointSettings* prevWp = &wp_list[i - 1];
         setWaypointDefaults(&wp);
         wp.index = i;
-        //Så er den nedadgående :)
+        // Downwards increment
         if (i % 2 == 0) {
 
-            wp.longitude = (prevWp->longitude + ((W / r_earth) * (180 / pi) / cos(prevWp->latitude * pi / 180)));
+            wp.longitude = (prevWp->longitude + ((lonM / r_earth) * (180 / pi) / cos(prevWp->latitude * pi / 180)));
             std::cout << "prevWp->longitude: " << prevWp->longitude << std::endl;
             std::cout << "new longitude: " << wp.longitude << std::endl;
             wp.latitude = (prevWp->latitude);
-        } else //Så er den henadgående
+        } else // Side ways increment
         {
             mult = mult * -1;
             wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + ((S * mult / r_earth) * (180 / pi)));
+            wp.latitude = (prevWp->latitude + ((latM * mult / r_earth) * (180 / pi)));
             std::cout << "prevWp->latitude: " << prevWp->latitude << std::endl;
             std::cout << "new latitude: " << wp.latitude << std::endl;
         }
