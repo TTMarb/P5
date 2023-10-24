@@ -7,5 +7,8 @@ gcc test.c -o test
 Generelt kompileres vha
 gcc programName.c -o programName
 
+alternativt
+g++ -g -o programName programName.cpp
+
 Herefter kan programmet køres
 ./programName
