@@ -1,26 +1,50 @@
 #include <iostream>
 #include "APC220.h"
 
-void OStest() { std::cout << OS << std::endl; }
+#ifdef __linux__
+#include <string.h>
+#else
+#include <string>
+#endif
+
+#include <cstring>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+#ifdef __linux__
+#include <termios.h>
+#include <unistd.h>
+#endif
+
+void OStest() {
+    std::string OS;
+#ifdef __linux__
+    OS = "Linux";
+#else
+    OS = "Windows";
+#endif
+    std::cout << OS << std::endl;
+}
 
 APC220::APC220() {
     std::cout << "Get fricked" << std::endl;
-    /*
+    std::string msg = "Bonjour World\r\n";
+#ifdef __linux__
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
     if (serial_port < 0) {
-        printf("Error %i from open %s\n", errno, strerror(errno));
+        std::cout << "Error " << errno << " from open: " << strerror(errno) << std::endl;
     }
 
     struct termios tty;
 
     if (tcgetattr(serial_port, &tty) != 0) {
-        printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+        std::cout << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
     }
 
     //Inspireret af https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/
-    */
-    /* Set Baud Rate */ /*
+    /* Set Baud Rate */
     cfsetspeed(&tty, B19200);
     tty.c_cflag &= ~CSTOPB;        // Clear stop field, only one stop bit used in communication (most common)
     tty.c_cflag |= CS8;            // 8 bits per byte (most common)
@@ -39,14 +63,31 @@ APC220::APC220() {
     tty.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
 
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
-        printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
+        std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
-
-    printf("About to write 'Bonjour World'");
+    /*
+    std::cout << "About to write 'Bonjour World'" << std::endl;
     unsigned char msg[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r', ' ', 'w', 'o', 'r', 'l', 'd', '\r', '\n'};
     write(serial_port, msg, sizeof(msg));
-    printf("About to write 'Gutentag Welt'");
+    std::cout << "About to write 'Gutentag Welt'" << std::endl;
     unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
     write(serial_port, msg1, sizeof(msg1));
-*/
+    */
+
+    APC220::writetorad(msg, serial_port);
+
+    std::cout << "Serial port: " << serial_port << std::endl;
+    std::cout << "Init done" << std::endl;
+#endif
+    APC220::writetorad(msg, 0);
+}
+
+bool APC220::writetorad(std::string msg, int serial_port) {
+    const char* str = msg.c_str();
+#ifdef __linux__
+    write(serial_port, str, sizeof(str));
+#else
+    std::cout << "Windows: Haven't created write yet" << std::endl;
+    std::cout << "Windows: Tried to write" << msg << std::endl;
+#endif
 }
