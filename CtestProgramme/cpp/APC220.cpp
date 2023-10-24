@@ -97,7 +97,7 @@ bool APC220::read2radio(int serial_port, char* msg[]) {
 
         read(serial_port, &buffer, sizeof(buffer));
         std::cout << "Read from serial port" << std::endl;
-        std::cout << "\t Size of msg: " << a << std::endl;
+        std::cout << "\t Size of msg: " << buffer << std::endl;
         //write(serial_port, delim, strlen(delim));
 #else
         std::cout << "Windows: Haven't created write yet" << std::endl;
