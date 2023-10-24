@@ -134,9 +134,6 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
 
-    std::cout << "SW: " << latM << " & " << lonM << std::endl;
-    //@TODO: calculate latM and lonM from meters to longitude and latitude difference
-
     float64_t r_earth = 6378100;
 
     // First waypoint
@@ -156,16 +153,12 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
 
             wp.latitude = (prevWp->latitude);
             wp.longitude = (prevWp->longitude + ((latM / r_earth) / cos(wp.latitude)));
-            std::cout << "prevWp->longitude: " << prevWp->longitude << std::endl;
-            std::cout << "new longitude: " << wp.longitude << std::endl;
 
         } else // Side ways increment
         {
             mult = mult * -1;
             wp.longitude = (prevWp->longitude);
             wp.latitude = (prevWp->latitude + ((lonM / r_earth) * mult));
-            std::cout << "prevWp->latitude: " << prevWp->latitude << std::endl;
-            std::cout << "new latitude: " << wp.latitude << std::endl;
         }
         wp.altitude = (prevWp->altitude);
         wp_list.push_back(wp);
