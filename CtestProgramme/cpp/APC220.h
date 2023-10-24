@@ -5,7 +5,7 @@ void OStest();
 class APC220 {
   public:
     APC220(); // Constructor
-    bool write(std::string);
+    bool write(std::string, int);
 
   private:
 };
