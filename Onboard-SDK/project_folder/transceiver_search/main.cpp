@@ -53,6 +53,7 @@ int main(int argc, char** argv) {
     int responseTimeout = 1;
 
     uint8_t numWaypoints;
+    uint8_t errorFlag = 0;
     // Sets S and W parameters for transceiver search
     float latM; // Y distance per module
     float lonM; // X distance per module
@@ -70,6 +71,7 @@ int main(int argc, char** argv) {
             std::cout << "The length is: " << avLength << std::endl;
         } else {
             std::cout << "Error: Length is not within interval. Please try again.\n";
+            errorFlag = 1;
             break;
         }
         std::cout << "Input width of avalanche (0-50m): " << std::endl;
@@ -78,13 +80,13 @@ int main(int argc, char** argv) {
             std::cout << "The width is: " << avWidth << std::endl;
         } else {
             std::cout << "Error: Width is not within interval. Please try again.\n";
+            errorFlag = 1;
             break;
         }
         // Calculations for avalanche size inputs
         searchWidth = 10;
         avLength = avLength - searchWidth;
         avWidth = avWidth - searchWidth;
-
         latM = 2 * searchWidth;
         lonM = avWidth;
 
@@ -95,13 +97,19 @@ int main(int argc, char** argv) {
             pathLength = (turns + 1) * lonM + turns * latM;
             std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
+            break;
         } else {
             std::cout << "Error: Number of waypoints is outside interval. Please try again.\n";
+            errorFlag = 1;
             break;
         }
-        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
-        //delayBeforeStop = 360;
-        //stopMission(vehicle, responseTimeout, delayBeforeStop);
     }
+    if (errorFlag == 0) {
+        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
+    }
+
+    //delayBeforeStop = 360;
+    //stopMission(vehicle, responseTimeout, delayBeforeStop);
+
     return 0;
 }
