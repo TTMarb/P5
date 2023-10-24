@@ -7,6 +7,7 @@
 #include <string>
 #endif
 
+#include <cstring>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -63,13 +64,28 @@ APC220::APC220() {
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
         std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
-
+    /*
     std::cout << "About to write 'Bonjour World'" << std::endl;
     unsigned char msg[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r', ' ', 'w', 'o', 'r', 'l', 'd', '\r', '\n'};
     write(serial_port, msg, sizeof(msg));
     std::cout << "About to write 'Gutentag Welt'" << std::endl;
     unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
     write(serial_port, msg1, sizeof(msg1));
-    std::cout << "Done" << std::endl;
+    */
+    std::string msg = "Bonjour World\r\n";
+
+    APC220::write(msg);
+
+    std::cout << "Init done" << std::endl;
+#endif
+}
+
+bool APC220::write(std::string msg) {
+    const char* str = msg.c_str();
+#ifdef __linux__
+    write(serial_port, str, sizeof(str));
+#else
+    std::cout << "Windows: Haven't created write yet" << std::endl;
+    std::cout << "Windows: Tried to write" << msg << std::endl;
 #endif
 }
