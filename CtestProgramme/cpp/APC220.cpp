@@ -1,7 +1,11 @@
 #include <iostream>
 #include "APC220.h"
 
+#ifdef __linux__
+#include <string.h>
+#else
 #include <string>
+#endif
 
 #include <errno.h>
 #include <fcntl.h>
