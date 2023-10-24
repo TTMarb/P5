@@ -1,6 +1,17 @@
 #include <iostream>
 #include "APC220.h"
 
+#include <string>
+
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+#ifdef linus
+#include <termios.h>
+#include <unistd.h>
+#endif
+
 void OStest() {
     std::string OS;
 #ifdef linus
