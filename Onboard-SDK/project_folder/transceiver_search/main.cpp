@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
             std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
         } else {
-            std::cout << "Error: Number of waypoints is outside. Please try again.\n";
+            std::cout << "Error: Number of waypoints is outside interval. Please try again.\n";
             break;
         }
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
