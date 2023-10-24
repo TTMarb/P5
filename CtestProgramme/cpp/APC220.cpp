@@ -27,10 +27,10 @@ void OStest() {
     std::cout << OS << std::endl;
 }
 
-APC220::APC220() {
-    std::cout << "Get fricked" << std::endl;
-    char msg[] = "Bonjour World\r\n";
+APC220::APC220() { std::cout << "Created class APC220" << std::endl; }
 
+int APC220::init() {
+    std::cout << "Beginning init" << std::endl;
 #ifdef __linux__
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
@@ -66,19 +66,20 @@ APC220::APC220() {
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
         std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
-    APC220::writetorad(msg, serial_port);
 
     std::cout << "Serial port: " << serial_port << std::endl;
     std::cout << "Init done" << std::endl;
+    return serial_port;
+#else
+    std::cout << "Doesn't run on a Windows machine" << std::endl;
+    return -1;
 #endif
-    APC220::writetorad(msg, 0);
 }
 
-bool APC220::writetorad(char msg[], int serial_port) {
+bool APC220::writetorad(int serial_port, char msg[]) {
     std::cout << "Writing to serial port" << std::endl;
-    std::cout << "size of msg: " << strlen(msg) << std::endl;
-    std::cout << "About to write" << msg << std::endl;
-
+    std::cout << "\t Size of msg: " << strlen(msg) << std::endl;
+    std::cout << "\t Msg content: " << msg << std::endl;
 #ifdef __linux__
     write(serial_port, msg, strlen(msg));
 #else
