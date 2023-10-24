@@ -1,21 +1,23 @@
 #include <iostream>
 
 #ifdef _WIN64
-#define OS "Windows"
+#define windows
 #elif __linux__
-#define OS "Linux"
+#define linux
 #endif
 
 void OStest();
 
-//#include <string>
+#include <string>
 
-//#include <stdio.h>
-//#include <errno.h>
-//#include <fcntl.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
 
-//#include <termios.h>
-//#include <unistd.h>
+#ifdef linux
+#include <termios.h>
+#include <unistd.h>
+#endif
 
 class APC220 {
   public:
