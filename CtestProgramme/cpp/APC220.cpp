@@ -105,12 +105,9 @@ bool APC220::read2radio(int serial_port) {
         std::cout << "\t content in place 4: " << buffer[4] << std::endl;
         std::cout << "\t Len: " << len << std::endl;
         std::cout << "\t content in delim place: " << buffer[len] << std::endl;
-        if ((len >= 4)) {
-            std::cout << "Message long enough" << std::endl;
-        }
         if (buffer[len] == delim) {
-            std::cout << "buffer[len]: " << buffer[len] << std::endl;
-            std::cout << "Delim: " << delim << std::endl;
+            std::cout << "\t\tbuffer[len]: " << buffer[len] << std::endl;
+            std::cout << "\t\tDelim: " << delim << std::endl;
         }
     }
 #else
