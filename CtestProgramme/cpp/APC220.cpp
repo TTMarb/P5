@@ -29,6 +29,7 @@ void OStest() {
 
 APC220::APC220() {
     std::cout << "Get fricked" << std::endl;
+    std::string msg = "Bonjour World\r\n";
 #ifdef __linux__
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
@@ -72,12 +73,12 @@ APC220::APC220() {
     unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
     write(serial_port, msg1, sizeof(msg1));
     */
-    std::string msg = "Bonjour World\r\n";
 
     APC220::write(msg);
 
     std::cout << "Init done" << std::endl;
 #endif
+    APC220::write(msg);
 }
 
 bool APC220::write(std::string msg) {
