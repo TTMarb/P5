@@ -28,13 +28,13 @@ APC220::APC220() {
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
     if (serial_port < 0) {
-        printf("Error %i from open %s\n", errno, strerror(errno));
+        std::cout << "Error " << errno << " from open: " << strerror(errno) << std::endl;
     }
 
     struct termios tty;
 
     if (tcgetattr(serial_port, &tty) != 0) {
-        printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+        std::cout << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
     }
 
     //Inspireret af https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/
@@ -57,14 +57,15 @@ APC220::APC220() {
     tty.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
 
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
-        printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
+        std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
 
-    printf("About to write 'Bonjour World'");
+    std::cout << "About to write 'Bonjour World'" << std::endl;
     unsigned char msg[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r', ' ', 'w', 'o', 'r', 'l', 'd', '\r', '\n'};
     write(serial_port, msg, sizeof(msg));
-    printf("About to write 'Gutentag Welt'");
+    std::cout << "About to write 'Gutentag Welt'" << std::endl;
     unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
     write(serial_port, msg1, sizeof(msg1));
+    std::cout << "Done" << std::endl;
 #endif
 }
