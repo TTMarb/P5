@@ -104,7 +104,9 @@ int main(int argc, char** argv) {
             break;
         }
     }
+
     if (errorFlag == 0) {
+        std::cout << "Starting mission.\n";
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
     }
 
