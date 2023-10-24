@@ -10,5 +10,5 @@ int main() {
     OStest();
     APC220 radio = APC220();
     int serial_port = radio.init();
-    radio.write(serial_port, msg);
+    radio.write(&serial_port, msg);
 }
