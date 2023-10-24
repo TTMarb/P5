@@ -90,10 +90,12 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 }
 
 bool APC220::read2radio(int serial_port, char* msg[]) {
+    char buffer[256];
     while (1) {
         char delim[] = "##";
 #ifdef __linux__
-        char a = read(serial_port, 2);
+
+        read(serial_port, &buffer, sizeof(buffer));
         std::cout << "Read from serial port" << std::endl;
         std::cout << "\t Size of msg: " << a << std::endl;
         //write(serial_port, delim, strlen(delim));
