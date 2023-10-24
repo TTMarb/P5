@@ -76,7 +76,7 @@ int APC220::init() {
 #endif
 }
 
-bool APC220::write2(int serial_port, char msg[]) {
+bool APC220::write2radio(int serial_port, char msg[]) {
     char delim[] = "##\n";
     std::cout << "Writing to serial port" << std::endl;
     std::cout << "\t Size of msg: " << strlen(msg) << std::endl;
@@ -87,4 +87,18 @@ bool APC220::write2(int serial_port, char msg[]) {
 #else
     std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
+}
+
+bool APC220::read2radio(int serial_port, char* msg[]) {
+    while (1) {
+        char delim[] = "##";
+#ifdef __linux__
+        char a = read(serial_port, 2);
+        std::cout << "Read from serial port" << std::endl;
+        std::cout << "\t Size of msg: " << a << std::endl;
+        //write(serial_port, delim, strlen(delim));
+#else
+        std::cout << "Windows: Haven't created write yet" << std::endl;
+#endif
+    }
 }
