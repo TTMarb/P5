@@ -55,8 +55,8 @@ int main(int argc, char** argv) {
     uint8_t numWaypoints;
     uint8_t errorFlag = 0;
     // Sets S and W parameters for transceiver search
-    float latM; // Y distance per module
-    float lonM; // X distance per module
+    float64_t latM; // Y distance per module
+    float64_t lonM; // X distance per module
     float avLength, avWidth, searchWidth, pathLength;
 
     //Delay before stopping mission - purely for testing purposes
@@ -68,7 +68,6 @@ int main(int argc, char** argv) {
                   << "Input length of avalanche (0-200m): " << std::endl;
         std::cin >> avLength;
         if (avLength <= 200.0 && avLength > 0.0) {
-            std::cout << "The length is: " << avLength << std::endl;
         } else {
             std::cout << "Error: Length is not within interval. Please try again.\n";
             errorFlag = 1;
@@ -77,7 +76,6 @@ int main(int argc, char** argv) {
         std::cout << "Input width of avalanche (0-50m): " << std::endl;
         std::cin >> avWidth;
         if (avWidth <= 50.0 && avWidth > 0.0) {
-            std::cout << "The width is: " << avWidth << std::endl;
         } else {
             std::cout << "Error: Width is not within interval. Please try again.\n";
             errorFlag = 1;
@@ -91,7 +89,7 @@ int main(int argc, char** argv) {
         lonM = avWidth;
 
         float turns = ceilf(avLength / latM);
-        if (turns * 2 > 0 && turns * 2 <= 255) // Only allow 255 waypoints
+        if (turns * 2 > 0.0 && turns * 2 <= 255.0) // Only allow 255 waypoints
         {
             numWaypoints = static_cast<uint8_t>(turns * 2); // Make the number of waypoints an integer
             pathLength = (turns + 1) * lonM + turns * latM;
