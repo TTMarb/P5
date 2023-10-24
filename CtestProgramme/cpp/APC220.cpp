@@ -74,7 +74,7 @@ APC220::APC220() {
     write(serial_port, msg1, sizeof(msg1));
     */
 
-    APC220::write(msg, serial_port);
+    APC220::writetorad(msg, serial_port);
 
     std::cout << "Serial port: " << serial_port << std::endl;
     std::cout << "Init done" << std::endl;
