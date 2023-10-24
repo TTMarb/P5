@@ -14,7 +14,7 @@ void OStest();
 #include <fcntl.h>
 #include <stdio.h>
 
-#ifdef linux
+#ifdef linus
 #include <termios.h>
 #include <unistd.h>
 #endif
