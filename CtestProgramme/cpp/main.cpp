@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-    char msg[] = "Bonjour world";
+    char msg[] = "\n\rHello from APC220\n\r";
     OStest();
     APC220 radio = APC220();
     int serial_port = radio.init();
