@@ -79,10 +79,10 @@ APC220::APC220() {
     std::cout << "Serial port: " << serial_port << std::endl;
     std::cout << "Init done" << std::endl;
 #endif
-    APC220::write(msg, 0);
+    APC220::writetorad(msg, 0);
 }
 
-bool APC220::write(std::string msg, int serial_port) {
+bool APC220::writetorad(std::string msg, int serial_port) {
     const char* str = msg.c_str();
 #ifdef __linux__
     write(serial_port, str, sizeof(str));
