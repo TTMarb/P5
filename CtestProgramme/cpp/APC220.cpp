@@ -7,14 +7,14 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#ifdef linus
+#ifdef __linux__
 #include <termios.h>
 #include <unistd.h>
 #endif
 
 void OStest() {
     std::string OS;
-#ifdef linus
+#ifdef __linux__
     OS = "Linux";
 #else
     OS = "Windows";
@@ -24,7 +24,7 @@ void OStest() {
 
 APC220::APC220() {
     std::cout << "Get fricked" << std::endl;
-#ifdef linus
+#ifdef __linux__
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
     if (serial_port < 0) {
