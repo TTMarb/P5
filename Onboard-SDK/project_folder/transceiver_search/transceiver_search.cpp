@@ -31,7 +31,8 @@
  */
 
 #include "transceiver_search.hpp"
-
+#define _USE_MATH_DEFINES
+#include <math.h>
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
@@ -54,7 +55,8 @@ bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTime
     std::cout << "Initializing Waypoint Mission..\n";
 
     // Waypoint Mission: Create Waypoints
-    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, increment, start_alt);
+    std::vector<WayPointSettings> generatedWaypts =
+        createWaypoints(vehicle, numWaypoints, latM, lonM, increment, start_alt);
     std::cout << "Creating Waypoints..\n";
 
     // Waypoint Mission: Upload the waypoints
@@ -121,7 +123,6 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     printf("Waypoint created at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
            start_alt);
 
-
     std::vector<DJI::OSDK::WayPointSettings> wpVector =
         generateWaypoints(&start_wp, distanceIncrement, numWaypoints, latM, lonM);
     return wpVector;
@@ -135,12 +136,8 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
 
     std::cout << "SW: " << latM << " & " << lonM << std::endl;
     //@TODO: calculate latM and lonM from meters to longitude and latitude difference
-    int r_earth = 6378000;
-    int pi = 3.14159265359;
-    //float newS = latitude + (latM / r_earth) * (180 / pi);
-    //float newW = longitude + (lonM / r_earth) * (180 / pi) / cos(latitude * pi / 180);
 
-    //std::cout << "SW: " << newS << " & " << newW << std::endl;
+    float64_t r_earth = 6378100;
 
     // First waypoint
     start_data->index = 0;
@@ -157,15 +154,16 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         // Downwards increment
         if (i % 2 == 0) {
 
-            wp.longitude = (prevWp->longitude + ((lonM / r_earth) * (180 / pi) / cos(prevWp->latitude * pi / 180)));
+            wp.latitude = (prevWp->latitude);
+            wp.longitude = (prevWp->longitude + ((latM / r_earth) / cos(wp.latitude)));
             std::cout << "prevWp->longitude: " << prevWp->longitude << std::endl;
             std::cout << "new longitude: " << wp.longitude << std::endl;
-            wp.latitude = (prevWp->latitude);
+
         } else // Side ways increment
         {
             mult = mult * -1;
             wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + ((latM * mult / r_earth) * (180 / pi)));
+            wp.latitude = (prevWp->latitude + ((lonM / r_earth) * mult));
             std::cout << "prevWp->latitude: " << prevWp->latitude << std::endl;
             std::cout << "new latitude: " << wp.latitude << std::endl;
         }
