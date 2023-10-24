@@ -13,6 +13,7 @@ n=ceil(1/(2*log10(w_s2/w_p2))*log10((10^(alpha_s/10)-1)/(10^(alpha_p/10)-1)));%b
 
 w_1dbn=(10^(alpha_p/10)-1)^(1/(2*n)); %normalized frequency at 1dB attenuation
 kf=w_p2/w_1dbn; %frequency scaled factor
+w_3dbn=(10^(3/10)-1)^(1/(2*n));
 
 %find the poles for normalized and scaled
 syms k
@@ -26,7 +27,7 @@ end
 
 %plot the poles and zeros (everything scaled by kf)
 theta = linspace(0,2*pi,100);
-
+%{
 hold on
 figure
 plot(kf*cos(theta),kf*sin(theta),':', Color='black')
@@ -45,7 +46,7 @@ axis equal
 hold off
 saveas(gcf,'PolesNormalized.pdf')
 close
-
+%}
 
 %creating the transferfunction
 s=tf('s');
@@ -65,12 +66,30 @@ for x=1:n/2
     H_hp=H_hp*1/((S)^2-2*real(p_k(x))*S+1);
 end
 
-bode(H_hp)
-saveas(gcf,'bode_HighPass.pdf')
+%bode(H_hp)
+%saveas(gcf,'bode_HighPass.pdf')
 
 
 H_bp=1.4454*H_lp*H_hp;
-bode(H_bp)
-saveas(gcf,'bode_BandPass.pdf')
+%bode(H_bp)
+%saveas(gcf,'bode_BandPassk.pdf')
+ps=pole(H_bp);
+zs=zero(H_bp);
+
+%z-plane
+fs = 2*10^6*2*pi;
+Hd=c2d(H_bp,1/fs);
+pz=pole(Hd);
+zz=zero(Hd);
+
+polezero=zplane(pz,zz);
+%bode(Hd)
+
+
+
+%[A,B,C,D] = butter(n,[w_p1/(2*pi) w_p2/(2*pi)]/(fs/2));
+%sos = ss2sos(A,B,C,D);
+%fvt = fvtool(sos,Fs=fs);
+
 
 
