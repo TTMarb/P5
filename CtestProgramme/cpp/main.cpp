@@ -6,7 +6,10 @@
 using namespace std;
 
 int main() {
-    std::cout << "Bonjour welt" << std::endl;
+    char msg[] = "Bonjour world";
     OStest();
-    APC220();
+    APC220 radio = APC220();
+    int serial_port = radio.init();
+    radio.write2radio(serial_port, msg);
+    radio.read2radio(serial_port);
 }

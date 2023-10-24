@@ -27,9 +27,10 @@ void OStest() {
     std::cout << OS << std::endl;
 }
 
-APC220::APC220() {
-    std::cout << "Get fricked" << std::endl;
-    std::string msg = "Bonjour World\r\n";
+APC220::APC220() { std::cout << "Created class APC220" << std::endl; }
+
+int APC220::init() {
+    std::cout << "Beginning init" << std::endl;
 #ifdef __linux__
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
@@ -65,29 +66,41 @@ APC220::APC220() {
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
         std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
-    /*
-    std::cout << "About to write 'Bonjour World'" << std::endl;
-    unsigned char msg[] = {'B', 'o', 'n', 'j', 'o', 'u', 'r', ' ', 'w', 'o', 'r', 'l', 'd', '\r', '\n'};
-    write(serial_port, msg, sizeof(msg));
-    std::cout << "About to write 'Gutentag Welt'" << std::endl;
-    unsigned char msg1[] = {'G', 'u', 't', 'e', 'n', 't', 'a', 'g', ' ', 'w', 'e', 'l', 't', '\r', '\n'};
-    write(serial_port, msg1, sizeof(msg1));
-    */
-
-    APC220::writetorad(msg, serial_port);
 
     std::cout << "Serial port: " << serial_port << std::endl;
     std::cout << "Init done" << std::endl;
+    return serial_port;
+#else
+    std::cout << "Doesn't run on a Windows machine" << std::endl;
+    return -1;
 #endif
-    APC220::writetorad(msg, 0);
 }
 
-bool APC220::writetorad(std::string msg, int serial_port) {
-    const char* str = msg.c_str();
+bool APC220::write2radio(int serial_port, char msg[]) {
+    char delim[] = "##\n";
+    std::cout << "Writing to serial port" << std::endl;
+    std::cout << "\t Size of msg: " << strlen(msg) << std::endl;
+    std::cout << "\t Msg content: " << msg << std::endl;
 #ifdef __linux__
-    write(serial_port, str, sizeof(str));
+    write(serial_port, msg, strlen(msg));
+    //write(serial_port, delim, strlen(delim));
 #else
     std::cout << "Windows: Haven't created write yet" << std::endl;
-    std::cout << "Windows: Tried to write" << msg << std::endl;
 #endif
+}
+
+bool APC220::read2radio(int serial_port) {
+    char buffer[256];
+    while (1) {
+        char delim[] = "##";
+#ifdef __linux__
+
+        read(serial_port, &buffer, sizeof(buffer));
+        std::cout << "Read from serial port" << std::endl;
+        std::cout << "\t Size of msg: " << strlen(buffer) << std::endl;
+        std::cout << "\t Contents of msg: " << buffer << std::endl;
+#else
+        std::cout << "Windows: Haven't created write yet" << std::endl;
+#endif
+    }
 }

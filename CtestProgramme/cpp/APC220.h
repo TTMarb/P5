@@ -5,7 +5,9 @@ void OStest();
 class APC220 {
   public:
     APC220(); // Constructor
-    bool writetorad(std::string, int);
+    int init();
+    bool write2radio(int, char[]);
+    bool read2radio(int);
 
   private:
 };
