@@ -26,6 +26,7 @@
  *
  */
 
+#include <cmath>
 #include "transceiver_search.hpp"
 
 using namespace DJI::OSDK;
@@ -52,34 +53,55 @@ int main(int argc, char** argv) {
     int responseTimeout = 1;
 
     uint8_t numWaypoints;
-    float searchWidth = 10;
     // Sets S and W parameters for transceiver search
-    float S; //Width per module
-    float W; //Heigth per module
-
-    float avLength, avWidth;
+    float latM; // X distance per module
+    float lonM; // Y distance per module
+    float avLength, avWidth, searchWidth, pathLength;
 
     //Delay before stopping mission - purely for testing purposes
     int delayBeforeStop;
 
-    // Display interactive prompt, that allows user to select mission parameters
-    std::cout << "| Beginning waypoint mission.        \t|"
-              << "\n"
-              << "| Input length of avalanche:         \t|" << std::endl;
-    std::cin >> avLength;
-    std::cout << "| The length is: " << avLength << "\t|\n"
-              << "|            Choose W                \t|" << std::endl;
-    std::cin >> W;
-    std::cout << "| W has been selected as: " << W << "\t|" << std::endl;
+    while (1) {
+        // Display interactive prompt, that allows user to select mission parameters
+        std::cout << "Beginning waypoint mission.\n"
+                  << "Input length of avalanche (0-200m): " << std::endl;
+        std::cin >> avLength;
+        if (avLength <= 200.0 && avLength > 0.0) {
+            std::cout << "The length is: " << avLength << std::endl;
+        } else {
+            std::cout << "Error: Length is not within interval. Please try again.\n";
+            break;
+        }
+        std::cout << "Input width of avalanche (0-50m): " << std::endl;
+        std::cin >> avWidth;
+        if (avWidth <= 50.0 && avWidth > 0.0) {
+            std::cout << "The width is: " << avWidth << std::endl;
+        } else {
+            std::cout << "Error: Width is not within interval. Please try again.\n";
+            break;
+        }
+        // Calculations for avalanche size inputs
+        searchWidth = 10;
+        avLength = avLength - searchWidth;
+        avWidth = avWidth - searchWidth;
 
-    // Calculations for avalanche size inputs
-    searchWidth;
+        latM = avWidth;
+        lonM = 2 * searchWidth;
 
-    numWaypoints = 10;
-    //delayBeforeStop = 360;
-
-    runWaypointMission(vehicle, numWaypoints, responseTimeout, S, W);
-    //stopMission(vehicle, responseTimeout, delayBeforeStop);
-
+        float turns = ceilf(avLength / lonM);
+        if (turns * 2 > 0 && turns * 2 <= 255) // Only allow 255 waypoints
+        {
+            numWaypoints = static_cast<uint8_t>(turns * 2); // Make the number of waypoints an integer
+            pathLength = (turns + 1) * latM + turns * lonM;
+            std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
+            std::cout << "The path length is " << pathLength << " m\n";
+        } else {
+            std::cout << "Error: Number of waypoints is outside. Please try again.\n";
+            break;
+        }
+        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
+        //delayBeforeStop = 360;
+        //stopMission(vehicle, responseTimeout, delayBeforeStop);
+    }
     return 0;
 }
