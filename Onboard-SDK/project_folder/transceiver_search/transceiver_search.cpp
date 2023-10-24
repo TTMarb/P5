@@ -137,7 +137,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     std::cout << "SW: " << latM << " & " << lonM << std::endl;
     //@TODO: calculate latM and lonM from meters to longitude and latitude difference
 
-    int r_earth = 6378100;
+    float64_t r_earth = 6378100;
 
     // First waypoint
     start_data->index = 0;
@@ -155,7 +155,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         if (i % 2 == 0) {
 
             wp.latitude = (prevWp->latitude);
-            wp.longitude = (prevWp->longitude + ((latM / r_earth) * (180 / M_PI) / cos((wp.latitude * M_PI) / 180)));
+            wp.longitude = (prevWp->longitude + ((latM / r_earth) / cos(wp.latitude)));
             std::cout << "prevWp->longitude: " << prevWp->longitude << std::endl;
             std::cout << "new longitude: " << wp.longitude << std::endl;
 
@@ -163,7 +163,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         {
             mult = mult * -1;
             wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + (((lonM / r_earth) * (180 / M_PI)) * mult));
+            wp.latitude = (prevWp->latitude + ((lonM / r_earth) * mult));
             std::cout << "prevWp->latitude: " << prevWp->latitude << std::endl;
             std::cout << "new latitude: " << wp.latitude << std::endl;
         }

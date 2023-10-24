@@ -54,8 +54,8 @@ int main(int argc, char** argv) {
 
     uint8_t numWaypoints;
     // Sets S and W parameters for transceiver search
-    float latM; // X distance per module
-    float lonM; // Y distance per module
+    float latM; // Y distance per module
+    float lonM; // X distance per module
     float avLength, avWidth, searchWidth, pathLength;
 
     //Delay before stopping mission - purely for testing purposes
@@ -85,14 +85,14 @@ int main(int argc, char** argv) {
         avLength = avLength - searchWidth;
         avWidth = avWidth - searchWidth;
 
-        latM = avWidth;
-        lonM = 2 * searchWidth;
+        latM = 2 * searchWidth;
+        lonM = avWidth;
 
-        float turns = ceilf(avLength / lonM);
+        float turns = ceilf(avLength / latM);
         if (turns * 2 > 0 && turns * 2 <= 255) // Only allow 255 waypoints
         {
             numWaypoints = static_cast<uint8_t>(turns * 2); // Make the number of waypoints an integer
-            pathLength = (turns + 1) * latM + turns * lonM;
+            pathLength = (turns + 1) * lonM + turns * latM;
             std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
         } else {
