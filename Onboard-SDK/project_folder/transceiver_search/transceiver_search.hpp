@@ -52,11 +52,9 @@ void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
 void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
 
 std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float S,
-                                                         float W, DJI::OSDK::float64_t distanceIncrement,
-                                                         DJI::OSDK::float32_t start_alt);
+                                                         float W, DJI::OSDK::float32_t start_alt);
 
-std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(DJI::OSDK::WayPointSettings* start_data,
-                                                           DJI::OSDK::float64_t increment, int num_wp, float S,
+std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(DJI::OSDK::WayPointSettings* start_data, int num_wp, float S,
                                                            float W);
 
 void uploadWaypoints(DJI::OSDK::Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>& wp_list,
