@@ -96,9 +96,8 @@ bool APC220::read2radio(int serial_port) {
 
         const char delim = '#';
 #ifdef __linux__
-        buffer.clear();
         read(serial_port, &buffer, sizeof(buffer));
-        len = strlen(buffer) - 1;
+        len = strlen(buffer);
         std::cout << "Read from serial port" << std::endl;
         std::cout << "\t Strlen of msg: " << strlen(buffer) << std::endl;
         std::cout << "\t Size of msg: " << sizeof(buffer) << std::endl;
