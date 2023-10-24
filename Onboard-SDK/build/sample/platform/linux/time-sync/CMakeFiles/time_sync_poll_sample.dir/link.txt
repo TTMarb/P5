@@ -1,1 +1,0 @@
-/usr/bin/c++    -std=c++11 -pthread -g -O0 -g    CMakeFiles/time_sync_poll_sample.dir/time_sync_poll_sample.cpp.o CMakeFiles/time_sync_poll_sample.dir/__/common/dji_linux_environment.cpp.o CMakeFiles/time_sync_poll_sample.dir/__/common/dji_linux_helpers.cpp.o  -o ../../../../bin/time_sync_poll_sample -rdynamic ../../../../libs/libdjiosdk-core.a -lpthread 
