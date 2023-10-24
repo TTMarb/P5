@@ -94,7 +94,7 @@ bool APC220::read2radio(int serial_port) {
     int len;
     while (1) {
 
-        const char delim = '#';
+        char delim[] = "#";
 #ifdef __linux__
         int nob = read(serial_port, &buffer, sizeof(buffer));
         int len = nob - 1;
