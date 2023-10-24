@@ -73,11 +73,6 @@ bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTime
     // Cleanup before return. The mission isn't done yet, but it doesn't need any
     // more input from our side.
 
-    while (1) {
-        std::cout << "Waiting for mission to finish.\n";
-        sleep(100);
-    }
-
     return true;
 }
 
