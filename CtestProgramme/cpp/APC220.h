@@ -1,9 +1,9 @@
 #include <iostream>
 
 #ifdef _WIN64
-#define windows
+#define vindues
 #elif __linux__
-#define linux
+#define linus
 #endif
 
 void OStest();

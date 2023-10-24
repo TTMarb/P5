@@ -3,7 +3,7 @@
 
 void OStest() {
     std::string OS;
-#ifdef linux
+#ifdef linus
     OS = "Linux";
 #else
     OS = "Windows";
@@ -13,7 +13,7 @@ void OStest() {
 
 APC220::APC220() {
     std::cout << "Get fricked" << std::endl;
-#ifdef linux
+#ifdef linus
     int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
 
     if (serial_port < 0) {
