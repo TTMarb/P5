@@ -89,9 +89,9 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 #endif
 }
 
-bool APC220::read2radio(int serial_port) {
+bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
     char buffer[256];
-    int len;
+    int readLen;
     while (1) {
 
         char delim[] = "#";
@@ -107,11 +107,17 @@ bool APC220::read2radio(int serial_port) {
         std::cout << "\t Len: " << len << std::endl;
         std::cout << "\t content in delim place: " << buffer[len - 1] << std::endl;
         std::cout << "\t delim: " << delim[0] << std::endl;
-        if (buffer[len - 1] == delim[0]) {
+        if (len > outputLen) {
+            std::cout << "Content too long 4 array";
+        } else if (buffer[len - 1] != delim[0]) {
+            std::cout << "Content not ended with delim" << std::endl;
+        } else {
+            std::cout << "\t Contents of msg: " << buffer << std::endl;
             std::cout << "\t\tbuffer[len]: " << buffer[nob - 1] << std::endl;
             std::cout << "\t\tDelim: " << delim[0] << std::endl;
         }
     }
+}
 #else
         std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
