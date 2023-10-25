@@ -19,6 +19,7 @@ int main() {
         bool result = radio.read2radio(serial_port, &received[0], sizeOfReceived);
         int backsize = sizeof(received) / sizeof(received[0]);
         if (result) {
+            //Not quite done yet
             radio.write2radio(serial_port, received, 5);
         }
     }
