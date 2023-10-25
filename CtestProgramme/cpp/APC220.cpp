@@ -3,6 +3,8 @@
 
 #ifdef __linux__
 #include <string.h>
+#include <termios.h>
+#include <unistd.h>
 #else
 #include <string>
 #endif
@@ -11,11 +13,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
-
-#ifdef __linux__
-#include <termios.h>
-#include <unistd.h>
-#endif
 
 void OStest() {
     std::string OS;
@@ -67,8 +64,7 @@ int APC220::init() {
         std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
 
-    std::cout << "Serial port: " << serial_port << std::endl;
-    std::cout << "Init done" << std::endl;
+    std::cout << "Serial port: " << serial_port << ". Init done" std::endl;
     return serial_port;
 #else
     std::cout << "Doesn't run on a Windows machine" << std::endl;
@@ -95,6 +91,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     int readLen;
     bool msggood = true;
     for (int i; i < outputLen; i++) {
+        //@TODO: Find noget bedre en '\0' at bruge
         outputarray[i] = '\0';
     }
     std::cout << "Buffer content: " << buffer << std::endl;

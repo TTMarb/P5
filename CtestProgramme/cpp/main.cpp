@@ -16,6 +16,10 @@ int main() {
     int size_received = sizeof(received) / sizeof(received[0]);
     while (1) {
         bool result = radio.read2radio(serial_port, &received[0], size_received);
+        std::cout << "Received: " << received << std::endl;
+        int backsize = sizeof(received) / sizeof(received[0]);
+        std::cout << "Result: " << backsize << std::endl;
+
         if (result) {
             radio.write2radio(serial_port, received);
         }
