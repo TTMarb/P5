@@ -95,7 +95,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     int readLen;
     bool msggood = true;
     for (int i; i < outputLen; i++) {
-        outputarray[i] = NULL;
+        outputarray[i] = '\0';
     }
     std::cout << "Buffer content: " << buffer << std::endl;
     std::cout << "Outputarray content: " << outputarray << std::endl;
