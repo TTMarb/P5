@@ -164,13 +164,10 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         wp_list.push_back(wp);
     }
 
-    /*  
-    
     // Come back home
     start_data->index = num_wp;
     wp_list.push_back(*start_data);
-    
-    */
+
     return wp_list;
 }
 
