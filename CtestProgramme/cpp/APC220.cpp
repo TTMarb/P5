@@ -83,6 +83,7 @@ int APC220::init() {
 
 bool APC220::write2radio(int serial_port, char msg[], unsigned int size) {
     char delim[] = "\r\n#";
+    strcat(msg, delim);
 #ifdef __linux__
     write(serial_port, msg, strlen(msg));
 #else
