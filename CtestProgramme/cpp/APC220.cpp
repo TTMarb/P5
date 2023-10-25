@@ -77,13 +77,14 @@ int APC220::init() {
 }
 
 bool APC220::write2radio(int serial_port, char msg[]) {
-    char delim[] = "##\n";
+    char delim[] = "#";
+#ifdef TESTMODE
     std::cout << "Writing to serial port" << std::endl;
     std::cout << "\t Size of msg: " << strlen(msg) << std::endl;
     std::cout << "\t Msg content: " << msg << std::endl;
+#endif
 #ifdef __linux__
     write(serial_port, msg, strlen(msg));
-    //write(serial_port, delim, strlen(delim));
 #else
     std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
@@ -92,28 +93,38 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
     char buffer[256];
     int readLen;
-    std::cout << "Received max length" << outputLen << std::endl;
+#ifdef TESTMODE
+    std::cout << "Received max length " << outputLen << std::endl;
+#endif
     char delim[] = "#";
-    while (1) {
 #ifdef __linux__
-        int nob = read(serial_port, &buffer, sizeof(buffer));
-        int len = nob - 1;
-        std::cout << "NUMBER OF BYTES READ: " << nob << std::endl;
+    int nob = read(serial_port, &buffer, sizeof(buffer));
+    int len = nob - 1;
+#ifdef TESTMODE
+    std::cout << "NUMBER OF BYTES READ: " << nob << std::endl;
+    std::cout << "\t Contents of msg: " << buffer << std::endl;
+    std::cout << "\t Message length: " << len << std::endl;
+    std::cout << "\t content in delim place: " << buffer[len - 1] << std::endl;
+    std::cout << "\t delim: " << delim[0] << std::endl;
+#endif
+    if (len > outputLen) {
+#ifdef TESTMODE
+        std::cout << "Content too long 4 array" << std::endl;
+    } else if (buffer[len - 1] != delim[0]) {
+#endif
+#ifdef TESTMODE
+        std::cout << "Content not ended with delim" << std::endl;
+#endif
+    } else {
+#ifdef TESTMODE
         std::cout << "\t Contents of msg: " << buffer << std::endl;
-        std::cout << "\t Message length: " << len << std::endl;
-        std::cout << "\t content in delim place: " << buffer[len - 1] << std::endl;
-        std::cout << "\t delim: " << delim[0] << std::endl;
-        if (len > outputLen) {
-            std::cout << "Content too long 4 array" << std::endl;
-        } else if (buffer[len - 1] != delim[0]) {
-            std::cout << "Content not ended with delim" << std::endl;
-        } else {
-            std::cout << "\t Contents of msg: " << buffer << std::endl;
-            std::cout << "\t\tbuffer[len]: " << buffer[nob - 1] << std::endl;
-            std::cout << "\t\tDelim: " << delim[0] << std::endl;
-        }
+        std::cout << "\t\tbuffer[len]: " << buffer[nob - 1] << std::endl;
+        std::cout << "\t\tDelim: " << delim[0] << std::endl;
+#elif
+        std::cout << buffer << std::endl;
+#endif
     }
 #else
-        std::cout << "Windows: Haven't created write yet" << std::endl;
+    std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
 }

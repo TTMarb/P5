@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+//#define TESTMODE
 
 #include "APC220.h"
 
