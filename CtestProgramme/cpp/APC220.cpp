@@ -90,7 +90,7 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 #endif
 }
 
-bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
+bool APC220::read2radio(int serial_port, char* outputarray[10], unsigned int outputLen) {
     char buffer[256];
     int readLen;
     bool msggood = true;
