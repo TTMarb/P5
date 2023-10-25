@@ -92,19 +92,15 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
     char buffer[256];
     int readLen;
+    std::cout << "Received max length" << outputLen << std::endl;
+    char delim[] = "#";
     while (1) {
-
-        char delim[] = "#";
 #ifdef __linux__
         int nob = read(serial_port, &buffer, sizeof(buffer));
         int len = nob - 1;
         std::cout << "NUMBER OF BYTES READ: " << nob << std::endl;
-        std::cout << "Read from serial port" << std::endl;
-        std::cout << "\t Strlen of msg: " << strlen(buffer) << std::endl;
-        std::cout << "\t Size of msg: " << sizeof(buffer) << std::endl;
         std::cout << "\t Contents of msg: " << buffer << std::endl;
-        std::cout << "\t content in place 4: " << buffer[4] << std::endl;
-        std::cout << "\t Len: " << len << std::endl;
+        std::cout << "\t Message length: " << len << std::endl;
         std::cout << "\t content in delim place: " << buffer[len - 1] << std::endl;
         std::cout << "\t delim: " << delim[0] << std::endl;
         if (len > outputLen) {
