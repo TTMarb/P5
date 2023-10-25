@@ -94,6 +94,9 @@ bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
     char buffer[256];
     int readLen;
     bool msggood = true;
+    for (int i; i < outputLen; i++) {
+        outputarray[i] = 0;
+    }
 #ifdef TESTMODE
     std::cout << "Received max length " << outputLen << std::endl;
 #endif
