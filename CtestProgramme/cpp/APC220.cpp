@@ -104,7 +104,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
         std::cout << "\t content in delim place: " << buffer[len - 1] << std::endl;
         std::cout << "\t delim: " << delim[0] << std::endl;
         if (len > outputLen) {
-            std::cout << "Content too long 4 array";
+            std::cout << "Content too long 4 array" << std::endl;
         } else if (buffer[len - 1] != delim[0]) {
             std::cout << "Content not ended with delim" << std::endl;
         } else {
