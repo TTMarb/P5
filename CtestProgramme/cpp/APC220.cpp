@@ -110,7 +110,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     }
     if (true == msggood) {
         std::cout << "Received: " << buffer << std::endl;
-        strcpy(outputarray, buffer, length);
+        strcpy(outputarray, buffer);
         return true;
     } else {
         return false;
