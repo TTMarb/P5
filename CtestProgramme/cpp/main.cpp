@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     char msg[] = "\n\rHello from APC220\n\r";
-    char received[10];
+    char received[10] = {'\0'};
     OStest();
     APC220 radio = APC220();
     int serial_port = radio.init();
