@@ -72,8 +72,8 @@ int APC220::init() {
 #endif
 }
 
-bool APC220::write2radio(int serial_port, char msg[]) {
-    char delim[] = "#";
+bool APC220::write2radio(int serial_port, char msg[], unsigned int size) {
+    char delim[] = "\n\r#";
 #ifdef TESTMODE
     std::cout << "Writing to serial port" << std::endl;
     std::cout << "\t Size of msg: " << strlen(msg) << std::endl;
