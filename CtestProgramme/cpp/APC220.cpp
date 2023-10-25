@@ -64,7 +64,7 @@ int APC220::init() {
         std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
 
-    std::cout << "Serial port: " << serial_port << ". Init done" std::endl;
+    std::cout << "Serial port: " << serial_port << ". Init done" << std::endl;
     return serial_port;
 #else
     std::cout << "Doesn't run on a Windows machine" << std::endl;
