@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
         // Calculations for avalanche size inputs
         searchWidth = 10;
         avLength = avLength - searchWidth;
-        avWidth = avWidth - searchWidth;
+        avWidth = avWidth - 2 * searchWidth;
         latM = 2 * searchWidth;
         lonM = avWidth;
 
