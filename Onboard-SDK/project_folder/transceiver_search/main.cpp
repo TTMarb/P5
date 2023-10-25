@@ -34,7 +34,7 @@ using namespace DJI::OSDK::Telemetry;
 
 int main(int argc, char** argv) {
     // Initialize variables
-    int functionTimeout = 1;
+    int functionTimeout = 60;
 
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
