@@ -7,7 +7,7 @@ class APC220 {
     APC220(); // Constructor
     int init();
     bool write2radio(int, char[]);
-    bool read2radio(int, char*);
+    bool read2radio(int, char*, int);
 
   private:
 };
