@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 
     // Setup variables for use
 
-    int responseTimeout = 1;
+    int responseTimeout = 60;
 
     uint8_t numWaypoints;
     uint8_t errorFlag = 0;
