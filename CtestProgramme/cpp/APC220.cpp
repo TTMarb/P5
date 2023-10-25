@@ -117,7 +117,6 @@ bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
             std::cout << "\t\tDelim: " << delim[0] << std::endl;
         }
     }
-}
 #else
         std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
