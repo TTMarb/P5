@@ -120,7 +120,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
         std::cout << "\t Contents of msg: " << buffer << std::endl;
         std::cout << "\t\tbuffer[len]: " << buffer[nob - 1] << std::endl;
         std::cout << "\t\tDelim: " << delim[0] << std::endl;
-#elif
+#else
         std::cout << buffer << std::endl;
 #endif
     }
