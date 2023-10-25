@@ -82,7 +82,7 @@ int APC220::init() {
 }
 
 bool APC220::write2radio(int serial_port, char msg[], unsigned int size) {
-    char delim[] = "\n\r#";
+    char delim[] = "\r\n#";
 #ifdef __linux__
     write(serial_port, msg, strlen(msg));
 #else
@@ -100,17 +100,17 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     }
     char delim[] = "#";
 #ifdef __linux__
-    int nob = read(serial_port, &buffer, sizeof(buffer));
-    int len = nob - 1;
-    if (len > outputLen) {
+    int numberOfBytes = read(serial_port, &buffer, sizeof(buffer));
+    int length = numberOfBytes - 1;
+    if (length > outputLen) {
         msggood = false;
     }
-    if (buffer[len - 1] != delim[0]) {
+    if (buffer[length - 1] != delim[0]) {
         msggood = false;
     }
     if (true == msggood) {
         std::cout << "Received: " << buffer << std::endl;
-        strcpy(outputarray, buffer);
+        str strcpy(outputarray, buffer, length);
         return true;
     } else {
         return false;
