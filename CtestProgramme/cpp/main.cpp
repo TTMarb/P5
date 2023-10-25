@@ -14,6 +14,7 @@ int main() {
     APC220 radio = APC220();
     int serial_port = radio.init();
     radio.write2radio(serial_port, msg, sizeof(msg) / sizeof(msg[0]));
+    std::cout << "Ready to receive" << std::endl;
     while (1) {
         bool result = radio.read2radio(serial_port, &received[0], sizeOfReceived);
         int backsize = sizeof(received) / sizeof(received[0]);
