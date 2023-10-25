@@ -63,7 +63,9 @@ bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTime
 
     // Waypoint Mission: Start
     ACK::ErrorCode startAck = vehicle->missionManager->wpMission->start(responseTimeout);
+    std::cout << "Got response!\n";
     if (ACK::getError(startAck)) {
+        std::cout << "ERROR in Starting Waypoint Mission.\n";
         ACK::getErrorCodeMessage(initAck, __func__);
     } else {
         std::cout << "Starting Waypoint Mission.\n";
