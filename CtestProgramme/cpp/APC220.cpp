@@ -91,28 +91,33 @@ bool APC220::write2radio(int serial_port, char msg[], unsigned int size) {
 }
 
 bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputLen) {
+    //Creates a buffer to store the message
     char buffer[256];
     int readLen;
     bool msggood = true;
+    //Clears the outputarray from previous messages
     for (int i; i < outputLen; i++) {
-        //@TODO: Find noget bedre en '\0' at bruge
         outputarray[i] = '\0';
     }
     char delim[] = "#";
 #ifdef __linux__
     int numberOfBytes = read(serial_port, &buffer, sizeof(buffer));
     int length = numberOfBytes - 1;
+    //Checks if the message length is shorter than output array
     if (length > outputLen) {
         msggood = false;
     }
+    //Makes sure it is the right delimiter
     if (buffer[length - 1] != delim[0]) {
         msggood = false;
     }
     if (true == msggood) {
         std::cout << "Received: " << buffer << std::endl;
+        //Removes the delimiter from the end of the message
         strncpy(outputarray, buffer, length - 1);
         return true;
     } else {
+        //Returns false if message is unacceptable
         return false;
     }
 #else
