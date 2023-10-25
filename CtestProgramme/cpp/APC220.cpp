@@ -95,7 +95,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     int readLen;
     bool msggood = true;
     for (int i; i < outputLen; i++) {
-        outputarray[i] = '\0';
+        outputarray[i] = NULL;
     }
     std::cout << "Buffer content: " << buffer << std::endl;
     std::cout << "Outputarray content: " << outputarray << std::endl;
@@ -126,7 +126,6 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
 #endif
     }
     if (true == msggood) {
-        strcpy(outputarray, buffer);
 #ifdef TESTMODE
         std::cout << "\t Contents of msg: " << buffer << std::endl;
         std::cout << "\t\tbuffer[len]: " << buffer[nob - 1] << std::endl;
@@ -134,6 +133,10 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
 #else
         std::cout << buffer << std::endl;
 #endif
+        strcpy(outputarray, buffer);
+        return true;
+    } else {
+        return false;
     }
 #else
     std::cout << "Windows: Haven't created write yet" << std::endl;

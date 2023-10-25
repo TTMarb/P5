@@ -15,7 +15,9 @@ int main() {
     radio.write2radio(serial_port, msg);
     int size_received = sizeof(received) / sizeof(received[0]);
     while (1) {
-        radio.read2radio(serial_port, &received[0], size_received);
-        radio.write2radio(serial_port, received);
+        bool result = radio.read2radio(serial_port, &received[0], size_received);
+        if (result) {
+            radio.write2radio(serial_port, received);
+        }
     }
 }
