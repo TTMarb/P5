@@ -93,6 +93,7 @@ bool APC220::write2radio(int serial_port, char msg[]) {
 bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
     char buffer[256];
     int readLen;
+    bool msggood = true;
 #ifdef TESTMODE
     std::cout << "Received max length " << outputLen << std::endl;
 #endif
@@ -108,14 +109,18 @@ bool APC220::read2radio(int serial_port, char* outputarray, int outputLen) {
     std::cout << "\t delim: " << delim[0] << std::endl;
 #endif
     if (len > outputLen) {
+        msggood = false;
 #ifdef TESTMODE
         std::cout << "Content too long 4 array" << std::endl;
-    } else if (buffer[len - 1] != delim[0]) {
 #endif
+    }
+    if (buffer[len - 1] != delim[0]) {
+        msggood = false;
 #ifdef TESTMODE
         std::cout << "Content not ended with delim" << std::endl;
 #endif
-    } else {
+    }
+    if (true == msggood) {
 #ifdef TESTMODE
         std::cout << "\t Contents of msg: " << buffer << std::endl;
         std::cout << "\t\tbuffer[len]: " << buffer[nob - 1] << std::endl;
