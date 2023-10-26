@@ -83,16 +83,16 @@ int main(int argc, char** argv) {
         }
         // Calculations for avalanche size inputs
         searchWidth = 10;
-        avLength = avLength - searchWidth;
-        avWidth = avWidth - 2 * searchWidth;
+        avLength = avLength - (2 * searchWidth);
+        avWidth = avWidth - (2 * searchWidth);
         latM = 2 * searchWidth;
         lonM = avWidth;
 
-        float turns = ceilf(avLength / latM);
-        if (turns * 2 > 0.0 && turns * 2 <= 255.0) // Only allow 255 waypoints
+        float numWaypoints = ceilf(2 * (avLength / latM)) + 2;
+        if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
-            numWaypoints = static_cast<uint8_t>(turns * 2); // Make the number of waypoints an integer
-            pathLength = (turns + 1) * lonM + turns * latM;
+            numWaypoints = static_cast<uint8_t>(numWaypoints); // Make the number of waypoints an integer
+            pathLength = (numWaypoints / 2) * lonM + ((numWaypoints / 2) - 1) * latM;
             std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
             break;
