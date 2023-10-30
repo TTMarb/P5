@@ -59,6 +59,16 @@ void getRotation(Vehicle* vehicle) {
                   << quaternion.q2 << ", " << quaternion.q3 << "\n";
         std::cout << "Angular Rate          (x,y,z)         = " << velocity.x << ", " << velocity.y << ", "
                   << velocity.z << "\n";
+        float x_over1;
+        float y_over1;
+        if (velocity.x > 1.0) {
+            std::cout << "Velocity x is greater than 1.0\n";
+            std::cout << "Velocity is: " << velocity.x << "\n";
+        }
+        if (velocity.y > 1.0) {
+            std::cout << "Velocity y is greater than 1.0\n";
+            std::cout << "Velocity is: " << velocity.y << "\n";
+        }
         std::cout << "-------\n";
 
         sleep(1);
