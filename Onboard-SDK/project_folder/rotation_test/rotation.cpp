@@ -52,12 +52,13 @@ void getRotation(Vehicle* vehicle) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
-        velocity = vehicle->broadcast->getVelocity();
+        velocity = vehicle->broadcast->getAngularRate();
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Attitude Quaternion   (w,x,y,z)       = " << quaternion.q0 << ", " << quaternion.q1 << ", "
                   << quaternion.q2 << ", " << quaternion.q3 << "\n";
-        std::cout << "Velovity   (x,y,z)       = " << velocity.x << ", " << velocity.y << ", " << velocity.z << "\n";
+        std::cout << "Velovity              (x,y,z)         = " << velocity.x << ", " << velocity.y << ", "
+                  << velocity.z << "\n";
         std::cout << "-------\n";
 
         sleep(1);
