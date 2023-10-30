@@ -57,7 +57,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Attitude Quaternion   (w,x,y,z)       = " << quaternion.q0 << ", " << quaternion.q1 << ", "
                   << quaternion.q2 << ", " << quaternion.q3 << "\n";
-        std::cout << "Velovity              (x,y,z)         = " << velocity.x << ", " << velocity.y << ", "
+        std::cout << "Angular Rate          (x,y,z)         = " << velocity.x << ", " << velocity.y << ", "
                   << velocity.z << "\n";
         std::cout << "-------\n";
 
