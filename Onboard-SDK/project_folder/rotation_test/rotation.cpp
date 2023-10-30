@@ -40,22 +40,25 @@ void getRotation(Vehicle* vehicle) {
 
     Telemetry::Quaternion quaternion;
     Telemetry::Status status;
+    Telemetry::Vector3f velocity;
 
     const int TIMEOUT = 20;
 
     // Re-set Broadcast frequencies to their default values
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
-    status = vehicle->broadcast->getStatus();
 
     // Print in a loop for 2 seconds
     while (1) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
+        velocity = vehicle->broadcast->getVelocity();
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Attitude Quaternion   (w,x,y,z)       = " << quaternion.q0 << ", " << quaternion.q1 << ", "
                   << quaternion.q2 << ", " << quaternion.q3 << "\n";
+        std::cout << "Velovity   (x,y,z)       = " << quaternion.x << ", " << quaternion.y << ", " << quaternion.z
+                  << "\n";
         std::cout << "-------\n";
 
         sleep(1);
