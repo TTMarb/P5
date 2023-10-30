@@ -52,14 +52,6 @@ int main(int argc, char** argv) {
 
     int responseTimeout = 60;
 
-    uint8_t numWaypoints;
-    uint8_t errorFlag = 0;
-
-    if (errorFlag == 0) {
-        std::cout << "Starting mission.\n";
-        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
-    }
-
     std::cout << "About to print shit! \n" << std::endl;
     getRotation(vehicle);
     std::cout << "Should'nt be here!" << std::endl;
