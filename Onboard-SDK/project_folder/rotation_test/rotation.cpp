@@ -58,6 +58,6 @@ void getRotation(Vehicle* vehicle) {
                   << quaternion.q2 << ", " << quaternion.q3 << "\n";
         std::cout << "-------\n";
 
-        sleep(1000);
+        sleep(1);
     }
 }
