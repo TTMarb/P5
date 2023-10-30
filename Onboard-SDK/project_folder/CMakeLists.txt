@@ -37,3 +37,4 @@ if(NOT FLIGHT_MODULES_HEADER_DIR)
 endif()
 
 add_subdirectory(transceiver_search)
+add_subdirectory(rotation_test)
