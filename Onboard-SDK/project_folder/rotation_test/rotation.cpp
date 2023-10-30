@@ -61,6 +61,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
                   << "\n";
+
+        //Vi får en floating point exception af det her :(
         std::cout << "A circle?: " << atan((magnet.x / magnet.y)) << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
                   << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";
         std::cout << "-------\n";
