@@ -61,9 +61,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
                   << "\n";
-        std::cout << "A circle?: " << asin(magnet.x / 1500.0) + acos(magnet.y / 1500.0)
-                  << ", asin(x/1500) = " << sin(magnet.x / 1500.0) << ", acos(y/1500) = " << cos(magnet.y / 1500.0)
-                  << "\n";
+        std::cout << "A circle?: " << atan((magnet.x / magnet.y)) << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
+                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";
         std::cout << "-------\n";
 
         sleep(1);
