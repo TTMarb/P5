@@ -1,4 +1,4 @@
-/*! @file mission_sample.hpp
+/*! @file mission_sample.cpp
  *  @version 3.3
  *  @date Jun 05 2017
  *
@@ -27,38 +27,39 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-#ifndef DJIOSDK_MISSIONSAMPLE_HPP
-#define DJIOSDK_MISSIONSAMPLE_HPP
+#include "rotation.hpp"
+#include <dji_telemetry.hpp>
 
-// System Includes
-#include <cmath>
-#include <vector>
+using namespace DJI::OSDK;
+using namespace DJI::OSDK::Telemetry;
 
-// DJI OSDK includes
-#include <dji_vehicle.hpp>
+void getRotation(Vehicle* vehicle) {
 
-// Helpers
-#include <dji_linux_helpers.hpp>
+    Telemetry::Quaternion quaternion;
+    Telemetry::Status status;
 
-bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float64_t latM,
-                        float64_t lonM);
+    const int TIMEOUT = 20;
 
-void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
-void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
+    // Re-set Broadcast frequencies to their default values
+    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
+    status = vehicle->broadcast->getStatus();
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
-                                                         float64_t lonM, DJI::OSDK::float32_t start_alt);
+    // Print in a loop for 2 seconds
+    while (1) {
+        // Matrice 100 broadcasts only flight status
+        status = vehicle->broadcast->getStatus();
+        quaternion = vehicle->broadcast->getQuaternion();
 
-std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(DJI::OSDK::WayPointSettings* start_data, int num_wp,
-                                                           float64_t latM, float64_t lonM);
+        std::cout << "Counter = " << elapsedTimeInMs << ":\n";
+        std::cout << "-------\n";
+        std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
+        std::cout << "Attitude Quaternion   (w,x,y,z)       = " << quaternion.q0 << ", " << quaternion.q1 << ", "
+                  << quaternion.q2 << ", " << quaternion.q3 << "\n";
+        std::cout << "-------\n";
 
-void uploadWaypoints(DJI::OSDK::Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>& wp_list,
-                     int responseTimeout);
-
-bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBeforeStop);
-
-const int DEFAULT_PACKAGE_INDEX = 0;
-
-#endif // DJIOSDK_MISSIONSAMPLE_HPP
+        sleep(1000);
+    }
+}

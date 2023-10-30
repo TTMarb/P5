@@ -1,8 +1,12 @@
-/*! @file missions/main.cpp
+/*! @file mission_sample.hpp
+ *  @version 3.3
  *  @date Jun 05 2017
-
+ *
  *  @brief
- *  Flight control application for the initial transceiver seach.
+ *  GPS Missions API usage in a Linux environment.
+ *  Shows example usage of the Waypoint Missions and Hotpoint Missions through
+ * the
+ *  Mission Manager API.
  *
  *  @Copyright (c) 2017 DJI
  *
@@ -23,44 +27,23 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
+#ifndef DJIOSDK_MISSIONSAMPLE_HPP
+#define DJIOSDK_MISSIONSAMPLE_HPP
+
+// System Includes
 #include <cmath>
-#include "rotation.hpp"
+#include <vector>
 
-using namespace DJI::OSDK;
-using namespace DJI::OSDK::Telemetry;
+// DJI OSDK includes
+#include <dji_vehicle.hpp>
 
-int main(int argc, char** argv) {
-    // Initialize variables
-    int functionTimeout = 60;
+// Helpers
+#include <dji_linux_helpers.hpp>
 
-    // Setup OSDK.
-    LinuxSetup linuxEnvironment(argc, argv);
-    //Initialize vehicle
-    Vehicle* vehicle = linuxEnvironment.getVehicle();
-    if (vehicle == NULL) {
-        std::cout << "Vehicle not initialized, exiting.\n";
-        return -1;
-    }
+void getRotation(Vehicle* vehicle);
 
-    // Obtain Control Authority
-    vehicle->obtainCtrlAuthority(functionTimeout);
+const int DEFAULT_PACKAGE_INDEX = 0;
 
-    // Setup variables for use
-
-    int responseTimeout = 60;
-
-    uint8_t numWaypoints;
-    uint8_t errorFlag = 0;
-
-    if (errorFlag == 0) {
-        std::cout << "Starting mission.\n";
-        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
-    }
-
-    std::cout << "About to print shit! \n" << std::endl;
-    getRotation(vehicle);
-    std::cout << "Should'nt be here!" << std::endl;
-}
+#endif // DJIOSDK_MISSIONSAMPLE_HPP
