@@ -126,7 +126,7 @@ void getRotation(Vehicle* vehicle) {
                 yawInRad = yawInRad + M_PI;
             }*/
             std::cout << "\t D meas: " << (yawInRad * (180 / M_PI))
-                      << ", Changed: " << (yawInRad * (180 / M_PI)) - degStart << " :)\n";
+                      << ", Changed: " << (yawInRad * (180 / M_PI)) + degStart << " :)\n";
         } /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
