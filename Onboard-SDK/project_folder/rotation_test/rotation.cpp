@@ -52,7 +52,7 @@ void getRotation(Vehicle* vehicle) {
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
-    int yaw = 0;
+    int yaw = -180;
     while (yaw < 360) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
