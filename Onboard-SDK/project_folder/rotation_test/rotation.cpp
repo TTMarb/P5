@@ -93,7 +93,7 @@ void getRotation(Vehicle* vehicle) {
 
     // Print in a loop for 2 seconds
     float32_t yaw = 0;
-    vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+    vehicle->control->positionAndYawCtrl(0, 0, 3, 0);
 
     sleep(5);
     magnet = vehicle->broadcast->getMag();
@@ -109,7 +109,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "\t Deg START: " << degStart << " :)\n";
     }
 
-    vehicle->control->positionAndYawCtrl(0, 0, 3, 1.57); //yaw + 90.0);
+    vehicle->control->positionAndYawCtrl(0, 0, 3, 90); //1.57); //yaw + 90.0);
     while (1) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
