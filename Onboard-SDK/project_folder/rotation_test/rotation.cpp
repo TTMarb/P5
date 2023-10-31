@@ -103,8 +103,8 @@ void getRotation(Vehicle* vehicle) {
         quaternion = vehicle->broadcast->getQuaternion();
         velocity = vehicle->broadcast->getAngularRate();
         magnet = vehicle->broadcast->getMag();
-        std::cout << "\t magnet.x: " << magnet.x << "\n";
-        std::cout << "\t magnet.y: " << magnet.y << "\n";
+        //std::cout << "\t magnet.x: " << magnet.x << "\n";
+        //std::cout << "\t magnet.y: " << magnet.y << "\n";
         if (magnet.y != 0) {
             float32_t x = magnet.x / 1500.0;
             float32_t y = magnet.y / 1500.0;
@@ -113,10 +113,11 @@ void getRotation(Vehicle* vehicle) {
                 yawInRad = yawInRad + M_PI;
             }*/
             std::cout << "\t Degrees: " << yawInRad * (180 / M_PI) << " :)\n";
-        } else {
+        } /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
-        }
+        }*/
+        /*
         //yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
@@ -127,10 +128,10 @@ void getRotation(Vehicle* vehicle) {
                   << "\n";
 
         //Vi får en floating point exception af det her :(
-        /*std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
-                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";*/
+        std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
+                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";
         std::cout << "Yaw new: " << yaw << "\n";
-        std::cout << "-------\n";
+        std::cout << "-------\n";*/
 
         usleep(100000);
     }
