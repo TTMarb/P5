@@ -46,10 +46,41 @@ void getRotation(Vehicle* vehicle) {
 
     const int TIMEOUT = 20;
     double yawInRad;
+    uint8_t freq[16];
+    /* Channels definition for A3/N3/M600
+   * 0 - Timestamp
+   * 1 - Attitude Quaterniouns
+   * 2 - Acceleration
+   * 3 - Velocity (Ground Frame)
+   * 4 - Angular Velocity (Body Frame)
+   * 5 - Position
+   * 6 - GPS Detailed Information
+   * 7 - RTK Detailed Information
+   * 8 - Magnetometer
+   * 9 - RC Channels Data
+   * 10 - Gimbal Data
+   * 11 - Flight Statusack
+   * 12 - Battery Level
+   * 13 - Control Information
+   */
+    freq[0] = FREQ_10HZ;
+    freq[1] = FREQ_100HZ;
+    freq[2] = FREQ_100HZ;
+    freq[3] = FREQ_10HZ;
+    freq[4] = FREQ_100HZ;
+    freq[5] = FREQ_10HZ;
+    freq[6] = FREQ_0HZ; // Don't send GPS details
+    freq[7] = FREQ_0HZ; // Don't send RTK
+    freq[8] = FREQ_100HZ;
+    freq[9] = FREQ_0HZ;
+    freq[10] = FREQ_0HZ;
+    freq[11] = FREQ_10HZ;
+    freq[12] = FREQ_1HZ;
+    freq[13] = FREQ_1HZ;
 
     // Re-set Broadcast frequencies to their default values
     //ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
-    //ACK::ErrorCode wack = vehicle->broadcast->setBroadcastFreq(FREQ::FREQ_400Hz, TIMEOUT);
+    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(&freq, TIMEOUT);
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
