@@ -157,8 +157,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";*/
 
-        time = time + 10;
-        usleep(10000);
+        time = time + 5;
+        usleep(5000);
     }
 }
 
