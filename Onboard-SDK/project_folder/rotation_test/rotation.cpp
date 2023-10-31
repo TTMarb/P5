@@ -52,13 +52,6 @@ enum FREQ {
 };
 
 void getRotation(Vehicle* vehicle) {
-    const char* path = "/test.txt";
-    fstream file(path);
-    file.open(path, ios::out);
-    cout << "File created successfully." << endl;
-    file << "Writing this to a file.\n";
-    myfile.close();
-
     Telemetry::Quaternion quaternion;
     Telemetry::Status status;
     Telemetry::Vector3f velocity;
