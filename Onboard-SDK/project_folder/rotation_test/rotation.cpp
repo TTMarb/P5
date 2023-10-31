@@ -92,8 +92,12 @@ void getRotation(Vehicle* vehicle) {
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
-    float32_t yaw = -180;
-    while (yaw < 180) {
+    float32_t yaw = 90;
+    vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+    sleep(5);
+
+    vehicle->control->positionAndYawCtrl(0, 0, 3, yaw + 5);
+    while (1) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
@@ -128,9 +132,6 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";
 
-        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
-
-        yaw = yaw + 0.05;
-        sleep(1);
+        usleep(10000);
     }
 }
