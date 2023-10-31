@@ -130,7 +130,7 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
         std::cout << time << "," << degree << "\n";
-        file << time << "," << degree << endl;
+        stdout << time << "," << degree << endl;
         if (fabs(fabs(degTarget) - fabs(degree)) < 0.1) {
             counter++;
         } else {
