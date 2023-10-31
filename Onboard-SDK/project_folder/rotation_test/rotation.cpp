@@ -167,7 +167,9 @@ float32_t XYtoDEG(int ix, int iy) {
     if (iy != 0) {
         //float32_t x = ix / 1500.0;
         //float32_t y = iy / 1500.0;
-        degStart = atan2(iy, ix) * (180 / M_PI);
+        float32_t x = ix;
+        float32_t y = iy;
+        degStart = atan2(y, x) * (180 / M_PI);
     }
     return degStart;
 }
