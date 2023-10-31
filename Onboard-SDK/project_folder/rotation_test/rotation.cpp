@@ -57,7 +57,10 @@ void getRotation(Vehicle* vehicle) {
         quaternion = vehicle->broadcast->getQuaternion();
         velocity = vehicle->broadcast->getAngularRate();
         magnet = vehicle->broadcast->getMag();
-        //float degree = atan((magnet.x / magnet.y)) * 180 / MATH_PI;
+        std::cout << "\t magnet.x: " << magnet.x << "\n";
+        std::cout << "\t magnet.y: " << magnet.y << "\n";
+        std::cout << "\t x/y: " << magnet.x / magnet.y << "\n";
+        float degree = atan((magnet.x / magnet.y));
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
@@ -73,7 +76,7 @@ void getRotation(Vehicle* vehicle) {
 
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
-        yaw = yaw + 5;
+        yaw = yaw + 25;
         if (yaw > 355) {
             yaw = 0;
         }
