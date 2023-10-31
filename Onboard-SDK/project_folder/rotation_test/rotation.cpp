@@ -34,6 +34,7 @@
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
 #include <fstream>
+#include <iostream>
 #define _USE_MATH_DEFINES
 
 using namespace DJI::OSDK;
@@ -51,7 +52,10 @@ enum FREQ {
 };
 
 void getRotation(Vehicle* vehicle) {
-    freopen("test.txt", "w", stdout);
+    ofstream myfile;
+    myfile.open("example.txt");
+    myfile << "Writing this to a file.\n";
+    myfile.close();
 
     Telemetry::Quaternion quaternion;
     Telemetry::Status status;
@@ -130,7 +134,6 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
         std::cout << time << "," << degree << "\n";
-        stdout << time << "," << degree << endl;
         if (fabs(fabs(degTarget) - fabs(degree)) < 0.1) {
             counter++;
         } else {
