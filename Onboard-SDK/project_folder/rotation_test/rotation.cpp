@@ -92,7 +92,7 @@ void getRotation(Vehicle* vehicle) {
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
-    float32_t yaw = 90;
+    float32_t yaw = 0;
     vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
     sleep(5);
