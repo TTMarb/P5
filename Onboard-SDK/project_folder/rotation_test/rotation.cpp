@@ -57,7 +57,7 @@ void getRotation(Vehicle* vehicle) {
         quaternion = vehicle->broadcast->getQuaternion();
         velocity = vehicle->broadcast->getAngularRate();
         magnet = vehicle->broadcast->getMag();
-        float degree = atan((magnet.x / magnet.y)) * 180 / M_PI;
+        //float degree = atan((magnet.x / magnet.y)) * 180 / MATH_PI;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
@@ -66,8 +66,8 @@ void getRotation(Vehicle* vehicle) {
                   << "\n";
 
         //Vi får en floating point exception af det her :(
-        std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
-                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";
+        /*std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
+                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";*/
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";
 
