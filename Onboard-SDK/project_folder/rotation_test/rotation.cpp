@@ -92,22 +92,21 @@ void getRotation(Vehicle* vehicle) {
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
-    float32_t yaw = 110;
-    vehicle->control->positionAndYawCtrl(0, 0, 3, 110);
 
-    sleep(5);
-    magnet = vehicle->broadcast->getMag();
     float32_t degStart;
-
-    if (magnet.y != 0) {
-        float32_t x = magnet.x / 1500.0;
-        float32_t y = magnet.y / 1500.0;
-        degStart = atan2(y, x) * (180 / M_PI);
-        /*if (x < 0) {
-                yawInRad = yawInRad + M_PI;
-            }*/
-        std::cout << "\t Deg START: " << degStart << " :)\n";
+    magnet = vehicle->broadcast->getMag();
+    degStart = XYtoDEG(magnet.x, magnet.y);
+    float32_t yaw = 110;
+    sleep(5);
+    while (abs(degStart - yaw) > 1) {
+        magnet = vehicle->broadcast->getMag();
+        degStart = XYtoDEG(magnet.x, magnet.y);
+        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+        usleep(10000);
     }
+    sleep(5);
+
+    float32_t degree;
 
     while (1) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw - 5); //1.57); //yaw + 90.0);
@@ -116,18 +115,12 @@ void getRotation(Vehicle* vehicle) {
         quaternion = vehicle->broadcast->getQuaternion();
         velocity = vehicle->broadcast->getAngularRate();
         magnet = vehicle->broadcast->getMag();
+        degree = XYtoDEG(magnet.x, magnet.y);
+
         //std::cout << "\t magnet.x: " << magnet.x << "\n";
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
-        if (magnet.y != 0) {
-            float32_t x = magnet.x / 1500.0;
-            float32_t y = magnet.y / 1500.0;
-            float32_t yawInRad = atan2(y, x);
-            /*if (x < 0) {
-                yawInRad = yawInRad + M_PI;
-            }*/
-            std::cout << "\t D meas: " << (yawInRad * (180 / M_PI))
-                      << ", Changed: " << (yawInRad * (180 / M_PI)) + degStart << " :)\n";
-        } /* else {
+        std::cout << "\t D meas: " << degree << ", Changed: " << degree + degStart << " :)\n";
+        /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
         }*/
@@ -149,4 +142,13 @@ void getRotation(Vehicle* vehicle) {
 
         usleep(100000);
     }
+}
+
+float32_t XYtoDEG(int x, int y) {
+    if (magnet.y != 0) {
+        float32_t x = magnet.x / 1500.0;
+        float32_t y = magnet.y / 1500.0;
+        degStart = atan2(y, x) * (180 / M_PI);
+    }
+    return degStart;
 }
