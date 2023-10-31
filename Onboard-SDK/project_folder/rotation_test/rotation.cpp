@@ -32,6 +32,7 @@
 
 #include "rotation.hpp"
 #include <dji_telemetry.hpp>
+#include "dji_broadcast.hpp"
 #define _USE_MATH_DEFINES
 
 using namespace DJI::OSDK;
