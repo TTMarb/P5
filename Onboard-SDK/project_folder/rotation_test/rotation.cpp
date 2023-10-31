@@ -52,9 +52,11 @@ enum FREQ {
 };
 
 void getRotation(Vehicle* vehicle) {
-    ofstream myfile;
-    myfile.open("example.txt");
-    myfile << "Writing this to a file.\n";
+    const char* path = "/test.txt";
+    fstream file(path);
+    file.open(path, ios::out);
+    cout << "File created successfully." << endl;
+    file << "Writing this to a file.\n";
     myfile.close();
 
     Telemetry::Quaternion quaternion;
