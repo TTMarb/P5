@@ -158,9 +158,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "-------\n";*/
 
         time++;
+        usleep(10000);
     }
-    usleep(10000);
-}
 }
 
 float32_t XYtoDEG(int ix, int iy) {
