@@ -53,7 +53,7 @@ void getRotation(Vehicle* vehicle) {
 
     // Print in a loop for 2 seconds
     int yaw = 0;
-    while (1) {
+    while (yaw < 360) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
@@ -65,9 +65,9 @@ void getRotation(Vehicle* vehicle) {
             float32_t x = magnet.x / 1500.0;
             float32_t y = magnet.y / 1500.0;
             float32_t yawInRad = atan2(y, x);
-            if (x < 0) {
+            /*if (x < 0) {
                 yawInRad = yawInRad + M_PI;
-            }
+            }*/
             std::cout << "\t Degrees: " << yawInRad * (180 / M_PI) << " :)\n";
         } else {
             std::cout << "\t magnet.y = 0"
@@ -90,11 +90,7 @@ void getRotation(Vehicle* vehicle) {
 
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
-        yaw = yaw + 10;
-        if (yaw > 180) {
-            yaw = -180;
-        }
-
-        sleep(1);
+        yaw = yaw + 1;
+        usleep(50000);
     }
 }
