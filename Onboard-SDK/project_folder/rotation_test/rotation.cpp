@@ -132,6 +132,6 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";
 
-        usleep(10000);
+        usleep(100000);
     }
 }
