@@ -113,7 +113,7 @@ void getRotation(Vehicle* vehicle) {
     float32_t degTarget = degStart + 5;
 
     int time = 0;
-    while (faps(degTarget - degree) > 0.001) {
+    while (faps(degTarget - degree) > 0.01) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget); //1.57); //yaw + 90.0);
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
