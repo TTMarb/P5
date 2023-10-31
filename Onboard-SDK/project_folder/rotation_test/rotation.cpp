@@ -60,8 +60,13 @@ void getRotation(Vehicle* vehicle) {
         magnet = vehicle->broadcast->getMag();
         std::cout << "\t magnet.x: " << magnet.x << "\n";
         std::cout << "\t magnet.y: " << magnet.y << "\n";
-        std::cout << "\t x/y: " << magnet.x / magnet.y << "\n";
-        float degree = atan((magnet.x / magnet.y));
+        if (magnet.y != 0) {
+            std::cout << "\t x/y: " << magnet.x / magnet.y << "\n";
+            float degree = atan((magnet.x / magnet.y));
+        } else {
+            std::cout << "\t magnet.y = 0"
+                      << "\n";
+        }
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
