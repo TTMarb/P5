@@ -73,7 +73,7 @@ void getRotation(Vehicle* vehicle) {
             std::cout << "\t atan: " << arctan << "\n";
             std::cout << "\t atan2(x,y): " << atan2(x, y) << "\n";
             std::cout << "\t atan2(y,x): " << atan2(y, x) << "\n";
-            std::cout << "\t Degrees: " << atan2(y, x) * 180 / M_PI << "\n";
+            std::cout << "\t Degrees: " << (atan2(y, x) * 180 / M_PI) + 180 << "\n";
         } else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
