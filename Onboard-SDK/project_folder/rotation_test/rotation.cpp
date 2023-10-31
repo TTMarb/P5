@@ -111,6 +111,7 @@ void getRotation(Vehicle* vehicle) {
 
     float32_t degree;
 
+    int time = 0;
     while (1) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw - 5); //1.57); //yaw + 90.0);
         // Matrice 100 broadcasts only flight status
@@ -123,6 +124,7 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.x: " << magnet.x << "\n";
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
+        std::out << time << "," << degree << "\n";
         /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
@@ -143,6 +145,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";*/
 
+        t++;
         usleep(10000);
     }
 }
