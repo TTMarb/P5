@@ -110,10 +110,11 @@ void getRotation(Vehicle* vehicle) {
     sleep(2);
 
     float32_t degree;
+    float32_t degTarget = degStart + 5;
 
     int time = 0;
-    while (1) {
-        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw - 5); //1.57); //yaw + 90.0);
+    while (faps(degTarget - degree) > 0.001) {
+        vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget); //1.57); //yaw + 90.0);
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
