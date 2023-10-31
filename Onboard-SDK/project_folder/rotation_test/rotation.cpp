@@ -61,8 +61,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "\t magnet.x: " << magnet.x << "\n";
         std::cout << "\t magnet.y: " << magnet.y << "\n";
         if (magnet.y != 0) {
-            std::cout << "\t x/y: " << magnet.x / magnet.y << "\n";
-            float degree = atan((magnet.x / magnet.y));
+            float degree = (magnet.x / magnet.y);
+            std::cout << "\t x/y: " << degree << "\n";
         } else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
@@ -82,9 +82,9 @@ void getRotation(Vehicle* vehicle) {
 
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
-        yaw = yaw + 25;
-        if (yaw > 355) {
-            yaw = 0;
+        yaw = yaw + 10;
+        if (yaw > 180) {
+            yaw = -180;
         }
 
         sleep(1);
