@@ -61,37 +61,40 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "\t magnet.x: " << magnet.x << "\n";
         std::cout << "\t magnet.y: " << magnet.y << "\n";
         if (magnet.y != 0) {
-            if magnet {
-                .x < 0 { magnet.x = magnet.x + M_PI; }
+            if (magnet.x < 0) {
+                magnet.x = magnet.x + M_PI;
             }
-            float32_t degree = float32_t(magnet.y) / float32_t(magnet.x);
-            printf("\t y/x: %f\n", degree);
-            float32_t arctan = atan(degree) * 180 / M_PI;
-            std::cout << "\t atan: " << arctan << "\n";
-        } else {
-            std::cout << "\t magnet.y = 0"
-                      << "\n";
         }
-        std::cout << "-------\n";
-        std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
-        std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
-        std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
-        std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
-                  << "\n";
-
-        //Vi får en floating point exception af det her :(
-        /*std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
-                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";*/
-        std::cout << "Yaw new: " << yaw << "\n";
-        std::cout << "-------\n";
-
-        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
-
-        yaw = yaw + 10;
-        if (yaw > 180) {
-            yaw = -180;
-        }
-
-        sleep(1);
     }
+    float32_t degree = float32_t(magnet.y) / float32_t(magnet.x);
+    printf("\t y/x: %f\n", degree);
+    float32_t arctan = atan(degree) * 180 / M_PI;
+    std::cout << "\t atan: " << arctan << "\n";
+}
+
+else {
+    std::cout << "\t magnet.y = 0"
+              << "\n";
+}
+std::cout << "-------\n";
+std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
+std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
+std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
+std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z << "\n";
+
+//Vi får en floating point exception af det her :(
+/*std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
+                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";*/
+std::cout << "Yaw new: " << yaw << "\n";
+std::cout << "-------\n";
+
+vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+
+yaw = yaw + 10;
+if (yaw > 180) {
+    yaw = -180;
+}
+
+sleep(1);
+}
 }
