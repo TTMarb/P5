@@ -31,12 +31,23 @@
  */
 
 #include "rotation.hpp"
+#include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
-#include "dji_broadcast.hpp"
 #define _USE_MATH_DEFINES
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
+
+enum FREQ {
+    FREQ_0HZ = 0,
+    FREQ_1HZ = 1,
+    FREQ_10HZ = 2,
+    FREQ_50HZ = 3,
+    FREQ_100HZ = 4,
+    FREQ_200HZ = 6,
+    FREQ_400HZ = 7,
+    FREQ_HOLD = 5,
+};
 
 void getRotation(Vehicle* vehicle) {
 
