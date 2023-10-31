@@ -71,16 +71,19 @@ void getRotation(Vehicle* vehicle) {
             printf("\t y/x: %f\n", degree);
             float32_t arctan = atan(degree) * 180 / M_PI;
             std::cout << "\t atan: " << arctan << "\n";
+            std::cout << "\t atan2(x,y): " << atan2(x, y) << "\n";
+            std::cout << "\t atan2(y,x): " << atan2(y, x) << "\n";
+            std::cout << "\t Degrees: " << ((atan2(y, x) + M_PI) * (180 / M_PI)) << " :)\n";
         } else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
         }
-        yawInRad = toEulerAngle((static_cast<void*>(&broadcastQ))).z / DEG2RAD;
+        //yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
         std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
-        std::cout << "YawInRad:                             = " << yawInRad << "\n";
+        //std::cout << "YawInRad:                             = " << yawInRad << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
                   << "\n";
 
