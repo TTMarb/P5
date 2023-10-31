@@ -64,16 +64,11 @@ void getRotation(Vehicle* vehicle) {
         if (magnet.y != 0) {
             float32_t x = magnet.x / 1500.0;
             float32_t y = magnet.y / 1500.0;
-            float32_t degree = float32_t(y) / float32_t(x);
+            float32_t yawInRad = atan2(y, x);
             if (x < 0) {
-                degree = degree + M_PI;
+                yawInRad = yawInRad + M_PI;
             }
-            printf("\t y/x: %f\n", degree);
-            float32_t arctan = atan(degree) * 180 / M_PI;
-            std::cout << "\t atan: " << arctan << "\n";
-            std::cout << "\t atan2(x,y): " << atan2(x, y) << "\n";
-            std::cout << "\t atan2(y,x): " << atan2(y, x) << "\n";
-            std::cout << "\t Degrees: " << ((atan2(y, x) + M_PI) * (180 / M_PI)) << " :)\n";
+            std::cout << "\t Degrees: " << yawInRad * (180 / M_PI) << " :)\n";
         } else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
