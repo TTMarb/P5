@@ -32,6 +32,7 @@
 
 #include "rotation.hpp"
 #include <dji_telemetry.hpp>
+#define _USE_MATH_DEFINES
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
@@ -49,12 +50,14 @@ void getRotation(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
 
     // Print in a loop for 2 seconds
+    int yaw = 0;
     while (1) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
         velocity = vehicle->broadcast->getAngularRate();
         magnet = vehicle->broadcast->getMag();
+        float degree = atan((magnet.x / magnet.y)) * 180 / M_PI;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
@@ -63,9 +66,17 @@ void getRotation(Vehicle* vehicle) {
                   << "\n";
 
         //Vi får en floating point exception af det her :(
-        std::cout << "A circle?: " << atan((magnet.x / magnet.y)) << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
+        std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
                   << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";
+        std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";
+
+        vehicle->control->positionAndYawCtrl(0, 0, 0, yaw);
+
+        yaw = yaw + 5;
+        if (yaw > 355) {
+            yaw = 0;
+        }
 
         sleep(1);
     }
