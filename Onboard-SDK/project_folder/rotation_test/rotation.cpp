@@ -51,7 +51,7 @@ enum FREQ {
 };
 
 void getRotation(Vehicle* vehicle) {
-    file = freopen("test.txt", "w", stdout);
+    freopen("test.txt", "w", stdout);
 
     Telemetry::Quaternion quaternion;
     Telemetry::Status status;
