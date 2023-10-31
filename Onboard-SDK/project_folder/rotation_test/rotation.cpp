@@ -63,7 +63,7 @@ void getRotation(Vehicle* vehicle) {
         if (magnet.y != 0) {
             float32_t degree = magnet.y / magnet.x;
             printf("\t y/x: %f\n", degree);
-            float32_t arctan = atan(magnet.y / magnet.x);
+            float32_t arctan = atan(degree);
             std::cout << "\t atan: " << arctan << "\n";
         } else {
             std::cout << "\t magnet.y = 0"
