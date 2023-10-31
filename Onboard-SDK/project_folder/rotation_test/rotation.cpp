@@ -49,11 +49,12 @@ void getRotation(Vehicle* vehicle) {
 
     // Re-set Broadcast frequencies to their default values
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
+    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(7, TIMEOUT);
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
     int yaw = -180;
-    while (yaw < 360) {
+    while (yaw < 180) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
