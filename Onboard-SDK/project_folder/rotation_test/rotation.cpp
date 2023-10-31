@@ -99,7 +99,7 @@ void getRotation(Vehicle* vehicle) {
     float32_t yaw = 110;
     sleep(5);
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
-    while (abs(degStart - yaw) > 1) {
+    while (abs(degStart + yaw) > 1) {
         printf("degStart: %f, yaw: %f\n", degStart, yaw);
         magnet = vehicle->broadcast->getMag();
         degStart = XYtoDEG(magnet.x, magnet.y);
