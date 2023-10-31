@@ -92,7 +92,7 @@ void getRotation(Vehicle* vehicle) {
 
     // Re-set Broadcast frequencies to their default values
     //ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
-    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(&freq, TIMEOUT);
+    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
