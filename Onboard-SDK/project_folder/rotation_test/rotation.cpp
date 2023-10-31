@@ -71,7 +71,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";
 
-        vehicle->control->positionAndYawCtrl(0, 0, 0, yaw);
+        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
         yaw = yaw + 5;
         if (yaw > 355) {
