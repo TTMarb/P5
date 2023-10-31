@@ -33,6 +33,7 @@
 #include "rotation.hpp"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
+#include <fstream>
 #define _USE_MATH_DEFINES
 
 using namespace DJI::OSDK;
@@ -50,6 +51,10 @@ enum FREQ {
 };
 
 void getRotation(Vehicle* vehicle) {
+    ofstream myFile_Handler;
+
+    // File Open
+    myFile_Handler.open("text");
 
     Telemetry::Quaternion quaternion;
     Telemetry::Status status;
@@ -128,6 +133,7 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
         std::cout << time << "," << degree << "\n";
+        myFile_Handler << time << "," << degree << endl;
         if (fabs(fabs(degTarget) - fabs(degree)) < 0.1) {
             counter++;
         } else {
@@ -160,6 +166,8 @@ void getRotation(Vehicle* vehicle) {
         time = time + 2;
         usleep(2000);
     }
+
+    myFile_Handler.close();
 }
 
 float32_t XYtoDEG(int ix, int iy) {
