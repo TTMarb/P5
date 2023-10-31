@@ -109,8 +109,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "\t Deg START: " << degStart << " :)\n";
     }
 
-    vehicle->control->positionAndYawCtrl(0, 0, 3, 90); //1.57); //yaw + 90.0);
     while (1) {
+        vehicle->control->positionAndYawCtrl(0, 0, 3, 90); //1.57); //yaw + 90.0);
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
