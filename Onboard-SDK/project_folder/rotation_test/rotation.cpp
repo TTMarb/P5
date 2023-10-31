@@ -94,6 +94,17 @@ void getRotation(Vehicle* vehicle) {
     // Print in a loop for 2 seconds
     float32_t yaw = 90;
     vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+    magnet = vehicle->broadcast->getMag();
+    if (magnet.y != 0) {
+        float32_t x = magnet.x / 1500.0;
+        float32_t y = magnet.y / 1500.0;
+        float32_t degStart = atan2(y, x) * (180 / M_PI);
+        /*if (x < 0) {
+                yawInRad = yawInRad + M_PI;
+            }*/
+        std::cout << "\t Deg START: " << degStart << " :)\n";
+    }
+
     sleep(5);
 
     vehicle->control->positionAndYawCtrl(0, 0, 3, yaw + 5);
@@ -112,7 +123,7 @@ void getRotation(Vehicle* vehicle) {
             /*if (x < 0) {
                 yawInRad = yawInRad + M_PI;
             }*/
-            std::cout << "\t Degrees: " << yawInRad * (180 / M_PI) << " :)\n";
+            std::cout << "\t Degrees Changed: " << (yawInRad * (180 / M_PI)) - degStart << " :)\n";
         } /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
