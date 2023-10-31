@@ -22,7 +22,7 @@ s=tf('s');
 z=tf('z', 1/fs);
 
 
-d = designfilt("bandpassiir",FilterOrder=20, ...
+d = designfilt("bandpassiir",FilterOrder=12, ...
     HalfPowerFrequency1=w_p1/kv,HalfPowerFrequency2=w_p2*kv, ...
     SampleRate=fs);
 freqz(d.Coefficients,[],fs)
@@ -33,7 +33,8 @@ saveas(gcf,'PolesZeroBandPass.pdf')
 %[vz,vp,vk] = zplane(d)
 %fvtool(d)
 formatSpec='%d & $%d$ & $%f$ \\\\ \n';
-for i = 0:length(num)-1; 
-    fprintf(formatSpec,i,num(length(num)-i),den(length(num)-i)); 
+for i = 0:length(num)-1 
+    %fprintf(formatSpec,i,num(length(num)-i),den(length(den)-i)); 
 end
+
 
