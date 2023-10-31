@@ -109,7 +109,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "\t Deg START: " << degStart << " :)\n";
     }
 
-    vehicle->control->positionAndYawCtrl(0, 0, 3, yaw + 45);
+    vehicle->control->positionAndYawCtrl(0, 0, 3, yaw + 45.0);
     while (1) {
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
