@@ -92,8 +92,8 @@ void getRotation(Vehicle* vehicle) {
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
-    float32_t yaw = 0;
-    vehicle->control->positionAndYawCtrl(0, 0, 3, 0);
+    float32_t yaw = 110;
+    vehicle->control->positionAndYawCtrl(0, 0, 3, 110);
 
     sleep(5);
     magnet = vehicle->broadcast->getMag();
@@ -110,7 +110,7 @@ void getRotation(Vehicle* vehicle) {
     }
 
     while (1) {
-        vehicle->control->positionAndYawCtrl(0, 0, 3, -5); //1.57); //yaw + 90.0);
+        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw - 5); //1.57); //yaw + 90.0);
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
         quaternion = vehicle->broadcast->getQuaternion();
