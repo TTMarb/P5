@@ -51,10 +51,7 @@ enum FREQ {
 };
 
 void getRotation(Vehicle* vehicle) {
-    ofstream myFile_Handler;
-
-    // File Open
-    myFile_Handler.open("text");
+    file = freopen("test.txt", "w", stdout);
 
     Telemetry::Quaternion quaternion;
     Telemetry::Status status;
@@ -133,7 +130,7 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
         std::cout << time << "," << degree << "\n";
-        myFile_Handler << time << "," << degree << endl;
+        file << time << "," << degree << endl;
         if (fabs(fabs(degTarget) - fabs(degree)) < 0.1) {
             counter++;
         } else {
