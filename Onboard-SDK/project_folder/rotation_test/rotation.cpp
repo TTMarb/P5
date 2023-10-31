@@ -75,7 +75,7 @@ void getRotation(Vehicle* vehicle) {
             std::cout << "\t magnet.y = 0"
                       << "\n";
         }
-        yawInRad = toEulerAngle((static_cast<void*>(&broadcastQ))).z / DEG2RAD;
+        yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
