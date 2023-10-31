@@ -158,7 +158,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "-------\n";*/
 
         time++;
-        usleep(10000);
+        usleep(1000);
     }
 }
 
