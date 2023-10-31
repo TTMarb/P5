@@ -161,8 +161,6 @@ void getRotation(Vehicle* vehicle) {
         time = time + 2;
         usleep(2000);
     }
-
-    myFile_Handler.close();
 }
 
 float32_t XYtoDEG(int ix, int iy) {
