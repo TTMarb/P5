@@ -91,6 +91,6 @@ void getRotation(Vehicle* vehicle) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
         yaw = yaw + 1;
-        usleep(50000);
+        usleep(100000);
     }
 }
