@@ -134,7 +134,7 @@ void getRotation(Vehicle* vehicle) {
             counter = 0;
         }
 
-        if (counter > 20) {
+        if (counter > 100) {
             break;
         }
         /* else {
