@@ -94,6 +94,8 @@ void getRotation(Vehicle* vehicle) {
     // Print in a loop for 2 seconds
     float32_t yaw = 90;
     vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+
+    sleep(5);
     magnet = vehicle->broadcast->getMag();
     float32_t degStart;
 
@@ -106,8 +108,6 @@ void getRotation(Vehicle* vehicle) {
             }*/
         std::cout << "\t Deg START: " << degStart << " :)\n";
     }
-
-    sleep(5);
 
     vehicle->control->positionAndYawCtrl(0, 0, 3, yaw + 5);
     while (1) {
