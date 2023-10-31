@@ -147,6 +147,7 @@ void getRotation(Vehicle* vehicle) {
 }
 
 float32_t XYtoDEG(int ix, int iy) {
+    float32_t degStart;
     if (iy != 0) {
         float32_t x = ix / 1500.0;
         float32_t y = iy / 1500.0;
