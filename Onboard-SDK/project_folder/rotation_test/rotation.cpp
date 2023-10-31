@@ -78,13 +78,13 @@ void getRotation(Vehicle* vehicle) {
     freq[2] = FREQ_100HZ;
     freq[3] = FREQ_10HZ;
     freq[4] = FREQ_100HZ;
-    freq[5] = FREQ_10HZ;
-    freq[6] = FREQ_100HZ; // Don't send GPS details
-    freq[7] = FREQ_0HZ;   // Don't send RTK
-    freq[8] = FREQ_10HZ;
+    freq[5] = FREQ_100HZ;
+    freq[6] = FREQ_100HZ;
+    freq[7] = FREQ_0HZ;
+    freq[8] = FREQ_0HZ;
     freq[9] = FREQ_0HZ;
     freq[10] = FREQ_0HZ;
-    freq[11] = FREQ_10HZ;
+    freq[11] = FREQ_100HZ;
 
     // Re-set Broadcast frequencies to their default values
     //ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
