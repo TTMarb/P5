@@ -146,10 +146,10 @@ void getRotation(Vehicle* vehicle) {
     }
 }
 
-float32_t XYtoDEG(int x, int y) {
-    if (magnet.y != 0) {
-        float32_t x = magnet.x / 1500.0;
-        float32_t y = magnet.y / 1500.0;
+float32_t XYtoDEG(int ix, int iy) {
+    if (iy != 0) {
+        float32_t x = ix / 1500.0;
+        float32_t y = iy / 1500.0;
         degStart = atan2(y, x) * (180 / M_PI);
     }
     return degStart;
