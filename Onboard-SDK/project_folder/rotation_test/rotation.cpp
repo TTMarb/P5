@@ -48,7 +48,7 @@ void getRotation(Vehicle* vehicle) {
     double yawInRad;
 
     // Re-set Broadcast frequencies to their default values
-    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
+    //ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
     //ACK::ErrorCode wack = vehicle->broadcast->setBroadcastFreq(FREQ::FREQ_400Hz, TIMEOUT);
     magnet = vehicle->broadcast->getMag();
 
