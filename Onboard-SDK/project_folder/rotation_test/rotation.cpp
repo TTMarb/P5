@@ -61,7 +61,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "\t magnet.x: " << magnet.x << "\n";
         std::cout << "\t magnet.y: " << magnet.y << "\n";
         if (magnet.y != 0) {
-            float degree = (magnet.x / magnet.y);
+            float32_t degree = (magnet.x / magnet.y);
             std::cout << "\t x/y: " << degree << "\n";
         } else {
             std::cout << "\t magnet.y = 0"
