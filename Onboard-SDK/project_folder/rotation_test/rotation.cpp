@@ -45,6 +45,7 @@ void getRotation(Vehicle* vehicle) {
     Telemetry::Mag magnet;
 
     const int TIMEOUT = 20;
+    double yawInRad;
 
     // Re-set Broadcast frequencies to their default values
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
@@ -74,10 +75,12 @@ void getRotation(Vehicle* vehicle) {
             std::cout << "\t magnet.y = 0"
                       << "\n";
         }
+        yawInRad = toEulerAngle((static_cast<void*>(&broadcastQ))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";
         std::cout << "Abs of Yaw:                           = " << quaternion.q0 << "\n";
         std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
+        std::cout << "YawInRad:                             = " << yawInRad << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
                   << "\n";
 
