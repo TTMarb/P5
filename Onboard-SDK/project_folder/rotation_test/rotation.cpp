@@ -95,10 +95,12 @@ void getRotation(Vehicle* vehicle) {
     float32_t yaw = 90;
     vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
     magnet = vehicle->broadcast->getMag();
+    float32_t degStart;
+
     if (magnet.y != 0) {
         float32_t x = magnet.x / 1500.0;
         float32_t y = magnet.y / 1500.0;
-        float32_t degStart = atan2(y, x) * (180 / M_PI);
+        degStart = atan2(y, x) * (180 / M_PI);
         /*if (x < 0) {
                 yawInRad = yawInRad + M_PI;
             }*/
