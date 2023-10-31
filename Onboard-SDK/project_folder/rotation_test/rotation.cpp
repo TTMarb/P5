@@ -114,7 +114,8 @@ void getRotation(Vehicle* vehicle) {
     printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
 
     int time = 0;
-    while (fabs(fabs(degTarget) - fabs(degree)) > 0.1) {
+    int counter;
+    while (1) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget); //1.57); //yaw + 90.0);
         // Matrice 100 broadcasts only flight status
         status = vehicle->broadcast->getStatus();
@@ -127,6 +128,15 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
         std::cout << time << "," << degree << "\n";
+        if (fabs(fabs(degTarget) - fabs(degree)) > 0.1) {
+            counter++;
+        } else {
+            counter = 0;
+        }
+
+        if (counter > 20) {
+            break;
+        }
         /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
@@ -148,8 +158,9 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "-------\n";*/
 
         time++;
-        usleep(10000);
     }
+    usleep(10000);
+}
 }
 
 float32_t XYtoDEG(int ix, int iy) {
