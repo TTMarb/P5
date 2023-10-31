@@ -46,11 +46,12 @@ void getRotation(Vehicle* vehicle) {
 
     const int TIMEOUT = 20;
     double yawInRad;
-    uint8_t dataFreq = 7;
+
+    DJI::OSDK::FREQ test = DJI::OSDK::FREQ_400HZ;
 
     // Re-set Broadcast frequencies to their default values
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
-    ACK::ErrorCode wack = vehicle->broadcast->setBroadcastFreq(&dataFreq, TIMEOUT);
+    ACK::ErrorCode wack = vehicle->broadcast->setBroadcastFreq(test, TIMEOUT);
     magnet = vehicle->broadcast->getMag();
 
     // Print in a loop for 2 seconds
