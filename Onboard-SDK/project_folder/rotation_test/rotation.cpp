@@ -134,7 +134,7 @@ void getRotation(Vehicle* vehicle) {
 
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
 
-        yaw = yaw + 1;
+        yaw = yaw + 0.05;
         sleep(1);
     }
 }
