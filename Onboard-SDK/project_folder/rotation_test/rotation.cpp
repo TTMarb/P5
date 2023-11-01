@@ -127,7 +127,7 @@ void getRotation(Vehicle* vehicle) {
     sleep(2);
 
     float32_t degree;
-    float32_t degTarget = degStart - 5;
+    float32_t degTarget = degStart - 15;
     int timestepInMS = 10;
     printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
 
