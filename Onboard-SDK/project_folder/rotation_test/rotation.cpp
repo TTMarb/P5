@@ -147,7 +147,10 @@ void getRotation(Vehicle* vehicle) {
         //yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";*/
-        std::cout << "Abs of Yaw:                           = " << quaternion.q0 * 180 << "\n";
+        double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
+        double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
+        double angle = atan2(t1, t0);
+        std::cout << "Abs of Yaw:                           = " << angle << "\n";
         /*std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
         //std::cout << "YawInRad:                             = " << yawInRad << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
