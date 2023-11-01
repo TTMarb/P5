@@ -93,9 +93,8 @@ void getRotation(Vehicle* vehicle) {
     magnet = vehicle->broadcast->getMag();
 
     std::cout << "Insert angle please " << std::endl;
-    char inputChar;
-    std::cin >> inputChar;
-    int requestangle = inputChar - '0';
+    int requestangle;
+    std::cin >> requestangle;
 
     float32_t degStart;
     magnet = vehicle->broadcast->getMag();
