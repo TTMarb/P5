@@ -105,11 +105,9 @@ void getRotation(Vehicle* vehicle) {
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
     while (1) {
         quaternion = vehicle->broadcast->getQuaternion();
-        degStart = QtoDEG(&quaternion);
-        /*
         double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-        double angle = atan2(t1, t0) * 180 / M_PI;*/
+        double angle = atan2(t1, t0) * 180 / M_PI;
 
         degStart = angle;
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
@@ -151,6 +149,9 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.x: " << magnet.x << "\n";
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
+        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+        double angle = atan2(t1, t0) * 180 / M_PI;
         //std::cout << "Abs of Yaw:                           = " << angle << "\n";
         std::cout << time << "," << fabs(angle) << "\n";
         if (fabs(fabs(degTarget) - fabs(angle)) < 0.01) {
@@ -162,15 +163,38 @@ void getRotation(Vehicle* vehicle) {
         if (counter > 100) {
             break;
         }
+        /* else {
+            std::cout << "\t magnet.y = 0"
+                      << "\n";
+        }*/
+        /*
+        //yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
+        std::cout << "-------\n";
+        std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";*/
+        /*std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
+        //std::cout << "YawInRad:                             = " << yawInRad << "\n";
+        std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
+                  << "\n";
+
+        //Vi får en floating point exception af det her :(
+        std::cout << "A circle: " << degree << ", asin(x/1500) = " << sin(magnet.x / 1500.0)
+                  << ", acos(y/1500) = " << cos(magnet.y / 1500.0) << "\n";
+        std::cout << "Yaw new: " << yaw << "\n";
+        std::cout << "-------\n";*/
 
         time = time + timestepInMS;
         usleep(timestepInMS * 1000);
     }
 }
 
-float32_t QtoDEG(Telemetry::Quaternion* quaternion;) {
-    double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
-    double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
-    float32_t angle = atan2(t1, t0) * 180 / M_PI;
-    return angle;
+float32_t XYtoDEG(int ix, int iy) {
+    float32_t degStart;
+    if (iy != 0) {
+        //float32_t x = ix / 1500.0;
+        //float32_t y = iy / 1500.0;
+        float32_t x = ix;
+        float32_t y = iy;
+        degStart = atan2(y, x) * (180 / M_PI);
+    }
+    return degStart;
 }
