@@ -157,6 +157,6 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, 
         *counter = 0;
     }
 
-    std::cout << (*counter < counterGoal) << "\n" << std::endl;
+    std::cout << *counter << " < " << counterGoal << ": " << (*counter < counterGoal) << "\n" << std::endl;
     return (*counter < counterGoal);
 }
