@@ -111,9 +111,9 @@ void getRotation(Vehicle* vehicle) {
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         double angle = atan2(t1, t0) * 180 / M_PI;*/
 
-        degStart = angle;
+        //degStart = angle;
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
-        if (fabs(fabs(angle) - fabs(yaw)) < 0.01) {
+        if (fabs(fabs(degStart) - fabs(yaw)) < 0.01) {
             counter++;
             printf("c: %i\n", counter);
         } else {
@@ -146,14 +146,14 @@ void getRotation(Vehicle* vehicle) {
         quaternion = vehicle->broadcast->getQuaternion();
         velocity = vehicle->broadcast->getAngularRate();
         magnet = vehicle->broadcast->getMag();
-        degree = XYtoDEG(magnet.x, magnet.y);
+        degree = QtoDEG(&quarternion);
 
         //std::cout << "\t magnet.x: " << magnet.x << "\n";
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
         //std::cout << "Abs of Yaw:                           = " << angle << "\n";
-        std::cout << time << "," << fabs(angle) << "\n";
-        if (fabs(fabs(degTarget) - fabs(angle)) < 0.01) {
+        std::cout << time << "," << fabs(degree) << "\n";
+        if (fabs(fabs(degTarget) - fabs(degree)) < 0.01) {
             counter++;
         } else {
             counter = 0;
