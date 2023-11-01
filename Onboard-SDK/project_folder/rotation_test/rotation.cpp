@@ -92,6 +92,11 @@ void getRotation(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
     magnet = vehicle->broadcast->getMag();
 
+    std::cout << "Insert angle please " << std::endl;
+    char inputChar;
+    std::cin >> inputChar;
+    int requestangle = inputChar - '0';
+
     float32_t degStart;
     magnet = vehicle->broadcast->getMag();
     degStart = XYtoDEG(magnet.x, magnet.y);
@@ -100,6 +105,7 @@ void getRotation(Vehicle* vehicle) {
     int counter = 0;
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
     while (1) {
+        quaternion = vehicle->broadcast->getQuaternion();
         double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         double angle = atan2(t1, t0) * 180 / M_PI;
@@ -127,7 +133,7 @@ void getRotation(Vehicle* vehicle) {
     sleep(2);
 
     float32_t degree;
-    float32_t degTarget = degStart - 45;
+    float32_t degTarget = degStart - requestangle;
     int timestepInMS = 10;
     printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
 
