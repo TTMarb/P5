@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_ack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_broadcast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_camera_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_control.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_error.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_flight_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_gimbal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_hardware_sync.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_hotpoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_mfio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_mission_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_mobile_communication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_mobile_device.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_payload_device.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_psdk_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_subscription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_vehicle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_version.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_virtual_rc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\api\src\dji_waypoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\hal\src\dji_hard_driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\hal\src\dji_log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\hal\src\dji_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\hal\src\dji_platform_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\hal\src\dji_thread_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\flight\dji_flight_actions_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\flight\dji_flight_assistant_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\flight\dji_flight_link.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\payload\dji_camera_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\payload\dji_payload_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\payload\dji_payload_link.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\modules\src\payload\dji_psdk_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\platform\default\src\dji_memory_default.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\protocol\src\dji_aes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\protocol\src\dji_open_protocol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\protocol\src\dji_protocol_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\utility\src\dji_circular_buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\utility\src\dji_singleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\osdk-core\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4827467C-F671-31EF-A5F1-E8EC2BACADF3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

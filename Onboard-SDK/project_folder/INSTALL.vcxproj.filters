@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\rdybs\Desktop\gitnstuff\P5\Onboard-SDK\project_folder\CMakeFiles\81e24c257e2b12289ece9c0e5f2b03ab\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{47D4F3A4-26DE-3C9A-8760-B5FE9E1A4CA4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
