@@ -57,7 +57,7 @@ void getRotation(Vehicle* vehicle) {
     int counter = 0;
 
     //Sets a start angle
-    degStart = QtoDEG(vechicle);
+    degStart = QtoDEG(vehicle);
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
 
     while (1) {
