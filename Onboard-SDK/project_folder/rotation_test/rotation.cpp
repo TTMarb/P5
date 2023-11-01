@@ -152,9 +152,9 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, 
     vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
     float32_t offset = fabs(fabs(targetAngle) - fabs(*currAngle));
     if (offset < 0.01) {
-        counter = *counter + 1;
+        *counter = *counter + 1;
     } else {
-        counter = 0;
+        *counter = 0;
     }
 
     std::cout << *counter << " < " << counterGoal << ": " << (*counter < counterGoal) << "\n" << std::endl;
