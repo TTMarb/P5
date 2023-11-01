@@ -45,6 +45,6 @@
 void getRotation(Vehicle* vehicle);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
-float32_t XYtoDEG(int, int);
+float32_t QtoDEG(Telemetry::Quaternion*);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
