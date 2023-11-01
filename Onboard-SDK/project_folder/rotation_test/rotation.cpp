@@ -43,6 +43,8 @@ using namespace DJI::OSDK::Telemetry;
 void getRotation(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
 
+    setBroadcastFrequency(vehicle);
+
     double yawInRad;
 
     std::cout << "Insert angle please " << std::endl;
