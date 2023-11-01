@@ -120,54 +120,53 @@ void getRotation(Vehicle* vehicle) {
         if (counter > 100) {
             break;
         }
-        usleep(100000)
-    }
-}
-
-printf("degStart: %f, yaw: %f\n", degStart, yaw);
-sleep(2);
-
-float32_t degree;
-float32_t degTarget = degStart - 1;
-int timestepInMS = 10;
-printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
-
-int time = 0;
-while (1) {
-    vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget); //1.57); //yaw + 90.0);
-    // Matrice 100 broadcasts only flight status
-    status = vehicle->broadcast->getStatus();
-    quaternion = vehicle->broadcast->getQuaternion();
-    velocity = vehicle->broadcast->getAngularRate();
-    magnet = vehicle->broadcast->getMag();
-    degree = XYtoDEG(magnet.x, magnet.y);
-
-    //std::cout << "\t magnet.x: " << magnet.x << "\n";
-    //std::cout << "\t magnet.y: " << magnet.y << "\n";
-    //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
-    double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
-    double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-    double angle = atan2(t1, t0) * 180 / M_PI;
-    //std::cout << "Abs of Yaw:                           = " << angle << "\n";
-    std::cout << time << "," << fabs(angle) << "\n";
-    if (fabs(fabs(degTarget) - fabs(angle)) < 0.1) {
-        counter++;
-    } else {
-        counter = 0;
+        usleep(100000);
     }
 
-    if (counter > 200) {
-        break;
-    }
-    /* else {
+    printf("degStart: %f, yaw: %f\n", degStart, yaw);
+    sleep(2);
+
+    float32_t degree;
+    float32_t degTarget = degStart - 1;
+    int timestepInMS = 10;
+    printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
+
+    int time = 0;
+    while (1) {
+        vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget); //1.57); //yaw + 90.0);
+        // Matrice 100 broadcasts only flight status
+        status = vehicle->broadcast->getStatus();
+        quaternion = vehicle->broadcast->getQuaternion();
+        velocity = vehicle->broadcast->getAngularRate();
+        magnet = vehicle->broadcast->getMag();
+        degree = XYtoDEG(magnet.x, magnet.y);
+
+        //std::cout << "\t magnet.x: " << magnet.x << "\n";
+        //std::cout << "\t magnet.y: " << magnet.y << "\n";
+        //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
+        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+        double angle = atan2(t1, t0) * 180 / M_PI;
+        //std::cout << "Abs of Yaw:                           = " << angle << "\n";
+        std::cout << time << "," << fabs(angle) << "\n";
+        if (fabs(fabs(degTarget) - fabs(angle)) < 0.1) {
+            counter++;
+        } else {
+            counter = 0;
+        }
+
+        if (counter > 200) {
+            break;
+        }
+        /* else {
             std::cout << "\t magnet.y = 0"
                       << "\n";
         }*/
-    /*
+        /*
         //yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";*/
-    /*std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
+        /*std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
         //std::cout << "YawInRad:                             = " << yawInRad << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
                   << "\n";
@@ -178,9 +177,9 @@ while (1) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";*/
 
-    time = time + timestepInMS;
-    usleep(timestepInMS * 1000);
-}
+        time = time + timestepInMS;
+        usleep(timestepInMS * 1000);
+    }
 }
 
 float32_t XYtoDEG(int ix, int iy) {
