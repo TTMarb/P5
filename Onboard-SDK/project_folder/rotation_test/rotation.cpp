@@ -41,7 +41,6 @@ using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 void getRotation(Vehicle* vehicle) {
-    Telemetry::Quaternion quaternion;
 
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
@@ -94,6 +93,7 @@ void getRotation(Vehicle* vehicle) {
     int time = 0;
     while (1) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget);
+
         degree = QtoDEG(vehicle);
         std::cout << time << "," << fabs(degree) << "\n";
 
@@ -114,6 +114,8 @@ void getRotation(Vehicle* vehicle) {
 }
 
 float32_t QtoDEG(Vehicle* vehicle) {
+
+    Telemetry::Quaternion quaternion;
     quaternion = vehicle->broadcast->getQuaternion();
     double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
     double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
