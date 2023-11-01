@@ -109,18 +109,21 @@ void getRotation(Vehicle* vehicle) {
         double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         double angle = atan2(t1, t0) * 180 / M_PI;
+
         degStart = angle;
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
         if (fabs(fabs(angle) - fabs(yaw)) < 0.01) {
-            printf("COUNTING UP");
             counter++;
+            printf("c: %i\n", counter);
         } else {
             counter = 0;
             printf("degStart: %f, yaw: %f\n", angle, yaw);
         }
+
         if (counter > 10) {
             break;
         }
+
         usleep(10000);
     }
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
