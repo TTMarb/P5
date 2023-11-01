@@ -129,7 +129,11 @@ void getRotation(Vehicle* vehicle) {
         //std::cout << "\t magnet.x: " << magnet.x << "\n";
         //std::cout << "\t magnet.y: " << magnet.y << "\n";
         //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
-        std::cout << time << "," << degree << "\n";
+        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+        double angle = atan2(t1, t0) * 180 / M_PI;
+        //std::cout << "Abs of Yaw:                           = " << angle << "\n";
+        std::cout << time << "," << angle << "\n";
         if (fabs(fabs(degTarget) - fabs(degree)) < 0.1) {
             counter++;
         } else {
@@ -147,10 +151,6 @@ void getRotation(Vehicle* vehicle) {
         //yawInRad = toEulerAngle((static_cast<void*>(&quaternion))).z / DEG2RAD;
         std::cout << "-------\n";
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";*/
-        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
-        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-        double angle = atan2(t1, t0) * 180 / M_PI;
-        std::cout << "Abs of Yaw:                           = " << angle << "\n";
         /*std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
         //std::cout << "YawInRad:                             = " << yawInRad << "\n";
         std::cout << "Magnetometer  (x,y,z)                 = " << magnet.x << ", " << magnet.y << ", " << magnet.z
