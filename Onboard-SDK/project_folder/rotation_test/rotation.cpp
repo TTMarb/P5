@@ -114,11 +114,11 @@ void getRotation(Vehicle* vehicle) {
 }
 
 float32_t QtoDEG(Vehicle* vehicle) {
-
     Telemetry::Quaternion quaternion;
+
     quaternion = vehicle->broadcast->getQuaternion();
-    double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
-    double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
+    double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+    double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     float32_t angle = atan2(t1, t0) * 180 / M_PI;
     return angle;
 }
