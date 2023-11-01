@@ -102,7 +102,6 @@ void getRotation(Vehicle* vehicle) {
     int counter;
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
     while (1) {
-        printf("degStart: %f, yaw: %f\n", degStart, yaw);
         /*magnet = vehicle->broadcast->getMag();
         degStart = XYtoDEG(magnet.x, magnet.y);
         quaternion = vehicle->broadcast->getQuaternion();*/
@@ -112,16 +111,18 @@ void getRotation(Vehicle* vehicle) {
         double angle = atan2(t1, t0) * 180 / M_PI;
         degStart = angle;
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
-        if (fabs(degStart + yaw) < 0.01) {
+        if (fabs(fabs(degStart) - fabs(yaw)) < 0.01) {
             counter++;
         } else {
             counter = 0;
+            printf("degStart: %f, yaw: %f\n", degStart, yaw);
         }
-        if (counter > 100) {
+        if (counter > 10) {
             break;
         }
         usleep(10000);
     }
+    printf("degStart: %f, yaw: %f\n", degStart, yaw);
 
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
     sleep(2);
