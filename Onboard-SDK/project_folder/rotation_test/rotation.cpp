@@ -50,65 +50,46 @@ void getRotation(Vehicle* vehicle) {
     int requestangle;
     std::cin >> requestangle;
 
-    float32_t degStart;
+    float32_t currAngle;
     float32_t offset;
-    float32_t yaw = 0;
+    float32_t targetAngle = 0;
     int counter = 0;
 
     //Sets a start angle
-    degStart = QtoDEG(vehicle);
-    printf("degStart: %f, yaw: %f\n", degStart, yaw);
+    currAngle = QtoDEG(vehicle);
+    printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
 
     while (1) {
-        degStart = QtoDEG(vehicle);
-
-        //degStart = angle;
-        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
-        offset = fabs(fabs(degStart) - fabs(yaw));
+        currAngle = QtoDEG(vehicle);
+        vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
+        offset = fabs(fabs(currAngle) - fabs(targetAngle));
         if (offset < 0.01) {
             counter++;
             printf("c: %i\n", counter);
         } else {
             counter = 0;
-            //printf("degStart: %f, yaw: %f\n", angle, yaw);
         }
-
         if (counter > 10) {
             break;
         }
-
         usleep(10000);
     }
-    printf("degStart: %f, yaw: %f\n", degStart, yaw);
+
+    printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
     counter = 0;
 
-    printf("degStart: %f, yaw: %f\n", degStart, yaw);
     sleep(2);
 
-    float32_t degree;
-    float32_t degTarget = degStart - requestangle;
+    targetAngle = currAngle - requestangle;
     int timestepInMS = 10;
-    printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
+    printf("currAngle: %f, degTarget: %f\n", currAngle, degTarget);
 
     int time = 0;
-    while (1) {
-        vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget);
+    //Input: vehicle, degTarget, currAngle, counter, counterGoal
 
-        degree = QtoDEG(vehicle);
-        std::cout << time << "," << fabs(degree) << "\n";
-
-        offset = fabs(fabs(degTarget) - fabs(degree));
-        if (offset < 0.01) {
-            counter++;
-        } else {
-            counter = 0;
-        }
-
-        if (counter > 100) {
-            break;
-        }
-
+    while (isTargetHit(vehicle, &targetAngle, &currAngle, &counter, 10)) {
         time = time + timestepInMS;
+        std::cout << time << "," << fabs(currAngle) << "\n";
         usleep(timestepInMS * 1000);
     }
 }
@@ -165,4 +146,18 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     freq[11] = FREQ_100HZ;
 
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
+}
+
+bool isTargetHit(Vehicle* vehicle, float32_t* targetAngle, float32_t* currAngle, int* counter, int counterGoal) {
+    currAngle = QtoDEG(vehicle);
+    vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
+    offset = fabs(fabs(targetAngle) - fabs(currAngle));
+    if (offset < 0.01) {
+        counter++;
+    } else {
+        counter = 0;
+    }
+    if (counter > counterGoal) {
+        break;
+    }
 }
