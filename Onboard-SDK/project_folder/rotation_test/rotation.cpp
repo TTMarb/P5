@@ -61,8 +61,7 @@ void getRotation(Vehicle* vehicle) {
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
 
     while (1) {
-        quaternion = vehicle->broadcast->getQuaternion();
-        degStart = QtoDEG(&quaternion);
+        degStart = QtoDEG(vehicle);
 
         //degStart = angle;
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
@@ -95,9 +94,7 @@ void getRotation(Vehicle* vehicle) {
     int time = 0;
     while (1) {
         vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget);
-
-        quaternion = vehicle->broadcast->getQuaternion();
-        degree = QtoDEG(&quaternion);
+        degree = QtoDEG(vehicle);
         std::cout << time << "," << fabs(degree) << "\n";
 
         offset = fabs(fabs(degTarget) - fabs(degree));
