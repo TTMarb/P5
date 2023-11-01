@@ -45,7 +45,7 @@
 void getRotation(Vehicle* vehicle);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
-float32_t QtoDEG(Telemetry::Quaternion*);
+float32_t QtoDEG(Vehicle*);
 void setBroadcastFrequency(Vehicle*);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

@@ -43,21 +43,21 @@ using namespace DJI::OSDK::Telemetry;
 void getRotation(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
 
+    //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
 
-    double yawInRad;
-
+    //Request the desired angle
     std::cout << "Insert angle please " << std::endl;
     int requestangle;
     std::cin >> requestangle;
 
     float32_t degStart;
     float32_t offset;
-    quaternion = vehicle->broadcast->getQuaternion();
-    degStart = QtoDEG(&quaternion);
-    sleep(1);
     float32_t yaw = 0;
     int counter = 0;
+
+    //Sets a start angle
+    degStart = QtoDEG(vechicle);
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
 
     while (1) {
@@ -116,7 +116,8 @@ void getRotation(Vehicle* vehicle) {
     }
 }
 
-float32_t QtoDEG(Telemetry::Quaternion* quaternion) {
+float32_t QtoDEG(Vehicle* vehicle) {
+    quaternion = vehicle->broadcast->getQuaternion();
     double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
     double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
     float32_t angle = atan2(t1, t0) * 180 / M_PI;
@@ -124,7 +125,6 @@ float32_t QtoDEG(Telemetry::Quaternion* quaternion) {
 }
 
 void setBroadcastFrequency(Vehicle* vehicle) {
-    /*
     enum FREQ {
         FREQ_0HZ = 0,
         FREQ_1HZ = 1,
@@ -134,7 +134,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
         FREQ_200HZ = 6,
         FREQ_400HZ = 7,
         FREQ_HOLD = 5,
-    };*/
+    };
 
     const int TIMEOUT = 20;
     uint8_t freq[16];
