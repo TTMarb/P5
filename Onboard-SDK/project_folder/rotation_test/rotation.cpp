@@ -148,7 +148,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 }
 
 bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, int* counter, int counterGoal) {
-    currAngle = QtoDEG(vehicle);
+    *currAngle = QtoDEG(vehicle);
     vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
     offset = fabs(fabs(targetAngle) - fabs(currAngle));
     if (offset < 0.01) {
