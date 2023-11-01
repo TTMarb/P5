@@ -112,6 +112,7 @@ void getRotation(Vehicle* vehicle) {
 
     float32_t degree;
     float32_t degTarget = degStart - 15;
+    int timestepInMS = 5;
     printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
 
     int time = 0;
@@ -158,8 +159,8 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Yaw new: " << yaw << "\n";
         std::cout << "-------\n";*/
 
-        time = time + 2;
-        usleep(2000);
+        time = time + timestepInMS;
+        usleep(timestepInMS * 1000);
     }
 }
 
