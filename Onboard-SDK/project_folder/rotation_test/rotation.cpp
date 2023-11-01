@@ -40,25 +40,100 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-enum FREQ {
-    FREQ_0HZ = 0,
-    FREQ_1HZ = 1,
-    FREQ_10HZ = 2,
-    FREQ_50HZ = 3,
-    FREQ_100HZ = 4,
-    FREQ_200HZ = 6,
-    FREQ_400HZ = 7,
-    FREQ_HOLD = 5,
-};
-
 void getRotation(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
-    Telemetry::Status status;
-    Telemetry::Vector3f velocity;
-    Telemetry::Mag magnet;
+
+    double yawInRad;
+
+    std::cout << "Insert angle please " << std::endl;
+    int requestangle;
+    std::cin >> requestangle;
+
+    float32_t degStart;
+    float32_t offset;
+    quaternion = vehicle->broadcast->getQuaternion();
+    degStart = QtoDEG(&quaternion);
+    sleep(1);
+    float32_t yaw = 0;
+    int counter = 0;
+    printf("degStart: %f, yaw: %f\n", degStart, yaw);
+
+    while (1) {
+        quaternion = vehicle->broadcast->getQuaternion();
+        degStart = QtoDEG(&quaternion);
+
+        //degStart = angle;
+        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
+        offset = fabs(fabs(degStart) - fabs(yaw));
+        if (offset < 0.01) {
+            counter++;
+            printf("c: %i\n", counter);
+        } else {
+            counter = 0;
+            //printf("degStart: %f, yaw: %f\n", angle, yaw);
+        }
+
+        if (counter > 10) {
+            break;
+        }
+
+        usleep(10000);
+    }
+    printf("degStart: %f, yaw: %f\n", degStart, yaw);
+    counter = 0;
+
+    printf("degStart: %f, yaw: %f\n", degStart, yaw);
+    sleep(2);
+
+    float32_t degree;
+    float32_t degTarget = degStart - requestangle;
+    int timestepInMS = 10;
+    printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
+
+    int time = 0;
+    while (1) {
+        vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget);
+
+        quaternion = vehicle->broadcast->getQuaternion();
+        degree = QtoDEG(&quaternion);
+        std::cout << time << "," << fabs(degree) << "\n";
+
+        offset = fabs(fabs(degTarget) - fabs(degree));
+        if (offset < 0.01) {
+            counter++;
+        } else {
+            counter = 0;
+        }
+
+        if (counter > 100) {
+            break;
+        }
+
+        time = time + timestepInMS;
+        usleep(timestepInMS * 1000);
+    }
+}
+
+float32_t QtoDEG(Telemetry::Quaternion* quaternion) {
+    double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
+    double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
+    float32_t angle = atan2(t1, t0) * 180 / M_PI;
+    return angle;
+}
+
+void setBroadcastFrequency(Vehicle* vehicle) {
+    enum FREQ {
+        FREQ_0HZ = 0,
+        FREQ_1HZ = 1,
+        FREQ_10HZ = 2,
+        FREQ_50HZ = 3,
+        FREQ_100HZ = 4,
+        FREQ_200HZ = 6,
+        FREQ_400HZ = 7,
+        FREQ_HOLD = 5,
+    };
 
     const int TIMEOUT = 20;
-    double yawInRad;
     uint8_t freq[16];
     /* Channels definition for M100
    * 0 - Timestamp
@@ -90,87 +165,4 @@ void getRotation(Vehicle* vehicle) {
     // Re-set Broadcast frequencies to their default values
     //ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
-    magnet = vehicle->broadcast->getMag();
-
-    std::cout << "Insert angle please " << std::endl;
-    int requestangle;
-    std::cin >> requestangle;
-
-    float32_t degStart;
-    quaternion = vehicle->broadcast->getQuaternion();
-    degStart = QtoDEG(&quaternion);
-    float32_t yaw = 0;
-    sleep(1);
-    int counter = 0;
-    printf("degStart: %f, yaw: %f\n", degStart, yaw);
-    while (1) {
-        quaternion = vehicle->broadcast->getQuaternion();
-        degStart = QtoDEG(&quaternion);
-        /*
-        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
-        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-        double angle = atan2(t1, t0) * 180 / M_PI;*/
-
-        //degStart = angle;
-        vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
-        if (fabs(fabs(degStart) - fabs(yaw)) < 0.01) {
-            counter++;
-            printf("c: %i\n", counter);
-        } else {
-            counter = 0;
-            //printf("degStart: %f, yaw: %f\n", angle, yaw);
-        }
-
-        if (counter > 10) {
-            break;
-        }
-
-        usleep(10000);
-    }
-    printf("degStart: %f, yaw: %f\n", degStart, yaw);
-    counter = 0;
-
-    printf("degStart: %f, yaw: %f\n", degStart, yaw);
-    sleep(2);
-
-    float32_t degree;
-    float32_t degTarget = degStart - requestangle;
-    int timestepInMS = 10;
-    printf("degStart: %f, degTarget: %f\n", degStart, degTarget);
-
-    int time = 0;
-    while (1) {
-        vehicle->control->positionAndYawCtrl(0, 0, 3, degTarget); //1.57); //yaw + 90.0);
-        // Matrice 100 broadcasts only flight status
-        status = vehicle->broadcast->getStatus();
-        quaternion = vehicle->broadcast->getQuaternion();
-        velocity = vehicle->broadcast->getAngularRate();
-        magnet = vehicle->broadcast->getMag();
-        degree = QtoDEG(&quaternion);
-
-        //std::cout << "\t magnet.x: " << magnet.x << "\n";
-        //std::cout << "\t magnet.y: " << magnet.y << "\n";
-        //std::cout << "\t D meas: " << degree << ", Changed: " << degree - degStart << " :)\n";
-        //std::cout << "Abs of Yaw:                           = " << angle << "\n";
-        std::cout << time << "," << fabs(degree) << "\n";
-        if (fabs(fabs(degTarget) - fabs(degree)) < 0.01) {
-            counter++;
-        } else {
-            counter = 0;
-        }
-
-        if (counter > 100) {
-            break;
-        }
-
-        time = time + timestepInMS;
-        usleep(timestepInMS * 1000);
-    }
-}
-
-float32_t QtoDEG(Telemetry::Quaternion* quaternion) {
-    double t1 = +2.0 * (quaternion->q1 * quaternion->q2 + quaternion->q0 * quaternion->q3);
-    double t0 = -2.0 * (quaternion->q2 * quaternion->q2 + quaternion->q3 * quaternion->q3) + 1.0;
-    float32_t angle = atan2(t1, t0) * 180 / M_PI;
-    return angle;
 }
