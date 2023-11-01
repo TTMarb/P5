@@ -116,7 +116,7 @@ void getRotation(Vehicle* vehicle) {
             printf("c: %i\n", counter);
         } else {
             counter = 0;
-            printf("degStart: %f, yaw: %f\n", angle, yaw);
+            //printf("degStart: %f, yaw: %f\n", angle, yaw);
         }
 
         if (counter > 10) {
@@ -154,13 +154,13 @@ void getRotation(Vehicle* vehicle) {
         double angle = atan2(t1, t0) * 180 / M_PI;
         //std::cout << "Abs of Yaw:                           = " << angle << "\n";
         std::cout << time << "," << fabs(angle) << "\n";
-        if (fabs(fabs(degTarget) - fabs(angle)) < 0.1) {
+        if (fabs(fabs(degTarget) - fabs(angle)) < 0.01) {
             counter++;
         } else {
             counter = 0;
         }
 
-        if (counter > 200) {
+        if (counter > 100) {
             break;
         }
         /* else {
