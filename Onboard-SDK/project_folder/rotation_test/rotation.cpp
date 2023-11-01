@@ -82,10 +82,10 @@ void getRotation(Vehicle* vehicle) {
 
     targetAngle = currAngle - requestangle;
     int timestepInMS = 10;
-    printf("currAngle: %f, degTarget: %f\n", currAngle, degTarget);
+    printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
 
     int time = 0;
-    //Input: vehicle, degTarget, currAngle, counter, counterGoal
+    //Input: vehicle, targetAngle, currAngle, counter, counterGoal
 
     while (isTargetHit(vehicle, &targetAngle, &currAngle, &counter, 10)) {
         time = time + timestepInMS;
@@ -96,7 +96,6 @@ void getRotation(Vehicle* vehicle) {
 
 float32_t QtoDEG(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
-
     quaternion = vehicle->broadcast->getQuaternion();
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
