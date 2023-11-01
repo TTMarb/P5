@@ -124,6 +124,7 @@ float32_t QtoDEG(Telemetry::Quaternion* quaternion) {
 }
 
 void setBroadcastFrequency(Vehicle* vehicle) {
+    /*
     enum FREQ {
         FREQ_0HZ = 0,
         FREQ_1HZ = 1,
@@ -133,7 +134,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
         FREQ_200HZ = 6,
         FREQ_400HZ = 7,
         FREQ_HOLD = 5,
-    };
+    };*/
 
     const int TIMEOUT = 20;
     uint8_t freq[16];
@@ -164,7 +165,5 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     freq[10] = FREQ_0HZ;
     freq[11] = FREQ_100HZ;
 
-    // Re-set Broadcast frequencies to their default values
-    //ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreqDefaults(TIMEOUT);
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
