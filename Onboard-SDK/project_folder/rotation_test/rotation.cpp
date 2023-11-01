@@ -133,8 +133,8 @@ void getRotation(Vehicle* vehicle) {
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         double angle = atan2(t1, t0) * 180 / M_PI;
         //std::cout << "Abs of Yaw:                           = " << angle << "\n";
-        std::cout << time << "," << angle << "\n";
-        if (fabs(fabs(degTarget) - fabs(degree)) < 0.1) {
+        std::cout << time << "," << fabs(angle) << "\n";
+        if (fabs(fabs(degTarget) - fabs(angle)) < 0.1) {
             counter++;
         } else {
             counter = 0;
