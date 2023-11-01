@@ -149,7 +149,7 @@ void getRotation(Vehicle* vehicle) {
         std::cout << "Flight Status                         = " << (unsigned)status.flight << "\n";*/
         double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-        double angle = atan2(t1, t0) * RAD2DEG;
+        double angle = atan2(t1, t0) * 180 / M_PI;
         std::cout << "Abs of Yaw:                           = " << angle << "\n";
         /*std::cout << "Angular Rate in z direction:          = " << velocity.z << "\n";
         //std::cout << "YawInRad:                             = " << yawInRad << "\n";
