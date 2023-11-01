@@ -97,8 +97,8 @@ void getRotation(Vehicle* vehicle) {
     std::cin >> requestangle;
 
     float32_t degStart;
-    magnet = vehicle->broadcast->getMag();
-    degStart = XYtoDEG(magnet.x, magnet.y);
+    quaternion = vehicle->broadcast->getQuaternion();
+    degStart = QtoDEG(&quaternion);
     float32_t yaw = 0;
     sleep(1);
     int counter = 0;
