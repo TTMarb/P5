@@ -47,6 +47,6 @@ void getRotation(Vehicle* vehicle);
 const int DEFAULT_PACKAGE_INDEX = 0;
 float32_t QtoDEG(Vehicle*);
 void setBroadcastFrequency(Vehicle*);
-bool isTargetHit(Vehicle*, float32_t*, float32_t*, int*, int);
+bool isTargetHit(Vehicle*, float32_t, float32_t*, int*, int);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
