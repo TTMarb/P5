@@ -120,7 +120,7 @@ void getRotation(Vehicle* vehicle) {
         if (counter > 100) {
             break;
         }
-        usleep(100000);
+        usleep(10000);
     }
 
     printf("degStart: %f, yaw: %f\n", degStart, yaw);
