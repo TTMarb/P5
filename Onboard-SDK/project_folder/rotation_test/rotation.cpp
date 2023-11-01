@@ -112,6 +112,7 @@ void getRotation(Vehicle* vehicle) {
         degStart = angle;
         vehicle->control->positionAndYawCtrl(0, 0, 3, yaw);
         if (fabs(fabs(angle) - fabs(yaw)) < 0.01) {
+            printf("COUNTING UP");
             counter++;
         } else {
             counter = 0;
