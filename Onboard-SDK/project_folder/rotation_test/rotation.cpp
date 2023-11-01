@@ -59,19 +59,7 @@ void getRotation(Vehicle* vehicle) {
     currAngle = QtoDEG(vehicle);
     printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
 
-    while (1) {
-        currAngle = QtoDEG(vehicle);
-        vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
-        offset = fabs(fabs(currAngle) - fabs(targetAngle));
-        if (offset < 0.01) {
-            counter++;
-            printf("c: %i\n", counter);
-        } else {
-            counter = 0;
-        }
-        if (counter > 10) {
-            break;
-        }
+    while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
         usleep(10000);
     }
 
@@ -157,6 +145,6 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, 
         *counter = 0;
     }
 
-    std::cout << *counter << " < " << counterGoal << ": " << (*counter < counterGoal) << "\n" << std::endl;
+    //std::cout << *counter << " < " << counterGoal << ": " << (*counter < counterGoal) << std::endl;
     return (*counter < counterGoal);
 }
