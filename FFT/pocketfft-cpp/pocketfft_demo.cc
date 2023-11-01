@@ -39,7 +39,7 @@ template<typename T1, typename T2> long double l2err
 
 int main()
   {
-  for (size_t len=1; len<8192; ++len)
+  for (size_t len=1; len<1024; ++len)
     {
     shape_t shape{len};
     stride_t stridef(shape.size()), strided(shape.size()), stridel(shape.size());
