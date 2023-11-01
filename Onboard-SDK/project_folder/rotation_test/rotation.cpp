@@ -87,7 +87,7 @@ void getRotation(Vehicle* vehicle) {
     int time = 0;
     //Input: vehicle, targetAngle, currAngle, counter, counterGoal
 
-    while (isTargetHit(vehicle, &targetAngle, &currAngle, &counter, 10)) {
+    while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
         time = time + timestepInMS;
         std::cout << time << "," << fabs(currAngle) << "\n";
         usleep(timestepInMS * 1000);
@@ -147,7 +147,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
 
-bool isTargetHit(Vehicle* vehicle, float32_t* targetAngle, float32_t* currAngle, int* counter, int counterGoal) {
+bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, int* counter, int counterGoal) {
     currAngle = QtoDEG(vehicle);
     vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
     offset = fabs(fabs(targetAngle) - fabs(currAngle));
