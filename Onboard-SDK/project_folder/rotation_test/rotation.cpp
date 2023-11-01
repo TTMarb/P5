@@ -50,6 +50,7 @@ void getRotation(Vehicle* vehicle) {
     int requestangle;
     std::cin >> requestangle;
 
+    //Initialises different parameters used for the rotation
     float32_t currAngle;
     float32_t offset;
     float32_t targetAngle = 0;
@@ -59,22 +60,19 @@ void getRotation(Vehicle* vehicle) {
     currAngle = QtoDEG(vehicle);
     printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
 
+    //Step 1: set the current angle to the start angle - typically 0.
     while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
         usleep(10000);
     }
-
+    //Print 2 confirm starting angle
     printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
-    counter = 0;
 
     sleep(2);
-
+    //Sets a new target angle
     targetAngle = currAngle - requestangle;
-    int timestepInMS = 10;
-    printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
-
+    //Creates timing for plotting
     int time = 0;
-    //Input: vehicle, targetAngle, currAngle, counter, counterGoal
-
+    int timestepInMS = 10;
     while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
         time = time + timestepInMS;
         std::cout << time << "," << fabs(currAngle) << "\n";
@@ -83,15 +81,20 @@ void getRotation(Vehicle* vehicle) {
 }
 
 float32_t QtoDEG(Vehicle* vehicle) {
+    //This function converts the quaternion to degrees
     Telemetry::Quaternion quaternion;
     quaternion = vehicle->broadcast->getQuaternion();
+    //Largely based on a mix of https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
+    //and the flight-control sample
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+    //180/M_pi is to convert from radians to degrees
     float32_t angle = atan2(t1, t0) * 180 / M_PI;
     return angle;
 }
 
 void setBroadcastFrequency(Vehicle* vehicle) {
+    //To ensure a faster response, the broadcast frequency is set to 100Hz for Quaternion
     enum FREQ {
         FREQ_0HZ = 0,
         FREQ_1HZ = 1,
@@ -103,7 +106,9 @@ void setBroadcastFrequency(Vehicle* vehicle) {
         FREQ_HOLD = 5,
     };
 
+    //Timeout is for acknowledgement
     const int TIMEOUT = 20;
+    //Initialises the frequency array - 16 is the given lenght by documentation
     uint8_t freq[16];
     /* Channels definition for M100
    * 0 - Timestamp
@@ -121,11 +126,11 @@ void setBroadcastFrequency(Vehicle* vehicle) {
    */
     freq[0] = FREQ_10HZ;
     freq[1] = FREQ_100HZ;
-    freq[2] = FREQ_100HZ;
-    freq[3] = FREQ_10HZ;
-    freq[4] = FREQ_100HZ;
-    freq[5] = FREQ_100HZ;
-    freq[6] = FREQ_100HZ;
+    freq[2] = FREQ_0HZ;
+    freq[3] = FREQ_0HZ;
+    freq[4] = FREQ_0HZ;
+    freq[5] = FREQ_0HZ;
+    freq[6] = FREQ_0HZ;
     freq[7] = FREQ_0HZ;
     freq[8] = FREQ_0HZ;
     freq[9] = FREQ_0HZ;
@@ -136,15 +141,21 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 }
 
 bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, int* counter, int counterGoal) {
-    *currAngle = QtoDEG(vehicle);
+    //Main loop
+    //Asks the control to move to target angle
     vehicle->control->positionAndYawCtrl(0, 0, 3, targetAngle);
+    //Gets the current angle og the system
+    *currAngle = QtoDEG(vehicle);
+    //Calculates the offset of the two angles
     float32_t offset = fabs(fabs(targetAngle) - fabs(*currAngle));
+    //Counts to make sure the system is stable - Setteling time and such
     if (offset < 0.01) {
         *counter = *counter + 1;
     } else {
         *counter = 0;
     }
-
+    //Debug print statement
     //std::cout << *counter << " < " << counterGoal << ": " << (*counter < counterGoal) << std::endl;
+    //If counter is above counterGoal, the while loops will be broken
     return (*counter < counterGoal);
 }

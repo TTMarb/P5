@@ -50,9 +50,7 @@ int main(int argc, char** argv) {
 
     // Setup variables for use
 
-    int responseTimeout = 60;
-
-    std::cout << "About to print shit! \n" << std::endl;
+    std::cout << "Program about to start! \n" << std::endl;
     getRotation(vehicle);
-    std::cout << "Should'nt be here!" << std::endl;
+    std::cout << "Program ended!" << std::endl;
 }
