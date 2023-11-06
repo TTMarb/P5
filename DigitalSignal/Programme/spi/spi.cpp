@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <sys/mman.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 // Define the base address of the register you want to read (replace with actual address)
 #define REGISTER_BASE_ADDRESS 0x43d00000
