@@ -74,11 +74,12 @@ void getRotation(Vehicle* vehicle) {
     int timestepInMS = 10;
 
     Telemetry::Vector3f angRate;
-    while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
+    vehicle->control->angularRateAndVertPosCtrl(0, 0, requestangle, 4);
+    while (1) { //isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
 
         angRate = vehicle->broadcast->getAngularRate();
         time = time + timestepInMS;
-        std::cout << time << "," << fabs(currAngle) << "\n";
+        //std::cout << time << "," << fabs(currAngle) << "\n";
         std::cout << "\tAngrate: " << angRate.z << "\n";
         usleep(timestepInMS * 1000);
     }
