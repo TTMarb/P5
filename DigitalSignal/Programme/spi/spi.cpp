@@ -3,6 +3,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <bitset>
 
 // Define the base address of the register you want to read (replace with actual address)
 #define REGISTER_BASE_ADDRESS 0x43d00000
@@ -24,7 +25,7 @@ int main() {
 
     // Read and print the contents of the register
     uint32_t register_value = *register_address;
-    std::cout << "Register Value: 0b" << register_value << std::dec << std::endl;
+    std::cout << "Register Value: 0b" << std::bitset<32> << register_value << std::dec << std::endl;
 
     // Unmap the memory
     munmap(register_address, sizeof(uint32_t));
