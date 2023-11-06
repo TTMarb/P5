@@ -33,6 +33,7 @@ using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 int main(int argc, char** argv) {
+    int functionTimeout = 20;
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
     //Initialize vehicle
