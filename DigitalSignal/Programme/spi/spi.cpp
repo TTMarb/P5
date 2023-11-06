@@ -6,7 +6,7 @@
 #include <bitset>
 
 // Define the base address of the register you want to read (replace with actual address)
-#define REGISTER_BASE_ADDRESS 0x7000d400
+#define REGISTER_BASE_ADDRESS 0x43d00000
 
 int main() {
     int fd = open("/dev/mem", O_RDWR | O_SYNC);
