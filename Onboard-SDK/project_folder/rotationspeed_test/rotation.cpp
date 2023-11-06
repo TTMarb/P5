@@ -41,7 +41,6 @@ using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 void getRotation(Vehicle* vehicle) {
-
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
 
@@ -73,9 +72,14 @@ void getRotation(Vehicle* vehicle) {
     //Creates timing for plotting
     int time = 0;
     int timestepInMS = 10;
+
+    Telemetry::Vector3f angRate;
     while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
+
+        angRate = vehicle->broadcast->getAngularRate();
         time = time + timestepInMS;
         std::cout << time << "," << fabs(currAngle) << "\n";
+        std::cout << "\tAngrate: " << angRate.z << "\n";
         usleep(timestepInMS * 1000);
     }
 }
@@ -127,8 +131,8 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     freq[0] = FREQ_10HZ;
     freq[1] = FREQ_100HZ;
     freq[2] = FREQ_0HZ;
-    freq[3] = FREQ_0HZ;
-    freq[4] = FREQ_0HZ;
+    freq[3] = FREQ_100HZ;
+    freq[4] = FREQ_100HZ;
     freq[5] = FREQ_0HZ;
     freq[6] = FREQ_0HZ;
     freq[7] = FREQ_0HZ;
