@@ -76,6 +76,7 @@ void getRotation(Vehicle* vehicle) {
     Telemetry::Vector3f angRate;
     vehicle->control->angularRateAndVertPosCtrl(0, 0, 20, 4);
     while (1) { //isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
+        vehicle->control->angularRateAndVertPosCtrl(0, 0, 20, 4);
 
         angRate = vehicle->broadcast->getAngularRate();
         time = time + timestepInMS;
