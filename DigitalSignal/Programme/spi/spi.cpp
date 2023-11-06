@@ -15,7 +15,7 @@ int main() {
     }
 
     // Map the register to a memory address
-    volatile uint32_t* register_address = (volatile uint32_t*)mmap(NULL, sizeof(uint32_t), PROT_READ, MAP_SHARED, fd, REGISTER_BASE_ADDRESS);
+    volatile uint32_t* register_address = (volatile uint32_t*)mmap(NULL, sizeof(volatile uint32_t), PROT_READ, MAP_SHARED, fd, REGISTER_BASE_ADDRESS);
     if (register_address == MAP_FAILED) {
         std::cerr << "Memory mapping failed" << std::endl;
         close(fd);
