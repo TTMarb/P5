@@ -80,7 +80,7 @@ void getRotation(Vehicle* vehicle) {
         angRate = vehicle->broadcast->getAngularRate();
         time = time + timestepInMS;
         //std::cout << time << "," << fabs(currAngle) << "\n";
-        std::cout << "\tAngrate: " << angRate.z << "\n";
+        std::cout << "\tAngrate: " << angRate.z * (180.0 / M_PI) << "\n";
         usleep(timestepInMS * 1000);
     }
 }
