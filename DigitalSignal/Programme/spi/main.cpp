@@ -18,8 +18,15 @@ int main(){
 *(volatile uint32_t *)SPI_DMA_CTL_DMA = 1;
 */
 
-volatile uint32_t* BIT_LEN=reinterpret_cast<volatile uint32_t*>(SPI_BASEADDR);
-*BIT_LEN |=(1<<4);
+volatile uint32_t* register_address = reinterpret_cast<volatile uint32_t*>(SPI_BASEADDR);
+//volatile uint32_t* BIT_LEN=reinterpret_cast<volatile uint32_t*>(SPI_BASEADDR);
+//*BIT_LEN |=(1<<4);
+
+uint32_t register_value = *register_address;
+std::cout << "Register Value: 0x" << std::hex << register_value << std::dec << std::endl;
+
+
 
 cout <<SPI_BASEADDR<<endl;
+return 0;
 }
