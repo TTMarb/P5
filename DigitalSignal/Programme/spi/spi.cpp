@@ -24,7 +24,7 @@ int main() {
 
     // Read and print the contents of the register
     uint32_t register_value = *register_address;
-    std::cout << "Register Value: 0x" << std::hex << register_value << std::dec << std::endl;
+    std::cout << "Register Value: 0b" << std::hex << register_value << std::dec << std::endl;
 
     // Unmap the memory
     munmap(register_address, sizeof(uint32_t));
