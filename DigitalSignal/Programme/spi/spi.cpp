@@ -6,7 +6,7 @@
 #include <bitset>
 
 // Define the base address of the register you want to read (replace with actual address)
-#define REGISTER_BASE_ADDRESS 0x43d00000
+#define REGISTER_BASE_ADDRESS 0x7000d400
 
 int main() {
     int fd = open("/dev/mem", O_RDWR | O_SYNC);
@@ -16,7 +16,7 @@ int main() {
     }
 
     // Map the register to a memory address
-    uint32_t* register_address = (uint32_t*)mmap(NULL, sizeof(uint32_t), PROT_READ, MAP_SHARED, fd, REGISTER_BASE_ADDRESS);
+    uint32_t* register_address = (uint32_t*)mmap((void *) (0x7000d400), 512, PROT_READ, MAP_SHARED, fd, REGISTER_BASE_ADDRESS);
     if (register_address == MAP_FAILED) {
         std::cerr << "Memory mapping failed" << std::endl;
         close(fd);
