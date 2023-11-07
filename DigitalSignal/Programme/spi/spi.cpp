@@ -5,8 +5,10 @@
 #include <unistd.h>
 #include <bitset>
 
+
+
 // Define the base address of the register you want to read (replace with actual address)
-#define REGISTER_BASE_ADDRESS 0x43d00000
+#define REGISTER_BASE_ADDRESS 0x7000e000
 
 int main() {
     int fd = open("/dev/mem", O_RDWR | O_SYNC);
@@ -30,6 +32,9 @@ int main() {
     // Unmap the memory
     munmap(register_address, sizeof(uint32_t));
     close(fd);
+
+    ioctl()
+
 
     return 0;
 }
