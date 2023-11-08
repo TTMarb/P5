@@ -33,7 +33,7 @@ int main() {
     munmap(register_address, sizeof(uint32_t));
     close(fd);
 
-    ioctl()
+    // ioctl()
 
 
     return 0;

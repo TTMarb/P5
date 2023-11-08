@@ -14,6 +14,7 @@
 #include <fstream>
 #include <cstring>
 #include <vector>
+#include <cstdint>
 
 #include <stdint.h>
 #include <unistd.h>
@@ -114,11 +115,11 @@ static void parse_opts(int argc, char *argv[]) {
             case 'D':
                 device = optarg;
                 break;
-            case 's':
-                speed = atoi(optarg);
-                break;
             case 'd':
                 delay = atoi(optarg);
+                break;
+            case 's':
+                speed = atoi(optarg);
                 break;
             case 'b':
                 bits = atoi(optarg);
