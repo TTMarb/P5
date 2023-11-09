@@ -5,9 +5,13 @@
             "label": "C/C++: g++.exe build active file",
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
+                "-I",
+                "Matlab_libs",
+                "FFT.cpp",
+                "-L",
+                "Matlab_libs",
+                "-lmat","-lmx", // Add necessary MATLAB libraries
                 "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

@@ -5,9 +5,10 @@
 #include <vector>
 #include "Matlab_libs/mat.h"
 
+
 using namespace std;
 
-int get_file_size(string file_name){
+int get_file_size_own(string file_name){
     int file_size;
     ifstream data_file(file_name); //File location from location of code file
     if (data_file.is_open()) { //Checks if file was opened
@@ -48,14 +49,11 @@ void matread(const char *file, vector<double>& v)
 }
 
 int main() {
-
-    //Create array with size of the array in the file
-    float data_array[get_file_size("Test_Signals/100Hz_4096_signal.txt")]; 
-    ifstream data_file("Test_Signals/100Hz_4096_signal.txt");
-    for(int i=0; i>(sizeof(data_array)/sizeof(float));i++){
-        data_file >> data_array[i];
+    vector<double> v;
+    matread("Test_Signals/100Hz_4096_signal.mat",v);
+    for (size_t i=0; i<v.size(); ++i){
+        cout << v[i] << endl;
     }
-    data_file.close();
-    cout << data_array[0] << data_array[111] << data_array[2000] << data_array[1024] <<endl;
     return 0;
+    
 }
