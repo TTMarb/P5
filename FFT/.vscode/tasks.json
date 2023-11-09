@@ -6,12 +6,12 @@
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-I",
-                "Matlab_libs",
-                "FFT.cpp",
+                "Ref",
                 "-L",
-                "Matlab_libs",
-                "-lmat","-lmx", // Add necessary MATLAB libraries
+                "Lib",
                 "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
