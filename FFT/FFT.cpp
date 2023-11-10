@@ -1,12 +1,15 @@
 
+#define _USE_MATH_DEFINES
+
+#include <cmath>
+#include <complex>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdio.h>
 #include <string>
-#include <vector>
-#include <sstream>
 #include <unistd.h>
-#include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -22,23 +25,23 @@ void chk_file_name(string file_name) {
 }
 
 //Open csv file and save each value as string in vector textvalue
-void get_string_from_file_csv(string file_name, vector<string> *text_value){
+void get_string_from_file_csv(string file_name, vector<string>* text_value) {
 
-    string line; // Create string to temp contain value of a line from file
+    string line;                   // Create string to temp contain value of a line from file
     ifstream data_file(file_name); //Open file and save to data_file
-    
+
     if (!data_file.is_open()) { // Check if the file is opened successfully
         cerr << "Error opening file!" << endl;
         return;
     }
-    
+
     while (getline(data_file, line)) { // Save line from data_file to line and repeat for all lines in file
 
         stringstream ss(line); // Use a stringstream to parse each line
-        string value;  // String to temp contain each value from file
+        string value;          // String to temp contain each value from file
         //vector<string> values;  // Vector to store individual values
 
-        while (getline(ss, value, ',')) {// Read each value using getline with ',' as the delimiter
+        while (getline(ss, value, ',')) { // Read each value using getline with ',' as the delimiter
             text_value->push_back(value); // Add the value to the vector -> is the same as (*textvalue).pushback
         }
     }
@@ -46,7 +49,7 @@ void get_string_from_file_csv(string file_name, vector<string> *text_value){
 }
 
 //Convert string vector to double vector
-void vec_str_to_vec_double(vector<string> *str, vector<double> *doub){
+void vec_str_to_vec_double(vector<string>* str, vector<double>* doub) {
     for (const string& str : *str) { //Iterate through the whole string vector
         try {
             double value = stod(str);
@@ -59,14 +62,32 @@ void vec_str_to_vec_double(vector<string> *str, vector<double> *doub){
     }
 }
 
+//Returns the dft value of the signal at the specified frequency (value is normalized)
+complex<double> dft(vector<double>* sig, double freq) {
+    complex<double> result;
+    double N = sig->size();
+
+    vector<complex<double>> twid; //Twiddle factor
+    complex<double> twid_temp;
+    complex<double> freq_const = (-1i) * 2.0 * M_PI * freq; //Constant for given freq therefore removed from for loop for less calculations
+    for (const double& value : *sig){
+        twid_temp = exp((freq_const * value)/N); //Calc the current twiddle factor
+        twid.push_back(twid_temp); //Save all twiddle factors 
+    }
+    
+    for (const double& value : *sig){
+
+    }
+
+
+    return result;
+}
+
 int main() {
     vector<double> data;
     vector<string> data_string;
-    get_string_from_file_csv("Test_Signals/100Hz_4096_signal.csv",&data_string);
-    vec_str_to_vec_double(&data_string,&data);
-    for (const double& val : data) {
-        cout << val << " ";
-    }
+    get_string_from_file_csv("Test_Signals/100Hz_4096_signal.csv", &data_string);
+    vec_str_to_vec_double(&data_string, &data);
 
     return 0;
 }
