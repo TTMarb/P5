@@ -70,16 +70,15 @@ complex<double> dft(vector<double>* sig, double freq) {
     vector<complex<double>> twid; //Twiddle factor
     complex<double> twid_temp;
     complex<double> freq_const = (-1i) * 2.0 * M_PI * freq; //Constant for given freq therefore removed from for loop for less calculations
-    for (const double& value : *sig){
+    for (double value = 0; value < N; value++){
         twid_temp = exp((freq_const * value)/N); //Calc the current twiddle factor
         twid.push_back(twid_temp); //Save all twiddle factors 
     }
     
-    for (const double& value : *sig){
-
+    for (double j = 0; j < N; j++){
+        result += ((*sig)[j])*twid[j];
     }
-
-
+    result = result/N; //Normalizes the value
     return result;
 }
 
@@ -88,6 +87,7 @@ int main() {
     vector<string> data_string;
     get_string_from_file_csv("Test_Signals/100Hz_4096_signal.csv", &data_string);
     vec_str_to_vec_double(&data_string, &data);
-
+    complex<double> test = dft(&data,100);
+    cout << test << endl;
     return 0;
 }
