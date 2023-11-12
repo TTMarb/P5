@@ -66,7 +66,6 @@ void vec_str_to_vec_double(vector<string>* str, vector<double>* doub) {
 complex<double> dft(vector<double>* sig, double freq) {
     complex<double> result;
     double N = sig->size();
-
     vector<complex<double>> twid; //Twiddle factor
     complex<double> twid_temp;
     complex<double> freq_const = (-1i) * 2.0 * M_PI * freq; //Constant for given freq therefore removed from for loop for less calculations
@@ -75,7 +74,7 @@ complex<double> dft(vector<double>* sig, double freq) {
         twid.push_back(twid_temp); //Save all twiddle factors 
     }
     
-    for (double j = 0; j < N; j++){
+    for (double j = 0; j < N; j++){ //Multiply each element of the signal with the twiddle factor and sum it up
         result += ((*sig)[j])*twid[j];
     }
     result = result/N; //Normalizes the value
