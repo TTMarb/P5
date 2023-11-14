@@ -65,7 +65,7 @@ int main() {
     }
     */
     //Buffer to keep the last value of the rx buffer
-    uint8_t rx_data_temp[] = rx_data[];
+    uint8_t rx_data_temp[sizeof(rx_data)] == rx_data[];
     bool nd = false;
 
     //Keeps sending the same message for troubleshooting. Prints out received value if new data is available
