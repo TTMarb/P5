@@ -14,25 +14,25 @@ void open_and_configure(int *spi_fd, uint8_t spi_mode, uint8_t bits_per_word, ui
     *spi_fd = open(device.c_str(), O_RDWR);
     if (*spi_fd < 0) {
         cerr << "Failed to open SPI device." << endl;
-        return 1;
+        return;
     }
 
     // Configure SPI mode
     if (ioctl(*spi_fd, SPI_IOC_WR_MODE, &spi_mode) == -1) {
         cerr << "Failed to set SPI mode." << endl;
-        return 1;
+        return;
     }
 
     // Configure bits per word
     if (ioctl(*spi_fd, SPI_IOC_WR_BITS_PER_WORD, &bits_per_word) == -1) {
         cerr << "Failed to set bits per word." << endl;
-        return 1;
+        return;
     }
 
     // Configure SPI speed
     if (ioctl(*spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1) {
         cerr << "Failed to set SPI speed." << endl;
-        return 1;
+        return;
     }
 }
 
@@ -44,7 +44,7 @@ int main() {
     uint8_t bits_per_word = 8;    // Bits per word (8, 16, etc.)
     uint32_t speed = 50000000;      // SPI speed (Hz)
 
-    open_and_configure(&spi_fd, spi_mode, bits_per_word, speed)
+    open_and_configure(&spi_fd, spi_mode, bits_per_word, speed);
 
     // Data to be transmitted (example data)
     uint8_t tx_data[] = {0x01, 0x02, 0x03};
