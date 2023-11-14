@@ -2,6 +2,7 @@
 #define _USE_MATH_DEFINES
 
 #include <iostream>
+#include <string>
 #include "FIO.h"
 using namespace std;
 
