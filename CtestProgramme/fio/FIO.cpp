@@ -20,7 +20,7 @@ void FIO::init(string filename) {
     return 0;
 }
 
-bool FIO::write2file(int serial_port, int time, float32_t angle) {
+bool FIO::write2file(int serial_port, int time, float angle) {
     std::cout << "Serial port: " << serial_port << std::endl;
     return true;
 }
