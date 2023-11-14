@@ -8,7 +8,7 @@ using namespace std;
 class FIO {
   public:
     FIO(); // Constructor
-    int init(string);
+    void init(string);
     bool write2file(int, int, float);
     void chk_file_name(string);
 
