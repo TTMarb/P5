@@ -8,7 +8,7 @@
 using namespace std;
 
 //Opens the SPI device and configures the mode, bits per word and speed.
-void open_and_configure(int *spi_fd, uint8_t spi_mode, uint8_t bits_per_word, uint32_t speed){
+void open_and_configure(int *spi_fd, uint8_t spi_mode, uint8_t bits_per_word, uint32_t speed, string device){
     // Open the SPI device
 
     *spi_fd = open(device.c_str(), O_RDWR);
@@ -44,7 +44,7 @@ int main() {
     uint8_t bits_per_word = 8;    // Bits per word (8, 16, etc.)
     uint32_t speed = 50000000;      // SPI speed (Hz)
 
-    open_and_configure(&spi_fd, spi_mode, bits_per_word, speed);
+    open_and_configure(&spi_fd, spi_mode, bits_per_word, speed, device);
 
     // Data to be transmitted (example data)
     uint8_t tx_data[] = {0x01, 0x02, 0x03};
