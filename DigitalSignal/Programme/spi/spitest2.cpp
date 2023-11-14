@@ -13,7 +13,7 @@ int main() {
     int spi_fd;
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
     uint8_t bits_per_word = 8;    // Bits per word (8, 16, etc.)
-    uint32_t speed = 500000;      // SPI speed (Hz)
+    uint32_t speed = 50000000;      // SPI speed (Hz)
 
     // Open the SPI device
     spi_fd = open(device.c_str(), O_RDWR);
