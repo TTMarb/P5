@@ -1,14 +1,14 @@
-#include <iostream>
-#include <string>
 #include <fcntl.h>
+#include <iostream>
 #include <linux/spi/spidev.h> // File that's located on the manifol in /usr/include/
+#include <string>
 #include <sys/ioctl.h> // File that's located on the manifol in /usr/include/
 #include <unistd.h>
 
 using namespace std;
 
 //Opens the SPI device and configures the mode, bits per word and speed.
-void open_and_configure(int *spi_fd, uint8_t spi_mode, uint8_t bits_per_word, uint32_t speed, string device){
+void open_and_configure(int* spi_fd, uint8_t spi_mode, uint8_t bits_per_word, uint32_t speed, string device) {
     // Open the SPI device
 
     *spi_fd = open(device.c_str(), O_RDWR);
@@ -41,8 +41,8 @@ int main() {
     string device = "/dev/spidev0.0"; // SPI device file
     int spi_fd;
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
-    uint8_t bits_per_word = 8;    // Bits per word (8, 16, etc.)
-    uint32_t speed = 50000000;      // SPI speed (Hz)
+    uint8_t bits_per_word = 8;     // Bits per word (8, 16, etc.)
+    uint32_t speed = 50000000;     // SPI speed (Hz)
 
     open_and_configure(&spi_fd, spi_mode, bits_per_word, speed, device);
 
@@ -58,21 +58,45 @@ int main() {
     tr.rx_buf = (unsigned long)rx_data;
     tr.len = sizeof(tx_data);
 
+    /*
     if (ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
         cerr << "SPI transfer error." << endl;
         return 1;
     }
+    */
+    //Buffer to keep the last value of the rx buffer
+    uint8_t rx_data_temp[sizeof(rx_data)] = rx_data;
+    bool nd = false;
 
+    //Keeps sending the same message for troubleshooting. Prints out received value if new data is available
+    while (ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
+        for (size_t i = 0; i < sizeof(rx_data_temp); i++) {
+            if (rx_data_temp[i] != rx_data[i]){
+                nd = true;
+            }
+        }
+        if (nd = true){
+            cout << "Received new data:";
+            for (size_t i = 0; i < sizeof(rx_data); i++) {
+                cout << " " << hex << static_cast<int>(rx_data[i]);
+            }
+            cout << endl;
+        }
+        rx_data_temp =rx_data;
+    }
+    cerr << "SPI transfer error." << endl;
+
+    /*
     // Print received data (example)
     cout << "Received data:";
     for (size_t i = 0; i < sizeof(rx_data); i++) {
         cout << " " << hex << static_cast<int>(rx_data[i]);
     }
     cout << endl;
+    */
 
     // Close the SPI connection
     close(spi_fd);
 
     return 0;
 }
-
