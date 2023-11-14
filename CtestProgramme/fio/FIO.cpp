@@ -24,11 +24,11 @@ bool FIO::write2file(int serial_port, int time, float angle) {
 
 //only used for trouble shooting simply to check if file name / location is correct
 void FIO::chk_file_name(string file_name) {
-    ifstream data_file(file_name); //File location from location of code file
+    /*ifstream data_file(file_name); //File location from location of code file
     if (data_file.is_open()) {     //Checks if file was opened
         cout << "File can be opened" << endl;
     } else { //If file couldn't be opened print out error
         cout << "Unable to open file" << endl;
     }
-    data_file.close();
+    data_file.close();*/
 }
