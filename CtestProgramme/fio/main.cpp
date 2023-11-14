@@ -11,5 +11,6 @@ using namespace std;
 
 int main() {
     FIO fileIO = FIO();
-    fileIO.init("test.txt");
+    std::string filename = "test.txt";
+    fileIO.init(filename);
 }

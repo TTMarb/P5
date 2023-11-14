@@ -3,14 +3,12 @@
 #include <stdio.h>
 #include <string>
 
-using namespace std;
-
 class FIO {
   public:
     FIO(); // Constructor
-    int init(string);
+    int init(std::string);
     bool write2file(int, int, float);
-    void chk_file_name(string);
+    void chk_file_name(std::string);
 
   private:
 };
