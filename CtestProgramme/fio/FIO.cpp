@@ -5,7 +5,7 @@ FIO::FIO() { std::cout << "Created FIO" << std::endl; }
 
 //Init function, that returns the serial port
 void FIO::init(string filename) {
-    std::ofstream of(filename);
+    std::ofstream ofs(filename, std::ofstream::out);
     if (of.is_open()) {
         of << "Some text here" << std::endl;
         of.flush();
