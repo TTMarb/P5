@@ -4,17 +4,16 @@
 FIO::FIO() { std::cout << "Created FIO" << std::endl; }
 
 //Init function, that returns the serial port
-void FIO::init(string filename) {
-    std::ofstream ofs(filename, std::ofstream::out);
-    if (of.is_open()) {
-        of << "Some text here" << std::endl;
-        of.flush();
-        of.close();
-        std::cout << "wrote the file successfully!" << std::endl;
+int FIO::init(string filename) {
+    std::ofstream outputFile(filename);  // create a new output file or overwrite an existing one
+    if (outputFile.is_open()) {          // check if the file was opened successfully
+        outputFile << "Hello, world!\n"; // write data to the file
+        outputFile.close();              // close the file when done
+        std::cout << "Data was written to output.txt\n";
     } else {
-        std::cerr << "Failed to open file : " << SYSERROR() << std::endl;
-        return -1;
+        std::cerr << "Error opening file\n";
     }
+
     return 0;
 }
 
