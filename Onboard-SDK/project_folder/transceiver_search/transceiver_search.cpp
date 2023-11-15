@@ -40,10 +40,8 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
-    std::cout << "The number of waypoints in run is " <<  numWaypoints << std::endl;
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
-    std::cout << "The number of indecNumber is " <<  fdata.indexNumber << std::endl;
 
     float32_t start_alt = 1.5;
 
@@ -118,8 +116,6 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     Telemetry::TypeMap<TOPIC_GPS_FUSED>::type subscribeGPosition;
     // Global position retrieved via broadcast
     Telemetry::GlobalPosition broadcastGPosition;
-    
-    std::cout << "The number of waypoints in create is " <<  numWaypoints << std::endl;
 
     broadcastGPosition = vehicle->broadcast->getGlobalPosition();
     start_wp.latitude = broadcastGPosition.latitude;
