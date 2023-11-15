@@ -9,12 +9,13 @@ FIO::FIO() {
     }
 }
 
-int FIO::createFile(std::string filename) {
-    filename = FIO::prependFolderToFilename(filename);
-    std::ofstream outputFile(filename.c_str());     // create a new output file or overwrite an existing one
-    if (outputFile.is_open()) {                     // check if the file was opened successfully
-        outputFile << "DATA FROM TEST" << filename; // write data to the file
-        outputFile.close();                         // close the file when done
+int FIO::int changeActiveFile(std::string filename) { FIO::activeFile = FIO::prependFolderToFilename(filename); }
+
+int FIO::createFile() {
+    std::ofstream outputFile(FIO::activeFile.c_str()); // create a new output file or overwrite an existing one
+    if (outputFile.is_open()) {                        // check if the file was opened successfully
+        outputFile << "DATA FROM TEST" << filename;    // write data to the file
+        outputFile.close();                            // close the file when done
     } else {
         std::cerr << "Error opening file\n";
         return -1;
@@ -22,11 +23,10 @@ int FIO::createFile(std::string filename) {
     return 0;
 }
 
-int FIO::write2file(std::string filename, int time, float angle) {
-    filename = FIO::prependFolderToFilename(filename);
-    std::cout << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
-    std::ofstream outputFile(filename.c_str(), std::ios::app); // create a new output file or overwrite an existing one
-    if (outputFile.is_open()) {                                // check if the file was opened successfully
+int FIO::write2file(int time, float angle) {
+    std::cout << "activeFile: " << FIO::activeFile << ", time: " << time << ", angle: " << angle << std::endl;
+    std::ofstream outputFile(FIO::activeFile.c_str(), std::ios::app); // create a new output file
+    if (outputFile.is_open()) {                                       // check if the file was opened successfully
         outputFile << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
         outputFile.close(); // close the file when done
     } else {
@@ -36,7 +36,7 @@ int FIO::write2file(std::string filename, int time, float angle) {
     return 0;
 }
 
-std::string FIO::prependFolderToFilename(std::string filename) {
+std::string FIO::prependFolderToFilename() {
     filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
     return filename;
 }

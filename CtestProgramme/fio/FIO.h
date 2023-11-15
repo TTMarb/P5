@@ -8,9 +8,11 @@ class FIO {
   public:
     std::string folderName = "output";
     FIO(); // Constructor
-    int createFile(std::string);
-    int write2file(std::string, int, float);
+    int changeActiveFile(std::string);
+    int createFile();
+    int write2file(int, float);
 
   private:
+    std::string activeFile;
     std::string prependFolderToFilename(std::string);
 };
