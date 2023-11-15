@@ -9,12 +9,12 @@ FIO::FIO() {
     }
 }
 
-void FIO::changeActiveFile(std::string filename) { FIO::activeFile = FIO::prependFolderToFilename(filename); }
+void FIO::changeActiveFile(std::string filename) { activeFile = prependFolderToFilename(filename); }
 
 int FIO::createFile() {
-    std::ofstream outputFile(FIO::activeFile.c_str());     // create a new output file or overwrite an existing one
+    std::ofstream outputFile(activeFile.c_str());     // create a new output file or overwrite an existing one
     if (outputFile.is_open()) {                            // check if the file was opened successfully
-        outputFile << "DATA FROM TEST" << FIO::activeFile; // write data to the file
+        outputFile << "DATA FROM TEST" << activeFile; // write data to the file
         outputFile.close();                                // close the file when done
     } else {
         std::cerr << "Error opening file\n";
@@ -24,10 +24,10 @@ int FIO::createFile() {
 }
 
 int FIO::write2file(int time, float angle) {
-    std::cout << "activeFile: " << FIO::activeFile << ", time: " << time << ", angle: " << angle << std::endl;
-    std::ofstream outputFile(FIO::activeFile.c_str(), std::ios::app); // create a new output file
+    std::cout << "activeFile: " << activeFile << ", time: " << time << ", angle: " << angle << std::endl;
+    std::ofstream outputFile(activeFile.c_str(), std::ios::app); // create a new output file
     if (outputFile.is_open()) {                                       // check if the file was opened successfully
-        outputFile << "filename: " << FIO::activeFile << ", time: " << time << ", angle: " << angle << std::endl;
+        outputFile << "filename: " << activeFile << ", time: " << time << ", angle: " << angle << std::endl;
         outputFile.close(); // close the file when done
     } else {
         std::cerr << "Error opening file during append\n";
