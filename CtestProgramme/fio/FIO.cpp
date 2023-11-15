@@ -16,15 +16,15 @@ int FIO::createFile(std::string filename) {
     return 0;
 }
 
-bool FIO::write2file(std::string filename, int time, float angle) {
+int FIO::write2file(std::string filename, int time, float angle) {
     std::cout << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
-    outputFile.open(filename.c_str(), std::ios::app); // open the file in append mode
-    if (outputFile.is_open()) {                       // check if the file was opened successfully
+    std::ofstream outputFile(filename.c_str(), std::ios::app); // create a new output file or overwrite an existing one
+    if (outputFile.is_open()) {                                // check if the file was opened successfully
         outputFile << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
         outputFile.close(); // close the file when done
     } else {
         std::cerr << "Error opening file during append\n";
-        return false;
+        return -1;
     }
-    return true;
+    return 0;
 }
