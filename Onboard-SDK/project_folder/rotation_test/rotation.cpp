@@ -41,7 +41,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO::FIO fileIO) {
+void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO fileIO) {
     fileIO.changeActiveFile(filename);
     fileIO.createFile();
 
