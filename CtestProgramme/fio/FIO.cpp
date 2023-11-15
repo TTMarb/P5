@@ -9,12 +9,12 @@ FIO::FIO() {
     }
 }
 
-//Init function, that returns the serial port
 int FIO::createFile(std::string filename) {
-    std::ofstream outputFile(filename.c_str());     // create a new output file or overwrite an existing one
-    if (outputFile.is_open()) {                     // check if the file was opened successfully
-        outputFile << "DATA FROM TEST" << filename; // write data to the file
-        outputFile.close();                         // close the file when done
+    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
+    std::ofstream outputFile(filename.c_str());       // create a new output file or overwrite an existing one
+    if (outputFile.is_open()) {                       // check if the file was opened successfully
+        outputFile << "DATA FROM TEST" << filename;   // write data to the file
+        outputFile.close();                           // close the file when done
     } else {
         std::cerr << "Error opening file\n";
         return -1;
