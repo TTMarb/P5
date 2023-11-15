@@ -4,34 +4,27 @@
 FIO::FIO() { std::cout << "Created FIO" << std::endl; }
 
 //Init function, that returns the serial port
-int FIO::createAndOverwriteFile(std::string filename) {
-    std::ofstream outputFile(filename.c_str(), std::ios::app); // create a new output file or overwrite an existing one
-    if (outputFile.is_open()) {                                // check if the file was opened successfully
-        outputFile << "Hello, world!\n";                       // write data to the file
-        outputFile.close();                                    // close the file when done
-        std::cout << "Data was written to output.txt\n";
+int FIO::createFile(std::string filename) {
+    std::ofstream outputFile(filename.c_str());     // create a new output file or overwrite an existing one
+    if (outputFile.is_open()) {                     // check if the file was opened successfully
+        outputFile << "DATA FROM TEST" << filename; // write data to the file
+        outputFile.close();                         // close the file when done
     } else {
         std::cerr << "Error opening file\n";
+        return -1;
     }
-    outputFile.open(filename.c_str(), std::ios::app); // open the file in append mode
-    outputFile << "BONK!\n";
-    outputFile.close(); // close the file when done
-
     return 0;
 }
 
 bool FIO::write2file(std::string filename, int time, float angle) {
     std::cout << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
-    return true;
-}
-
-//only used for trouble shooting simply to check if file name / location is correct
-void FIO::chk_file_name(std::string file_name) {
-    /*ifstream data_file(file_name); //File location from location of code file
-    if (data_file.is_open()) {     //Checks if file was opened
-        cout << "File can be opened" << endl;
-    } else { //If file couldn't be opened print out error
-        cout << "Unable to open file" << endl;
+    outputFile.open(filename.c_str(), std::ios::app); // open the file in append mode
+    if (outputFile.is_open()) {                       // check if the file was opened successfully
+        outputFile << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
+        outputFile.close(); // close the file when done
+    } else {
+        std::cerr << "Error opening file during append\n";
+        return false;
     }
-    data_file.close();*/
+    return true;
 }

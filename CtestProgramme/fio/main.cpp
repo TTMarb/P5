@@ -12,4 +12,10 @@ int main() {
     FIO fileIO = FIO();
     std::string filename = "test.txt";
     fileIO.createAndOverwriteFile(filename);
+    for (int j = 0; j < 5; j++) {
+        filename = "test" + std::to_string(j) + ".txt";
+        for (int i = 0; i < 5; i++) {
+            fileIO.write2file(filename, i, i * 2.0);
+        }
+    }
 }
