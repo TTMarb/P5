@@ -71,7 +71,7 @@ int main() {
     }
     cout << endl;
 
-    const char *message "Hell0, SPI!";
+    const char *message = "Hello, SPI!";
     size_t length = strlen(message);
 
     while(true){
