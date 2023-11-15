@@ -44,7 +44,7 @@ int main() {
     // Define the SPI device file and other configuration settings
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
     uint8_t bits_per_word = 8;     // Bits per word (8, 16, etc.)
-    uint32_t speed = 50000000;     // SPI speed (Hz)
+    uint32_t speed = 1000000;     // SPI speed (Hz)
 
     open_and_configure(spi_mode, bits_per_word, speed);
 
@@ -72,7 +72,7 @@ int main() {
     }
     cout << endl;
 
-    const char *message = "5";
+    const char *message = "50";
     size_t length = strlen(message);
 
     while(true){
@@ -80,7 +80,7 @@ int main() {
             perror("Error writing to SPI");
             close(spi_fd);
         }
-        sleep(2);
+        sleep(1);
     }
 
     // Close the SPI connection
