@@ -57,6 +57,6 @@ std::string FIO::prependFolderToFilename(std::string filename) {
     
     char buffer[32];
     std::string time = std::strncpy(buffer, std::ctime(&t_c), 26);*/
-    filename.insert(0, "./" + FIO::folderName + time+ "/"); // insert the folder name in front of the filename
+    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
     return filename;
 }
