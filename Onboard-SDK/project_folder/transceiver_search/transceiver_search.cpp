@@ -40,6 +40,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
+    std::cout << "The number of waypoints in run is " <<  numWaypoints << std::endl;
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
     std::cout << "The number of indecNumber is " <<  fdata.indexNumber << std::endl;
@@ -53,8 +54,6 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
 
     vehicle->missionManager->printInfo();
     std::cout << "Initializing Waypoint Mission..\n";
-    std::cout << "The number of indecNumber is " <<  fdata.indexNumber << std::endl;
-    std::cout << "The number of waypoint is " <<  numWaypoints << std::endl;
 
     // Waypoint Mission: Create Waypoints
     std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt);
