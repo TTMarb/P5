@@ -89,6 +89,7 @@ int main(int argc, char** argv) {
         lonM = avWidth;
 
         float numWaypoints = ceilf(2 * (avLength / latM)) + 2;
+        std::cout << "AvLenght: " << avLength << ", latM: " << latM << ", numWaypoints: " << numWaypoints << std::endl;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
             numWaypoints = static_cast<uint8_t>(numWaypoints); // Make the number of waypoints an integer
