@@ -5,12 +5,17 @@
 #include <stdio.h>
 #include <string>
 #include "FIO.h"
-using namespace std;
 
 //Open csv file and save each value as string in vector textvalue
 
 int main() {
     FIO fileIO = FIO();
-    std::string filename = "test.txt";
-    fileIO.init(filename);
+    for (int j = 0; j < 5; j++) {
+        std::string filename = "./outputfolder/test" + std::to_string(j);
+        filename.append(".csv");
+        fileIO.createFile(filename);
+        for (int i = 0; i < 5; i++) {
+            fileIO.write2file(filename, i, i * 2.0);
+        }
+    }
 }
