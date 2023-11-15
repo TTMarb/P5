@@ -31,7 +31,7 @@
  */
 
 #include "rotation.hpp"
-#include "FIO.hpp"
+#include "FIO.h"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
 #include <fstream>
@@ -80,7 +80,7 @@ void getRotation(Vehicle* vehicle) {
     while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
         time = time + timestepInMS;
         std::string data = std::to_string(time) + "," + std::to_string(fabs(currAngle));
-        fileIO.write2File(data);
+        fileIO.write2file(data);
         std::cout << data << "\n";
         usleep(timestepInMS * 1000);
     }
