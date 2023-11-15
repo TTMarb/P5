@@ -88,10 +88,10 @@ int main(int argc, char** argv) {
         latM = 2 * searchWidth;
         lonM = avWidth;
 
-        float numWaypoints = ceilf(2 * (avLength / latM)) + 2;
+        numWaypoints = ceilf(2 * (avLength / latM)) + 2;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
-            //numWaypoints = static_cast<int>(numWaypoints); // Make the number of waypoints an integer
+            numWaypoints = static_cast<int>(numWaypoints); // Make the number of waypoints an integer
             pathLength = (numWaypoints / 2) * lonM + ((numWaypoints / 2) - 1) * latM;
             std::cout << "The number of waypoints is " << + numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
@@ -101,7 +101,6 @@ int main(int argc, char** argv) {
             errorFlag = 1;
             break;
         }
-        std::cout << "The number of waypoints (2) is " << + numWaypoints << std::endl;
     }
 
     if (errorFlag == 0) {
