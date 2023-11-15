@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const char *spiDevice = "/dev/spidev0.0"; // SPI device file
+const char *spiDevice = "/dev/spidev3.0"; // SPI device file
 int spi_fd;
 
 //Opens the SPI device and configures the mode, bits per word and speed.
