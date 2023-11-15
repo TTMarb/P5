@@ -11,7 +11,7 @@
 int main() {
     FIO fileIO = FIO();
     for (int j = 0; j < 5; j++) {
-        std::string param = std::to_string(j);
+        std::string param = "test" + std::to_string(j);
         std::string filename = "test";
         filename.append(param);
         filename.append(".csv");
