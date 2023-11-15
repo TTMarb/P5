@@ -59,6 +59,6 @@ int main(int argc, char** argv) {
     std::cin >> requestangle;
     std::string filename = "Filename.csv";
 
-    getRotation(vehicle, requestangle, filename);
+    getRotation(vehicle, requestangle, filename, fileIO);
     std::cout << "Program ended!" << std::endl;
 }

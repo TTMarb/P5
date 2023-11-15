@@ -41,13 +41,13 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void getRotation(Vehicle* vehicle, int setAngle, std::string filename) {
+void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO fileIO) {
     fileIO.changeActiveFile(filename);
     fileIO.createFile();
 
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
-    
+
     //Initialises different parameters used for the rotation
     float32_t currAngle;
     float32_t offset;
