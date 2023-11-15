@@ -12,10 +12,6 @@
 #ifndef FIO_H
 #define FIO_H
 
-// Class definition and other declarations go here
-
-#endif // FIO_H
-
 class FIO {
   public:
     std::string folderName = "output";
@@ -29,3 +25,5 @@ class FIO {
     std::string prependFolderToFilename(std::string);
     std::string getTimeStamp();
 };
+
+#endif // FIO_H
