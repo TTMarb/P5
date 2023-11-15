@@ -20,4 +20,5 @@ class FIO {
   private:
     std::string activeFile;
     std::string prependFolderToFilename(std::string);
+    std::string getTimeStamp();
 };
