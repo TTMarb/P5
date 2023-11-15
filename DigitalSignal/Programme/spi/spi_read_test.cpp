@@ -6,69 +6,61 @@
 //#include <sys/ioctl.h> // File that's located on the manifold in /usr/include/
 #include <unistd.h>
 #include <cstdint>
+#include <thread>
 
 using namespace std;
 
-const char *spiDevice = "/dev/spidev3.0"; // SPI device file
+const char *spi_device = "/dev/spidev3.0"; // SPI device file
 int spi_fd;
 
 //Opens the SPI device and configures the mode, bits per word and speed.
 void open_and_configure() {
 
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
-    uint8_t bits_per_word = 8;     // Bits per word (8, 16, etc.)
+    uint8_t bpw = 8;     // Bits per word (8, 16, etc.)
     uint32_t speed = 1000000;     // SPI speed (Hz)
 
     // Open the SPI device
-    spi_fd = open(spiDevice, O_RDWR);
+    spi_fd = open(spi_device, O_RDWR);
     if (spi_fd < 0) {
         cerr << "Failed to open SPI device." << endl;
         return;
     }
 
-    // Configure SPI mode
-    if (ioctl(spi_fd, SPI_IOC_WR_MODE, &spi_mode) == -1) {
-        cerr << "Failed to set SPI mode." << endl;
-        return;
+    if (ioctl(spi_fd, SPI_IOC_WR_MODE, &spi_mode) == -1 ||
+        ioctl(spi_fd, SPI_IOC_WR_BITS_PER_WORD, &bpw) == -1 ||
+        ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1) 
+    {
+        perror("Error setting SPI parameters");
+        close(spi_fd);
     }
 
-    // Configure bits per word
-    if (ioctl(spi_fd, SPI_IOC_WR_BITS_PER_WORD, &bits_per_word) == -1) {
-        cerr << "Failed to set bits per word." << endl;
-        return;
-    }
+}
 
-    // Configure SPI speed
-    if (ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1) {
-        cerr << "Failed to set SPI speed." << endl;
-        return;
+void readSPI(int spi_fd) {
+    char buffer[256];
+    
+    while (true) {
+        int bytes_read = read(spi_fd, buffer, sizeof(buffer));
+        
+        if (bytes_read < 0) {
+            perror("Error reading from SPI");
+            break;
+        }
+
+        if (bytes_read > 0) {
+            cout << "Received " << bytes_read << " bytes: ";
+            for (int i = 0; i < bytes_read; ++i) {
+                cout << static_cast<int>(buffer[i]) << " ";
+            }
+            cout << endl;
+        }
     }
 }
 
 int main(){
     
-    char buffer[256];
-
-    while (true) {
-        // Read data from SPI
-        int bytesRead = read(spi_fd, buffer, sizeof(buffer));
-
-        if (bytesRead < 0) {
-            perror("Error reading from SPI");
-            break;
-        }
-
-        // Process the received data (you can modify this part according to your requirements)
-        if (bytesRead > 0) {
-            std::cout << "Received " << bytesRead << " bytes: ";
-            for (int i = 0; i < bytesRead; ++i) {
-                std::cout << static_cast<int>(buffer[i]) << " ";
-            }
-            std::cout << std::endl;
-        }
-
-        // Add a delay or other logic as needed
-        usleep(100000);  // Sleep for 100 milliseconds (adjust as needed)
-    }
+    open_and_configure();
+    thread readerThread(readSPI, spi_fd);
     return 0;
 }
