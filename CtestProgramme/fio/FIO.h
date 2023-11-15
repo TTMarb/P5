@@ -11,8 +11,10 @@ class FIO {
     void changeActiveFile(std::string);
     int createFile();
     int write2file(int, float);
+    std::ofstream setOutputFile(std::string);
 
   private:
     std::string activeFile;
     std::string prependFolderToFilename(std::string);
+    std::ofstream outputFile;
 };
