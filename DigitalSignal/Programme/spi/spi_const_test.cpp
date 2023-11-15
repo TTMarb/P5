@@ -1,5 +1,6 @@
 #include <fcntl.h>
 #include <iostream>
+#include <cstring>
 #include <linux/spi/spidev.h> // File that's located on the manifol in /usr/include/
 #include <string>
 #include <sys/ioctl.h> // File that's located on the manifol in /usr/include/
@@ -70,6 +71,17 @@ int main() {
         cout << " " << hex << static_cast<int>(rx_data[i]);
     }
     cout << endl;
+
+    const char *message = "Hello, SPI!";
+    size_t length = strlen(message);
+
+    while(true){
+        if (write(spi_fd, message, length) != length) {
+            perror("Error writing to SPI");
+            close(spi_fd);
+        }
+        sleep(1);
+    }
 
     // Close the SPI connection
     close(spi_fd);
