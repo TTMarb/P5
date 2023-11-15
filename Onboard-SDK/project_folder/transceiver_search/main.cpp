@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 
     int responseTimeout = 60;
 
-    uint8_t numWaypoints;
+    int numWaypoints;
     uint8_t errorFlag = 0;
     // Sets S and W parameters for transceiver search
     float64_t latM; // Y distance per module
@@ -91,9 +91,9 @@ int main(int argc, char** argv) {
         float numWaypoints = ceilf(2 * (avLength / latM)) + 2;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
-            //numWaypoints = static_cast<uint8_t>(numWaypoints); // Make the number of waypoints an integer
+            numWaypoints = static_cast<int>(numWaypoints); // Make the number of waypoints an integer
             pathLength = (numWaypoints / 2) * lonM + ((numWaypoints / 2) - 1) * latM;
-            std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
+            std::cout << "The number of waypoints is " << + numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
             break;
         } else {
