@@ -41,19 +41,13 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void getRotation(Vehicle* vehicle) {
-    FIO fileIO = FIO();
-    fileIO.changeActiveFile("rotationtest.csv");
+void getRotation(Vehicle* vehicle, int setAngle, std::string filename) {
+    fileIO.changeActiveFile(filename);
     fileIO.createFile();
 
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
-
-    //Request the desired angle
-    std::cout << "Insert angle please " << std::endl;
-    int requestangle;
-    std::cin >> requestangle;
-
+    
     //Initialises different parameters used for the rotation
     float32_t currAngle;
     float32_t offset;

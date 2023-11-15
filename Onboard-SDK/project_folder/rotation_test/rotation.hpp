@@ -42,7 +42,7 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-void getRotation(Vehicle* vehicle);
+void getRotation(Vehicle*, int, std::string);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 float32_t QtoDEG(Vehicle*);
