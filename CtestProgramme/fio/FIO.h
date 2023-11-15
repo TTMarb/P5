@@ -6,7 +6,7 @@
 class FIO {
   public:
     FIO(); // Constructor
-    int createAndOverwriteFile(std::string);
+    int createFile(std::string);
     int write2file(std::string, int, float);
 
   private:

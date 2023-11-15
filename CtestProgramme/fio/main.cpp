@@ -15,7 +15,7 @@ int main() {
         std::string filename = "test";
         filename.append(param);
         filename.append(".csv");
-        fileIO.createAndOverwriteFile(filename);
+        fileIO.createFile(filename);
         for (int i = 0; i < 5; i++) {
             fileIO.write2file(filename, i, i * 2.0);
         }
