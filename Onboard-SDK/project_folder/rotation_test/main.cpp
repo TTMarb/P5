@@ -54,15 +54,13 @@ int main(int argc, char** argv) {
     
 
     //Request the desired angle
-    std::cout << "Insert angle please " << std::endl;
-    int requestangle;
-    std::cin >> requestangle;
+    std::cout << "Beginning tests" << std::endl;
 
-    std::vector<int> testangles={1,5,15,45,180};
+    std::vector<int> testangles={1,5,15,45,145};
 
     for (int TA : testangles){
-        std::cout << TA << std::endl;
-        std::string filename = "test" + std::to_string(TA) + ".csv";
+        std::cout << "Going for test angle: " << TA << std::endl;
+        std::string filename = "deg" + std::to_string(TA) + ".csv";
         getRotation(vehicle, TA, filename, fileIO);
     }
     std::cout << "Program ended!" << std::endl;
