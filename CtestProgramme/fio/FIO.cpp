@@ -2,19 +2,18 @@
 
 //Constructor
 FIO::FIO() {
+    //Gets current time
     auto now = std::chrono::system_clock::now();
-
     // Convert to std::time_t
     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-
     // Convert to std::tm (local time)
     std::tm localTime = *std::localtime(&currentTime);
-
     // Format the string "yymmddhhmmss"
     char buffer[14]; // Buffer to store the formatted string
-    std::strftime(buffer, sizeof(buffer), "%y%m%d%H%M%S", &localTime);
-    std::string time = std::string(buffer);
-    FIO::folderName.append(time);
+    std::strftime(buffer, sizeof(buffer), "%y_%m_%d_%H%M%S", &localTime); //Formats string from time
+    //Appends string name to file buffer
+    FIO::folderName.append(std::string(buffer));
+    //Creates directory with name from buffer
     if (mkdir(FIO::folderName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
         std::cout << "Folder created: " << folderName << std::endl;
     } else {
