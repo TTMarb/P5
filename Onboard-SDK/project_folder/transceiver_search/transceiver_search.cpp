@@ -36,14 +36,14 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float64_t latM, float64_t lonM) {
+bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
 
-    float32_t start_alt = 4;
+    float32_t start_alt = 1.5;
 
     ACK::ErrorCode initAck = vehicle->missionManager->init(DJI_MISSION_TYPE::WAYPOINT, responseTimeout, &fdata);
     if (ACK::getError(initAck)) {

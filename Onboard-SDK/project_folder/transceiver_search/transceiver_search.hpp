@@ -42,7 +42,7 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float64_t latM,
+bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM,
                         float64_t lonM);
 
 void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
