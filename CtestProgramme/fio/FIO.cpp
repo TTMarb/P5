@@ -4,7 +4,7 @@
 FIO::FIO() { std::cout << "Created FIO" << std::endl; }
 
 //Init function, that returns the serial port
-int FIO::init(std::string filename) {
+int FIO::createAndOverwriteFile(std::string filename) {
     std::ofstream outputFile(filename.c_str()); // create a new output file or overwrite an existing one
     if (outputFile.is_open()) {                 // check if the file was opened successfully
         outputFile << "Hello, world!\n";        // write data to the file
@@ -13,11 +13,14 @@ int FIO::init(std::string filename) {
     } else {
         std::cerr << "Error opening file\n";
     }
+    outputFile.open(filename.c_str()); // open the file in append mode
+    outputFile << "BONK!\n";
+    outputFile.close(); // close the file when done
 
     return 0;
 }
 
-bool FIO::write2file(int serial_port, int time, float angle) {
+bool FIO::write2file(std::string filename, int time, float angle) {
     std::cout << "Serial port: " << serial_port << std::endl;
     return true;
 }

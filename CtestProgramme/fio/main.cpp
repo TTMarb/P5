@@ -11,5 +11,5 @@
 int main() {
     FIO fileIO = FIO();
     std::string filename = "test.txt";
-    fileIO.init(filename);
+    fileIO.createAndOverwriteFile(filename);
 }
