@@ -10,7 +10,6 @@ FIO::FIO() {
 }
 
 void FIO::changeActiveFile(std::string filename) { activeFile = prependFolderToFilename(filename); }
-std::ofstream setOutputFile(std::string filename) { return std::ofstream(filename.c_str()); }
 
 
 int FIO::createFile() {
