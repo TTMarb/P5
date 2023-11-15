@@ -12,4 +12,5 @@ class FIO {
     int write2file(std::string, int, float);
 
   private:
+    std::string appendFolder(std::string);
 };
