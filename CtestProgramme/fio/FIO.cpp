@@ -13,10 +13,9 @@ int FIO::createAndOverwriteFile(std::string filename) {
     } else {
         std::cerr << "Error opening file\n";
     }
-    outputFile.open(filename.c_str()); // open the file in append mode
+    outputFile.open(filename.c_str(), std::ios::app); // open the file in append mode
     outputFile << "BONK!\n";
-    outputFile.append("More data\n"); // append data to the file
-    outputFile.close();               // close the file when done
+    outputFile.close(); // close the file when done
 
     return 0;
 }
