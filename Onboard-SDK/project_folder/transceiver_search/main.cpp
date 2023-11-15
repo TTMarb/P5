@@ -91,7 +91,6 @@ int main(int argc, char** argv) {
         float numWaypoints = ceilf(2 * (avLength / latM)) + 2;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
-            std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
             numWaypoints = static_cast<uint8_t>(numWaypoints); // Make the number of waypoints an integer
             pathLength = (numWaypoints / 2) * lonM + ((numWaypoints / 2) - 1) * latM;
             std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
@@ -106,6 +105,7 @@ int main(int argc, char** argv) {
 
     if (errorFlag == 0) {
         std::cout << "Starting mission.\n";
+        std::cout << "The number of waypoints is " << numWaypoints << std::endl;
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
     }
 
