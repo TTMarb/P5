@@ -9,7 +9,7 @@ FIO::FIO() {
     }
 }
 
-int FIO::int changeActiveFile(std::string filename) { FIO::activeFile = FIO::prependFolderToFilename(filename); }
+void FIO::int changeActiveFile(std::string filename) { FIO::activeFile = FIO::prependFolderToFilename(filename); }
 
 int FIO::createFile() {
     std::ofstream outputFile(FIO::activeFile.c_str()); // create a new output file or overwrite an existing one
