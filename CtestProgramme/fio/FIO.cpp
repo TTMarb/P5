@@ -23,6 +23,7 @@ int FIO::createFile(std::string filename) {
 }
 
 int FIO::write2file(std::string filename, int time, float angle) {
+    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
     std::cout << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
     std::ofstream outputFile(filename.c_str(), std::ios::app); // create a new output file or overwrite an existing one
     if (outputFile.is_open()) {                                // check if the file was opened successfully
