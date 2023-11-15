@@ -101,8 +101,8 @@ int main(int argc, char** argv) {
             errorFlag = 1;
             break;
         }
+        std::cout << "The number of waypoints (2) is " << + numWaypoints << std::endl;
     }
-    std::cout << "The number of waypoints (2) is " << + numWaypoints << std::endl;
 
     if (errorFlag == 0) {
         std::cout << "Starting mission.\n";
