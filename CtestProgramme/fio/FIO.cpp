@@ -19,7 +19,7 @@ void FIO::changeActiveFile(std::string filename) { activeFile = prependFolderToF
 int FIO::createFile() {
     std::ofstream outputFile(activeFile.c_str());     // create a new output file or overwrite an existing one
     if (outputFile.is_open()) {                            // check if the file was opened successfully
-        outputFile << "Timestamp: "<<getTimeStamp(); // write data to the file
+        outputFile << "Timestamp: "<<getTimeStamp() << "\n"; // write data to the file
         outputFile.close();                               // close the file when done
     } else {
         std::cerr << "Error opening file\n";
@@ -31,7 +31,7 @@ int FIO::createFile() {
 int FIO::write2file(int time, float angle) {
     std::ofstream outputFile(activeFile.c_str(), std::ios::app); // create a new output file
     if (outputFile.is_open()) {                                       // check if the file was opened successfully
-        outputFile << "filename: " << activeFile << ", time: " << time << ", angle: " << angle << std::endl;
+        outputFile << "time: " << time << ", angle: " << angle << std::endl;
         outputFile.close(); // close the file when done
     } else {
         std::cerr << "Error opening file \"" <<activeFile << "\" during append\n";
