@@ -42,13 +42,13 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float64_t latM,
+bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM,
                         float64_t lonM);
 
 void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
 void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, float64_t latM,
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
                                                          float64_t lonM, DJI::OSDK::float32_t start_alt);
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(DJI::OSDK::WayPointSettings* start_data, int num_wp,

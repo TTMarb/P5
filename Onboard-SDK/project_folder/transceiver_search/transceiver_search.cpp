@@ -36,7 +36,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-bool runWaypointMission(Vehicle* vehicle, uint8_t numWaypoints, int responseTimeout, float64_t latM, float64_t lonM) {
+bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
@@ -109,7 +109,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->altitude = 0;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, float64_t latM,
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
                                                          float64_t lonM, float32_t start_alt) {
     // Create Start Waypoint
     WayPointSettings start_wp;
