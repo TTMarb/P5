@@ -15,7 +15,8 @@ int FIO::createAndOverwriteFile(std::string filename) {
     }
     outputFile.open(filename.c_str()); // open the file in append mode
     outputFile << "BONK!\n";
-    outputFile.close(); // close the file when done
+    outputFile.append("More data\n"); // append data to the file
+    outputFile.close();               // close the file when done
 
     return 0;
 }
