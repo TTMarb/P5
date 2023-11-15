@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 
     int responseTimeout = 60;
 
-    int numWaypoints;
+    int numWaypoints = 0;
     uint8_t errorFlag = 0;
     // Sets S and W parameters for transceiver search
     float64_t latM; // Y distance per module
@@ -102,6 +102,7 @@ int main(int argc, char** argv) {
             break;
         }
     }
+    std::cout << "The number of waypoints (2) is " << + numWaypoints << std::endl;
 
     if (errorFlag == 0) {
         std::cout << "Starting mission.\n";
