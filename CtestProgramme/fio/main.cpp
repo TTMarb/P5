@@ -11,9 +11,7 @@
 int main() {
     FIO fileIO = FIO();
     for (int j = 0; j < 5; j++) {
-        std::string param = "test" + std::to_string(j);
-        std::string filename = "test";
-        filename.append(param);
+        std::string filename = "/outputfolder/test" + std::to_string(j);
         filename.append(".csv");
         fileIO.createFile(filename);
         for (int i = 0; i < 5; i++) {
