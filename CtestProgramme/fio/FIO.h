@@ -7,7 +7,7 @@ class FIO {
   public:
     FIO(); // Constructor
     int createAndOverwriteFile(std::string);
-    bool write2file(int, int, float);
+    bool write2file(std::string, int, float);
     void chk_file_name(std::string);
 
   private:
