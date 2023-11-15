@@ -54,6 +54,6 @@ std::string FIO::getTimeStamp(){
     std::tm localTime = *std::localtime(&currentTime);
     // Format the string "yymmddhhmmss"
     char buffer[30]; // Buffer to store the formatted string
-    std::strftime(buffer, sizeof(buffer), "Y%Ym%md%dh%Hm%Ms%S", &localTime); //Formats string from time
+    std::strftime(buffer, sizeof(buffer), "Y%Ym%md%d_h%Hm%Ms%S", &localTime); //Formats string from time
     return std::string(buffer);
 }
