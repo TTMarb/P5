@@ -2,19 +2,12 @@
 
 //Constructor
 FIO::FIO() {
-    std::string folderName = "outputfolder";
-    try {
-        if (!fs::exists(folderName)) {
-            // Create the folder
-            fs::create_directory(folderName);
-            std::cout << "Folder created: " << folderName << std::endl;
-        } else {
-            std::cerr << "Folder already exists: " << folderName << std::endl;
-        }
-    } catch (const std::exception& ex) {
-        std::cerr << "Error: " << ex.what() << std::endl;
+
+    if (mkdir(FIO.folderName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
+        std::cout << "Folder created: " << folderName << std::endl;
+    } else {
+        std::cerr << "Error creating folder: " << folderName << std::endl;
     }
-    return 0;
 }
 
 //Init function, that returns the serial port
