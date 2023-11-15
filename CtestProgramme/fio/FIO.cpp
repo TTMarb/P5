@@ -37,6 +37,6 @@ int FIO::write2file(int time, float angle) {
 }
 
 std::string FIO::prependFolderToFilename(std::string filename) {
-    filename.insert(0, "./" + FIO::folderName + std::ctime(&t_C) + "/"); // insert the folder name in front of the filename
+    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
     return filename;
 }
