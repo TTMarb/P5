@@ -15,7 +15,7 @@ class FIO {
     FIO(); // Constructor
     void changeActiveFile(std::string);
     int createFile();
-    int write2file(int, float);
+    int write2file(std::string);
 
   private:
     std::string activeFile;

@@ -28,10 +28,10 @@ int FIO::createFile() {
     return 0;
 }
 
-int FIO::write2file(int time, float angle) {
+int FIO::write2file(std::string data) {
     std::ofstream outputFile(activeFile.c_str(), std::ios::app); // create a new output file
     if (outputFile.is_open()) {                                       // check if the file was opened successfully
-        outputFile << "time: " << time << ", angle: " << angle << std::endl;
+        outputFile << data << std::endl;
         outputFile.close(); // close the file when done
     } else {
         std::cerr << "Error opening file \"" <<activeFile << "\" during append\n";
@@ -53,7 +53,7 @@ std::string FIO::getTimeStamp(){
     // Convert to std::tm (local time)
     std::tm localTime = *std::localtime(&currentTime);
     // Format the string "yymmddhhmmss"
-    char buffer[14]; // Buffer to store the formatted string
-    std::strftime(buffer, sizeof(buffer), "Y%Ym%md%dh%Hm%Ms%S", &localTime); //Formats string from time
+    char buffer[30]; // Buffer to store the formatted string
+    std::strftime(buffer, sizeof(buffer), "Y%Ym%md%d_h%Hm%Ms%S", &localTime); //Formats string from time
     return std::string(buffer);
 }
