@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 
     int responseTimeout = 60;
 
-    int numWaypoints = 0;
+    uint8_t numWaypoints;
     uint8_t errorFlag = 0;
     // Sets S and W parameters for transceiver search
     float64_t latM; // Y distance per module
