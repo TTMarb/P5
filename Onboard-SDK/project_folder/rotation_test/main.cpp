@@ -28,6 +28,7 @@
 
 #include <cmath>
 #include "rotation.hpp"
+#include "FIO.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
