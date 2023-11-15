@@ -67,7 +67,7 @@ void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO fileI
 
     sleep(2);
     //Sets a new target angle
-    targetAngle = currAngle - requestangle;
+    targetAngle = currAngle - setAngle;
     //Creates timing for plotting
     int time = 0;
     int timestepInMS = 10;

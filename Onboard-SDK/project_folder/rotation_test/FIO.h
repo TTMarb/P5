@@ -9,6 +9,13 @@
 #include <ctime>
 #include <iomanip>
 
+#ifndef FIO_H
+#define FIO_H
+
+// Class definition and other declarations go here
+
+#endif // FIO_H
+
 class FIO {
   public:
     std::string folderName = "output";
