@@ -21,7 +21,7 @@ int FIO::createAndOverwriteFile(std::string filename) {
 }
 
 bool FIO::write2file(std::string filename, int time, float angle) {
-    std::cout << "Serial port: " << serial_port << std::endl;
+    std::cout << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
     return true;
 }
 
