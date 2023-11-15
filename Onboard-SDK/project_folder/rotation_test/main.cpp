@@ -57,8 +57,13 @@ int main(int argc, char** argv) {
     std::cout << "Insert angle please " << std::endl;
     int requestangle;
     std::cin >> requestangle;
-    std::string filename = "Filename.csv";
 
-    getRotation(vehicle, requestangle, filename, fileIO);
+    std::vector<int> testangles={1,5,15,45,180};
+
+    for (int TA : testangles){
+        std::cout << TA << std::endl;
+        std::string filename = "test" + std::to_string(TA) + ".csv";
+        getRotation(vehicle, TA, filename, fileIO);
+    }
     std::cout << "Program ended!" << std::endl;
 }
