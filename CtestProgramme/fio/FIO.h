@@ -6,8 +6,6 @@
 #include <chrono>
 #include <sys/stat.h>
 
-#include <algorithm>
-
 #include <ctime>
 #include <iomanip>
 

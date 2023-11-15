@@ -37,13 +37,26 @@ int FIO::write2file(int time, float angle) {
 }
 
 std::string FIO::prependFolderToFilename(std::string filename) {
+
+    
+    auto now = std::chrono::system_clock::now();
+
+    // Convert to std::time_t
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+    // Convert to std::tm (local time)
+    std::tm localTime = *std::localtime(&currentTime);
+
+    // Format the string "yymmddhhmmss"
+    std::string std::put_time(&localTime, "%y%m%d%H%M%S");
+
+    /*
     const auto now = std::chrono::system_clock::now();
     const std::time_t t_c = std::chrono::system_clock::to_time_t(now);
     std::cout << std::ctime(&t_c);
     
     char buffer[32];
-    std::string time = std::strncpy(buffer, std::ctime(&t_c), 26);
-    time.erase(std::remove_if(time.begin(), time.end(), " "), time.end());
+    std::string time = std::strncpy(buffer, std::ctime(&t_c), 26);*/
     filename.insert(0, "./" + FIO::folderName + time+ "/"); // insert the folder name in front of the filename
     return filename;
 }
