@@ -11,7 +11,10 @@
 int main() {
     FIO fileIO = FIO();
     for (int j = 0; j < 5; j++) {
-        std::string filename = "test" + std::to_string(j) + ".txt";
+        std::string param = std::to_string(j);
+        std::string filename = "test";
+        filename.append(param);
+        filename.append(".csv");
         fileIO.createAndOverwriteFile(filename);
         for (int i = 0; i < 5; i++) {
             fileIO.write2file(filename, i, i * 2.0);
