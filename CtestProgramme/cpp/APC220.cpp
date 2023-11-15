@@ -103,7 +103,7 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     char delim[] = "#";
 #ifdef __linux__
     int numberOfBytes = read(serial_port, &buffer, sizeof(buffer));
-    cout << "Received following junk: " << buffer;
+    std::cout << "Received following junk: " << buffer;
     int length = numberOfBytes - 1;
     //Checks if the message length is shorter than output array
     if (length > outputLen) {
