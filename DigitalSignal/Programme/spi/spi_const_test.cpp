@@ -1,5 +1,6 @@
 #include <fcntl.h>
 #include <iostream>
+#include <cstring>
 #include <linux/spi/spidev.h> // File that's located on the manifol in /usr/include/
 #include <string>
 #include <sys/ioctl.h> // File that's located on the manifol in /usr/include/
