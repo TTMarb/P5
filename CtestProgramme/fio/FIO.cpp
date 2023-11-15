@@ -10,7 +10,7 @@ FIO::FIO() {
     std::tm localTime = *std::localtime(&currentTime);
     // Format the string "yymmddhhmmss"
     char buffer[14]; // Buffer to store the formatted string
-    std::strftime(buffer, sizeof(buffer), "%y_%m_%d_%H%M%S", &localTime); //Formats string from time
+    std::strftime(buffer, sizeof(buffer), "Y%Ym%md%dh%Hm%Ms%S", &localTime); //Formats string from time
     //Appends string name to file buffer
     FIO::folderName.append(std::string(buffer));
     //Creates directory with name from buffer
