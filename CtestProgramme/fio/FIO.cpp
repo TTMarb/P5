@@ -9,12 +9,14 @@ FIO::FIO() {
     }
 }
 
-int FIO::createFile(std::string filename) {
-    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
-    std::ofstream outputFile(filename.c_str());       // create a new output file or overwrite an existing one
-    if (outputFile.is_open()) {                       // check if the file was opened successfully
-        outputFile << "DATA FROM TEST" << filename;   // write data to the file
-        outputFile.close();                           // close the file when done
+void FIO::changeActiveFile(std::string filename) { activeFile = prependFolderToFilename(filename); }
+
+
+int FIO::createFile() {
+    std::ofstream outputFile(activeFile.c_str());     // create a new output file or overwrite an existing one
+    if (outputFile.is_open()) {                            // check if the file was opened successfully
+        outputFile << "DATA FROM TEST" << activeFile << "\n"; // write data to the file
+        outputFile.close();                               // close the file when done
     } else {
         std::cerr << "Error opening file\n";
         return -1;
@@ -22,16 +24,22 @@ int FIO::createFile(std::string filename) {
     return 0;
 }
 
-int FIO::write2file(std::string filename, int time, float angle) {
-    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
-    std::cout << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
-    std::ofstream outputFile(filename.c_str(), std::ios::app); // create a new output file or overwrite an existing one
-    if (outputFile.is_open()) {                                // check if the file was opened successfully
-        outputFile << "filename: " << filename << ", time: " << time << ", angle: " << angle << std::endl;
+int FIO::write2file(int time, float angle) {
+    std::ofstream outputFile(activeFile.c_str(), std::ios::app); // create a new output file
+    if (outputFile.is_open()) {                                       // check if the file was opened successfully
+        outputFile << "filename: " << activeFile << ", time: " << time << ", angle: " << angle << std::endl;
         outputFile.close(); // close the file when done
     } else {
-        std::cerr << "Error opening file during append\n";
+        std::cerr << "Error opening file \"" <<activeFile << "\" during append\n";
         return -1;
     }
     return 0;
+}
+
+std::string FIO::prependFolderToFilename(std::string filename) {
+    const auto now = std::chrono::system_clock::now();
+    const std::time_t t_c = std::chrono::system_clock::to_time_t(now);
+    std::cout << std::ctime(&t_c);
+    filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
+    return filename;
 }

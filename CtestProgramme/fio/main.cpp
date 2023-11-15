@@ -13,9 +13,10 @@ int main() {
     for (int j = 0; j < 5; j++) {
         std::string filename = "test" + std::to_string(j);
         filename.append(".csv");
-        fileIO.createFile(filename);
+        fileIO.changeActiveFile(filename);
+        fileIO.createFile();
         for (int i = 0; i < 5; i++) {
-            fileIO.write2file(filename, i, i * 2.0);
+            fileIO.write2file(i, i * 2.0);
         }
     }
 }
