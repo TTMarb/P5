@@ -72,7 +72,7 @@ int main() {
     }
     cout << endl;
 
-    const char *message = "Hello, SPI!";
+    const char *message = "1";
     size_t length = strlen(message);
 
     while(true){
@@ -80,7 +80,7 @@ int main() {
             perror("Error writing to SPI");
             close(spi_fd);
         }
-        sleep(1);
+        sleep(2);
     }
 
     // Close the SPI connection
