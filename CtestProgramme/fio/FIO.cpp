@@ -48,7 +48,7 @@ std::string FIO::prependFolderToFilename(std::string filename) {
     std::tm localTime = *std::localtime(&currentTime);
 
     // Format the string "yymmddhhmmss"
-    std::string std::put_time(&localTime, "%y%m%d%H%M%S");
+    std::string time = std::put_time(&localTime, "%y%m%d%H%M%S").str();
 
     /*
     const auto now = std::chrono::system_clock::now();
