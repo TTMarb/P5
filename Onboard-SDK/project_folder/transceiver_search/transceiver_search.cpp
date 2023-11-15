@@ -109,7 +109,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->altitude = 0;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, uint_8 numWaypoints, float64_t latM,
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, uint8_t numWaypoints, float64_t latM,
                                                          float64_t lonM, float32_t start_alt) {
     // Create Start Waypoint
     WayPointSettings start_wp;
