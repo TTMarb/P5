@@ -61,6 +61,6 @@ void readSPI(int spi_fd) {
 int main(){
     
     open_and_configure();
-    thread readerThread(readSPI, spi_fd);
+    readSPI(spi_fd);
     return 0;
 }
