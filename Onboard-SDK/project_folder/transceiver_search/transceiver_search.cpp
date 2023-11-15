@@ -109,7 +109,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->altitude = 0;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
+std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, uint_8 numWaypoints, float64_t latM,
                                                          float64_t lonM, float32_t start_alt) {
     // Create Start Waypoint
     WayPointSettings start_wp;
@@ -138,7 +138,6 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
-    std::cout << "The number of waypoints in generate is " <<  num_wp << std::endl;
 
     float64_t r_earth = 6378100;
 
