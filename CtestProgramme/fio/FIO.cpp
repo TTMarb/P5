@@ -2,8 +2,7 @@
 
 //Constructor
 FIO::FIO() {
-
-    if (mkdir(FIO.folderName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
+    if (mkdir(FIO::folderName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
         std::cout << "Folder created: " << folderName << std::endl;
     } else {
         std::cerr << "Error creating folder: " << folderName << std::endl;
