@@ -40,7 +40,7 @@ std::string FIO::prependFolderToFilename(std::string filename) {
     const auto now = std::chrono::system_clock::now();
     const std::time_t t_c = std::chrono::system_clock::to_time_t(now);
     std::cout << std::ctime(&t_c);
-    std::cout << put_time(&t_c, "%Y %t %j");
+    std::cout << std::put_time(&t_c, "%Y %t %j");
     filename.insert(0, "./" + FIO::folderName + "/"); // insert the folder name in front of the filename
     return filename;
 }
