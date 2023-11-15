@@ -28,11 +28,13 @@
 
 #include <cmath>
 #include "rotation.hpp"
+#include "FIO.h"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 int main(int argc, char** argv) {
+    FIO fileIO = FIO();
     int functionTimeout = 20;
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
@@ -49,6 +51,14 @@ int main(int argc, char** argv) {
     // Setup variables for use
 
     std::cout << "Program about to start! \n" << std::endl;
-    getRotation(vehicle);
+    
+
+    //Request the desired angle
+    std::cout << "Insert angle please " << std::endl;
+    int requestangle;
+    std::cin >> requestangle;
+    std::string filename = "Filename.csv";
+
+    getRotation(vehicle, requestangle, filename);
     std::cout << "Program ended!" << std::endl;
 }

@@ -2,7 +2,6 @@
 
 //Constructor
 FIO::FIO() {
-    
     //Appends string name to file buffer
     FIO::folderName.append(getTimeStamp());
     //Creates directory with name from buffer

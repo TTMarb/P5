@@ -31,6 +31,7 @@
  */
 
 #include "rotation.hpp"
+#include "FIO.h"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
 #include <fstream>
@@ -40,16 +41,13 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void getRotation(Vehicle* vehicle) {
+void getRotation(Vehicle* vehicle, int setAngle, std::string filename) {
+    fileIO.changeActiveFile(filename);
+    fileIO.createFile();
 
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
-
-    //Request the desired angle
-    std::cout << "Insert angle please " << std::endl;
-    int requestangle;
-    std::cin >> requestangle;
-
+    
     //Initialises different parameters used for the rotation
     float32_t currAngle;
     float32_t offset;
@@ -75,7 +73,9 @@ void getRotation(Vehicle* vehicle) {
     int timestepInMS = 10;
     while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
         time = time + timestepInMS;
-        std::cout << time << "," << fabs(currAngle) << "\n";
+        std::string data = std::to_string(time) + "," + std::to_string(fabs(currAngle));
+        fileIO.write2file(data);
+        std::cout << data << "\n";
         usleep(timestepInMS * 1000);
     }
 }

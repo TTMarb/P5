@@ -16,7 +16,8 @@ int main() {
         fileIO.changeActiveFile(filename);
         fileIO.createFile();
         for (int i = 0; i < 5; i++) {
-            fileIO.write2file(i, i * 2.0);
+            std::string data = std::to_string(i) + "," + std::to_string(i * 2.0);
+            fileIO.write2file(data);
         }
     }
 }
