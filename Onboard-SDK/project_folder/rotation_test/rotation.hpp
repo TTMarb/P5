@@ -38,11 +38,12 @@
 
 // DJI OSDK includes
 #include <dji_vehicle.hpp>
+#include "FIO.h"
 
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-void getRotation(Vehicle*, int, std::string);
+void getRotation(Vehicle*, int, std::string, FIO);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 float32_t QtoDEG(Vehicle*);
