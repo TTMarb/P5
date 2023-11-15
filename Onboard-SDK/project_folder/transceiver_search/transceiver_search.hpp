@@ -59,6 +59,8 @@ void uploadWaypoints(DJI::OSDK::Vehicle* vehicle, std::vector<DJI::OSDK::WayPoin
 
 bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBeforeStop);
 
+void setBroadcastFrequency(Vehicle* vehicle);
+
 const int DEFAULT_PACKAGE_INDEX = 0;
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

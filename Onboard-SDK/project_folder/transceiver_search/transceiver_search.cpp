@@ -40,6 +40,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
+    setBroadcastFrequency(vehicle);
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
 
@@ -188,4 +189,51 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
         ACK::getErrorCodeMessage(stopAck, __func__);
     }
     std::cout << "Succes: Stopping Waypoint Mission.\n";
+}
+
+void setBroadcastFrequency(Vehicle* vehicle) {
+    //To ensure a faster response, the broadcast frequency is set to 100Hz for Quaternion
+    enum FREQ {
+        FREQ_0HZ = 0,
+        FREQ_1HZ = 1,
+        FREQ_10HZ = 2,
+        FREQ_50HZ = 3,
+        FREQ_100HZ = 4,
+        FREQ_200HZ = 6,
+        FREQ_400HZ = 7,
+        FREQ_HOLD = 5,
+    };
+
+    //Timeout is for acknowledgement
+    const int TIMEOUT = 20;
+    //Initialises the frequency array - 16 is the given lenght by documentation
+    uint8_t freq[16];
+    /* Channels definition for M100
+   * 0 - Timestamp
+   * 1 - Attitude Quaterniouns
+   * 2 - Acceleration
+   * 3 - Velocity (Ground Frame)
+   * 4 - Angular Velocity (Body Frame)
+   * 5 - Position
+   * 6 - Magnetometer
+   * 7 - RC Channels Data
+   * 8 - Gimbal Data
+   * 9 - Flight Status
+   * 10 - Battery Level
+   * 11 - Control Information
+   */
+    freq[0] = FREQ_100HZ;
+    freq[1] = FREQ_100HZ;
+    freq[2] = FREQ_100HZ;
+    freq[3] = FREQ_100HZ;
+    freq[4] = FREQ_100HZ;
+    freq[5] = FREQ_100HZ;
+    freq[6] = FREQ_100HZ;
+    freq[7] = FREQ_100HZ;
+    freq[8] = FREQ_100HZ;
+    freq[9] = FREQ_100HZ;
+    freq[10] = FREQ_100HZ;
+    freq[11] = FREQ_100HZ;
+
+    ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
