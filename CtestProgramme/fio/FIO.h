@@ -6,9 +6,8 @@
 class FIO {
   public:
     FIO(); // Constructor
-    std::ofstream createAndOverwriteFile(std::string);
-    bool write2file(std::ofstream, int, float);
-    void chk_file_name(std::string);
+    int createAndOverwriteFile(std::string);
+    int write2file(std::ofstream, int, float);
 
   private:
 };

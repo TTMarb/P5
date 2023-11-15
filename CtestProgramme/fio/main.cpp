@@ -15,9 +15,9 @@ int main() {
         std::string filename = "test";
         filename.append(param);
         filename.append(".csv");
-        std::ofstream outputFile = fileIO.createAndOverwriteFile(filename);
+        fileIO.createAndOverwriteFile(filename);
         for (int i = 0; i < 5; i++) {
-            fileIO.write2file(outputFile, i, i * 2.0);
+            fileIO.write2file(filename, i, i * 2.0);
         }
     }
 }
