@@ -80,7 +80,7 @@ int main() {
             perror("Error writing to SPI");
             close(spi_fd);
         }
-        sleep(2);
+        sleep(1);
     }
 
     // Close the SPI connection
