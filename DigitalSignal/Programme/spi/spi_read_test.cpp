@@ -1,9 +1,9 @@
 #include <fcntl.h>
 #include <iostream>
 #include <cstring>
-//#include <linux/spi/spidev.h> // File that's located on the manifold in /usr/include/
+#include <linux/spi/spidev.h> // File that's located on the manifold in /usr/include/
 #include <string>
-//#include <sys/ioctl.h> // File that's located on the manifold in /usr/include/
+#include <sys/ioctl.h> // File that's located on the manifold in /usr/include/
 #include <unistd.h>
 #include <cstdint>
 #include <thread>
@@ -61,6 +61,6 @@ void readSPI(int spi_fd) {
 int main(){
     
     open_and_configure();
-    thread readerThread(readSPI, spi_fd);
+    readSPI(spi_fd);
     return 0;
 }
