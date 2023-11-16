@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     vehicle->obtainCtrlAuthority(functionTimeout);
     ACK::ErrorCode takeoffAck vehicle->control->takeoff();
     if (ACK::getError(takeoffAck)) {
-        ACK::getErrorCodeMessage(initAck, __func__);
+        ACK::getErrorCodeMessage(takeoffAck, __func__);
     }
 
     // Setup variables for use
