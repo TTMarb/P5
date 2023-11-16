@@ -50,7 +50,7 @@ int APC220::init() {
 
     //Inspired by https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/
     /* Set Baud Rate - APC220s are setup @ 19200baud */
-    cfsetspeed(&tty, B19200);
+    cfsetspeed(&tty, B9600);
     tty.c_cflag &= ~CSTOPB;        // Clear stop field, only one stop bit used in communication (most common)
     tty.c_cflag |= CS8;            // 8 bits per byte (most common)
     tty.c_cflag &= ~CRTSCTS;       // Disable RTS/CTS hardware flow control (most common)
