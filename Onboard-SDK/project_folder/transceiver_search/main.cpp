@@ -83,9 +83,9 @@ int main(int argc, char** argv) {
         }
         
         std::cout << "About to sleep for 30 secs";
-        sleep(30);
         for(int i=0; i<30; i++){
             std::cout << i << std::endl;
+            sleep(i);
         }
         std::cout << "Have slept for 30 secs";
 
@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
         lonM = 2 * searchWidth;
         latM = avWidth;
 
-        numWaypoints = ceilf(2 * (avLength / lonM)) + 1;
+        numWaypoints = ceilf(2 * (avLength / lonM)) + 2;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
             numWaypoints = static_cast<int>(numWaypoints); // Make the number of waypoints an integer
