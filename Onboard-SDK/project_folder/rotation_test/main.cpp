@@ -46,13 +46,27 @@ int main(int argc, char** argv) {
     }
     
 
-    
-    std::cout << "About to sleep for 30 secs";
-    sleep(30);
-    std::cout << "Have slept for 30 secs";
+
 
     // Obtain Control Authority
+    
+    std::cout << "take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
+
+    std::cout << "Arm motor \n";
+    ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
+    if (ACK::getError(armAck)) {
+        ACK::getErrorCodeMessage(armAck, __func__);
+    }
+    
+    std::cout << "About to take of \n";
+    std::cout << "About to sleep for 30 secs \n";
+    for(int i = 0 ; i < 30; i++){
+        std::cout << i << std::endl;
+        sleep(1);
+    }
+    std::cout << "Have slept for 30 secs \n";
+
     ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
     if (ACK::getError(takeoffAck)) {
         ACK::getErrorCodeMessage(takeoffAck, __func__);
