@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 
     // Obtain Control Authority
     
-    std::cout << "take control \n";
+    std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
     
     std::cout << "About to sleep for 30 secs \n";
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
         ACK::getErrorCodeMessage(takeoffAck, __func__);
     }
 
-    sleep(10);
+    sleep(5);
 
     // Setup variables for use
 
