@@ -85,8 +85,8 @@ int main(int argc, char** argv) {
         searchWidth = 10;
         avLength = avLength - (2 * searchWidth);
         avWidth = avWidth - (2 * searchWidth);
-        latM = 2 * searchWidth;
-        lonM = avWidth;
+        lonM = 2 * searchWidth;
+        latM = avWidth;
 
         numWaypoints = ceilf(2 * (avLength / latM)) + 2;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
