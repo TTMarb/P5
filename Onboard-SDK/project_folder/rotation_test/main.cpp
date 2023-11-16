@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 
     // Obtain Control Authority
     vehicle->obtainCtrlAuthority(functionTimeout);
-    ACK::ErrorCode takeoffAck = vehicle->control->takeoff();
+    ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
     if (ACK::getError(takeoffAck)) {
         ACK::getErrorCodeMessage(takeoffAck, __func__);
     }
