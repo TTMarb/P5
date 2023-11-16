@@ -44,9 +44,19 @@ int main(int argc, char** argv) {
         std::cout << "Vehicle not initialized, exiting.\n";
         return -1;
     }
+    
+
+    
+    std::cout << "About to sleep for 30 secs";
+    sleep(30);
+    std::cout << "Have slept for 30 secs";
 
     // Obtain Control Authority
     vehicle->obtainCtrlAuthority(functionTimeout);
+    ACK::ErrorCode takeoffAck vehicle->control->takeoff();
+    if (ACK::getError(takeoffAck)) {
+        ACK::getErrorCodeMessage(initAck, __func__);
+    }
 
     // Setup variables for use
 

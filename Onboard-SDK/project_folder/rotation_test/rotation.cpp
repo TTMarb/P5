@@ -124,17 +124,17 @@ void setBroadcastFrequency(Vehicle* vehicle) {
    * 10 - Battery Level
    * 11 - Control Information
    */
-    freq[0] = FREQ_10HZ;
+    freq[0] = FREQ_100HZ;
     freq[1] = FREQ_100HZ;
-    freq[2] = FREQ_0HZ;
-    freq[3] = FREQ_0HZ;
-    freq[4] = FREQ_0HZ;
-    freq[5] = FREQ_0HZ;
-    freq[6] = FREQ_0HZ;
-    freq[7] = FREQ_0HZ;
-    freq[8] = FREQ_0HZ;
-    freq[9] = FREQ_0HZ;
-    freq[10] = FREQ_0HZ;
+    freq[2] = FREQ_100HZ;
+    freq[3] = FREQ_100HZ;
+    freq[4] = FREQ_100HZ;
+    freq[5] = FREQ_100HZ;
+    freq[6] = FREQ_100HZ;
+    freq[7] = FREQ_100HZ;
+    freq[8] = FREQ_100HZ;
+    freq[9] = FREQ_100HZ;
+    freq[10] = FREQ_100HZ;
     freq[11] = FREQ_100HZ;
 
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
