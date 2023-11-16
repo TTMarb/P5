@@ -89,5 +89,23 @@ int main(int argc, char** argv) {
         std::string filename = "deg" + std::to_string(TA) + ".csv";
         getRotation(vehicle, TA, filename, fileIO);
     }
+
+    ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
+    if (ACK::getError(landAck)) {
+        ACK::getErrorCodeMessage(landAck, __func__);
+    }
+
+    std::cout << "Arm motor \n";
+    ACK::ErrorCode disarmAck = vehicle->control->disarmMotors(functionTimeout);
+    if (ACK::getError(disarmAck)) {
+        ACK::getErrorCodeMessage(disarmAck, __func__);
+    }
+    std::cout << "About to take off \n";
+    std::cout << "Have slept for 30 secs \n";
+
+
+
+
+
     std::cout << "Program ended!" << std::endl;
 }
