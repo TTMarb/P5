@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
         std::cout << "About to sleep for 30 secs" <<std::endl;
         for(int i=0; i<30; i++){
             std::cout << i << std::endl;
-            sleep(i);
+            sleep(1);
         }
         std::cout << "Have slept for 30 secs" <<std::endl;
 
