@@ -81,6 +81,15 @@ int main(int argc, char** argv) {
             errorFlag = 1;
             break;
         }
+        
+        std::cout << "About to sleep for 30 secs";
+        sleep(30);
+        for(int i=0; i<30; i++){
+            std::cout << i << std::endl;
+        }
+        std::cout << "Have slept for 30 secs";
+
+        
         // Calculations for avalanche size inputs
         searchWidth = 10;
         avLength = avLength - (2 * searchWidth);
@@ -88,7 +97,7 @@ int main(int argc, char** argv) {
         lonM = 2 * searchWidth;
         latM = avWidth;
 
-        numWaypoints = ceilf(2 * (avLength / lonM)) + 2;
+        numWaypoints = ceilf(2 * (avLength / lonM)) + 1;
         if (numWaypoints > 0.0 && numWaypoints <= 255.0) // Only allow 255 waypoints
         {
             numWaypoints = static_cast<int>(numWaypoints); // Make the number of waypoints an integer
