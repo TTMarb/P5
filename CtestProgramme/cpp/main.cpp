@@ -16,7 +16,6 @@ int main() {
     std::cout << "Ready to receive" << std::endl;
     while (1) {
         bool result = radio.read2radio(&received[0], sizeOfReceived);
-        int backsize = sizeof(received) / sizeof(received[0]);
         if (result) {
             //Not quite done yet
             radio.write2radio(received, 5);
