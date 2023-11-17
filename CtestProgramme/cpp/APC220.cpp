@@ -62,7 +62,7 @@ APC220::APC220() {
     tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
 
     tty.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
-    //tty.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
+    tty.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
 
     //Test is attributes are set correctly
     if (tcsetattr(radio, TCSANOW, &tty) != 0) {
