@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
     //Request the desired angle
     std::cout << "Beginning tests" << std::endl;
 
-    std::vector<int> testangles={1,5,15,45,145};
+    std::vector<int> testangles={145,45,15,5};
 
     for (int TA : testangles){
         std::cout << "Going for test angle: " << TA << std::endl;
