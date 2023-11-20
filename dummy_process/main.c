@@ -21,6 +21,27 @@
 
 int main(void) {
 
+    /* Create a child process for the antenna DFT process */
+    pid_t pid;
+
+    if (signal(SIGCHLD, SIG_IGN) == SIG_ERR) {
+        perror("signal");
+        exit(EXIT_FAILURE);
+    }
+    pid = fork();
+
+    if (pid == -1) {
+        printf("Error while forking antenna_dft process\n");
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) {
+        printf("DFT child process initiated. PID is: %d\n", getpid());
+        path[] = "/tmp/antenna_dft";
+        callexecve(path);
+    } else if (pid > 1) {
+        printf("Transceiver parent process running. PID is: %d\n", getpid());
+        exit(EXIT_SUCCESS);
+    }
+
     int client_sock, rc, len;
     struct sockaddr_un server_sockaddr;
     struct sockaddr_un client_sockaddr;

@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <sys/un.h>
 
+/* Remeber to clear files in path */
 #define SOCK_PATH "/tmp/unix_sock.server"
 //#define SOCK_PATH "tpf_unix_sock.server"
 #define DATA      "Hello from server"
