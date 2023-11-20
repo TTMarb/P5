@@ -96,7 +96,9 @@ int main() {
         }
     }
 
-    /*  /* Resend data to connected socket */
+    /*
+
+    // Resend data to connected socket 
     memset(buf, 0, 256);
     strcpy(buf, DATA);
     printf("Sending data...\n");
@@ -112,7 +114,7 @@ int main() {
     * /
 
         /* Close the socket connection and exit */
-        close(server_sock);
+    close(server_sock);
     close(client_sock);
 
     return 0;
