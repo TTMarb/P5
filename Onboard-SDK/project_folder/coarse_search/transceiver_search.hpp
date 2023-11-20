@@ -42,25 +42,15 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM,
-                        float64_t lonM);
+void tellMeAboutTheData(DJI::OSDK::Vehicle*);
 
-void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
-void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);
+float64_t getAngle(float64_t, float64_t);
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
-                                                         float64_t lonM, DJI::OSDK::float32_t start_alt);
 
-std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(DJI::OSDK::WayPointSettings* start_data, int num_wp,
-                                                           float64_t latM, float64_t lonM);
+float64_t getSize(float64_t, float64_t);
 
-void uploadWaypoints(DJI::OSDK::Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>& wp_list,
-                     int responseTimeout);
-
-bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBeforeStop);
-
+//Ikke nødvendigt i den endelige version, men her kan det bruges til test
 void setBroadcastFrequency(Vehicle* vehicle);
 
-const int DEFAULT_PACKAGE_INDEX = 0;
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

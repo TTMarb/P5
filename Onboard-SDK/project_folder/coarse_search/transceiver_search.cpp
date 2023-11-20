@@ -36,161 +36,54 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM) {
-    // Waypoint Mission : Initialization
-    WayPointInitSettings fdata;
-    setWaypointInitDefaults(&fdata);
+void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     setBroadcastFrequency(vehicle);
+    Telemetry::GlobalPosition pos;
+    float64_t dLatPos;
+    float64_t dLonPos;
+    float64_t senderLatPos;
+    float64_t senderLonPos;
+    pos = vehicle->broadcast->getGlobalPosition();
 
-    fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
+    //Note: Everything is NOT tested!
+    // Create random number
+    // Providing a seed value
+	srand((unsigned) time(NULL));
+	// Get a random number
+	int random = rand() % 100;
+    std::cout << "Random number 1: " << random << "\n";
+    senderLatPos = pos.latitude+random*0.00001;
+    std::cout << "Sender latitude: " << senderLatPos << "\n";
+	int random = rand() % 100;
+    std::cout << "Random number 2: " << random << "\n";
+    senderLonPos = pos.longitude+random*0.00001;
+    std::cout << "Sender longitude: " << senderLonPos << "\n";
 
-    float32_t start_alt = 1.5;
-
-    ACK::ErrorCode initAck = vehicle->missionManager->init(DJI_MISSION_TYPE::WAYPOINT, responseTimeout, &fdata);
-    if (ACK::getError(initAck)) {
-        ACK::getErrorCodeMessage(initAck, __func__);
-    }
-
-    vehicle->missionManager->printInfo();
-    std::cout << "Initializing Waypoint Mission..\n";
-
-    // Waypoint Mission: Create Waypoints
-    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt);
-    std::cout << "Creating Waypoints..\n";
-
-    // Waypoint Mission: Upload the waypoints
-    uploadWaypoints(vehicle, generatedWaypts, responseTimeout);
-    std::cout << "Uploading Waypoints..\n";
-
-    // Waypoint Mission: Start
-    ACK::ErrorCode startAck = vehicle->missionManager->wpMission->start(responseTimeout);
-    std::cout << "Got response!\n";
-    if (ACK::getError(startAck)) {
-        std::cout << "ERROR in Starting Waypoint Mission.\n";
-        ACK::getErrorCodeMessage(initAck, __func__);
-    } else {
-        std::cout << "Starting Waypoint Mission.\n";
-    }
-    // Cleanup before return. The mission isn't done yet, but it doesn't need any
-    // more input from our side.
-    std::cout << "Bout to return true\n";
-
-    return true;
-}
-
-void setWaypointDefaults(WayPointSettings* wp) {
-    wp->damping = 0;
-    wp->yaw = 0;
-    wp->gimbalPitch = 0;
-    wp->turnMode = 0;
-    wp->hasAction = 0;
-    wp->actionTimeLimit = 100;
-    wp->actionNumber = 0;
-    wp->actionRepeat = 0;
-    for (int i = 0; i < 16; ++i) {
-        wp->commandList[i] = 0;
-        wp->commandParameter[i] = 0;
+    //Create random location based on init GPS location + a bit.
+    while(true){
+        pos = vehicle->broadcast->getGlobalPosition();
+        dLatPos = pos.latitude-senderLatPos;
+        dLonPos = pos.longitude-senderLonPos;
+        std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
+        std::cout << "Distance from start: " << dLatPos << ", " << dLonPos << "\n";
+        std::cout << "angle on sender: " << getAngle(dLatPos, dLonPos) << "\n";
+        std::cout << "Distance off sender: " << getSize(dLatPos, dLonPos) << "\n";
     }
 }
 
-void setWaypointInitDefaults(WayPointInitSettings* fdata) {
-    fdata->maxVelocity = 10;
-    fdata->idleVelocity = 5;
-    fdata->finishAction = 0;
-    fdata->executiveTimes = 1;
-    fdata->yawMode = 0;
-    fdata->traceMode = 0;
-    fdata->RCLostAction = 1;
-    fdata->gimbalPitch = 0;
-    fdata->latitude = 0;
-    fdata->longitude = 0;
-    fdata->altitude = 0;
+float64_t getAngle(float64_t x, float64_t y) {
+    float64_t angle = atan2(y, x) * 180.0 / M_PI;
+    /*if (angle < 0) {
+        angle += 360.0;
+    }*/ //Aner ikke om det her kode er nødvendigt (○｀ 3′○)
+    return angle;
 }
 
-std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
-                                                         float64_t lonM, float32_t start_alt) {
-    // Create Start Waypoint
-    WayPointSettings start_wp;
-    setWaypointDefaults(&start_wp);
-
-    // Global position retrieved via subscription
-    Telemetry::TypeMap<TOPIC_GPS_FUSED>::type subscribeGPosition;
-    // Global position retrieved via broadcast
-    Telemetry::GlobalPosition broadcastGPosition;
-
-    broadcastGPosition = vehicle->broadcast->getGlobalPosition();
-    start_wp.latitude = broadcastGPosition.latitude;
-    start_wp.longitude = broadcastGPosition.longitude;
-    start_wp.altitude = start_alt;
-    printf("Initial location at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
-           start_alt);
-
-    std::vector<DJI::OSDK::WayPointSettings> wpVector = generateWaypoints(&start_wp, numWaypoints, latM, lonM);
-    return wpVector;
+float64_t getSize(float64_t x, float64_t y) {
+    return sqrt(pow(x, 2) + pow(y, 2));
 }
 
-std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, int num_wp, float64_t latM,
-                                                           float64_t lonM) {
-
-    // Let's create a vector to store our waypoints in.
-    std::vector<DJI::OSDK::WayPointSettings> wp_list;
-
-    float64_t r_earth = 6378100;
-
-    // First waypoint
-    start_data->index = 0;
-    wp_list.push_back(*start_data);
-
-    int mult = -1;
-
-    // Iterative algorithm
-    for (int i = 1; i < num_wp; i++) {
-        WayPointSettings wp;
-        WayPointSettings* prevWp = &wp_list[i - 1];
-        setWaypointDefaults(&wp);
-        wp.index = i;
-        // Downwards increment
-        if (i % 2 != 0) {
-            mult = mult * -1;
-            wp.latitude = (prevWp->latitude);
-            wp.longitude = (prevWp->longitude + (((latM / r_earth) / cos(wp.latitude))* mult));
-
-        } else // Side ways increment
-        {
-            wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + ((lonM / r_earth)));
-        }
-        wp.altitude = (prevWp->altitude);
-        wp_list.push_back(wp);
-    }
-
-    // Come back home
-    start_data->index = num_wp;
-    wp_list.push_back(*start_data);
-    std::cout << "lenght of wp_list: " << wp_list.size() << "\n";
-
-    return wp_list;
-}
-
-void uploadWaypoints(Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>& wp_list, int responseTimeout) {
-    for (std::vector<WayPointSettings>::iterator wp = wp_list.begin(); wp != wp_list.end(); ++wp) {
-        printf("Waypoint created at (LLA): %f \t%f \t%f\n ", wp->latitude, wp->longitude, wp->altitude);
-        ACK::WayPointIndex wpDataACK = vehicle->missionManager->wpMission->uploadIndexData(&(*wp), responseTimeout);
-
-        ACK::getErrorCodeMessage(wpDataACK.ack, __func__);
-    }
-}
-
-bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBeforeStop) {
-    sleep(delayBeforeStop);
-    ACK::ErrorCode stopAck = vehicle->missionManager->wpMission->stop(responseTimeout);
-    if (ACK::getError(stopAck)) {
-        std::cout << "ERROR in Stopping Waypoint Mission.\n";
-        ACK::getErrorCodeMessage(stopAck, __func__);
-    }
-    std::cout << "Succes: Stopping Waypoint Mission.\n";
-}
-
+//Ikke nødvendigt i den endelige version, men her kan det bruges til test
 void setBroadcastFrequency(Vehicle* vehicle) {
     //To ensure a faster response, the broadcast frequency is set to 100Hz for Quaternion
     enum FREQ {

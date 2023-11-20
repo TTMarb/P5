@@ -113,7 +113,7 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     WayPointSettings start_wp;
     setWaypointDefaults(&start_wp);
 
-    // Global position retrieved via subscription
+    // Global position retrieved via subscription  //@TODO: Formodenligt fjern nedenstående linier!
     Telemetry::TypeMap<TOPIC_GPS_FUSED>::type subscribeGPosition;
     // Global position retrieved via broadcast
     Telemetry::GlobalPosition broadcastGPosition;
