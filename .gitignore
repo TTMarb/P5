@@ -1,3 +1,4 @@
-# Ignore file name 'README.md'
+# Files to ignore in repo
 README.md
 Onboard-SDK/build/
+domain_socket/
