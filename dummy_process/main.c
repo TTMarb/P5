@@ -13,11 +13,19 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
-#include "dummy.h"
 #define SERVER_PATH "/tmp/unix_sock.server"
 //#define SERVER_PATH "tpf_unix_sock.server"
 #define CLIENT_PATH "tpf_unix_sock.client"
 #define DATA        "Hello from client"
+
+void callexecve(char path[]) {
+    char* const args[] = {"antenna_dft", NULL};
+    char* const envp[] = {NULL};
+
+    execve(path, args, envp);
+    perror("execve");
+    exit(EXIT_FAILURE); /* Exit the child process if it fails*/
+}
 
 int main(void) {
 
@@ -37,7 +45,7 @@ int main(void) {
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
         printf("DFT child process initiated. PID is: %d\n", getpid());
-        char path[] = "/home/ubuntu/Documents/P5/antenna_dft/antenna_dft.bin";
+        char path[] = "/home/ubuntu/Documents/P5/antenna_dft/";
         callexecve(path);
     } else if (pid > 1) {
         printf("Transceiver parent process running. PID is: %d\n", getpid());
