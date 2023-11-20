@@ -13,7 +13,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
-
+#include "dummy.h"
 #define SERVER_PATH "/tmp/unix_sock.server"
 //#define SERVER_PATH "tpf_unix_sock.server"
 #define CLIENT_PATH "tpf_unix_sock.client"
