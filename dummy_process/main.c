@@ -32,7 +32,7 @@ int main(void) {
     /**************************************/
     client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (client_sock == -1) {
-        printf("SOCKET ERROR = %d\n", sock_errno());
+        printf("SOCKET ERROR\n");
         exit(1);
     }
 
@@ -51,7 +51,7 @@ int main(void) {
     unlink(CLIENT_PATH);
     rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
     if (rc == -1) {
-        printf("BIND ERROR: %d\n", sock_errno());
+        printf("BIND ERROR\n");
         close(client_sock);
         exit(1);
     }
@@ -65,7 +65,7 @@ int main(void) {
     strcpy(server_sockaddr.sun_path, SERVER_PATH);
     rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, len);
     if (rc == -1) {
-        printf("CONNECT ERROR = %d\n", sock_errno());
+        printf("CONNECT ERROR\n");
         close(client_sock);
         exit(1);
     }
@@ -78,7 +78,7 @@ int main(void) {
     printf("Sending data...\n");
     rc = send(client_sock, buf, strlen(buf), 0);
     if (rc == -1) {
-        printf("SEND ERROR = %d\n", sock_errno());
+        printf("SEND ERROR\n");
         close(client_sock);
         exit(1);
     } else {
@@ -93,7 +93,7 @@ int main(void) {
     memset(buf, 0, sizeof(buf));
     rc = recv(client_sock, buf, sizeof(buf));
     if (rc == -1) {
-        printf("RECV ERROR = %d\n", sock_errno());
+        printf("RECV ERROR\n");
         close(client_sock);
         exit(1);
     } else {
