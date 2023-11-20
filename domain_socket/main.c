@@ -14,7 +14,8 @@
 #include <sys/types.h>
 #include <sys/un.h>
 
-#define SOCK_PATH "tpf_unix_sock.server"
+#define SOCK_PATH "/tmp/unix_sock.server"
+//#define SOCK_PATH "tpf_unix_sock.server"
 #define DATA      "Hello from server"
 
 int main() {
