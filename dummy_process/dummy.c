@@ -1,7 +1,7 @@
 #include "dummy.h"
 
 void callexecve(char path[]) {
-    char* const args[] = {"ls", NULL};
+    char* const args[] = {"antenna_dft", NULL};
     char* const envp[] = {NULL};
 
     execve(path, args, envp);
