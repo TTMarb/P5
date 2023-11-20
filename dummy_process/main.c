@@ -18,15 +18,6 @@
 #define CLIENT_PATH "tpf_unix_sock.client"
 #define DATA        "Hello from client"
 
-void callexecve(char path[]) {
-    char* const args[] = {"antenna_dft", NULL};
-    char* const envp[] = {NULL};
-
-    execve(path, args, envp);
-    perror("execve");
-    exit(EXIT_FAILURE); /* Exit the child process if it fails*/
-}
-
 int main(void) {
 
     /* Create a child process for the antenna DFT process */
@@ -45,8 +36,12 @@ int main(void) {
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
         printf("DFT child process initiated. PID is: %d\n", getpid());
-        char path[] = "/home/ubuntu/Documents/P5/antenna_dft/";
-        callexecve(path);
+        char* const args[] = {"antenna_dft", NULL};
+        char* const envp[] = {NULL};
+
+        execve("/home/ubuntu/Documents/P5/antenna_dft/", args, envp);
+        perror("execve");
+        exit(EXIT_FAILURE); /* Exit the child process if it fails*/
     } else if (pid > 1) {
         printf("Transceiver parent process running. PID is: %d\n", getpid());
         exit(EXIT_SUCCESS);
