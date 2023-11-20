@@ -91,7 +91,7 @@ int main(void) {
     /**************************************/
     printf("Waiting to recieve data...\n");
     memset(buf, 0, sizeof(buf));
-    rc = recv(client_sock, buf, sizeof(buf));
+    rc = recv(client_sock, buf, sizeof(buf), 0);
     if (rc == -1) {
         printf("RECV ERROR\n");
         close(client_sock);
