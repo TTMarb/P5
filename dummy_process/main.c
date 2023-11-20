@@ -35,7 +35,7 @@ int main(void) {
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
         printf("DFT child process initiated. PID is: %d\n", getpid());
-        path[] = "/home/ubuntu/Documents/P5/antenna_dft/antenna_dft.bin";
+        char path[] = "/home/ubuntu/Documents/P5/antenna_dft/antenna_dft.bin";
         callexecve(path);
     } else if (pid > 1) {
         printf("Transceiver parent process running. PID is: %d\n", getpid());
