@@ -59,13 +59,6 @@ void getRotation(Vehicle* vehicle) {
     currAngle = QtoDEG(vehicle);
     printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
 
-    //Step 1: set the current angle to the start angle - typically 0.
-    while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
-        usleep(10000);
-    }
-    //Print 2 confirm starting angle
-    printf("currAngle: %f, targetAngle: %f\n", currAngle, targetAngle);
-
     sleep(2);
     //Sets a new target angle
     targetAngle = currAngle - requestangle;
