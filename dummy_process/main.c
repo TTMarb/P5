@@ -24,10 +24,12 @@ int main(void) {
     /* Create a child process for the antenna DFT process */
     pid_t pid;
 
+    /*
     if (signal(SIGCHLD, SIG_IGN) == SIG_ERR) {
         perror("signal");
         exit(EXIT_FAILURE);
     }
+    */
     pid = fork();
 
     if (pid == -1) {
