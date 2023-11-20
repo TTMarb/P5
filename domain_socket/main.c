@@ -35,7 +35,7 @@ int main() {
     /* Create a socket */
     server_sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server_sock == -1) {
-        printf("SOCKET ERROR: %d\n", sock_errno());
+        printf("SOCKET ERROR\n");
         exit(1);
     }
 
@@ -48,7 +48,7 @@ int main() {
     unlink(SOCK_PATH);
     rc = bind(server_sock, (struct sockaddr*)&server_sockaddr, len);
     if (rc == -1) {
-        printf("BIND ERROR: %d\n", sock_errno());
+        printf("BIND ERROR\n");
         close(server_sock);
         exit(1);
     }
@@ -56,7 +56,7 @@ int main() {
     /* Listen for client sockets */
     rc = listen(server_sock, backlog);
     if (rc == -1) {
-        printf("LISTEN ERROR: %d\n", sock_errno());
+        printf("LISTEN ERROR\n");
         close(server_sock);
         exit(1);
     }
@@ -65,7 +65,7 @@ int main() {
     /* Accept incoming communication */
     client_sock = accept(server_sock, (struct sockaddr*)&client_sockaddr, &len);
     if (client_sock == -1) {
-        printf("ACCEPT ERROR: %d\n", sock_errno());
+        printf("ACCEPT ERROR\n");
         close(server_sock);
         close(client_sock);
         exit(1);
@@ -75,7 +75,7 @@ int main() {
     len = sizeof(client_sockaddr);
     rc = getpeername(client_sock, (struct sockaddr*)&client_sockaddr, &len);
     if (rc == -1) {
-        printf("GETPEERNAME ERROR: %d\n", sock_errno());
+        printf("GETPEERNAME ERROR\n");
         close(server_sock);
         close(client_sock);
         exit(1);
@@ -87,7 +87,7 @@ int main() {
     printf("waiting to read...\n");
     bytes_rec = recv(client_sock, buf, sizeof(buf), 0);
     if (bytes_rec == -1) {
-        printf("RECV ERROR: %d\n", sock_errno());
+        printf("RECV ERROR\n");
         close(server_sock);
         close(client_sock);
         exit(1);
@@ -101,7 +101,7 @@ int main() {
     printf("Sending data...\n");
     rc = send(client_sock, buf, strlen(buf), 0);
     if (rc == -1) {
-        printf("SEND ERROR: %d", sock_errno());
+        printf("SEND ERROR\n");
         close(server_sock);
         close(client_sock);
         exit(1);
