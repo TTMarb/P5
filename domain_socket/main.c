@@ -62,43 +62,41 @@ int main() {
     }
     printf("socket listening...\n");
 
-    for (;;) {
-        /* Accept incoming communication */
-        client_sock = accept(server_sock, (struct sockaddr*)&client_sockaddr, &len);
-        if (client_sock == -1) {
-            printf("ACCEPT ERROR\n");
-            close(server_sock);
-            close(client_sock);
-            exit(1);
-        }
+    /* Accept incoming communication */
+    client_sock = accept(server_sock, (struct sockaddr*)&client_sockaddr, &len);
+    if (client_sock == -1) {
+        printf("ACCEPT ERROR\n");
+        close(server_sock);
+        close(client_sock);
+        exit(1);
+    }
+    printf("Not listening anymore!\n");
 
-        /* Display socket name */
-        len = sizeof(client_sockaddr);
-        rc = getpeername(client_sock, (struct sockaddr*)&client_sockaddr, &len);
-        if (rc == -1) {
-            printf("GETPEERNAME ERROR\n");
-            close(server_sock);
-            close(client_sock);
-            exit(1);
-        } else {
-            printf("Client socket filepath: %s\n", client_sockaddr.sun_path);
-        }
-        /* Print incoming data */
-        printf("waiting to read...\n");
-        bytes_rec = recv(client_sock, buf, sizeof(buf), 0);
-        if (bytes_rec == -1) {
-            printf("RECV ERROR\n");
-            close(server_sock);
-            close(client_sock);
-            exit(1);
-        } else {
-            printf("DATA RECEIVED = %s\n", buf);
-        }
+    /* Display socket name */
+    len = sizeof(client_sockaddr);
+    rc = getpeername(client_sock, (struct sockaddr*)&client_sockaddr, &len);
+    if (rc == -1) {
+        printf("GETPEERNAME ERROR\n");
+        close(server_sock);
+        close(client_sock);
+        exit(1);
+    } else {
+        printf("Client socket filepath: %s\n", client_sockaddr.sun_path);
     }
 
-    /*
+    // Print incoming data
+    printf("waiting to read...\n");
+    bytes_rec = recv(client_sock, buf, sizeof(buf), 0);
+    if (bytes_rec == -1) {
+        printf("RECV ERROR\n");
+        close(server_sock);
+        close(client_sock);
+        exit(1);
+    } else {
+        printf("DATA RECEIVED = %s\n", buf);
+    }
 
-    // Resend data to connected socket 
+    // Resend data to connected socket
     memset(buf, 0, 256);
     strcpy(buf, DATA);
     printf("Sending data...\n");
@@ -111,9 +109,8 @@ int main() {
     } else {
         printf("Data sent!\n");
     }
-    * /
 
-        /* Close the socket connection and exit */
+    /* Close the socket connection and exit */
     close(server_sock);
     close(client_sock);
 
