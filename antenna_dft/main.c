@@ -92,14 +92,10 @@ int main() {
     int i;
     float num = 5;
     for (i = 0; i < 5; i++) {
-        buf[i];
+        buf[i] = num;
         num = num + 0.1;
     }
     printf("Sending data...\n");
-
-    for (i = 0; i < BUFFER_SIZE; i++) {
-        printf("%f\n", buf[i]);
-    }
 
     rc = send(client_sock, buf, BUFFER_SIZE, 0);
     if (rc == -1) {
