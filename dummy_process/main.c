@@ -45,7 +45,7 @@ int main(void) {
     } else if (pid > 0) {
         printf("Transceiver parent process running. PID is: %d\n", getpid());
         printf("In else if statement\n");
-        exit(EXIT_SUCCESS);
+        //exit(EXIT_SUCCESS);
         printf("After if else statement\n");
     }
 
