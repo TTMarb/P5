@@ -15,6 +15,7 @@ float buf[BUFFER_SIZE];
 int main(void) {
 
     int client_sock, rc, len;
+    int bytes_rec = 0;
     struct sockaddr_un client_sockaddr, server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
@@ -34,7 +35,7 @@ int main(void) {
     strcpy(client_sockaddr.sun_path, SERVER_PATH);
     len = sizeof(client_sockaddr);
     unlink(SERVER_PATH);
-    rc = bind(server_sock, (struct sockaddr*)&client_sockaddr, len);
+    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
     if (rc == -1) {
         printf("BIND ERROR\n");
         close(client_sock);
