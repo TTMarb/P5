@@ -36,10 +36,10 @@ int main(void) {
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
         printf("DFT child process initiated. PID is: %d\n", getpid());
-        char* const args[] = {"antenna_dft", NULL};
+        char* const args[] = {"tmp", NULL};
         char* const envp[] = {NULL};
 
-        execve("/home/ubuntu/Documents/P5/antenna_dft/", args, envp);
+        execve("/tmp/", args, envp);
         perror("execve");
         exit(EXIT_FAILURE); /* Exit the child process if it fails*/
     } else if (pid > 1) {
