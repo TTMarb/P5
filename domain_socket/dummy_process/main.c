@@ -1,11 +1,3 @@
-
-/************************************************************/
-/* This is a stream socket client sample program for UNIX   */
-/* domain sockets. This program creates a socket, connects  */
-/* to a server, sends data, then receives and prints a      */
-/* message from the server.                                 */
-/************************************************************/
-
 #include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -17,8 +9,8 @@
 
 #define SERVER_PATH "/tmp/unix_sock.server"
 //#define CLIENT_PATH "tpf_unix_sock.client"
-const int BUFFER_SIZE = 10;
-float32_t buf[BUFFER_SIZE];
+#define BUFFER_SIZE 10
+float buf[BUFFER_SIZE];
 
 int main(void) {
 
