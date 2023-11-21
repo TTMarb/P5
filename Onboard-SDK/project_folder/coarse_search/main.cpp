@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     //vehicle->obtainCtrlAuthority(functionTimeout);
 
     // Setup variables for use
-    tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle);
+    tellMeAboutTheData(vehicle);
 
     return 0;
 }
