@@ -97,6 +97,7 @@ float64_t getAngle(float64_t x, float64_t y) {
 
 float32_t QtoDEG(Vehicle* vehicle) {
     //This function converts the quaternion to degrees
+    float32_t angle;
     Telemetry::Quaternion quaternion;
     quaternion = vehicle->broadcast->getQuaternion();
     //Largely based on a mix of https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
@@ -104,7 +105,11 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     //180/M_pi is to convert from radians to degrees
-    float32_t angle = (atan2(t1, t0) * 180 / M_PI);
+    if (t0 < 0) {
+        angle = ((2*M_PI - atan2(t1, t0)) * 180 / M_PI);
+    } else {
+        angle = (atan2(t1, t0) * 180 / M_PI);
+    }
     return angle;
 }
 
