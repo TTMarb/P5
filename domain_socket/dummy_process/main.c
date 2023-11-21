@@ -57,7 +57,7 @@ int main(void) {
 
     // Read and print data from server
     printf("Waiting to recieve data...\n");
-    memset(buf, 0, BUFFER_SIZE);
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
     rc = recv(client_sock, buf, BUFFER_SIZE, 0);
     if (rc == -1) {
         printf("RECV ERROR\n");

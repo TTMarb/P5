@@ -32,7 +32,7 @@ int main() {
     */
     memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(buf, 0, BUFFER_SIZE);
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -88,7 +88,7 @@ int main() {
     }
 
     // Send data to connected socket
-    memset(buf, 0, BUFFER_SIZE);
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
     int i;
     float num = 5;
     for (i = 0; i < 5; i++) {
