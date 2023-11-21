@@ -24,13 +24,12 @@ int main() {
 
     int server_sock, len, rc;
     int bytes_rec = 0;
-    struct sockaddr_un server_sockaddr, peer_sock;
-    int backlog = 10;
+    struct sockaddr_un server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(&server_adress, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
@@ -40,35 +39,23 @@ int main() {
     }
 
     // Set up the sockaddr struct with the path
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
+    server_adress.sun_family = AF_UNIX;
+    strcpy(server_adress.sun_path, SERVER_PATH);
     len = sizeof(server_sockaddr);
 
-    // Unlink before bind to ensure a correct bind
-    unlink(SERVER_PATH);
-
-    // Bind socket to the socket name
-    rc = bind(server_sock, (struct sockaddr*)&server_sockaddr, len);
-    if (rc == -1) {
-        printf("BIND ERROR\n");
-        close(server_sock);
-        exit(EXIT_FAILURE);
-    }
-
-    /* Transmit connectionless */
+    // Generate data to send
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    printf("Sending data...\n");
     int i;
-    float num = 6;
+    float num = 5;
     for (i = 0; i < 5; i++) {
         num = num + 0.1;
         buf[i] = num;
-    }
-    printf("Sending data...\n");
-    for (i = 0; i < BUFFER_SIZE; i++) {
         printf("%f\n", buf[i]);
     }
 
-    rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&peer_sock, &len);
+    // Send data to clients
+    rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, len);
     if (rc == -1) {
         printf("SEND ERROR\n");
         close(server_sock);

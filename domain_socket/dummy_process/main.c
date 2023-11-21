@@ -8,20 +8,19 @@
 #include <sys/un.h>
 
 #define SERVER_PATH "/tmp/unix_sock.server"
-#define CLIENT_PATH "/tmp/transceiver_unix_sock.client"
+//#define CLIENT_PATH "/tmp/transceiver_unix_sock.client"
 #define BUFFER_SIZE 10
 float buf[BUFFER_SIZE];
 
 int main(void) {
 
     int client_sock, rc, len;
-    struct sockaddr_un client_sockaddr, peer_sock;
+    struct sockaddr_un client_sockaddr, server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(&peer_sock, 0, sizeof(struct sockaddr_un));
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
     // Create a socket
@@ -31,11 +30,19 @@ int main(void) {
         exit(EXIT_FAILURE);
     }
 
-    peer_sock.sun_family = AF_UNIX;
-    strcpy(peer_sock.sun_path, SERVER_PATH);
+    client_sock.sun_family = AF_UNIX;
+    strcpy(client_sock.sun_path, SERVER_PATH);
+    len = sizeof(client_sock);
+    unlink(SERVER_PATH);
+    rc = bind(server_sock, (struct sockaddr*)&server_sockaddr, len);
+    if (rc == -1) {
+        printf("BIND ERROR\n");
+        close(client_sock);
+        exit(EXIT_FAILURE);
+    }
 
     printf("Waiting to receive...\n");
-    bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&peer_sock, &len);
+    bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
     if (bytes_rec == -1) {
         printf("RECEIVE FROM ERROR");
         close(client_sock);
