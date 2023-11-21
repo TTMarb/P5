@@ -44,8 +44,8 @@ int main(void) {
         exit(EXIT_FAILURE); /* Exit the child process if it fails*/
     } else if (pid > 0) {
         printf("Transceiver parent process running. PID is: %d\n", getpid());
-        exit(EXIT_SUCCESS);
         printf("In else if statement\n");
+        exit(EXIT_SUCCESS);
     }
 
     printf("Continue after spawning child\n");
