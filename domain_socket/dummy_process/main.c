@@ -30,11 +30,11 @@ int main(void) {
         exit(EXIT_FAILURE);
     }
 
-    client_sock.sun_family = AF_UNIX;
-    strcpy(client_sock.sun_path, SERVER_PATH);
-    len = sizeof(client_sock);
+    client_sockaddr.sun_family = AF_UNIX;
+    strcpy(client_sockaddr.sun_path, SERVER_PATH);
+    len = sizeof(client_sockaddr);
     unlink(SERVER_PATH);
-    rc = bind(server_sock, (struct sockaddr*)&server_sockaddr, len);
+    rc = bind(server_sock, (struct sockaddr*)&client_sockaddr, len);
     if (rc == -1) {
         printf("BIND ERROR\n");
         close(client_sock);
