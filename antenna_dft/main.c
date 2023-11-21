@@ -96,6 +96,11 @@ int main() {
         num = num + 0.1;
     }
     printf("Sending data...\n");
+    int i;
+    for (i = 0; i < BUFFER_SIZE; i++) {
+        printf("%lf\n", buf[i]);
+    }
+
     rc = send(client_sock, buf, BUFFER_SIZE, 0);
     if (rc == -1) {
         printf("SEND ERROR\n");
