@@ -2,7 +2,6 @@
  * The calculation are sent using 
  */
 
-#include <antenna.h>
 #include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
