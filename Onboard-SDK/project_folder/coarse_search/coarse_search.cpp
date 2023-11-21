@@ -55,6 +55,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 	srand((unsigned) time(NULL));
 	// Get a random number
 	//int random = rand() % 10;
+    int searchRadius = 10;
     int random = 0;
     std::cout << "Random number 1: " << random << "\n";
     iY = pos.latitude*r_earth+random;
@@ -68,11 +69,18 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         pos = vehicle->broadcast->getGlobalPosition();
         dY = (pos.latitude*r_earth)-iY;
         dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
+        float64_t distance = getSize(dX, dY);
+        float64_t angle = getAngle(dX, dY);
+        float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)-135);
+        float64_t A2 = (searchRadius - distance)*cos(getAngle(dX, dY)-45);
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
-        std::cout << "Distance from start: " << dX << ", " << dY << "\n";
-        std::cout << "angle on sender: " << getAngle(dX, dY) << "\n";
-        std::cout << "Distance off sender: " << getSize(dX, dY) << "\n";
-        sleep(1);
+        std::cout << "\t Distance from start: " << dX << ", " << dY << "\n";
+        std::cout << "\t Position angle on sender: " << angle << "\n";
+        std::cout << "\t Drones angle on sender: " << angle-90 << "\n";
+        std::cout << "\t Distance from sender: " << distance << "\n";
+        std::cout << "\t A1 signal strength from sender: " << A1 << "\n";
+        std::cout << "\t A1 signal strength from sender: " << A2 << "\n";
+        sleep(5);
     }
 }
 
