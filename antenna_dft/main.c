@@ -101,7 +101,7 @@ int main() {
         printf("%f\n", buf[i]);
     }
 
-    rc = send(client_sock, buf, BUFFER_SIZE, 0);
+    rc = send(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
     if (rc == -1) {
         printf("SEND ERROR\n");
         close(server_sock);
