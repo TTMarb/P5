@@ -14,7 +14,7 @@
 /* Path for UNIX domain socket */
 #define SOCK_PATH   "/tmp/unix_sock.server"
 #define BUFFER_SIZE 10
-float32_t buf[BUFFER_SIZE];
+float buf[BUFFER_SIZE];
 
 int main() {
     /****** DFT CALCULATIONS ******/
