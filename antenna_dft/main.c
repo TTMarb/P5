@@ -96,7 +96,7 @@ int main() {
         num = num + 0.1;
     }
     printf("Sending data...\n");
-    int i;
+
     for (i = 0; i < BUFFER_SIZE; i++) {
         printf("%lf\n", buf[i]);
     }
