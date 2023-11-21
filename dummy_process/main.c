@@ -39,7 +39,7 @@ int main(void) {
         char* const args[] = {"tmp", NULL};
         char* const envp[] = {NULL};
 
-        execve("/tmp/", args, envp);
+        execve("/tmp/antenna_dft.bin", args, envp);
         perror("execve");
         exit(EXIT_FAILURE); /* Exit the child process if it fails*/
     } else if (pid > 1) {
