@@ -104,7 +104,7 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     //180/M_pi is to convert from radians to degrees
-    float32_t angle = atan2(t1, t0) * 180 / M_PI;
+    float32_t angle = (atan2(t1, t0) * 180 / M_PI)-90;
     return angle;
 }
 
