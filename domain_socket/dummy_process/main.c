@@ -8,7 +8,7 @@
 #include <sys/un.h>
 
 #define SERVER_PATH "/tmp/unix_sock.server"
-//#define CLIENT_PATH "tpf_unix_sock.client"
+#define CLIENT_PATH "tpf_unix_sock.client"
 #define BUFFER_SIZE 10
 float buf[BUFFER_SIZE];
 
@@ -31,12 +31,11 @@ int main(void) {
         exit(1);
     }
 
-    /*  
-    // Set up the sockaddr struct for the client 
+    // Set up the sockaddr struct for the client
     client_sockaddr.sun_family = AF_UNIX;
     strcpy(client_sockaddr.sun_path, CLIENT_PATH);
     len = sizeof(client_sockaddr);
-    // Unlink before bind to ensure a correct bind 
+    // Unlink before bind to ensure a correct bind
     unlink(CLIENT_PATH);
     // Bind socket to the socket name
     rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
@@ -45,9 +44,8 @@ int main(void) {
         close(client_sock);
         exit(1);
     }
-    */
 
-    // Set up the sockaddr struct for the server and connect
+       /*  // Set up the sockaddr struct for the server and connect
     server_sockaddr.sun_family = AF_UNIX;
     strcpy(server_sockaddr.sun_path, SERVER_PATH);
     rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, len);
@@ -55,7 +53,7 @@ int main(void) {
         printf("CONNECT ERROR\n");
         close(client_sock);
         exit(1);
-    }
+    } */
 
     // Read and print data from server
     printf("Waiting to recieve data...\n");
@@ -66,7 +64,11 @@ int main(void) {
         close(client_sock);
         exit(1);
     } else {
-        printf("DATA RECEIVED = %s\n", buf);
+        printf("Buffer contains\n");
+        int i;
+        for (i = 0; i < BUFFER_SIZE; i++) {
+            printf("%lf\n", buf[i]);
+        }
     }
 
     // Close socket and exit

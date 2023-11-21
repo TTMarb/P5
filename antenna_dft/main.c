@@ -12,7 +12,7 @@
 #include <sys/un.h>
 
 /* Path for UNIX domain socket */
-#define SOCK_PATH   "/tmp/unix_sock.server"
+#define SERVER_PATH "/tmp/unix_sock.server"
 #define BUFFER_SIZE 10
 float buf[BUFFER_SIZE];
 
@@ -43,11 +43,11 @@ int main() {
 
     // Set up the sockaddr struct with the path
     server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SOCK_PATH);
+    strcpy(server_sockaddr.sun_path, SERVER_PATH);
     len = sizeof(server_sockaddr);
 
     // Unlink before bind to ensure a correct bind
-    unlink(SOCK_PATH);
+    unlink(SERVER_PATH);
 
     // Bind socket to the socket name
     rc = bind(server_sock, (struct sockaddr*)&server_sockaddr, len);
