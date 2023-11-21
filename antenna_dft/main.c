@@ -92,8 +92,8 @@ int main() {
     int i;
     float num = 5;
     for (i = 0; i < 5; i++) {
-        buf[i] = num;
         num = num + 0.1;
+        buf[i] = num;
     }
     printf("Sending data...\n");
 
