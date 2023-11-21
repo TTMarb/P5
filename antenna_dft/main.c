@@ -41,7 +41,6 @@ int main() {
     // Set up the sockaddr struct with the path
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
-    len = sizeof(server_sockaddr);
 
     // Generate data to send
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
@@ -55,7 +54,8 @@ int main() {
     }
 
     // Send data to clients
-    rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, len);
+    rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                sizeof(server_adress));
     if (rc == -1) {
         printf("SEND ERROR\n");
         close(server_sock);
