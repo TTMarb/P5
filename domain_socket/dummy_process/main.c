@@ -15,22 +15,40 @@ float buf[BUFFER_SIZE];
 int main(void) {
 
     int client_sock, rc, len;
-    struct sockaddr_un server_sockaddr;
-    struct sockaddr_un client_sockaddr;
+    struct sockaddr_un client_sockaddr, peer_sock;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(&peer_sock, 0, sizeof(struct sockaddr_un));
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
     // Create a socket
-    client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (client_sock == -1) {
         printf("SOCKET ERROR\n");
         exit(EXIT_FAILURE);
     }
 
+    peer_sock.sun_family = AF_UNIX;
+    strcpy(peer_sock.sun_path, SERVER_PATH);
+
+    printf("Waiting to receive...\n");
+    bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&peer_sock, &len);
+    if (bytes_rec == -1) {
+        printf("RECEIVE FROM ERROR");
+        close(client_sock);
+        exit(EXIT_FAILURE);
+    } else {
+        printf("DATA RECEIVED\n");
+        int i;
+        for (i = 0; i < BUFFER_SIZE; i++) {
+            printf("%f\n", buf[i]);
+        }
+    }
+
+    /* 
     // Set up the sockaddr struct for the client
     client_sockaddr.sun_family = AF_UNIX;
     strcpy(client_sockaddr.sun_path, CLIENT_PATH);
@@ -54,7 +72,7 @@ int main(void) {
         close(client_sock);
         exit(EXIT_FAILURE);
     }
-
+ 
     // Read and print data from server
     printf("Waiting to recieve data...\n");
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
@@ -71,6 +89,7 @@ int main(void) {
         }
     }
 
+  */
     // Close socket and exit
     close(client_sock);
 
