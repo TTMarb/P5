@@ -79,7 +79,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t Distance from start: " << dX << ", " << dY << "\n";
         std::cout << "\t Position angle on sender: " << angle << "\n";
         std::cout << "\t Drones angle: " << droneAngle<< "\n";
-        std::cout << "\t Drones angle on sender: " << angle-droneAngle << "\n";
+        std::cout << "\t Drones angle on sender: " << angle+90-droneAngle << "\n";
         std::cout << "\t Distance from sender: " << distance << "\n";
         std::cout << "\t A1 signal strength from sender: " << A1 << "\n";
         std::cout << "\t A1 signal strength from sender: " << A2 << "\n";
@@ -104,7 +104,7 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     //180/M_pi is to convert from radians to degrees
-    float32_t angle = (atan2(t1, t0) * 180 / M_PI)-90;
+    float32_t angle = (atan2(t1, t0) * 180 / M_PI);
     return angle;
 }
 
