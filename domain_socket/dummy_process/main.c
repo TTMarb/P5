@@ -67,7 +67,7 @@ int main(void) {
         printf("Buffer contains\n");
         int i;
         for (i = 0; i < BUFFER_SIZE; i++) {
-            printf("%lf\n", buf[i]);
+            printf("%f\n", buf[i]);
         }
     }
 

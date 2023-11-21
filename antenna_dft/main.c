@@ -98,7 +98,7 @@ int main() {
     printf("Sending data...\n");
 
     for (i = 0; i < BUFFER_SIZE; i++) {
-        printf("%lf\n", buf[i]);
+        printf("%f\n", buf[i]);
     }
 
     rc = send(client_sock, buf, BUFFER_SIZE, 0);
