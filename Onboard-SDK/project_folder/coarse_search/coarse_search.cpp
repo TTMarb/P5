@@ -45,6 +45,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t dX;
     //float64_t r_earth = 6378100;
     float64_t r_earth = 6356752; 
+    float32_t droneangle;
     pos = vehicle->broadcast->getGlobalPosition();
 
 
@@ -69,6 +70,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         pos = vehicle->broadcast->getGlobalPosition();
         dY = (pos.latitude*r_earth)-iY;
         dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
+        droneAngle = QtoDEG(vehicle);
         float64_t distance = getSize(dX, dY);
         float64_t angle = getAngle(dX, dY);
         float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)-135);
@@ -76,7 +78,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
         std::cout << "\t Distance from start: " << dX << ", " << dY << "\n";
         std::cout << "\t Position angle on sender: " << angle << "\n";
-        std::cout << "\t Drones angle on sender: " << angle-90 << "\n";
+        std::cout << "\t Drones angle: " << angle- << "\n";
+        std::cout << "\t Drones angle on sender: " << angle-droneAngle << "\n";
         std::cout << "\t Distance from sender: " << distance << "\n";
         std::cout << "\t A1 signal strength from sender: " << A1 << "\n";
         std::cout << "\t A1 signal strength from sender: " << A2 << "\n";
@@ -91,6 +94,20 @@ float64_t getAngle(float64_t x, float64_t y) {
     }*/ //Aner ikke om det her kode er nødvendigt (○｀ 3′○)
     return angle;
 }
+
+float32_t QtoDEG(Vehicle* vehicle) {
+    //This function converts the quaternion to degrees
+    Telemetry::Quaternion quaternion;
+    quaternion = vehicle->broadcast->getQuaternion();
+    //Largely based on a mix of https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
+    //and the flight-control sample
+    double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+    double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+    //180/M_pi is to convert from radians to degrees
+    float32_t angle = atan2(t1, t0) * 180 / M_PI;
+    return angle;
+}
+
 
 float64_t getSize(float64_t x, float64_t y) {
     return sqrt(pow(x, 2) + pow(y, 2));
