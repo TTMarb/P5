@@ -51,6 +51,7 @@ int main(void) {
 
     printf("Continue after spawning child\n");
     exit(EXIT_SUCCESS);
+
     int client_sock, rc, len;
     struct sockaddr_un server_sockaddr;
     struct sockaddr_un client_sockaddr;
