@@ -66,7 +66,11 @@ int main(void) {
         close(client_sock);
         exit(1);
     } else {
-        printf("DATA RECEIVED = %s\n", buf);
+        int i;
+        for (i = 0; i < BUFFER_SIZE; i++) {
+            printf("Buffer contains\n");
+            printf("%lf\n", buf[i]);
+        }
     }
 
     // Close socket and exit
