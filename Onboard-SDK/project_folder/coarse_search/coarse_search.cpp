@@ -43,7 +43,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t iX;
     float64_t dY;
     float64_t dX;
-    float64_t r_earth = 6378100;
+    //float64_t r_earth = 6378100;
+    float64_t r_earth = 6356752; 
+    float32_t droneAngle;
     pos = vehicle->broadcast->getGlobalPosition();
 
 
@@ -54,23 +56,34 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 	srand((unsigned) time(NULL));
 	// Get a random number
 	//int random = rand() % 10;
+    int searchRadius = 10;
     int random = 0;
     std::cout << "Random number 1: " << random << "\n";
     iY = pos.latitude*r_earth+random;
-    std::cout << "Sender latitude: " << senderLatPos << "\n";
+    std::cout << "Sender latitude in M: " << iY << "\n";
 	//random = rand() % 10;
     std::cout << "Random number 2: " << random << "\n";
     iX = pos.longitude*cos(pos.latitude)*r_earth+random;
-    std::cout << "Sender longitude: " << senderLonPos << "\n";
+    std::cout << "Sender longitude in M: " << iX << "\n";
 
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
         dY = (pos.latitude*r_earth)-iY;
         dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
+        droneAngle = QtoDEG(vehicle);
+        float64_t distance = getSize(dX, dY);
+        float64_t angle = getAngle(dX, dY);
+        float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)-135);
+        float64_t A2 = (searchRadius - distance)*cos(getAngle(dX, dY)-45);
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
-        std::cout << "Distance from start: " << dX << ", " << dY << "\n";
-        std::cout << "angle on sender: " << getAngle(dX, dY) << "\n";
-        std::cout << "Distance off sender: " << getSize(dX, dY) << "\n";
+        std::cout << "\t Distance from start: " << dX << ", " << dY << "\n";
+        std::cout << "\t Position angle on sender: " << angle << "\n";
+        std::cout << "\t Drones angle: " << droneAngle<< "\n";
+        std::cout << "\t Drones angle on sender: " << angle-droneAngle << "\n";
+        std::cout << "\t Distance from sender: " << distance << "\n";
+        std::cout << "\t A1 signal strength from sender: " << A1 << "\n";
+        std::cout << "\t A1 signal strength from sender: " << A2 << "\n";
+        sleep(5);
     }
 }
 
@@ -81,6 +94,20 @@ float64_t getAngle(float64_t x, float64_t y) {
     }*/ //Aner ikke om det her kode er nødvendigt (○｀ 3′○)
     return angle;
 }
+
+float32_t QtoDEG(Vehicle* vehicle) {
+    //This function converts the quaternion to degrees
+    Telemetry::Quaternion quaternion;
+    quaternion = vehicle->broadcast->getQuaternion();
+    //Largely based on a mix of https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
+    //and the flight-control sample
+    double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+    double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+    //180/M_pi is to convert from radians to degrees
+    float32_t angle = (atan2(t1, t0) * 180 / M_PI)-90;
+    return angle;
+}
+
 
 float64_t getSize(float64_t x, float64_t y) {
     return sqrt(pow(x, 2) + pow(y, 2));

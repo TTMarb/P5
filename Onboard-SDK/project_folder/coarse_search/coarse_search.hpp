@@ -45,8 +45,7 @@
 void tellMeAboutTheData(DJI::OSDK::Vehicle*);
 
 float64_t getAngle(float64_t, float64_t);
-
-
+float32_t QtoDEG(Vehicle*);
 float64_t getSize(float64_t, float64_t);
 
 //Ikke nødvendigt i den endelige version, men her kan det bruges til test
