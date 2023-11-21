@@ -71,6 +71,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "Distance from start: " << dX << ", " << dY << "\n";
         std::cout << "angle on sender: " << getAngle(dX, dY) << "\n";
         std::cout << "Distance off sender: " << getSize(dX, dY) << "\n";
+        sleep(1);
     }
 }
 
