@@ -45,7 +45,7 @@ int main(void) {
         exit(1);
     }
 
-    // Set up the sockaddr struct for the server and connect
+       /*  // Set up the sockaddr struct for the server and connect
     server_sockaddr.sun_family = AF_UNIX;
     strcpy(server_sockaddr.sun_path, SERVER_PATH);
     rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, len);
@@ -53,7 +53,7 @@ int main(void) {
         printf("CONNECT ERROR\n");
         close(client_sock);
         exit(1);
-    }
+    } */
 
     // Read and print data from server
     printf("Waiting to recieve data...\n");
@@ -64,9 +64,9 @@ int main(void) {
         close(client_sock);
         exit(1);
     } else {
+        printf("Buffer contains\n");
         int i;
         for (i = 0; i < BUFFER_SIZE; i++) {
-            printf("Buffer contains\n");
             printf("%lf\n", buf[i]);
         }
     }
