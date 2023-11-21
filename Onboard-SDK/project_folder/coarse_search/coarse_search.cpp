@@ -43,7 +43,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t iX;
     float64_t dY;
     float64_t dX;
-    float64_t r_earth = 6378100;
+    //float64_t r_earth = 6378100;
+    float64_t r_earth = 6356752; 
     pos = vehicle->broadcast->getGlobalPosition();
 
 
