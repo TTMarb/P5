@@ -12,8 +12,8 @@
 #include <sys/un.h>
 
 /* Path for UNIX domain socket */
-#define SOCK_PATH "/tmp/unix_sock.server"
-const int BUFFER_SIZE = 10;
+#define SOCK_PATH   "/tmp/unix_sock.server"
+#define BUFFER_SIZE 10
 float32_t buf[BUFFER_SIZE];
 
 int main() {
@@ -97,7 +97,7 @@ int main() {
         buf[i] = num;
     }
     printf("Sending data...\n");
-    rc = send(client_sock, buf, strlen(buf), 0);
+    rc = send(client_sock, buf, BUFFER_SIZE, 0);
     if (rc == -1) {
         printf("SEND ERROR\n");
         close(server_sock);
