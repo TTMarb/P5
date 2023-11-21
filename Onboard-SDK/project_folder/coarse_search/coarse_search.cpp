@@ -65,8 +65,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Random number 2: " << random << "\n";
     iX = pos.longitude*cos(pos.latitude)*r_earth+random;
     std::cout << "Sender longitude in M: " << iX << "\n";
+    Telemetry::Quaternion quaternion;
 
     while(true){
+        quaternion = vehicle->broadcast->getQuaternion();
         pos = vehicle->broadcast->getGlobalPosition();
         dY = (pos.latitude*r_earth)-iY;
         dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
@@ -75,7 +77,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t angle = getAngle(dX, dY);
         float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)-135);
         float64_t A2 = (searchRadius - distance)*cos(getAngle(dX, dY)-45);
+        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
+        std::cout << "\t t1: " << t1 << ", t0: " << t0 << "\n";
         std::cout << "\t dX: " << dX << ", dY: " << dY << "\n";
         std::cout << "\t Position angle on sender: " << angle << "\n";
         std::cout << "\t Drones angle: " << droneAngle<< "\n";
@@ -108,10 +113,10 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     //180/M_pi is to convert from radians to degrees
-    if (t1 < 0) {
-        angle = ((2*M_PI + atan2(t1, t0)) * 180 / M_PI);
+    if (t0 < 0) {
+        angle = 360 - (((2*M_PI + atan2(t1, t0))-(M_PI/2)) * 180 / M_PI);
     } else {
-        angle = (atan2(t1, t0) * 180 / M_PI);
+        angle = 360 - ((atan2(t1, t0)-(M_PI/2)) * 180 / M_PI);
     }
     return angle;
 }
