@@ -97,10 +97,7 @@ int main() {
     }
     printf("Sending data...\n");
 
-    for (i = 0; i >) {
-
-        rc = send(client_sock, buf, BUFFER_SIZE, 0);
-    }
+    rc = send(client_sock, buf, BUFFER_SIZE, 0);
     if (rc == -1) {
         printf("SEND ERROR\n");
         close(server_sock);
