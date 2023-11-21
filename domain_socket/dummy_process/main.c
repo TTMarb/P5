@@ -8,7 +8,7 @@
 #include <sys/un.h>
 
 #define SERVER_PATH "/tmp/unix_sock.server"
-#define CLIENT_PATH "tpf_unix_sock.client"
+#define CLIENT_PATH "/tmp/transceiver_unix_sock.client"
 #define BUFFER_SIZE 10
 float buf[BUFFER_SIZE];
 
@@ -28,7 +28,7 @@ int main(void) {
     client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (client_sock == -1) {
         printf("SOCKET ERROR\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Set up the sockaddr struct for the client
@@ -42,18 +42,18 @@ int main(void) {
     if (rc == -1) {
         printf("BIND ERROR\n");
         close(client_sock);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
-       /*  // Set up the sockaddr struct for the server and connect
+    // Set up the sockaddr struct for the server and connect
     server_sockaddr.sun_family = AF_UNIX;
     strcpy(server_sockaddr.sun_path, SERVER_PATH);
     rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, len);
     if (rc == -1) {
         printf("CONNECT ERROR\n");
         close(client_sock);
-        exit(1);
-    } */
+        exit(EXIT_FAILURE);
+    }
 
     // Read and print data from server
     printf("Waiting to recieve data...\n");
@@ -62,7 +62,7 @@ int main(void) {
     if (rc == -1) {
         printf("RECV ERROR\n");
         close(client_sock);
-        exit(1);
+        exit(EXIT_FAILURE);
     } else {
         printf("Buffer contains\n");
         int i;

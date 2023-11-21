@@ -89,12 +89,11 @@ int main() {
 
     // Send data to connected socket
     memset(buf, 0, BUFFER_SIZE);
-
     int i;
+    float num = 5;
     for (i = 0; i < 5; i++) {
-        float num = 5;
-        num = num * ((float)rand() / (float)(RAND_MAX)); // Generate random values between 0 and 5
-        buf[i] = num;
+        buf[i];
+        num = num + 0.1;
     }
     printf("Sending data...\n");
     rc = send(client_sock, buf, BUFFER_SIZE, 0);
