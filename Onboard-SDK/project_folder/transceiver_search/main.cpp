@@ -23,19 +23,53 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ * 
+ * 
+ * 
  *
  */
 
 #include <cmath>
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <sys/un.h>
 #include "transceiver_search.hpp"
+
+// Path for UNIX domain socket
+#define SERVER_PATH "/tmp/unix_sock.server"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 int main(int argc, char** argv) {
-    // Initialize variables
-    int functionTimeout = 60;
 
+    /********* INITIALIZE DFT PROCESS *********/
+
+    pid_t pid;
+    pid = fork(); /* Fork the parent process to start new process*/
+
+    if (pid == -1) {
+        printf("Error while forking antenna_dft process\n");
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) {
+        printf("DFT child process initiated. PID is %d\n", getpid());
+        char* const args[] = {"tmp", NULL};
+        char* const envp[] = {NULL};
+        execve("/tmp/antenna_dft.bin", args, envp); /* Override the child process with the DFT program */
+        perror("execve");
+        exit(EXIT_FAILURE); /* Exit the child process if it fails*/
+    } else if (pid > 0) {
+        printf("Transceiver search parent process running. PID is %d\n", getpid());
+        //exit(EXIT_SUCCESS); /* Exit parent process */
+    }
+
+    /********* WAYPOINT MISSION *********/
+
+    int functionTimeout = 60;
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
     //Initialize vehicle
@@ -49,9 +83,7 @@ int main(int argc, char** argv) {
     vehicle->obtainCtrlAuthority(functionTimeout);
 
     // Setup variables for use
-
     int responseTimeout = 60;
-
     uint8_t numWaypoints;
     uint8_t errorFlag = 0;
     // Sets S and W parameters for transceiver search
@@ -81,15 +113,14 @@ int main(int argc, char** argv) {
             errorFlag = 1;
             break;
         }
-        
-        std::cout << "About to sleep for 30 secs" <<std::endl;
-        for(int i=0; i<30; i++){
+
+        std::cout << "About to sleep for 30 secs" << std::endl;
+        for (int i = 0; i < 30; i++) {
             std::cout << i << std::endl;
             sleep(1);
         }
-        std::cout << "Have slept for 30 secs" <<std::endl;
+        std::cout << "Have slept for 30 secs" << std::endl;
 
-        
         // Calculations for avalanche size inputs
         searchWidth = 10;
         avLength = avLength - (2 * searchWidth);
@@ -102,7 +133,7 @@ int main(int argc, char** argv) {
         {
             numWaypoints = static_cast<int>(numWaypoints); // Make the number of waypoints an integer
             pathLength = (numWaypoints / 2) * latM + ((numWaypoints / 2) - 1) * lonM;
-            std::cout << "The number of waypoints is " << + numWaypoints << std::endl;
+            std::cout << "The number of waypoints is " << +numWaypoints << std::endl;
             std::cout << "The path length is " << pathLength << " m\n";
             break;
         } else {
@@ -118,8 +149,8 @@ int main(int argc, char** argv) {
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
     }
 
-    //delayBeforeStop = 360;
-    //stopMission(vehicle, responseTimeout, delayBeforeStop);
+    /********* START OF DOMAIN SOCKET *********/
+    /* Code should include cancel command*/
 
     return 0;
 }
