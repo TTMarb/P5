@@ -57,11 +57,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int random = 0;
     std::cout << "Random number 1: " << random << "\n";
     iY = pos.latitude*r_earth+random;
-    std::cout << "Sender latitude: " << senderLatPos << "\n";
+    std::cout << "Sender latitude in M: " << iY << "\n";
 	//random = rand() % 10;
     std::cout << "Random number 2: " << random << "\n";
     iX = pos.longitude*cos(pos.latitude)*r_earth+random;
-    std::cout << "Sender longitude: " << senderLonPos << "\n";
+    std::cout << "Sender longitude in M: " << iX << "\n";
 
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
