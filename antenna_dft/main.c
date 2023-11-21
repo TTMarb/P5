@@ -90,7 +90,7 @@ int main() {
     // Send data to connected socket
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
     int i;
-    float num = 5;
+    float num = 6;
     for (i = 0; i < 5; i++) {
         num = num + 0.1;
         buf[i] = num;
