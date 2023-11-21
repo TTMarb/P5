@@ -1,11 +1,12 @@
 #include "stdint.h"
 #include "stdio.h"
 
-uint8_t runOnce = 0;
-
 int main(void) {
-    if (runOnce == 0) {
-        printf("Started antenna_dft\n");
-        runOnce = 1;
+    for (int i = 0; i < 30; i++) {
+        if (i == 0) {
+            printf("Began count!\n");
+        }
+        printf("The count is %d", i);
+        sleep(50);
     }
 }
