@@ -30,7 +30,7 @@
  *
  */
 
-#include "transceiver_search.hpp"
+#include "coarse_search.hpp"
 #define _USE_MATH_DEFINES
 #include <math.h>
 using namespace DJI::OSDK;
@@ -39,35 +39,38 @@ using namespace DJI::OSDK::Telemetry;
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     setBroadcastFrequency(vehicle);
     Telemetry::GlobalPosition pos;
-    float64_t dLatPos;
-    float64_t dLonPos;
-    float64_t senderLatPos;
-    float64_t senderLonPos;
+    float64_t iY;
+    float64_t iX;
+    float64_t dY;
+    float64_t dX;
+    float64_t r_earth = 6378100;
     pos = vehicle->broadcast->getGlobalPosition();
 
+
+    //Create random location based on init GPS location + a bit.
     //Note: Everything is NOT tested!
     // Create random number
     // Providing a seed value
 	srand((unsigned) time(NULL));
 	// Get a random number
-	int random = rand() % 100;
+	//int random = rand() % 10;
+    int random = 0;
     std::cout << "Random number 1: " << random << "\n";
-    senderLatPos = pos.latitude+random*0.00001;
+    iY = pos.latitude*r_earth+random;
     std::cout << "Sender latitude: " << senderLatPos << "\n";
-	int random = rand() % 100;
+	//random = rand() % 10;
     std::cout << "Random number 2: " << random << "\n";
-    senderLonPos = pos.longitude+random*0.00001;
+    iX = pos.longitude*cos(pos.latitude)*r_earth+random;
     std::cout << "Sender longitude: " << senderLonPos << "\n";
 
-    //Create random location based on init GPS location + a bit.
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
-        dLatPos = pos.latitude-senderLatPos;
-        dLonPos = pos.longitude-senderLonPos;
+        dY = (pos.latitude*r_earth)-iY;
+        dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
-        std::cout << "Distance from start: " << dLatPos << ", " << dLonPos << "\n";
-        std::cout << "angle on sender: " << getAngle(dLatPos, dLonPos) << "\n";
-        std::cout << "Distance off sender: " << getSize(dLatPos, dLonPos) << "\n";
+        std::cout << "Distance from start: " << dX << ", " << dY << "\n";
+        std::cout << "angle on sender: " << getAngle(dX, dY) << "\n";
+        std::cout << "Distance off sender: " << getSize(dX, dY) << "\n";
     }
 }
 

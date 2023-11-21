@@ -27,7 +27,7 @@
  */
 
 #include <cmath>
-#include "transceiver_search.hpp"
+#include "coarse_search.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
