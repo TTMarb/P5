@@ -97,7 +97,7 @@ float32_t QtoDEG(Vehicle* vehicle) {
     //The +90 is to make the drone face the same way as the sender
     //The -t1 is to make the drone rotate in the same direction as the sender
     angle = getAngle(-t1, t0)+90;
-    if angle > 360 {
+    if (angle > 360) {
         angle -= 360;
     }
     return angle;
