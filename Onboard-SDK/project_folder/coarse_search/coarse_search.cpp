@@ -75,7 +75,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float32_t alg = acos((A1-A2)/H)-M_PI_2;
 
         //Main loop
-        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, alg*10);
+        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, alg*100);
         
         cnt++;
         if(cnt > 100){
@@ -91,7 +91,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "\t A1-A2: " << A1-A2 << "\n";
             std::cout << "\t A1-A2/H: " << A1-A2/H << "\n";
             std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
-            std::cout << "yaw rate: " << alg*10 << "\n";
+            std::cout << "yaw rate: " << alg*100 << "\n";
             cnt = 0;
         }
         usleep(10000);

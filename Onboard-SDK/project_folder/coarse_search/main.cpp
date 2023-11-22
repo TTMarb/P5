@@ -50,10 +50,9 @@ int main(int argc, char** argv) {
 
     std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
-    sleep(5);
     if(status.flight < 2){
+    sleep(5);
         std::cout << "Preparing drone" << std::endl;
-
 
     std::cout << "Arm motor \n";
     ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
