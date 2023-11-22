@@ -201,8 +201,9 @@ int main(int argc, char *argv[])
 	printf("bits per word: %d\n", bits);
 	printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
 
-	transfer(fd);
-
+	while(true){	
+		transfer(fd);
+	}
 	close(fd);
 
 	return ret;
