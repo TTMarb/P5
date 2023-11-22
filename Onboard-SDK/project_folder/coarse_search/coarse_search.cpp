@@ -69,8 +69,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             targetAngle += 360;
         }
         float64_t diffAngle = targetAngle-droneAngle;
-        float64_t A1 = fabs(pow(signalStrength,3)*cos((diffAngle*M_PI/180)-M_PI_4));
-        float64_t A2 = fabs(pow(signalStrength,3)*cos((diffAngle*M_PI/180)+M_PI_4));
+        float64_t A1 = fabs(signalStrength,3)*cos((diffAngle*M_PI/180)-M_PI_4));
+        float64_t A2 = fabs(signalStrength,3)*cos((diffAngle*M_PI/180)+M_PI_4));
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
         //std::cout << "\t Drones angle: " << droneAngle<< "\n";
@@ -83,7 +83,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t H = sqrt(pow(A1,2)+pow(A2,2));
         float64_t alg = acos((A1-A2)/H)-M_PI_2;
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
-        sleep(2);
+
+        //Main loop
+        vehicle->control->positionAndYawRateCtrl(0, 0, 0, alg*100);
+        usleep(10000);
     }
 }
 
