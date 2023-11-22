@@ -1,5 +1,6 @@
 /* Process for reading antenna outputs and performing DFT.
- * The calculation are sent using 
+ * The calculations are sent using a UNIX domain socket.
+ *  
  */
 
 #include <errno.h>
@@ -21,48 +22,55 @@ int main() {
 
     /****** UNIX DOMAIN SOCKET ******/
 
-    int server_sock, client_sock, len, rc;
+    int server_sock, len, rc;
     int bytes_rec = 0;
-    struct sockaddr_un server_sockaddr;
-    struct sockaddr_un client_sockaddr;
-    int backlog = 10;
+    struct sockaddr_un server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    memset(&server_adress, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
-    server_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (server_sock == -1) {
         printf("SOCKET ERROR\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Set up the sockaddr struct with the path
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-    len = sizeof(server_sockaddr);
+    server_adress.sun_family = AF_UNIX;
+    strcpy(server_adress.sun_path, SERVER_PATH);
 
-    // Unlink before bind to ensure a correct bind
-    unlink(SERVER_PATH);
-
-    // Bind socket to the socket name
-    rc = bind(server_sock, (struct sockaddr*)&server_sockaddr, len);
-    if (rc == -1) {
-        printf("BIND ERROR\n");
-        close(server_sock);
-        exit(1);
+    // Generate data to send
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    printf("Sending data...\n");
+    int i;
+    float num = 5;
+    for (i = 0; i < 5; i++) {
+        num = num + 0.1;
+        buf[i] = num;
+        printf("%f\n", buf[i]);
     }
 
+    // Send data to clients
+    rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                sizeof(server_adress));
+    if (rc == -1) {
+        printf("SEND ERROR\n");
+        close(server_sock);
+        exit(EXIT_FAILURE);
+    } else {
+        printf("Data sent!\n");
+    }
+
+    /* 
     // Listen for client sockets
     rc = listen(server_sock, backlog);
     if (rc == -1) {
         printf("LISTEN ERROR\n");
         close(server_sock);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     printf("socket listening...\n");
 
@@ -72,7 +80,7 @@ int main() {
         printf("ACCEPT ERROR\n");
         close(server_sock);
         close(client_sock);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Display socket name
@@ -82,7 +90,7 @@ int main() {
         printf("GETPEERNAME ERROR\n");
         close(server_sock);
         close(client_sock);
-        exit(1);
+        exit(EXIT_FAILURE);
     } else {
         printf("Client socket filepath: %s\n", client_sockaddr.sun_path);
     }
@@ -106,14 +114,16 @@ int main() {
         printf("SEND ERROR\n");
         close(server_sock);
         close(client_sock);
-        exit(1);
+        exit(EXIT_FAILURE);
     } else {
         printf("Data sent!\n");
     }
 
+     */
+
     // Close the socket connection and exit
     close(server_sock);
-    close(client_sock);
+    //close(client_sock);
 
     return 0;
 }
