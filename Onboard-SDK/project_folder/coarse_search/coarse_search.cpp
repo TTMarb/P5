@@ -50,26 +50,24 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t iX = calcMfromLon(pos);//;+getRandomNumber(0);
     std::cout << "about to enter while loop: \n";
     while(true){
-        quaternion = vehicle->broadcast->getQuaternion();
-        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
-        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         pos = vehicle->broadcast->getGlobalPosition();
         float64_t dY = calcMfromLat(pos)-iY;
         float64_t dX = calcMfromLon(pos)-iX;
         droneAngle = QtoDEG(vehicle);
-        float64_t distance = getSize(dX, dY);
-        float64_t angle = getAngle(dY, dX);
-        float64_t A1 = (searchRadius - distance)*cos(getAngle(dY, dX)+45);
-        float64_t A2 = (searchRadius - distance)*cos(getAngle(dY, dX)-45);
-        std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
-        std::cout << "\t t1: " << t1 << ", t0: " << t0 << "\n";
-        std::cout << "\t dX: " << dX << ", dY: " << dY << "\n";
-        std::cout << "\t Position angle on sender: " << angle << "\n";
+        float64_t distance = getSize(dY, dX);
+        float64_t senderAngle = getAngle(dY, dX);
+        float64_t targetAngle = senderAngle-90;
+        if (targetAngle < 0) {
+            targetAngle += 360;
+        }
+        float64_t diffAnglle = targetAngle-droneAngle;
+        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
+        std::cout << "\t Position angle on sender: " << senderAngle << "\n";
         std::cout << "\t Drones angle: " << droneAngle<< "\n";
         std::cout << "\t Distance from sender: " << distance << "\n";
-        std::cout << "\t A1 signal strength from sender: " << A1 << "\n";
-        std::cout << "\t A1 signal strength from sender: " << A2 << "\n";
-        sleep(5);
+        std::cout << "\t Target angle : " << targetAngle << "\n";
+        std::cout << "\t Diff angle : " << diffAngle << "\n";
+        sleep(2);
     }
 }
 
@@ -92,18 +90,18 @@ float32_t QtoDEG(Vehicle* vehicle) {
     //and the flight-control sample
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-    //180/M_pi is to convert from radians to degrees
-    
+
     //The +90 is to make the drone face the same way as the sender
     //The -t1 is to make the drone rotate in the same direction as the sender
     angle = getAngle(-t1, t0)+90;
+    //After adding 90, the angle can be above 360, so this makes sure it is between 0 and 360
     if (angle > 360) {
         angle -= 360;
     }
     return angle;
 }
 
-float64_t getSize(float64_t x, float64_t y) {
+float64_t getSize(float64_t y, float64_t x) {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
