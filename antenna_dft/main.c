@@ -59,13 +59,14 @@ int main() {
 
         rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
+        printf("RC value %d\n", rc);
         if (rc == -1) {
             if (count == 0) {
                 printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
                 timeOutSet = 1;
             } else if (count % 10 == 0) {
                 printf(".");
-            } else if (count >= 1000) { //10 s
+            } else if (count > 1000) { //10 s
                 count = 0;
                 printf("\nNo connection timing out...\n");
                 exit(server_sock);
