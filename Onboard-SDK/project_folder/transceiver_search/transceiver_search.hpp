@@ -34,6 +34,7 @@
 
 // System Includes
 #include <cmath>
+#include <libgen.h>
 #include <vector>
 
 // DJI OSDK includes
@@ -62,5 +63,7 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
 void setBroadcastFrequency(Vehicle* vehicle);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
+
+void startProcess(pid_t pid, char* path);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
