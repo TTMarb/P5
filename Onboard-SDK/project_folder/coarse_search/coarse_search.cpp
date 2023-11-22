@@ -39,55 +39,27 @@ using namespace DJI::OSDK::Telemetry;
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     setBroadcastFrequency(vehicle);
     Telemetry::GlobalPosition pos;
-    float64_t iY;
-    float64_t iX;
-    float64_t dY;
-    float64_t dX;
-    //float64_t r_earth = 6378100;
-    float64_t r_earth = 6356752; 
+    int searchRadius = 10;
+    
     float32_t droneAngle;
     pos = vehicle->broadcast->getGlobalPosition();
-
-
-    //Create random location based on init GPS location + a bit.
-    //Note: Everything is NOT tested!
-    // Create random number
-    // Providing a seed value
-	srand((unsigned) time(NULL));
-	// Get a random number
-	//int random = rand() % 10;
-    int searchRadius = 10;
-    int random = 0;
-    std::cout << "Random number 1: " << random << "\n";
-    iY = pos.latitude*r_earth+random;
-    std::cout << "Sender latitude in M: " << iY << "\n";
-	//random = rand() % 10;
-    std::cout << "Random number 2: " << random << "\n";
-    iX = pos.longitude*cos(pos.latitude)*r_earth+random;
-    std::cout << "Sender longitude in M: " << iX << "\n";
-    Telemetry::Quaternion quaternion;
-
+    float64_t iY = calcLatPlusRand(pos, 0);
+    float64_t iX = calcLatPlusRand(pos, 0);
     while(true){
         quaternion = vehicle->broadcast->getQuaternion();
         pos = vehicle->broadcast->getGlobalPosition();
-        dY = (pos.latitude*r_earth)-iY;
-        dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
+        float64_t dY = (pos.latitude*r_earth)-iY;
+        float64_t dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
         droneAngle = QtoDEG(vehicle);
         float64_t distance = getSize(dX, dY);
         float64_t angle = getAngle(dX, dY);
-        float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)-135);
+        float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)+45);
         float64_t A2 = (searchRadius - distance)*cos(getAngle(dX, dY)-45);
-        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
-        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
         std::cout << "\t t1: " << t1 << ", t0: " << t0 << "\n";
         std::cout << "\t dX: " << dX << ", dY: " << dY << "\n";
         std::cout << "\t Position angle on sender: " << angle << "\n";
         std::cout << "\t Drones angle: " << droneAngle<< "\n";
-        /*std::cout << "\t 90-O1-O3: " << 90-angle-droneAngle << "\n";
-        std::cout << "\t O1+O2-90: " << angle+droneAngle-90 << "\n";
-        std::cout << "\t O1-O2: " << angle-droneAngle << "\n";
-        std::cout << "\t 90-abs(O1-O2): " << 90-absf(angle-droneAngle) << "\n";*/
         std::cout << "\t Distance from sender: " << distance << "\n";
         std::cout << "\t A1 signal strength from sender: " << A1 << "\n";
         std::cout << "\t A1 signal strength from sender: " << A2 << "\n";
@@ -113,14 +85,9 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     //180/M_pi is to convert from radians to degrees
-    if (t0 < 0) {
-        angle = 360 - (((2*M_PI + atan2(t1, t0))-(M_PI/2)) * 180 / M_PI);
-    } else {
-        angle = 360 - ((atan2(t1, t0)-(M_PI/2)) * 180 / M_PI);
-    }
+    angle = getAngle(t0, t1);
     return angle;
 }
-
 
 float64_t getSize(float64_t x, float64_t y) {
     return sqrt(pow(x, 2) + pow(y, 2));
@@ -172,4 +139,30 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     freq[11] = FREQ_100HZ;
 
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
+}
+
+float64_t calcLatPlusRand(Telemetry::GlobalPosition pos, int randomsize){
+    srand((unsigned) time(NULL));
+    float64_t iY;
+	// Get a random number
+	int random = rand() % randomsize;
+    //float64_t r_earth = 6378100;
+    float64_t r_earth = 6356752;
+    std::cout << "Random number 1: " << random << "\n";
+    iY = pos.latitude*r_earth+random;
+    std::cout << "Sender latitude in M: " << iY << "\n";
+    return iY;
+}
+
+float64_t calcLonPlusRand(Telemetry::GlobalPosition pos, int randomsize){
+    srand((unsigned) time(NULL));
+    float64_t iX;
+	// Get a random number
+	int random = rand() % randomsize;
+    //float64_t r_earth = 6378100;
+    float64_t r_earth = 6356752; 
+    std::cout << "Random number 2: " << random << "\n";
+    iX = pos.longitude*cos(pos.latitude)*r_earth+random;
+    std::cout << "Sender longitude in M: " << iY << "\n";
+    return iX;
 }

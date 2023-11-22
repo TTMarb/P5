@@ -52,4 +52,9 @@ float64_t getSize(float64_t, float64_t);
 void setBroadcastFrequency(Vehicle* vehicle);
 
 
+float64_t calcLatPlusRand(Telemetry::GlobalPosition, int);
+
+float64_t calcLonPlusRand(Telemetry::GlobalPosition, int);
+
+
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
