@@ -191,6 +191,23 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
     std::cout << "Succes: Stopping Waypoint Mission.\n";
 }
 
+void startProcess(pid_t pid, char* path, char* param) {
+    char* bname = basename(path);
+    if (pid == -1) {
+        printf("Error while forking %s\n", bname);
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) {
+        printf("Child process %s initiated. PID is %d\n", bname, getpid());
+        char* const args[] = {param};
+        char* const envp[] = {NULL};
+        execve(bname, args, envp); // Override the child process with the BIN file
+        perror("execve");
+        exit(EXIT_FAILURE); // Exit the child process if it fails
+    } else if (pid > 0) {
+        printf("Parent process running. PID is %d\n", getpid());
+    }
+}
+
 void setBroadcastFrequency(Vehicle* vehicle) {
     //To ensure a faster response, the broadcast frequency is set to 100Hz for Quaternion
     enum FREQ {

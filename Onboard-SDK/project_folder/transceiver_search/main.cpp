@@ -56,23 +56,10 @@ int main(int argc, char** argv) {
 
     /********* INITIALIZE DFT PROCESS *********/
 
-    pid_t pid;
-    pid = fork(); /* Fork the parent process to start new process*/
-
-    if (pid == -1) {
-        printf("Error while forking antenna_dft process\n");
-        exit(EXIT_FAILURE);
-    } else if (pid == 0) {
-        printf("DFT child process initiated. PID is %d\n", getpid());
-        char* const args[] = {"tmp", NULL};
-        char* const envp[] = {NULL};
-        execve("/tmp/antenna_dft.bin", args, envp); /* Override the child process with the DFT program */
-        perror("execve");
-        exit(EXIT_FAILURE); /* Exit the child process if it fails*/
-    } else if (pid > 0) {
-        printf("Transceiver search parent process running. PID is %d\n", getpid());
-        //exit(EXIT_SUCCESS); /* Exit parent process */
-    }
+    pid_t antennaPID;
+    antennaPID = fork(); /* Fork the parent process to start new process*/
+    char path[] = "/tmp/antenna_dft.bin";
+    startProcess(antennaPID, path, NULL);
 
     /********* WAYPOINT MISSION *********/
 
@@ -155,35 +142,30 @@ int main(int argc, char** argv) {
         std::cout << "The number of waypoints is " << numWaypoints << std::endl;
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
     }
-    stop()
 
-        /********* START OF DOMAIN SOCKET *********/
+    /********* START OF DOMAIN SOCKET *********/
 
-        int client_sock,
-        rc, len;
-    struct sockaddr_un server_sockaddr;
-    struct sockaddr_un client_sockaddr;
+    int client_sock, rc;
+    uint32_t len;
+    struct sockaddr_un client_sockaddr, server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
     // Create a socket
-    client_sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (client_sock == -1) {
         printf("SOCKET ERROR\n");
         exit(EXIT_FAILURE);
     }
 
-    // Set up the sockaddr struct for the client
     client_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
+    strcpy(client_sockaddr.sun_path, SERVER_PATH);
     len = sizeof(client_sockaddr);
-    // Unlink before bind to ensure a correct bind
-    unlink(CLIENT_PATH);
-    // Bind socket to the socket name
+    unlink(SERVER_PATH);
     rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
     if (rc == -1) {
         printf("BIND ERROR\n");
@@ -191,34 +173,41 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    // Set up the sockaddr struct for the server and connect
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, len);
-    if (rc == -1) {
-        printf("CONNECT ERROR\n");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    }
+    int count = 0;
+    int timeOutSet = 0;
+    printf("Waiting to receive...\n");
+    while (1) {
+        // Stay in a blocked state until data is received
+        rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
 
-    // Read and print data from server
-    printf("Receiving antenna data...\n");
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
-    if (rc == -1) {
-        printf("RECV ERROR\n");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("Buffer contains\n");
-        int i;
-        for (i = 0; i < BUFFER_SIZE; i++) {
-            printf("%f\n", buf[i]);
+        if (rc == -1) {
+            if (timeOutSet == 0) {
+                printf("RECEIVE ERROR\n");
+                timeOutSet = 1;
+            }
+        } else {
+            // Error message if connection was briefly lost
+            if (timeOutSet == 1) {
+                printf("\nConnection restablished. Receiving data...\n");
+                timeOutSet = 0;
+            }
+            // Iterate through buffer to read data values
+            int i;
+            for (i = 0; i < BUFFER_SIZE; i++) {
+                if (buf[i] >= 9.7) { // NB! edit to desired threshold
+                    close(client_sock);
+                    stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
+                    printf("Stopping waypoint mission...\n");
+                    printf("Starting coarse search!\n");
+                    pid_t coarsePID;
+                    coarsePID = fork(); /* Fork the parent process to start new process*/
+                    char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
+                    char param[] = "UserConfig.txt";
+                    startProcess(antennaPID, path, param);
+                    return 0;
+                    exit(EXIT_SUCCESS); // Exit process
+                }
+            }
         }
     }
-
-    // Close socket and exit
-    close(client_sock);
-
-    return 0;
 }
