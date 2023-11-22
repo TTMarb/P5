@@ -93,7 +93,13 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     //180/M_pi is to convert from radians to degrees
-    angle = getAngle(-t1, t0);
+    
+    //The +90 is to make the drone face the same way as the sender
+    //The -t1 is to make the drone rotate in the same direction as the sender
+    angle = getAngle(-t1, t0)+90;
+    if angle > 360 {
+        angle -= 360;
+    }
     return angle;
 }
 
