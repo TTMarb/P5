@@ -54,7 +54,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t tY = randomnumber;
     randomnumber = getRandomNumber(10,randomnumber);
     float64_t tX = randomnumber;
-    std::cout << "target position calculated: tY = " << tY << ", tX = " << tX << "\n";
+    std::cout << "target position calculated: tX = " << tY << ", tY = " << tX << "\n";
     std::cout << "about to enter while loop: \n";
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
