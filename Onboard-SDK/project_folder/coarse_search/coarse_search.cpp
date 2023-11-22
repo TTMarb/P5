@@ -39,6 +39,7 @@ using namespace DJI::OSDK::Telemetry;
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     setBroadcastFrequency(vehicle);
     Telemetry::GlobalPosition pos;
+    Telemetry::Quaternion quaternion;
     int searchRadius = 10;
     
     float32_t droneAngle;
@@ -47,9 +48,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t iX = calcLatPlusRand(pos, 0);
     while(true){
         quaternion = vehicle->broadcast->getQuaternion();
+        double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+        double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         pos = vehicle->broadcast->getGlobalPosition();
-        float64_t dY = (pos.latitude*r_earth)-iY;
-        float64_t dX = (pos.longitude*cos(pos.latitude)*r_earth)-iX;
+        float64_t dY = calcLatAndRand(pos,0)-iY;
+        float64_t dX = calcLonAndRand(pos,0)*r_earth)-iX;
         droneAngle = QtoDEG(vehicle);
         float64_t distance = getSize(dX, dY);
         float64_t angle = getAngle(dX, dY);
