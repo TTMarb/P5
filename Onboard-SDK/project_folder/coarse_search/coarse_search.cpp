@@ -59,11 +59,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "about to enter while loop: \n";
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
-        float64_t dY = calcMfromLat(pos)-iY;
-        float64_t dX = calcMfromLon(pos)-iX;
+        float64_t dY = calcMfromLat(pos)-tY;
+        float64_t dX = calcMfromLon(pos)-tX;
         droneAngle = QtoDEG(vehicle);
-        float64_t distance = getSize(tY, tX);
-        float64_t senderAngle = getAngle(tY, tX);
+        float64_t distance = getSize(dY, dX);
+        float64_t senderAngle = getAngle(dY, dX);
         float64_t targetAngle = senderAngle-90;
         if (targetAngle < 0) {
             targetAngle += 360;
@@ -83,7 +83,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 }
 
 float64_t getAngle(float64_t y, float64_t x) {
-    std::cout << "y: " << y << ", x: " << x << "\n";
+    //std::cout << "y: " << y << ", x: " << x << "\n";
     float64_t angle = atan2(y, x);
     if (angle < 0) {
         angle += 2 * M_PI;
@@ -177,7 +177,6 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     //float64_t r_earth = 6378100;
     float64_t r_earth = 6356752; 
     iX = pos.longitude*cos(pos.latitude)*r_earth;
-    std::cout << "Sender longitude in M: " << iX << "\n";
     return iX;
 }
 int getRandomNumber(int randomsize, int randomnumber){
