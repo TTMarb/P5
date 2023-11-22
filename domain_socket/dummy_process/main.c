@@ -42,9 +42,9 @@ int main(void) {
         exit(EXIT_FAILURE);
     }
 
-    printf("Waiting to receive...\n");
     int count = 0;
     int timeOutSet = 0;
+    printf("Waiting to receive...\n");
     while (1) {
         bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (bytes_rec == -1) {
@@ -117,7 +117,7 @@ int main(void) {
 
   */
     // Close socket and exit
-    close(client_sock);
+    //close(client_sock);
 
     return 0;
 }
