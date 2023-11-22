@@ -53,12 +53,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         droneAngle = QtoDEG(vehicle);
         float64_t dY = calcMfromLat(pos)-iY;
         float64_t dX = calcMfromLon(pos)-iX;
-        
-        cnt++;
-        if(cnt > 100){
-            std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-            std::cout << "\t Drones angle: " << droneAngle<< "\n";
-        }
+        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
+        std::cout << "\t Drones angle: " << droneAngle<< "\n";
         sleep(1);
     }
 }
