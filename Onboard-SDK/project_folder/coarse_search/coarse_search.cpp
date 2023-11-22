@@ -76,8 +76,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
         //Main loop
         //Opsæt x og y parametre ud fra dronens retning.
-        float32_t vX = distanceTo*cos(droneAngle*M_PI/180)*0.1;
-        float32_t vY = distanceTo*sin(droneAngle*M_PI/180)*0.1;
+        float32_t vX = (20-H)*cos(droneAngle*M_PI/180)*0.1;
+        float32_t vY = (20-H)*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         
         cnt++;
