@@ -55,9 +55,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t dX = calcMfromLon(pos)-iX;
         droneAngle = QtoDEG(vehicle);
         float64_t distance = getSize(dX, dY);
-        float64_t angle = getAngle(dX, dY);
-        float64_t A1 = (searchRadius - distance)*cos(getAngle(dX, dY)+45);
-        float64_t A2 = (searchRadius - distance)*cos(getAngle(dX, dY)-45);
+        float64_t angle = getAngle(dY, dX);
+        float64_t A1 = (searchRadius - distance)*cos(getAngle(dY, dX)+45);
+        float64_t A2 = (searchRadius - distance)*cos(getAngle(dY, dX)-45);
         std::cout << "Current position: " << pos.latitude << ", " << pos.longitude << "\n";
         std::cout << "\t t1: " << t1 << ", t0: " << t0 << "\n";
         std::cout << "\t dX: " << dX << ", dY: " << dY << "\n";
@@ -70,7 +70,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     }
 }
 
-float64_t getAngle(float64_t x, float64_t y) {
+float64_t getAngle(float64_t y, float64_t x) {
     float64_t angle = atan2(y, x);
     if (angle < 0) {
         angle += 2 * M_PI;
