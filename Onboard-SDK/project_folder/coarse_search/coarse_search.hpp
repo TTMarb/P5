@@ -56,7 +56,7 @@ float64_t calcMfromLat(Telemetry::GlobalPosition);
 
 float64_t calcMfromLon(Telemetry::GlobalPosition);
 
-int getRandomNumber(int);
+int getRandomNumber(int,int);
 
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

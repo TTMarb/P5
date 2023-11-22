@@ -50,8 +50,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     
     float64_t iY = calcMfromLat(pos);
     float64_t iX = calcMfromLon(pos);
-    float64_t tY = iY+getRandomNumber(10,randomnumber);
-    float64_t tX = iX+getRandomNumber(10,randomnumber);
+    randomnumber = getRandomNumber(10,randomnumber);
+    float64_t tY = iY+randomnumber;
+    randomnumber = getRandomNumber(10,randomnumber);
+    float64_t tX = iX+randomnumber;
     std::cout << "target position calculated: tY = " << tY << ", tX = " << tX << "\n";
     std::cout << "distance from tY and tX: tY = " << tY-iY << ", tX = " << tX-iX << "\n";
     std::cout << "about to enter while loop: \n";
