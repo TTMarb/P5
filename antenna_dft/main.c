@@ -74,6 +74,7 @@ int main() {
             }
             usleep(10e3); // 10 ms
             count++;
+            printf("Count is %d\n", count);
         } else {
             if (timeOutSet = 1) {
                 printf("Connection reestablished. Sending data...\n");
