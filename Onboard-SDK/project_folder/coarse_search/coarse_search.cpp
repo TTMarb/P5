@@ -75,7 +75,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float32_t alg = acos((A1-A2)/H)-M_PI_2;
 
         //Main loop
-        vehicle->control->velocityAndYawRateCtrl(1, 0, 0, alg*100);
+        //Opsæt x og y parametre ud fra dronens retning.
+        float32_t vX = distanceTo*cos(droneAngle*M_PI/180)*0.1;
+        float32_t vY = distanceTo*sin(droneAngle*M_PI/180)*0.1;
+        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         
         cnt++;
         if(cnt > 100){
@@ -88,8 +91,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "\t Signal strength: " << signalStrength << "\n";
             std::cout << "\t A1: " << A1 << "\n";
             std::cout << "\t A2: " << A2 << "\n";
-            std::cout << "\t A1-A2: " << A1-A2 << "\n";
-            std::cout << "\t A1-A2/H: " << A1-A2/H << "\n";
+            std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
             std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
             std::cout << "yaw rate: " << alg*100 << "\n";
             cnt = 0;
