@@ -63,7 +63,7 @@ int main() {
                 printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
                 fflush(stdout);
                 timeOutSet = 1;
-            } else if (count % 600 == 0) {
+            } else if (count % 300 == 0) {
                 printf(".");
                 fflush(stdout);
             } else if (count > 6000) { //60 s
