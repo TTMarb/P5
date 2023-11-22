@@ -49,9 +49,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     
     float64_t iY = calcMfromLat(pos);
     float64_t iX = calcMfromLon(pos);
-    randomnumber = getRandomNumber(30,randomnumber);
+    randomnumber = getRandomNumber(60,randomnumber);
     float64_t tY = randomnumber;
-    randomnumber = getRandomNumber(30,randomnumber);
+    randomnumber = getRandomNumber(60,randomnumber);
     float64_t tX = randomnumber;
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
@@ -199,7 +199,7 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
 }
 int getRandomNumber(int randomsize, int randomnumber){
     srand((unsigned) time(NULL) + randomnumber);
-	int random = 10 + (rand() % randomsize);
+	int random = 30 - (rand() % randomsize);
     std::cout << "Random number: " << random << "\n";
     return random;
 }
