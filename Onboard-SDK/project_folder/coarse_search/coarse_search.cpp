@@ -57,7 +57,6 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "about to enter while loop: \n";
     int cnt = 0;
     while(true){
-        {
         pos = vehicle->broadcast->getGlobalPosition(); 
         droneAngle = QtoDEG(vehicle);
         float64_t dY = calcMfromLat(pos)-iY;
@@ -70,7 +69,6 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             targetAngle += 360;
         }
         float64_t diffAngle = targetAngle-droneAngle;
-        }
         float64_t A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
         float64_t A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
         float64_t H = sqrt(pow(A1,2)+pow(A2,2));
