@@ -45,7 +45,6 @@
 
 // Path for UNIX domain socket
 #define SERVER_PATH "/tmp/unix_sock.server"
-#define CLIENT_PATH "/tmp/transceiver_unix_sock.client"
 // Buffer for antenna data
 #define BUFFER_SIZE 10
 float buf[BUFFER_SIZE];
@@ -156,10 +155,12 @@ int main(int argc, char** argv) {
         std::cout << "The number of waypoints is " << numWaypoints << std::endl;
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
     }
+    stop()
 
-    /********* START OF DOMAIN SOCKET *********/
+        /********* START OF DOMAIN SOCKET *********/
 
-    int client_sock, rc, len;
+        int client_sock,
+        rc, len;
     struct sockaddr_un server_sockaddr;
     struct sockaddr_un client_sockaddr;
     /* 
