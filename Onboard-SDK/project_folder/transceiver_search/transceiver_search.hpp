@@ -64,6 +64,6 @@ void setBroadcastFrequency(Vehicle* vehicle);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 
-void startProcess(pid_t pid, char* path);
+void startProcess(pid_t pid, char* path, char* param);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

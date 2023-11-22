@@ -145,7 +145,8 @@ int main(int argc, char** argv) {
 
     /********* START OF DOMAIN SOCKET *********/
 
-    int client_sock, rc, len;
+    int client_sock, rc;
+    uint32_t len;
     struct sockaddr_un client_sockaddr, server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
