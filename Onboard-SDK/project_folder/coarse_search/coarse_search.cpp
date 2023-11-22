@@ -51,19 +51,18 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t iY = calcMfromLat(pos);
     float64_t iX = calcMfromLon(pos);
     randomnumber = getRandomNumber(10,randomnumber);
-    float64_t tY = iY+randomnumber;
+    float64_t tY = randomnumber;
     randomnumber = getRandomNumber(10,randomnumber);
-    float64_t tX = iX+randomnumber;
+    float64_t tX = randomnumber;
     std::cout << "target position calculated: tY = " << tY << ", tX = " << tX << "\n";
-    std::cout << "distance from tY and tX: tY = " << tY-iY << ", tX = " << tX-iX << "\n";
     std::cout << "about to enter while loop: \n";
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
         float64_t dY = calcMfromLat(pos)-iY;
         float64_t dX = calcMfromLon(pos)-iX;
         droneAngle = QtoDEG(vehicle);
-        float64_t distance = getSize(dY-(tY-iY), dX-(tY-iY));
-        float64_t senderAngle = getAngle(dY-(tY-iY), dX-(tY-iY));
+        float64_t distance = getSize(dY-tY, dX-tX);
+        float64_t senderAngle = getAngle(dY-tY, dX-tX);
         float64_t targetAngle = senderAngle-90;
         if (targetAngle < 0) {
             targetAngle += 360;
