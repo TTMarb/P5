@@ -8,7 +8,6 @@
 #include <sys/un.h>
 
 #define SERVER_PATH "/tmp/unix_sock.server"
-//#define CLIENT_PATH "/tmp/transceiver_unix_sock.client"
 #define BUFFER_SIZE 10
 float buf[BUFFER_SIZE];
 
@@ -43,81 +42,35 @@ int main(void) {
 
     int count = 0;
     int timeOutSet = 0;
-    while (1) {
-        printf("Waiting to receive...\n");
 
+    printf("Waiting to receive...\n");
+    while (1) {
+        // Stay in a blocked state until data is received
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+
         if (rc == -1) {
-            if (count == 0) {
-                printf("RECEIVE ERROR: NO SERVER AVAILABLE. WAITING");
-                fflush(stdout); // Flush the serial buffer without \n
+            if (timeOutSet == 0) {
+                printf("RECEIVE ERROR\n");
                 timeOutSet = 1;
-            } else if (count % 300 == 0) {
-                printf(".");
-                fflush(stdout);
-            } else if (count > 6000) { // 60 s
-                count = 0;
-                printf("\nNo server timing out...\n");
-                exit(client_sock);
-                exit(EXIT_FAILURE);
             }
-            usleep(10000);
-            count++;
         } else {
+            // Error message if connection was briefly lost
             if (timeOutSet == 1) {
                 printf("\nConnection restablished. Receiving data...\n");
+                timeOutSet = 0;
             }
-            int i;
-            for (i = 0; i < BUFFER_SIZE; i++) {
-                printf("%f\n", buf[i]);
+
+            // Iterate through buffer to read data values
+            int j;
+            for (j = 0; j < BUFFER_SIZE; j++) {
+                if (buf[i] >= 9.7) { // NB! edit to desired threshold
+                    close(client_sock);
+                    //stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
+                    printf("Stopping waypoint mission...\n");
+                    exit(EXIT_SUCCESS); // Exit process
+                }
             }
         }
     }
-
-    /* 
-    // Set up the sockaddr struct for the client
-    client_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
-    len = sizeof(client_sockaddr);
-    // Unlink before bind to ensure a correct bind
-    unlink(CLIENT_PATH);
-    // Bind socket to the socket name
-    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
-    if (rc == -1) {
-        printf("BIND ERROR\n");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    }
-
-    // Set up the sockaddr struct for the server and connect
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, len);
-    if (rc == -1) {
-        printf("CONNECT ERROR\n");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    }
- 
-    // Read and print data from server
-    printf("Waiting to recieve data...\n");
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
-    if (rc == -1) {
-        printf("RECV ERROR\n");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("Buffer contains\n");
-        int i;
-        for (i = 0; i < BUFFER_SIZE; i++) {
-            printf("%f\n", buf[i]);
-        }
-    }
-
-  */
-    // Close socket and exit
-    //close(client_sock);
-
     return 0;
 }

@@ -42,20 +42,20 @@ int main() {
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
-    // Define threshold for number generator
-    float top = 10;
+    float top = 10; // Define threshold for number generator
     int count = 0;
     int timeOutSet = 0;
-    // Code for continous data transfer
+
     printf("Sending data...\n");
     while (1) {
-        // Generate random values below 10
+        // Generate random values below, placeholder for dft data
         int i;
         for (i = 0; i < BUFFER_SIZE; i++) {
             float numGen = ((float)rand() / (float)(RAND_MAX)) * top;
             buf[i] = numGen;
         }
 
+        // Send the data to server
         rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
         if (rc == -1) {
@@ -66,10 +66,11 @@ int main() {
             } else if (count % 300 == 0) {
                 printf(".");
                 fflush(stdout);
-            } else if (count > 6000) { //60 s
+                // If no clients are available after 60 s, stop data transfer and close process
+            } else if (count > 6000) {
                 count = 0;
                 printf("\nNo client timing out...\n");
-                exit(server_sock);
+                close(server_sock);
                 exit(EXIT_FAILURE);
             }
             usleep(10000); // 10 ms
@@ -79,68 +80,9 @@ int main() {
                 printf("\nConnection reestablished. Sending data...\n");
                 timeOutSet = 0;
             }
+            // Data is being sent here!
         }
     }
-
-    /* 
-    // Listen for client sockets
-    rc = listen(server_sock, backlog);
-    if (rc == -1) {
-        printf("LISTEN ERROR\n");
-        close(server_sock);
-        exit(EXIT_FAILURE);
-    }
-    printf("socket listening...\n");
-
-    // Accept incoming communication
-    client_sock = accept(server_sock, (struct sockaddr*)&client_sockaddr, &len);
-    if (client_sock == -1) {
-        printf("ACCEPT ERROR\n");
-        close(server_sock);
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    }
-
-    // Display socket name
-    len = sizeof(client_sockaddr);
-    rc = getpeername(client_sock, (struct sockaddr*)&client_sockaddr, &len);
-    if (rc == -1) {
-        printf("GETPEERNAME ERROR\n");
-        close(server_sock);
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("Client socket filepath: %s\n", client_sockaddr.sun_path);
-    }
-
-    // Send data to connected socket
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    int i;
-    float num = 6;
-    for (i = 0; i < 5; i++) {
-        num = num + 0.1;
-        buf[i] = num;
-    }
-    printf("Sending data...\n");
-
-    for (i = 0; i < BUFFER_SIZE; i++) {
-        printf("%f\n", buf[i]);
-    }
-
-    rc = send(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
-    if (rc == -1) {
-        printf("SEND ERROR\n");
-        close(server_sock);
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("Data sent!\n");
-    }
-
-     */
-
-    // Close the socket connection and exit
-    //close(server_sock);
 
     return 0;
 }
