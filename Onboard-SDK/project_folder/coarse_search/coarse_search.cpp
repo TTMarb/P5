@@ -181,7 +181,7 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     return iX;
 }
 int getRandomNumber(int randomsize, int randomnumber){
-    srand((unsigned) time(NULL) * randomnumber);
+    srand((unsigned) time(NULL) + randomnumber);
 	int random = 10 + (rand() % randomsize);
     std::cout << "Random number: " << random << "\n";
     return random;
