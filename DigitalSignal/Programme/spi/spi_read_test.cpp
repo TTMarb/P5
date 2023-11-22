@@ -38,7 +38,7 @@ void open_and_configure() {
 }
 
 void readSPI(int spi_fd) {
-    char buffer[256];
+    char buffer[1];
     
     while (true) {
         int bytes_read = read(spi_fd, buffer, sizeof(buffer));
