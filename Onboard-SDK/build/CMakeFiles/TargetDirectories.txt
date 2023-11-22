@@ -1,0 +1,6 @@
+/home/ubuntu/Documents/P5/Onboard-SDK/build/osdk-core/CMakeFiles/djiosdk-core.dir
+/home/ubuntu/Documents/P5/Onboard-SDK/build/project_folder/rotation_test/CMakeFiles/rotation_test.dir
+/home/ubuntu/Documents/P5/Onboard-SDK/build/project_folder/rotations_testPlus/CMakeFiles/rotation_test01.dir
+/home/ubuntu/Documents/P5/Onboard-SDK/build/project_folder/rortationtest25/CMakeFiles/rotation_test25.dir
+/home/ubuntu/Documents/P5/Onboard-SDK/build/project_folder/rotationspeed_test/CMakeFiles/rotationspeed_test.dir
+/home/ubuntu/Documents/P5/Onboard-SDK/build/project_folder/transceiver_search/CMakeFiles/transceiver_search.dir

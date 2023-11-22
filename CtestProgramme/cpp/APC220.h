@@ -5,9 +5,9 @@ void OStest();
 class APC220 {
   public:
     APC220(); // Constructor
-    int init();
-    bool write2radio(int, char[], unsigned int);
-    bool read2radio(int, char*, unsigned int);
+    int radio; // Serial port
+    bool write2radio(char[], unsigned int);
+    bool read2radio(char*, unsigned int);
 
   private:
 };

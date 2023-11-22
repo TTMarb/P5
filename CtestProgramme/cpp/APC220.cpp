@@ -27,16 +27,13 @@ void OStest() {
 }
 
 //Constructor
-APC220::APC220() { std::cout << "Created class APC220" << std::endl; }
-
-//Init function, that returns the serial port
-int APC220::init() {
+APC220::APC220() {
     std::cout << "Beginning init" << std::endl;
     //Most of this is only available for linux
 #ifdef __linux__
-    int serial_port = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
+    int radio = open("/dev/ttyTHS0", O_RDWR | O_NOCTTY);
     //Error detect for Serial port
-    if (serial_port < 0) {
+    if (radio < 0) {
         std::cout << "Error " << errno << " from open: " << strerror(errno) << std::endl;
     }
 
@@ -44,13 +41,13 @@ int APC220::init() {
     struct termios tty;
 
     //Error detect for Termios
-    if (tcgetattr(serial_port, &tty) != 0) {
+    if (tcgetattr(radio, &tty) != 0) {
         std::cout << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
     }
 
     //Inspired by https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/
     /* Set Baud Rate - APC220s are setup @ 19200baud */
-    cfsetspeed(&tty, B19200);
+    cfsetspeed(&tty, B9600);
     tty.c_cflag &= ~CSTOPB;        // Clear stop field, only one stop bit used in communication (most common)
     tty.c_cflag |= CS8;            // 8 bits per byte (most common)
     tty.c_cflag &= ~CRTSCTS;       // Disable RTS/CTS hardware flow control (most common)
@@ -65,33 +62,33 @@ int APC220::init() {
     tty.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
 
     tty.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
-    //tty.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
+    tty.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
 
     //Test is attributes are set correctly
-    if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
+    if (tcsetattr(radio, TCSANOW, &tty) != 0) {
         std::cout << "Error " << errno << " from tcsetattr" << std::endl;
     }
 
     //Returns serial port
-    std::cout << "Serial port: " << serial_port << ". Init done" << std::endl;
-    return serial_port;
+    std::cout << "Serial port: " << radio << ". Init done" << std::endl;
 #else
     std::cout << "Doesn't run on a Windows machine" << std::endl;
-    return -1;
+    radio = -1;
 #endif
 }
 
-bool APC220::write2radio(int serial_port, char msg[], unsigned int size) {
+
+bool APC220::write2radio(char msg[], unsigned int size) {
     char delim[] = "\r\n#";
     strcat(msg, delim);
 #ifdef __linux__
-    write(serial_port, msg, strlen(msg));
+    write(radio, msg, strlen(msg));
 #else
     std::cout << "Windows: Haven't created write yet" << std::endl;
 #endif
 }
 
-bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputLen) {
+bool APC220::read2radio(char* outputarray, unsigned int outputLen) {
     //Creates a buffer to store the message
     char buffer[256];
     int readLen;
@@ -102,8 +99,8 @@ bool APC220::read2radio(int serial_port, char* outputarray, unsigned int outputL
     }
     char delim[] = "#";
 #ifdef __linux__
-    int numberOfBytes = read(serial_port, &buffer, sizeof(buffer));
-    std::cout << "Received following junk: " << buffer;
+    int numberOfBytes = read(radio, &buffer, sizeof(buffer));
+    //std::cout << "Received following junk: " << buffer;
     int length = numberOfBytes - 1;
     //Checks if the message length is shorter than output array
     if (length > outputLen) {
