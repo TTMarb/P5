@@ -42,6 +42,8 @@ int main(int argc, char** argv) {
         return -1;
     }
 
+    int functionTimeout = 60;
+
     std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
     sleep(5);
