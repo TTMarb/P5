@@ -71,6 +71,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 }
 
 float64_t getAngle(float64_t y, float64_t x) {
+    std::cout << "y: " << y << ", x: " << x << "\n";
     float64_t angle = atan2(y, x);
     if (angle < 0) {
         angle += 2 * M_PI;
