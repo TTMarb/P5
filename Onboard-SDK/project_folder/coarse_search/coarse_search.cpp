@@ -38,7 +38,6 @@ using namespace DJI::OSDK::Telemetry;
 
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Entered tellMeAboutTheData: \n";
-    setBroadcastFrequency(vehicle);
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
     int searchRadius = 20;

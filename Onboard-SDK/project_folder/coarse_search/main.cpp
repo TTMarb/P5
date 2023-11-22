@@ -41,6 +41,11 @@ int main(int argc, char** argv) {
         std::cout << "Vehicle not initialized, exiting.\n";
         return -1;
     }
+    
+    setBroadcastFrequency(vehicle);
+    Telemetry::Status status = vehicle->broadcast->getStatus();
+    if(status.flight < 2){
+        std::cout << "Preparing drone" << std::endl;
 
     int functionTimeout = 60;
 
@@ -58,6 +63,9 @@ int main(int argc, char** argv) {
     ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
     if (ACK::getError(takeoffAck)) {
         ACK::getErrorCodeMessage(takeoffAck, __func__);
+    }
+    } else{
+        std::cout << "Drone already in air" << std::endl;
     }
     sleep(5);
 
