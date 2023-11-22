@@ -58,7 +58,7 @@ int main(void) {
             } else if (count > 6000) { // 60 s
                 count = 0;
                 printf("\nNo server timing out...\n");
-                exit(server_sock);
+                exit(client_sock);
                 exit(EXIT_FAILURE);
             }
             usleep(10000);
