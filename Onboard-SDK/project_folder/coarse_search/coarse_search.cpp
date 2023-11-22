@@ -88,6 +88,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "\t Signal strength: " << signalStrength << "\n";
             std::cout << "\t A1: " << A1 << "\n";
             std::cout << "\t A2: " << A2 << "\n";
+            std::cout << "\t A1-A2: " << A1-A2 << "\n";
+            std::cout << "\t A1-A2/H: " << A1-A2/H << "\n";
             std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
             std::cout << "yaw rate: " << alg*100 << "\n";
             cnt = 0;
