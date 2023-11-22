@@ -44,24 +44,32 @@ int main(void) {
 
     printf("Waiting to receive...\n");
     int count = 0;
+    int timeOutSet = 0;
     while (1) {
         bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (bytes_rec == -1) {
             if (count == 0) {
                 printf("RECEIVE ERROR: NO SERVER AVAILABLE. WAITING");
-            } else if (count % 10 == 0) {
-                printf
+                fflush(stdout); // Flush the serial buffer without \n
+                timeOutSet = 1;
+            } else if (count % 600 == 0) {
+                printf(".");
+                fflush(stdout);
+            } else if (count > 6000) { // 60 s
+                count = 0;
+                printf("\nNo server timing out...\n");
+                exit(server_sock);
+                exit(EXIT_FAILURE);
             }
-            usleep(10e3);
+            usleep(10000);
             count++;
-            if (co)
-            //close(client_sock);
-            //exit(EXIT_FAILURE);
         } else {
-            printf("DATA RECEIVED\n");
-            int i;
-            for (i = 0; i < BUFFER_SIZE; i++) {
-                printf("%f\n", buf[i]);
+            if (timeOutSet == 1) {
+                printf("\nConnection restablished. Receiving data...\n");
+                int i;
+                for (i = 0; i < BUFFER_SIZE; i++) {
+                    printf("%f\n", buf[i]);
+                }
             }
         }
     }
