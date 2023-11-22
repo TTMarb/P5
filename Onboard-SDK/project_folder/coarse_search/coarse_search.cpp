@@ -85,7 +85,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
 
         //Main loop
-        vehicle->control->positionAndYawRateCtrl(0, 0, 0, alg*100);
+        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, alg*100);
         usleep(10000);
     }
 }
