@@ -44,7 +44,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int searchRadius = 10;
     float32_t droneAngle;
 
-    std::cout << "Bout to calculate init position: \n"    
+    std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     float64_t iY = calcMfromLat(pos);//+getRandomNumber(0);
     float64_t iX = calcMfromLon(pos)//;+getRandomNumber(0);
