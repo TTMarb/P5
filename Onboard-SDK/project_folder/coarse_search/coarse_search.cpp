@@ -37,15 +37,18 @@ using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
+    std::cout << "Entered tellMeAboutTheData: \n";
     setBroadcastFrequency(vehicle);
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
     int searchRadius = 10;
-    
     float32_t droneAngle;
+
+    std::cout << "Bout to calculate init position: \n"    
     pos = vehicle->broadcast->getGlobalPosition();
-    float64_t iY = calcMfromLat(pos)+getRandomNumber(0);
-    float64_t iX = calcMfromLon(pos)+getRandomNumber(0);
+    float64_t iY = calcMfromLat(pos);//+getRandomNumber(0);
+    float64_t iX = calcMfromLon(pos)//;+getRandomNumber(0);
+    std::cout << "about to enter while loop: \n";
     while(true){
         quaternion = vehicle->broadcast->getQuaternion();
         double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
