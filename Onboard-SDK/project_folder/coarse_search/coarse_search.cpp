@@ -145,7 +145,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
 
-float64_t calcMfromLat(Telemetry::GlobalPosition pos, int randomsize){
+float64_t calcMfromLat(Telemetry::GlobalPosition pos){
     float64_t iY;
     //float64_t r_earth = 6378100;
     float64_t r_earth = 6356752;
