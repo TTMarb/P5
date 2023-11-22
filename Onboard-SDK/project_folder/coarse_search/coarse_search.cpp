@@ -83,6 +83,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t Signal strength: " << signalStrength << "\n";
         std::cout << "\t A1: " << A1 << "\n";
         std::cout << "\t A2: " << A2 << "\n";
+        float64_t alg = M_PI_4-acos(A1/sqrt(pow(A1,2)+pow(A2,2)));
+        std::cout << "\t Alg: " << alg << "\n";
         sleep(2);
     }
 }
