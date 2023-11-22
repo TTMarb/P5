@@ -56,8 +56,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "about to enter while loop: \n";
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
-        float64_t dY = calcMfromLat(pos)-tY;
-        float64_t dX = calcMfromLon(pos)-tX;
+        float64_t dY = calcMfromLat(pos)-iY;
+        float64_t dX = calcMfromLon(pos)-iX;
         droneAngle = QtoDEG(vehicle);
         float64_t distance = getSize(tY, tX);
         float64_t senderAngle = getAngle(tY, tX);
