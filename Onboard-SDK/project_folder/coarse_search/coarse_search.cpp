@@ -40,7 +40,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
-    int searchRadius = 20;
+    int searchRadius = 50;
     float32_t droneAngle;
 
     std::cout << "Bout to calculate init position: \n";  
@@ -49,9 +49,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     
     float64_t iY = calcMfromLat(pos);
     float64_t iX = calcMfromLon(pos);
-    randomnumber = getRandomNumber(10,randomnumber);
+    randomnumber = getRandomNumber(30,randomnumber);
     float64_t tY = randomnumber;
-    randomnumber = getRandomNumber(10,randomnumber);
+    randomnumber = getRandomNumber(30,randomnumber);
     float64_t tX = randomnumber;
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
