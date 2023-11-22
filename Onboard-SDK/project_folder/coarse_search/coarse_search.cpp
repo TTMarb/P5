@@ -62,7 +62,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t dX = calcMfromLon(pos)-iX;
         droneAngle = QtoDEG(vehicle);
         float64_t distanceTo = getSize(dY-tY, dX-tX);
-        float64_t signalStrength = searchWidth-distanceTo;
+        float64_t signalStrength = searchRadius-distanceTo;
         float64_t senderAngle = getAngle(dY-tY, dX-tX);
         float64_t targetAngle = senderAngle-90;
         if (targetAngle < 0) {
