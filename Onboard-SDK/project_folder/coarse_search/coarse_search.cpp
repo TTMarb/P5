@@ -41,7 +41,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     setBroadcastFrequency(vehicle);
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
-    int searchRadius = 10;
+    int searchRadius = 20;
     float32_t droneAngle;
 
     std::cout << "Bout to calculate init position: \n";  
@@ -61,7 +61,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t dY = calcMfromLat(pos)-iY;
         float64_t dX = calcMfromLon(pos)-iX;
         droneAngle = QtoDEG(vehicle);
-        float64_t distance = getSize(dY-tY, dX-tX);
+        float64_t distanceTo = getSize(dY-tY, dX-tX);
+        float64_t signalStrength = searchWidth-distanceTo;
         float64_t senderAngle = getAngle(dY-tY, dX-tX);
         float64_t targetAngle = senderAngle-90;
         if (targetAngle < 0) {
@@ -71,12 +72,17 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         if (diffAngle < 0) {
             diffAngle += 360;
         }
+        float64_t A1 = power(signalStrength,3)*cos(diffAngle-pi/4);
+        float64_t A2 = power(signalStrength,3)*cos(diffAngle+pi/4);
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-        std::cout << "\t Position angle on sender: " << senderAngle << "\n";
-        std::cout << "\t Drones angle: " << droneAngle<< "\n";
+        //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
+        //std::cout << "\t Drones angle: " << droneAngle<< "\n";
         std::cout << "\t Distance from sender: " << distance << "\n";
-        std::cout << "\t Target angle : " << targetAngle << "\n";
+        //std::cout << "\t Target angle : " << targetAngle << "\n";
         std::cout << "\t Diff angle : " << diffAngle << "\n";
+        std::cout << "\t Signal strength: " << signalStrength << "\n";
+        std::cout << "\t A1: " << A1 << "\n";
+        std::cout << "\t A2: " << A2 << "\n";
         sleep(2);
     }
 }
