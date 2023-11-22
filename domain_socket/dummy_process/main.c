@@ -47,6 +47,7 @@ int main(void) {
     while (1) {
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         printf("RC is %d\n", rc);
+        /*
         if (rc == -1) {
             if (count == 0) {
                 printf("RECEIVE ERROR: NO SERVER AVAILABLE. WAITING");
@@ -72,6 +73,7 @@ int main(void) {
                 printf("%f\n", buf[i]);
             }
         }
+        */
     }
 
     /* 
