@@ -54,8 +54,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t tY = randomnumber;
     randomnumber = getRandomNumber(10,randomnumber);
     float64_t tX = randomnumber;
-    std::cout << "target position calculated: tX = " << tY << ", tY = " << tX << "\n";
+    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
+    int cnt = 0;
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
         float64_t dY = calcMfromLat(pos)-iY;
@@ -64,25 +65,35 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t distanceTo = getSize(dY-tY, dX-tX);
         float64_t signalStrength = searchRadius-distanceTo;
         float64_t senderAngle = getAngle(dY-tY, dX-tX);
-        float64_t targetAngle = senderAngle-90;
+        float64_t targetAngle = 180-2*senderAngle;
         if (targetAngle < 0) {
             targetAngle += 360;
         }
         float64_t diffAngle = targetAngle-droneAngle;
-        float64_t A1 = fabs(pow(signalStrength,3)*cos((diffAngle*M_PI/180)-M_PI_4));
-        float64_t A2 = fabs(pow(signalStrength,3)*cos((diffAngle*M_PI/180)+M_PI_4));
-        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-        //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
-        //std::cout << "\t Drones angle: " << droneAngle<< "\n";
-        std::cout << "\t Distance from sender: " << distanceTo << "\n";
-        //std::cout << "\t Target angle : " << targetAngle << "\n";
-        std::cout << "\t Diff angle : " << diffAngle << "\n";
-        std::cout << "\t Signal strength: " << signalStrength << "\n";
-        std::cout << "\t A1: " << A1 << "\n";
-        std::cout << "\t A2: " << A2 << "\n";
-        float64_t alg = acos((A1-A2)/sqrt(pow(A1,2)+pow(A2,2)))-M_PI_2;
-        std::cout << "\t Alg: " << alg << "\n";
-        sleep(2);
+        float64_t A1 = fabs(signalStrength)*cos((diffAngle*M_PI/180)-M_PI_4);
+        float64_t A2 = fabs(signalStrength)*cos((diffAngle*M_PI/180)+M_PI_4);
+        float64_t H = sqrt(pow(A1,2)+pow(A2,2));
+        float64_t alg = acos((A1-A2)/H)-M_PI_2;
+
+        //Main loop
+        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, alg*100);
+        
+        cnt++;
+        if(cnt > 100){
+            std::cout << "dX: " << dX << ", dY: " << dY << "\n";
+            //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
+            //std::cout << "\t Drones angle: " << droneAngle<< "\n";
+            std::cout << "\t Distance from sender: " << distanceTo << "\n";
+            //std::cout << "\t Target angle : " << targetAngle << "\n";
+            std::cout << "\t Diff angle : " << diffAngle << "\n";
+            std::cout << "\t Signal strength: " << signalStrength << "\n";
+            std::cout << "\t A1: " << A1 << "\n";
+            std::cout << "\t A2: " << A2 << "\n";
+            std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
+            std::cout << "yaw rate: " << alg*100 << "\n";
+            cnt = 0;
+        }
+        usleep(10000);
     }
 }
 
