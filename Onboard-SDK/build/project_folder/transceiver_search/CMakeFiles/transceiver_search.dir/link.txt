@@ -1,1 +1,0 @@
-/usr/bin/c++    -std=c++11 -pthread -g -O0 -g    CMakeFiles/transceiver_search.dir/__/common/dji_linux_environment.cpp.o CMakeFiles/transceiver_search.dir/__/common/dji_linux_helpers.cpp.o CMakeFiles/transceiver_search.dir/main.cpp.o CMakeFiles/transceiver_search.dir/transceiver_search.cpp.o  -o ../../bin/transceiver_search -rdynamic ../../libs/libdjiosdk-core.a -lpthread 
