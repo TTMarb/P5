@@ -51,8 +51,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
         double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
         pos = vehicle->broadcast->getGlobalPosition();
-        float64_t dY = calcLatAndRand(pos,0)-iY;
-        float64_t dX = calcLonAndRand(pos,0)*r_earth)-iX;
+        float64_t dY = calcLatPlusRand(pos,0)-iY;
+        float64_t dX = calcLonPlusRand(pos,0)-iX;
         droneAngle = QtoDEG(vehicle);
         float64_t distance = getSize(dX, dY);
         float64_t angle = getAngle(dX, dY);
