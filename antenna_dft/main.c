@@ -23,7 +23,6 @@ int main() {
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;
-    int bytes_rec = 0;
     struct sockaddr_un server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
