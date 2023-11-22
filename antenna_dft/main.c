@@ -41,27 +41,44 @@ int main() {
     // Set up the sockaddr struct with the path
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
-
-    // Generate data to send
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    printf("Sending data...\n");
-    int i;
-    float num = 5;
-    for (i = 0; i < 5; i++) {
-        num = num + 0.1;
-        buf[i] = num;
-        printf("%f\n", buf[i]);
-    }
 
-    // Send data to clients
-    rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                sizeof(server_adress));
-    if (rc == -1) {
-        printf("SEND ERROR\n");
-        close(server_sock);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("Data sent!\n");
+    // Define threshold for number generator
+    float top = 10;
+    int count = 0;
+    int timeOutSet = 0;
+    // Code for continous data transfer
+    printf("Sending data...\n");
+    while (1) {
+        // Generate random values below 10
+        int i;
+        for (i = 0; i < BUFFER_SIZE; i++) {
+            float numGen = ((float)rand() / (float)(RAND_MAX)) * top;
+            buf[i] = numGen;
+        }
+
+        rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                    sizeof(server_adress));
+        if (rc == -1) {
+            if (count == 0) {
+                printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
+                timeOutSet = 1;
+            } else if (count % 10 == 0) {
+                printf(".");
+            } else if (count >= 1000) { //10 s
+                count = 0;
+                printf("\nNo connection timing out...\n");
+                exit(server_sock);
+                exit(EXIT_FAILURE);
+            }
+            usleep(10e3); // 10 ms
+            count++;
+        } else {
+            if (timeOutSet = 1) {
+                printf("Connection reestablished. Sending data...\n");
+                timeOutSet = 0;
+            }
+        }
     }
 
     /* 
@@ -122,8 +139,7 @@ int main() {
      */
 
     // Close the socket connection and exit
-    close(server_sock);
-    //close(client_sock);
+    //close(server_sock);
 
     return 0;
 }
