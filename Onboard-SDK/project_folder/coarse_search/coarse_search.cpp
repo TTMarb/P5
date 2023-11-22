@@ -77,7 +77,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
         //std::cout << "\t Drones angle: " << droneAngle<< "\n";
-        std::cout << "\t Distance from sender: " << distance << "\n";
+        std::cout << "\t Distance from sender: " << distanceTo << "\n";
         //std::cout << "\t Target angle : " << targetAngle << "\n";
         std::cout << "\t Diff angle : " << diffAngle << "\n";
         std::cout << "\t Signal strength: " << signalStrength << "\n";
