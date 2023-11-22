@@ -72,8 +72,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         if (diffAngle < 0) {
             diffAngle += 360;
         }
-        float64_t A1 = power(signalStrength,3)*cos(diffAngle-pi/4);
-        float64_t A2 = power(signalStrength,3)*cos(diffAngle+pi/4);
+        float64_t A1 = pow(signalStrength,3)*cos(diffAngle-pi/4);
+        float64_t A2 = pow(signalStrength,3)*cos(diffAngle+pi/4);
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
         //std::cout << "\t Drones angle: " << droneAngle<< "\n";
