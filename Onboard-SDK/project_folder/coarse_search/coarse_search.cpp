@@ -69,9 +69,6 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             targetAngle += 360;
         }
         float64_t diffAngle = targetAngle-droneAngle;
-        if (diffAngle < 0) {
-            diffAngle += 360;
-        }
         float64_t A1 = pow(signalStrength,3)*cos((diffAngle*M_PI/180)-M_PI_4);
         float64_t A2 = pow(signalStrength,3)*cos((diffAngle*M_PI/180)+M_PI_4);
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
@@ -83,7 +80,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t Signal strength: " << signalStrength << "\n";
         std::cout << "\t A1: " << A1 << "\n";
         std::cout << "\t A2: " << A2 << "\n";
-        float64_t alg = M_PI_4-acos(A1/sqrt(pow(A1,2)+pow(A2,2)));
+        float64_t alg = acos(fabs(A1-A2)/sqrt(pow(A1,2)+pow(A2,2)))-M_PI_2;
         std::cout << "\t Alg: " << alg << "\n";
         sleep(2);
     }
