@@ -75,7 +75,7 @@ float64_t getAngle(float64_t x, float64_t y) {
     if (angle < 0) {
         angle += 2 * M_PI;
     }
-    angle *= 180.0 / M_PI
+    angle *= 180.0 / M_PI;
     return angle;
 }
 
