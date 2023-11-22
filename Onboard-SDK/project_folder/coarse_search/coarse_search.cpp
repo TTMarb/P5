@@ -46,8 +46,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    float64_t iY = calcMfromLat(pos);//+getRandomNumber(0);
-    float64_t iX = calcMfromLon(pos);//;+getRandomNumber(0);
+    float64_t iY = calcMfromLat(pos)+getRandomNumber(10);
+    float64_t iX = calcMfromLon(pos)+getRandomNumber(10);
+    std::cout << "Init position calculated: iY = " << iY << ", iX = " << iX << "\n";
     std::cout << "about to enter while loop: \n";
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
