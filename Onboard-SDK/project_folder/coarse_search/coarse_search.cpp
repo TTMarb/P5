@@ -158,7 +158,7 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     //float64_t r_earth = 6378100;
     float64_t r_earth = 6356752; 
     iX = pos.longitude*cos(pos.latitude)*r_earth;
-    std::cout << "Sender longitude in M: " << iY << "\n";
+    std::cout << "Sender longitude in M: " << iX << "\n";
     return iX;
 }
 int getRandomNumber(int randomsize){
