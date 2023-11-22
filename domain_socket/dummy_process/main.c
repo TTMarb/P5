@@ -43,16 +43,20 @@ int main(void) {
     }
 
     printf("Waiting to receive...\n");
-    bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
-    if (bytes_rec == -1) {
-        printf("RECEIVE FROM ERROR");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    } else {
-        printf("DATA RECEIVED\n");
-        int i;
-        for (i = 0; i < BUFFER_SIZE; i++) {
-            printf("%f\n", buf[i]);
+    while (1) {
+        bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        if (bytes_rec == -1) {
+            printf("RECEIVE ERROR: NO SERVER AVAILABLE\n");
+            usleep(10e3);
+
+            //close(client_sock);
+            //exit(EXIT_FAILURE);
+        } else {
+            printf("DATA RECEIVED\n");
+            int i;
+            for (i = 0; i < BUFFER_SIZE; i++) {
+                printf("%f\n", buf[i]);
+            }
         }
     }
 
