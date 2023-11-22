@@ -59,7 +59,7 @@ int main() {
 
         rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
-        printf("RC value %d\n", rc);
+        //printf("RC value %d\n", rc);
         if (rc == -1) {
             if (count == 0) {
                 printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
