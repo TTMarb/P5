@@ -72,9 +72,9 @@ int main() {
                 exit(server_sock);
                 exit(EXIT_FAILURE);
             }
-            usleep(10e3); // 10 ms
+            usleep(10000); // 10 ms
             count++;
-            printf("Count is %d\n", count);
+            //printf("Count is %d\n", count);
         } else {
             if (timeOutSet = 1) {
                 printf("Connection reestablished. Sending data...\n");
