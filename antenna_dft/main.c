@@ -65,7 +65,7 @@ int main() {
                 printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
                 timeOutSet = 1;
             } else if (count % 100 == 0) {
-                printf(".");
+                printf(".\n");
             } else if (count > 1000) { //10 s
                 count = 0;
                 printf("\nNo connection timing out...\n");
