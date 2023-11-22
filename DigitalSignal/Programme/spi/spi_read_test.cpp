@@ -38,7 +38,7 @@ void open_and_configure() {
 }
 
 void readSPI(int spi_fd) {
-    char buffer[256];
+    char buffer[1];
     
     while (true) {
         auto start_time = chrono::high_resolution_clock::now();
