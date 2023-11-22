@@ -60,7 +60,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         if (targetAngle < 0) {
             targetAngle += 360;
         }
-        float64_t diffAnglle = targetAngle-droneAngle;
+        float64_t diffAngle = targetAngle-droneAngle;
         if (diffAngle < 0) {
             diffAngle += 360;
         }
