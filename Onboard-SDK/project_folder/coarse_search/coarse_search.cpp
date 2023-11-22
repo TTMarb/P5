@@ -54,7 +54,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float64_t tY = randomnumber;
     randomnumber = getRandomNumber(10,randomnumber);
     float64_t tX = randomnumber;
-    std::cout << "target position calculated: tX = " << tY << ", tY = " << tX << "\n";
+    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
     while(true){
         pos = vehicle->broadcast->getGlobalPosition();
@@ -64,7 +64,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         float64_t distanceTo = getSize(dY-tY, dX-tX);
         float64_t signalStrength = searchRadius-distanceTo;
         float64_t senderAngle = getAngle(dY-tY, dX-tX);
-        float64_t targetAngle = senderAngle-90;
+        float64_t targetAngle = 180-2*senderAngle;
         if (targetAngle < 0) {
             targetAngle += 360;
         }
