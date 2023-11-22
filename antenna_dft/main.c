@@ -42,14 +42,13 @@ int main() {
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
-    // Define threshold for number generator
-    float top = 10;
+    float top = 10; // Define threshold for number generator
     int count = 0;
     int timeOutSet = 0;
-    // Code for continous data transfer
+
     printf("Sending data...\n");
     while (1) {
-        // Generate random values below 10
+        // Generate random values below, placeholder for dft data
         int i;
         for (i = 0; i < BUFFER_SIZE; i++) {
             float numGen = ((float)rand() / (float)(RAND_MAX)) * top;
