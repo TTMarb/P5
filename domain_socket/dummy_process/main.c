@@ -15,7 +15,6 @@ float buf[BUFFER_SIZE];
 int main(void) {
 
     int client_sock, rc, len;
-    int bytes_rec = 0;
     struct sockaddr_un client_sockaddr, server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
@@ -46,8 +45,9 @@ int main(void) {
     int timeOutSet = 0;
     printf("Waiting to receive...\n");
     while (1) {
-        bytes_rec = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
-        if (bytes_rec == -1) {
+        rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        printf("RC val: %d\n", rc);
+        if (rc == -1) {
             if (count == 0) {
                 printf("RECEIVE ERROR: NO SERVER AVAILABLE. WAITING");
                 fflush(stdout); // Flush the serial buffer without \n
