@@ -66,10 +66,10 @@ int main(void) {
         } else {
             if (timeOutSet == 1) {
                 printf("\nConnection restablished. Receiving data...\n");
-                int i;
-                for (i = 0; i < BUFFER_SIZE; i++) {
-                    printf("%f\n", buf[i]);
-                }
+            }
+            int i;
+            for (i = 0; i < BUFFER_SIZE; i++) {
+                printf("%f\n", buf[i]);
             }
         }
     }
