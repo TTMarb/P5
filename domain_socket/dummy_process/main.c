@@ -43,8 +43,9 @@ int main(void) {
 
     int count = 0;
     int timeOutSet = 0;
-    printf("Waiting to receive...\n");
     while (1) {
+        printf("Waiting to receive...\n");
+
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         printf("RC is %d\n", rc);
         /*
