@@ -82,7 +82,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t A2: " << A2 << "\n";
         float64_t H = sqrt(pow(A1,2)+pow(A2,2));
         float64_t alg = acos((A1-A2)/H)-M_PI_2;
-        std::cout << "\t Alg: " << alg << "\n";
+        std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         sleep(2);
     }
 }
