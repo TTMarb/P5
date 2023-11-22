@@ -63,7 +63,7 @@ int main() {
                 printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
                 fflush(stdout);
                 timeOutSet = 1;
-            } else if (count % 600 == 0) {
+            } else if (count % 300 == 0) {
                 printf(".");
                 fflush(stdout);
             } else if (count > 6000) { //60 s
@@ -75,7 +75,7 @@ int main() {
             usleep(10000); // 10 ms
             count++;
         } else {
-            if (timeOutSet = 1) {
+            if (timeOutSet == 1) {
                 printf("\nConnection reestablished. Sending data...\n");
                 timeOutSet = 0;
             }

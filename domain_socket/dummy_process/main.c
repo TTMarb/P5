@@ -46,13 +46,12 @@ int main(void) {
     printf("Waiting to receive...\n");
     while (1) {
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
-        printf("RC val: %d\n", rc);
         if (rc == -1) {
             if (count == 0) {
                 printf("RECEIVE ERROR: NO SERVER AVAILABLE. WAITING");
                 fflush(stdout); // Flush the serial buffer without \n
                 timeOutSet = 1;
-            } else if (count % 600 == 0) {
+            } else if (count % 300 == 0) {
                 printf(".");
                 fflush(stdout);
             } else if (count > 6000) { // 60 s
@@ -66,10 +65,10 @@ int main(void) {
         } else {
             if (timeOutSet == 1) {
                 printf("\nConnection restablished. Receiving data...\n");
-                int i;
-                for (i = 0; i < BUFFER_SIZE; i++) {
-                    printf("%f\n", buf[i]);
-                }
+            }
+            int i;
+            for (i = 0; i < BUFFER_SIZE; i++) {
+                printf("%f\n", buf[i]);
             }
         }
     }
