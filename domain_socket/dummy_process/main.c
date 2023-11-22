@@ -61,8 +61,8 @@ int main(void) {
             }
 
             // Iterate through buffer to read data values
-            int j;
-            for (j = 0; j < BUFFER_SIZE; j++) {
+            int i;
+            for (i = 0; i < BUFFER_SIZE; i++) {
                 if (buf[i] >= 9.7) { // NB! edit to desired threshold
                     close(client_sock);
                     //stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
