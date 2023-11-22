@@ -44,14 +44,16 @@ int main(int argc, char** argv) {
     
     setBroadcastFrequency(vehicle);
     Telemetry::Status status = vehicle->broadcast->getStatus();
-    if(status.flight < 2){
-        std::cout << "Preparing drone" << std::endl;
 
+    
     int functionTimeout = 60;
 
     std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
     sleep(5);
+    if(status.flight < 2){
+        std::cout << "Preparing drone" << std::endl;
+
 
     std::cout << "Arm motor \n";
     ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
