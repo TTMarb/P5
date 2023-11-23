@@ -46,10 +46,12 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t alg = 0;
     float32_t vX = 0;
     float32_t vY = 0;
+    //sampletime in ms
+    float32_t sampleTime = 10;
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller pic = PIcontroller(0.1, 0.1, 0.1);
+    PIcontroller pic = PIcontroller(1, 1, sampleTime);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
     int cnt = 0;
@@ -58,7 +60,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
 
-        if(cnt < 7){
+        if(cnt < 7*(sampletime/10)){
             A1 = df.A1;
             A2 = df.A2;
         }else{
@@ -68,7 +70,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
-        if(cnt < 1){
+        if(cnt < 1*(sampletime/10)){
             vel = (sqrt(2)*searchRadius-H);
         }
 
@@ -76,22 +78,23 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "Target found! \n";
             break;
         }
-        std::cout << "cnt: "<< cnt << "A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
+        pic.pi = pic.calculatePI(alg);
+        std::cout <<"PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
 
         //Main loop
         vX = vel*cos(droneAngle*M_PI/180)*0.1;
         vY = vel*sin(droneAngle*M_PI/180)*0.1;
-        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*10000);
+        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, pic.pi);
         //std::cout << "\t A1: " << A1 << "\n";
         //std::cout << "\t A2: " << A2 << "\n";
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //std::cout << "\t yaw rate: " << alg*100 << "\n";
         cnt++;
-        if (cnt > 100){
+        if (cnt > sampleTime*10){
             cnt = 0;
         }
-        usleep(10000);
+        usleep(sampleTime*1000);
     }
 }
 
@@ -238,7 +241,7 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
 PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTime_in){
     Kp = Kp_in;
     Ki = Ki_in;
-    sampleTime = sampleTime_in;
+    sampleTime = sampleTime_in/1000;
     pi = 0;
 }
 
