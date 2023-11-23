@@ -76,7 +76,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "Target found! \n";
             break;
         }
-        std::cout << "A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
+        std::cout << "cnt: "<< cnt << "A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
 
         //Main loop
         vX = vel*cos(droneAngle*M_PI/180)*0.1;
