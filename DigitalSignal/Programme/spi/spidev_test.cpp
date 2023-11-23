@@ -32,7 +32,7 @@ static void pabort(const char *s)
 static const char *device = "/dev/spidev3.0";
 static uint8_t mode;
 static uint8_t bits = 8;
-static uint32_t speed = 500000;
+static uint32_t speed = 50000000;
 static uint16_t delay;
 
 static void transfer(int fd)
