@@ -29,12 +29,14 @@
  * SOFTWARE.
  */
 
-#ifndef DJIOSDK_MISSIONSAMPLE_HPP
-#define DJIOSDK_MISSIONSAMPLE_HPP
+#ifndef COARSE_SEARCH_HPP
+#define COARSE_SEARCH_HPP
 
-// System Includes
+// System Includes & definitions
 #include <cmath>
 #include <vector>
+#include <math.h>
+#define _USE_MATH_DEFINES
 
 // DJI OSDK includes
 #include <dji_vehicle.hpp>
@@ -44,9 +46,9 @@
 
 void tellMeAboutTheData(DJI::OSDK::Vehicle*);
 
-float64_t getAngle(float64_t, float64_t);
+float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
-float64_t getSize(float64_t, float64_t);
+float32_t getSize(float32_t, float32_t);
 
 //Ikke nødvendigt i den endelige version, men her kan det bruges til test
 void setBroadcastFrequency(Vehicle* vehicle);
@@ -56,7 +58,35 @@ float64_t calcMfromLat(Telemetry::GlobalPosition);
 
 float64_t calcMfromLon(Telemetry::GlobalPosition);
 
-int getRandomNumber(int,int);
+void addRandomLocation(float32_t*,float32_t*,int,int);
+
+class PIcontroller {
+  public:
+    float32_t pi;
+    PIcontroller(float32_t,float32_t,float32_t); // Constructor
+    void calculatePI(float32_t); // Serial port
+
+  private:
+    float32_t Kp;
+    float32_t Ki;
+    float32_t sampleTime;
+};
+
+class DataFaker {
+  public:
+    DataFaker(Vehicle* vehicle, int sT, int sR); // Constructor
+    void FakeAs(Vehicle* vehicle); // Serial port
+    float32_t A1;
+    float32_t A2;
+
+  private:
+    float32_t sampleTime;
+    float32_t iX;
+    float32_t iY;
+    float32_t tX;
+    float32_t tY;
+    int searchRadius;
+};
 
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

@@ -31,8 +31,6 @@
  */
 
 #include "coarse_search.hpp"
-#define _USE_MATH_DEFINES
-#include <math.h>
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
@@ -45,33 +43,16 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    int randomnumber = 1;
+    PIcontroller pic = PIcontroller(0.1, 0.1, 0.1);
+    DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
-    float64_t iY = calcMfromLat(pos);
-    float64_t iX = calcMfromLon(pos);
-    randomnumber = getRandomNumber(60,randomnumber);
-    float64_t tY = randomnumber;
-    randomnumber = getRandomNumber(60,randomnumber);
-    float64_t tX = randomnumber;
-    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
-    std::cout << "about to enter while loop: \n";
     int cnt = 0;
     while(true){
-        pos = vehicle->broadcast->getGlobalPosition(); 
-        droneAngle = QtoDEG(vehicle);
-        float64_t dY = calcMfromLat(pos)-iY;
-        float64_t dX = calcMfromLon(pos)-iX;
-        float64_t distanceTo = getSize(dY-tY, dX-tX);
-        float64_t signalStrength = searchRadius-distanceTo;
-        float64_t senderAngle = getAngle(dY-tY, dX-tX);
-        float64_t targetAngle = 180-2*senderAngle;
-        if (targetAngle < 0) {
-            targetAngle += 360;
-        }
-        float64_t diffAngle = targetAngle-droneAngle;
-        float64_t A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
-        float64_t A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
-        float64_t H = sqrt(pow(A1,2)+pow(A2,2));
+        float32_t A1 = df.A1;
+        float32_t A2 = df.A2;
+
+
+        float32_t H = sqrt(pow(A1,2)+pow(A2,2));
         float32_t alg = acos((A1-A2)/H)-M_PI_2;
 
         //Main loop
@@ -81,12 +62,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         
         cnt++;
-        if(cnt > 100){
+        /*if(cnt > 100){
             std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-            //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
-            //std::cout << "\t Drones angle: " << droneAngle<< "\n";
             std::cout << "\t Distance from sender: " << distanceTo << "\n";
-            //std::cout << "\t Target angle : " << targetAngle << "\n";
             std::cout << "\t Diff angle : " << diffAngle << "\n";
             std::cout << "\t Signal strength: " << signalStrength << "\n";
             std::cout << "\t A1: " << A1 << "\n";
@@ -95,14 +73,14 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
             std::cout << "yaw rate: " << alg*100 << "\n";
             cnt = 0;
-        }
+        }*/
         usleep(10000);
     }
 }
 
-float64_t getAngle(float64_t y, float64_t x) {
+float32_t getAngle(float32_t y, float32_t x) {
     //std::cout << "y: " << y << ", x: " << x << "\n";
-    float64_t angle = atan2(y, x);
+    float32_t angle = atan2(y, x);
     if (angle < 0) {
         angle += 2 * M_PI;
     }
@@ -130,7 +108,44 @@ float32_t QtoDEG(Vehicle* vehicle) {
     return angle;
 }
 
-float64_t getSize(float64_t y, float64_t x) {
+DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
+    Telemetry::GlobalPosition pos;
+    pos = vehicle->broadcast->getGlobalPosition(); 
+    searchRadius = sR;
+    sampleTime = sT;
+    
+    srand((unsigned) time(NULL));
+
+    iY = calcMfromLat(pos);
+    iX = calcMfromLon(pos);
+    tX = iX + (-searchRadius - (rand() % 2*searchRadius));
+    tY = iY + (-searchRadius - (rand() % 2*searchRadius));
+
+    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
+    std::cout << "about to enter while loop: \n";
+}
+
+void DataFaker::FakeAs(Vehicle* vehicle){
+        Telemetry::GlobalPosition pos;
+        float32_t droneAngle = QtoDEG(vehicle);
+        pos = vehicle->broadcast->getGlobalPosition(); 
+        float32_t dY = calcMfromLat(pos)-iY;
+        float32_t dX = calcMfromLon(pos)-iX;
+        float32_t distanceTo = getSize(dY-tY, dX-tX);
+        float32_t signalStrength = searchRadius-distanceTo;
+        float32_t senderAngle = getAngle(dY-tY, dX-tX);
+        float32_t targetAngle = 180-2*senderAngle;
+        if (targetAngle < 0) {
+            targetAngle += 360;
+        }
+        
+        float32_t diffAngle = targetAngle-droneAngle;
+        A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
+        A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
+
+}
+
+float32_t getSize(float32_t y, float32_t x) {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
@@ -184,22 +199,27 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 
 float64_t calcMfromLat(Telemetry::GlobalPosition pos){
     float64_t iY;
-    //float64_t r_earth = 6378100;
-    float64_t r_earth = 6356752;
+    //float32_t r_earth = 6378100;
+    float32_t r_earth = 6356752;
     iY = pos.latitude*r_earth;
     return iY;
 }
 
 float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     float64_t iX;
-    //float64_t r_earth = 6378100;
-    float64_t r_earth = 6356752; 
+    //float32_t r_earth = 6378100;
+    float32_t r_earth = 6356752; 
     iX = pos.longitude*cos(pos.latitude)*r_earth;
     return iX;
 }
-int getRandomNumber(int randomsize, int randomnumber){
-    srand((unsigned) time(NULL) + randomnumber);
-	int random = 30 - (rand() % randomsize);
-    std::cout << "Random number: " << random << "\n";
-    return random;
+
+PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTime_in){
+    Kp = Kp_in;
+    Ki = Ki_in;
+    sampleTime = sampleTime_in;
+    pi = 0;
+}
+
+void PIcontroller::calculatePI(float32_t error){
+    pi = Kp*error + (sampleTime/Ki)*error;
 }
