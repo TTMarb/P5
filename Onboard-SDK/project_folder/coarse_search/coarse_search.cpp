@@ -60,7 +60,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
 
-        if(cnt < 7*(sampletime/10)){
+        if(cnt < 7*(sampleTime/10)){
             A1 = df.A1;
             A2 = df.A2;
         }else{
@@ -70,7 +70,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
-        if(cnt < 1*(sampletime/10)){
+        if(cnt < 1*(sampleTime/10)){
             vel = (sqrt(2)*searchRadius-H);
         }
 
