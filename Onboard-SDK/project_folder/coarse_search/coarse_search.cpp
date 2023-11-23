@@ -202,14 +202,14 @@ void addRandomLocation(float32_t *lat, float32_t *lon, int randomLow, int random
     lon = lon + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
 }
 
-PIcontroller::PIcontroller(float32_t Kp, float32_t Ki, float32_t sampleTime){
-    this->Kp = Kp;
-    this->Ki = Ki;
-    this->sampleTime = sampleTime;
-    this->pi = 0;
+PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTime_in){
+    Kp = Kp_in;
+    Ki = Ki_in;
+    sampleTime = sampleTime_in;
+    pi = 0;
 }
 
 
 void PIController::calculatePI(float32_t error){
-    this->pi = this->Kp*error + ((this->sampleTime)/(this->Ki))*error;
+    pi = Kp*error + (sampleTime/Ki)*error;
 }
