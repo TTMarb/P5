@@ -51,7 +51,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller pic = PIcontroller(1, 1, sampleTime);
+    PIcontroller pic = PIcontroller(10, 1, sampleTime);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
     int cnt = 0;
