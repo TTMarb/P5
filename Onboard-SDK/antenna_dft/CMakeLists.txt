@@ -7,6 +7,6 @@ project(antenna_dft)
 #add_executable(antenna_dft ${SOURCE_FILES})
 
 
-add_executable(${PROJECT_NAME}
-main.c
-antenna.c)
+add_executable(${PROJECT_NAME} main.c)
+#add_executable(${PROJECT_NAME} antenna.c)
+
