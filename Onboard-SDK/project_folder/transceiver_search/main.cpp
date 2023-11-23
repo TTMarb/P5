@@ -56,13 +56,6 @@ int main(int argc, char** argv) {
 
     /********* INITIALIZE DFT PROCESS *********/
 
-    // Quick of the start process of coarse search!
-    pid_t coarseSearch;
-    coarseSearch = fork(); // Fork the parent process to start new process
-    char pathTest[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
-    char paramTest[] = "UserConfig.txt";
-    startProcess(coarseSearch, pathTest, paramTest);
-
     pid_t antennaPID;
     antennaPID = fork(); // Fork the parent process to start new process
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
@@ -207,7 +200,7 @@ int main(int argc, char** argv) {
                     printf("Stopping waypoint mission...\n");
                     printf("Starting coarse search!\n");
                     pid_t coarsePID;
-                    coarsePID = fork(); /* Fork the parent process to start new process*/
+                    coarsePID = fork(); // Fork the parent process to start new process
                     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                     char param[] = "UserConfig.txt";
                     startProcess(antennaPID, path, param);
