@@ -111,15 +111,15 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
     pos = vehicle->broadcast->getGlobalPosition(); 
     searchRadius = sR;
     sampleTime = sT;
-    int rand;
+    int random;
 
     iY = calcMfromLat(pos);
     iX = calcMfromLon(pos);
     srand((unsigned) time(NULL));
-    rand = (-searchRadius + (rand() % (2*searchRadius)));
-    tX = rand;
-    rand = (-searchRadius + (rand() % (2*searchRadius)));
-    tY = rand;
+    random = (-searchRadius + (rand() % (2*searchRadius)));
+    tX = random;
+    random = (-searchRadius + (rand() % (2*searchRadius)));
+    tY = random;
 
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
