@@ -49,7 +49,12 @@ int main(int argc, char** argv) {
     int functionTimeout = 60;
 
     std::cout << "About to take control \n";
-    vehicle->obtainCtrlAuthority(functionTimeout);
+    
+    ACK::ErrorCode ctrlAuth = vehicle->obtainCtrlAuthority(functionTimeout);
+    if (ACK::getError(ctrlAuth)) {
+        ACK::getErrorCodeMessage(ctrlAuth, __func__);
+    }
+    
     if(status.flight < 2){
         sleep(5);
         std::cout << "Preparing drone" << std::endl;
@@ -67,8 +72,6 @@ int main(int argc, char** argv) {
         if (ACK::getError(takeoffAck)) {
             ACK::getErrorCodeMessage(takeoffAck, __func__);
         }
-        
-        std::cout << takeoffAck << std::endl;
 
         std::cout << "Took off \n";
         sleep(10);
