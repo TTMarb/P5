@@ -43,7 +43,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller pic = PIcontroller::PIcontroller(0.1, 0.1, 0.1);
+    PIcontroller pic = PIcontroller(0.1, 0.1, 0.1);
     
     
     float32_t iY = calcMfromLat(pos);
@@ -210,6 +210,6 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTim
 }
 
 
-void PIController::calculatePI(float32_t error){
+void PIcontroller::calculatePI(float32_t error){
     pi = Kp*error + (sampleTime/Ki)*error;
 }
