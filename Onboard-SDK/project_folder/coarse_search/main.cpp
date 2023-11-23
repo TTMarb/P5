@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
     if (ACK::getError(ctrlAuth)) {
         ACK::getErrorCodeMessage(ctrlAuth, __func__);
     }
-    
+
     if(status.flight < 2){
         sleep(5);
         std::cout << "Preparing drone" << std::endl;
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
         std::cout << "About to take off \n";
         sleep(5);
-
+        
         ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
         if (ACK::getError(takeoffAck)) {
             ACK::getErrorCodeMessage(takeoffAck, __func__);
