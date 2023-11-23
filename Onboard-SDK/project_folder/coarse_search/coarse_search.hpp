@@ -54,9 +54,9 @@ float32_t getSize(float32_t, float32_t);
 void setBroadcastFrequency(Vehicle* vehicle);
 
 
-float32_t calcMfromLat(Telemetry::GlobalPosition);
+float64_t calcMfromLat(Telemetry::GlobalPosition);
 
-float32_t calcMfromLon(Telemetry::GlobalPosition);
+float64_t calcMfromLon(Telemetry::GlobalPosition);
 
 void addRandomLocation(float32_t*,float32_t*,int,int);
 
