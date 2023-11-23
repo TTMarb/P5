@@ -63,7 +63,7 @@ void addRandomLocation(float32_t*,float32_t*,int,int);
 class PIcontroller {
   public:
     float32_t pi;
-    PIcontroller(float32_t,float32_t); // Constructor
+    PIcontroller(float32_t,float32_t,float32_t); // Constructor
     void calculatePI(); // Serial port
 
   private:
