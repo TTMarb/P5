@@ -60,7 +60,8 @@ int main(int argc, char** argv) {
     pid_t coarseSearch;
     coarseSearch = fork(); // Fork the parent process to start new process
     char pathTest[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
-    char paramTest[] = "UserConfig.txt" startProcess(antennaPID, path, param);
+    char paramTest[] = "UserConfig.txt";
+    startProcess(antennaPID, path, param);
 
     pid_t antennaPID;
     antennaPID = fork(); // Fork the parent process to start new process
