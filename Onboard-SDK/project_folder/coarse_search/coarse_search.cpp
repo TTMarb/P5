@@ -31,8 +31,6 @@
  */
 
 #include "coarse_search.hpp"
-#define _USE_MATH_DEFINES
-#include <math.h>
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
@@ -45,36 +43,33 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    int randomnumber = 1;
-    float64_t pi;
-    float64_t Kp;
-    float64_t Ki;
+    PIcontroller pic = PIcontroller(0.1, 0.1, 0.1);
     
-    float64_t iY = calcMfromLat(pos);
-    float64_t iX = calcMfromLon(pos);
-    randomnumber = getRandomNumber(60,randomnumber);
-    float64_t tY = randomnumber;
-    randomnumber = getRandomNumber(60,randomnumber);
-    float64_t tX = randomnumber;
+    
+    float32_t iY = calcMfromLat(pos);
+    float32_t iX = calcMfromLon(pos);
+    float32_t tY = iY;
+    float32_t tX = iX;
+    addRandomLocation(&tY, &tX, -30, 30);
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
     int cnt = 0;
     while(true){
         pos = vehicle->broadcast->getGlobalPosition(); 
         droneAngle = QtoDEG(vehicle);
-        float64_t dY = calcMfromLat(pos)-iY;
-        float64_t dX = calcMfromLon(pos)-iX;
-        float64_t distanceTo = getSize(dY-tY, dX-tX);
-        float64_t signalStrength = searchRadius-distanceTo;
-        float64_t senderAngle = getAngle(dY-tY, dX-tX);
-        float64_t targetAngle = 180-2*senderAngle;
+        float32_t dY = calcMfromLat(pos)-iY;
+        float32_t dX = calcMfromLon(pos)-iX;
+        float32_t distanceTo = getSize(dY-tY, dX-tX);
+        float32_t signalStrength = searchRadius-distanceTo;
+        float32_t senderAngle = getAngle(dY-tY, dX-tX);
+        float32_t targetAngle = 180-2*senderAngle;
         if (targetAngle < 0) {
             targetAngle += 360;
         }
-        float64_t diffAngle = targetAngle-droneAngle;
-        float64_t A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
-        float64_t A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
-        float64_t H = sqrt(pow(A1,2)+pow(A2,2));
+        float32_t diffAngle = targetAngle-droneAngle;
+        float32_t A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
+        float32_t A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
+        float32_t H = sqrt(pow(A1,2)+pow(A2,2));
         float32_t alg = acos((A1-A2)/H)-M_PI_2;
 
         //Main loop
@@ -103,9 +98,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     }
 }
 
-float64_t getAngle(float64_t y, float64_t x) {
+float32_t getAngle(float32_t y, float32_t x) {
     //std::cout << "y: " << y << ", x: " << x << "\n";
-    float64_t angle = atan2(y, x);
+    float32_t angle = atan2(y, x);
     if (angle < 0) {
         angle += 2 * M_PI;
     }
@@ -133,7 +128,7 @@ float32_t QtoDEG(Vehicle* vehicle) {
     return angle;
 }
 
-float64_t getSize(float64_t y, float64_t x) {
+float32_t getSize(float32_t y, float32_t x) {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
@@ -187,22 +182,34 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 
 float64_t calcMfromLat(Telemetry::GlobalPosition pos){
     float64_t iY;
-    //float64_t r_earth = 6378100;
-    float64_t r_earth = 6356752;
+    //float32_t r_earth = 6378100;
+    float32_t r_earth = 6356752;
     iY = pos.latitude*r_earth;
     return iY;
 }
 
 float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     float64_t iX;
-    //float64_t r_earth = 6378100;
-    float64_t r_earth = 6356752; 
+    //float32_t r_earth = 6378100;
+    float32_t r_earth = 6356752; 
     iX = pos.longitude*cos(pos.latitude)*r_earth;
     return iX;
 }
-int getRandomNumber(int randomsize, int randomnumber){
-    srand((unsigned) time(NULL) + randomnumber);
-	int random = 30 - (rand() % randomsize);
-    std::cout << "Random number: " << random << "\n";
-    return random;
+
+void addRandomLocation(float32_t *lat, float32_t *lon, int randomLow, int randomHigh){
+    srand((unsigned) time(NULL));
+    lat = lat + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
+    lon = lon + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
+}
+
+PIcontroller::PIcontroller(float32_t Kp, float32_t Ki, float32_t sampleTime){
+    this->Kp = Kp;
+    this->Ki = Ki;
+    this->sampleTime = sampleTime;
+    this->pi = 0;
+}
+
+
+void PIController::calculatePI(float32_t error){
+    this->pi = this->Kp*error + ((this->sampleTime)/(this->Ki))*error;
 }
