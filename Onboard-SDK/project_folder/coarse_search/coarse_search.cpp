@@ -118,9 +118,8 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
     iX = calcMfromLon(pos);
     int rand1 = (-searchRadius - (rand() % 2*searchRadius));
     int rand2 = (-searchRadius - (rand() % 2*searchRadius));
-    std::cout << "target position calculated: tX = " << rand1 << ", tY = " << rand2 << "\n";
-    tX = iX + rand1;
-    tY = iY + rand2;
+    tX = rand1;
+    tY = rand2;
 
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
@@ -132,10 +131,10 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         float32_t droneAngle = QtoDEG(vehicle);
         float32_t dY = calcMfromLat(pos)-iY;
         float32_t dX = calcMfromLon(pos)-iX;
-        float32_t distanceTo = getSize(dY-tY-iY, dX-tX-iX);
+        float32_t distanceTo = getSize(dY-tY, dX-tX);
         float32_t signalStrength = searchRadius-distanceTo;
         //Finds the difference between the drones angle and the targets angle
-        float32_t targetAngle = 180-2*getAngle(dY-tY-iY, dX-tX-iX);
+        float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
         if (targetAngle < 0) {
             targetAngle += 360;
         }
