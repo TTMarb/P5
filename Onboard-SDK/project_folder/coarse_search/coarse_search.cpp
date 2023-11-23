@@ -58,7 +58,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
 
-        if(cnt < 70){
+        if(cnt < 7){
             A1 = df.A1;
             A2 = df.A2;
         }else{
@@ -87,11 +87,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         //std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //std::cout << "\t yaw rate: " << alg*100 << "\n";
-        if (cnt > 1000){
+        if (cnt > 100){
             cnt = 0;
         }
         cnt++;
-        usleep(1000);
+        usleep(10000);
     }
 }
 
