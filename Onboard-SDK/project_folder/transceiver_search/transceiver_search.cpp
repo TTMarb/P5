@@ -200,7 +200,7 @@ void startProcess(pid_t pid, char* path, char* param) {
         printf("Child process %s initiated. PID is %d\n", bname, getpid());
         char* const args[] = {param};
         char* const envp[] = {NULL};
-        execve(bname, args, envp); // Override the child process with the BIN file
+        execve(path, args, envp); // Override the child process with the BIN file
         perror("execve");
         exit(EXIT_FAILURE); // Exit the child process if it fails
     } else if (pid > 0) {
