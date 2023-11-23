@@ -40,6 +40,12 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     Telemetry::Quaternion quaternion;
     int searchRadius = 50;
     float32_t droneAngle;
+    float32_t A1;
+    float32_t A2;
+    float32_t H;
+    float32_t alg;
+    float32_t vX;
+    float32_t vY;
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
@@ -48,17 +54,18 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     
     int cnt = 0;
     while(true){
-        float32_t A1 = df.A1;
-        float32_t A2 = df.A2;
+        df.FakeAs(vehicle);
+        droneAngle = QtoDEG(vehicle);
 
-
-        float32_t H = sqrt(pow(A1,2)+pow(A2,2));
-        float32_t alg = acos((A1-A2)/H)-M_PI_2;
+        
+        A1 = df.A1;
+        A2 = df.A2;
+        H = sqrt(pow(A1,2)+pow(A2,2));
+        alg = acos((A1-A2)/H)-M_PI_2;
 
         //Main loop
-        //Opsæt x og y parametre ud fra dronens retning.
-        float32_t vX = (searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
-        float32_t vY = (searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
+        vX = (searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
+        vY = (searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         
         cnt++;
@@ -127,14 +134,13 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
 
 void DataFaker::FakeAs(Vehicle* vehicle){
         Telemetry::GlobalPosition pos;
-        float32_t droneAngle = QtoDEG(vehicle);
         pos = vehicle->broadcast->getGlobalPosition(); 
+        float32_t droneAngle = QtoDEG(vehicle);
         float32_t dY = calcMfromLat(pos)-iY;
         float32_t dX = calcMfromLon(pos)-iX;
-        float32_t distanceTo = getSize(dY-tY, dX-tX);
-        float32_t signalStrength = searchRadius-distanceTo;
-        float32_t senderAngle = getAngle(dY-tY, dX-tX);
-        float32_t targetAngle = 180-2*senderAngle;
+        float32_t signalStrength = searchRadius-getSize(dY-tY, dX-tX);
+        //Finds the difference between the drones angle and the targets angle
+        float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
         if (targetAngle < 0) {
             targetAngle += 360;
         }
