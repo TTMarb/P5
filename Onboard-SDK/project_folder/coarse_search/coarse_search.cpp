@@ -40,12 +40,12 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     Telemetry::Quaternion quaternion;
     int searchRadius = 50;
     float32_t droneAngle;
-    float32_t A1;
-    float32_t A2;
-    float32_t H;
-    float32_t alg;
-    float32_t vX;
-    float32_t vY;
+    float32_t A1 = 0;
+    float32_t A2 = 0;
+    float32_t H = 0;
+    float32_t alg = 0;
+    float32_t vX = 0;
+    float32_t vY = 0;
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
@@ -53,20 +53,26 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
     int cnt = 0;
+    float vel = 0;
     while(true){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
 
+        
+
         if(cnt < 70){
-        A1 = df.A1;
-        A2 = df.A2;
+            A1 = df.A1;
+            A2 = df.A2;
+            H = sqrt(pow(A1,2)+pow(A2,2));
+            alg = acos((A1-A2)/H)-M_PI_2;
+            vel=(sqrt(2)*searchRadius-H);
         }else{
             A1 = 0;
             A2 = 0;
+            H = sqrt(pow(A1,2)+pow(A2,2));
+            alg = acos((A1-A2)/H)-M_PI_2;
         }
 
-        H = sqrt(pow(A1,2)+pow(A2,2));
-        alg = acos((A1-A2)/H)-M_PI_2;
 
         if (sqrt(2)*searchRadius-H < 2){
             std::cout << "Target found! \n";
@@ -74,8 +80,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         }
 
         //Main loop
-        vX = (sqrt(2)*searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
-        vY = (sqrt(2)*searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
+        vX = vel*cos(droneAngle*M_PI/180)*0.1;
+        vY = vel*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         std::cout << "\t A1: " << A1 << "\n";
         std::cout << "\t A2: " << A2 << "\n";
