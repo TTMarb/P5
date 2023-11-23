@@ -132,7 +132,8 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         float32_t droneAngle = QtoDEG(vehicle);
         float32_t dY = calcMfromLat(pos)-iY;
         float32_t dX = calcMfromLon(pos)-iX;
-        float32_t signalStrength = searchRadius-getSize(dY-tY, dX-tX);
+        float32_t distanceTo = getSize(dY-tY, dX-tX);
+        float32_t signalStrength = searchRadius-distanceTo;
         //Finds the difference between the drones angle and the targets angle
         float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
         if (targetAngle < 0) {
