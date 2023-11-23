@@ -108,7 +108,7 @@ float32_t QtoDEG(Vehicle* vehicle) {
     return angle;
 }
 
-void DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
+DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
     Telemetry::GlobalPosition pos;
     pos = vehicle->broadcast->getGlobalPosition(); 
     searchRadius = sR;
@@ -127,7 +127,7 @@ void DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
 
 void DataFaker::FakeAs(Vehicle* vehicle){
         Telemetry::GlobalPosition pos;
-        droneAngle = QtoDEG(vehicle);
+        float32_t droneAngle = QtoDEG(vehicle);
         pos = vehicle->broadcast->getGlobalPosition(); 
         float32_t dY = calcMfromLat(pos)-iY;
         float32_t dX = calcMfromLon(pos)-iX;
