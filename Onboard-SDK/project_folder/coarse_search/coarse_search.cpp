@@ -67,21 +67,12 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         vX = (searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
         vY = (searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
-        
-        cnt++;
-        /*if(cnt > 100){
-            std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-            std::cout << "\t Distance from sender: " << distanceTo << "\n";
-            std::cout << "\t Diff angle : " << diffAngle << "\n";
-            std::cout << "\t Signal strength: " << signalStrength << "\n";
-            std::cout << "\t A1: " << A1 << "\n";
-            std::cout << "\t A2: " << A2 << "\n";
-            std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
-            std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
-            std::cout << "yaw rate: " << alg*100 << "\n";
-            cnt = 0;
-        }*/
-        usleep(10000);
+        std::cout << "\t A1: " << A1 << "\n";
+        std::cout << "\t A2: " << A2 << "\n";
+        std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
+        std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
+        std::cout << "\t yaw rate: " << alg*100 << "\n";
+        usleep(100000);
     }
 }
 
@@ -125,8 +116,11 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
 
     iY = calcMfromLat(pos);
     iX = calcMfromLon(pos);
-    tX = iX + (-searchRadius - (rand() % 2*searchRadius));
-    tY = iY + (-searchRadius - (rand() % 2*searchRadius));
+    int rand1 = (-searchRadius - (rand() % 2*searchRadius));
+    int rand2 = (-searchRadius - (rand() % 2*searchRadius));
+    std::cout << "target position calculated: tX = " << rand1 << ", tY = " << rand2 << "\n";
+    tX = iX + rand1;
+    tY = iY + rand2;
 
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
@@ -149,6 +143,10 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
         A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
 
+        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
+        std::cout << "\t Distance from sender: " << distanceTo << "\n";
+        std::cout << "\t Diff angle : " << diffAngle << "\n";
+        std::cout << "\t Signal strength: " << signalStrength << "\n";
 }
 
 float32_t getSize(float32_t y, float32_t x) {
