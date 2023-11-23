@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
         std::cout << "About to take off \n";
         sleep(5);
 
-        ACK::ErrorCode takeoffAck = vehicle->control->startTakeoffSync(functionTimeout);
+        ACK::ErrorCode takeoffAck = vehicle->FlightController->startTakeoffSync(functionTimeout);
         if (ACK::getError(takeoffAck)) {
             ACK::getErrorCodeMessage(takeoffAck, __func__);
         }
