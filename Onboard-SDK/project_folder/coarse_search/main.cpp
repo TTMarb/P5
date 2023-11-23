@@ -41,15 +41,14 @@ int main(int argc, char** argv) {
         std::cout << "Vehicle not initialized, exiting.\n";
         return -1;
     }
-    
+
     setBroadcastFrequency(vehicle);
     Telemetry::Status status = vehicle->broadcast->getStatus();
 
-    
     int functionTimeout = 60;
 
     std::cout << "About to take control \n";
-    
+
     ACK::ErrorCode ctrlAuth = vehicle->obtainCtrlAuthority(functionTimeout);
     if (ACK::getError(ctrlAuth)) {
         ACK::getErrorCodeMessage(ctrlAuth, __func__);
@@ -75,7 +74,7 @@ int main(int argc, char** argv) {
 
         std::cout << "Took off \n";
         sleep(10);
-    } else{
+    } else {
         std::cout << "Drone already in air" << std::endl;
     }
     sleep(5);
