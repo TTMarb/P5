@@ -85,7 +85,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //std::cout << "\t A1: " << A1 << "\n";
         //std::cout << "\t A2: " << A2 << "\n";
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
-        //std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
+        std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //std::cout << "\t yaw rate: " << alg*100 << "\n";
         cnt++;
         if (cnt > 100){
