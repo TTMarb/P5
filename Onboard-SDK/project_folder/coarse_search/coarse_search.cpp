@@ -112,12 +112,12 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
     searchRadius = sR;
     sampleTime = sT;
     
-    srand((unsigned) time(NULL));
 
     iY = calcMfromLat(pos);
     iX = calcMfromLon(pos);
+    srand((unsigned) time(NULL));
     int rand1 = (-searchRadius + (rand() % 2*searchRadius));
-    sleep(1);
+    srand((unsigned) time(NULL));
     int rand2 = (-searchRadius + (rand() % 2*searchRadius));
     tX = rand1;
     tY = rand2;
