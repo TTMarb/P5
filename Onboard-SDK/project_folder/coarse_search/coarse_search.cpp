@@ -64,8 +64,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         alg = acos((A1-A2)/H)-M_PI_2;
 
         //Main loop
-        vX = (searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
-        vY = (searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
+        vX = (sqrt(2)*searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
+        vY = (sqrt(2)*searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         std::cout << "\t A1: " << A1 << "\n";
         std::cout << "\t A2: " << A2 << "\n";

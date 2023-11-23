@@ -51,20 +51,21 @@ int main(int argc, char** argv) {
     std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
     if(status.flight < 2){
-    sleep(5);
+        sleep(5);
         std::cout << "Preparing drone" << std::endl;
 
-    std::cout << "Arm motor \n";
-    ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
-    if (ACK::getError(armAck)) {
-        ACK::getErrorCodeMessage(armAck, __func__);
-    }
-    sleep(5);
-    std::cout << "About to take off \n";
-    ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
-    if (ACK::getError(takeoffAck)) {
-        ACK::getErrorCodeMessage(takeoffAck, __func__);
-    }
+        std::cout << "Arm motor \n";
+        ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
+        if (ACK::getError(armAck)) {
+            ACK::getErrorCodeMessage(armAck, __func__);
+        }
+        
+        std::cout << "About to take off \n";
+        ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
+        if (ACK::getError(takeoffAck)) {
+            ACK::getErrorCodeMessage(takeoffAck, __func__);
+        }
+        sleep(5);
     } else{
         std::cout << "Drone already in air" << std::endl;
     }
