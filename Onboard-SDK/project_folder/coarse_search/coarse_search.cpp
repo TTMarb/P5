@@ -76,16 +76,17 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "Target found! \n";
             break;
         }
+        std::cout << "A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
 
         //Main loop
         vX = vel*cos(droneAngle*M_PI/180)*0.1;
         vY = vel*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
-        std::cout << "\t A1: " << A1 << "\n";
-        std::cout << "\t A2: " << A2 << "\n";
-        std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
-        std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
-        std::cout << "\t yaw rate: " << alg*100 << "\n";
+        //std::cout << "\t A1: " << A1 << "\n";
+        //std::cout << "\t A2: " << A2 << "\n";
+        //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
+        //std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
+        //std::cout << "\t yaw rate: " << alg*100 << "\n";
         if (cnt > 1000){
             cnt = 0;
         }
@@ -161,10 +162,10 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
         A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
 
-        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-        std::cout << "\t Distance from sender: " << distanceTo << "\n";
-        std::cout << "\t Diff angle : " << diffAngle << "\n";
-        std::cout << "\t Signal strength: " << signalStrength << "\n";
+        //std::cout << "dX: " << dX << ", dY: " << dY << "\n";
+        //std::cout << "\t Distance from sender: " << distanceTo << "\n";
+        //std::cout << "\t Diff angle : " << diffAngle << "\n";
+        //std::cout << "\t Signal strength: " << signalStrength << "\n";
 }
 
 float32_t getSize(float32_t y, float32_t x) {
