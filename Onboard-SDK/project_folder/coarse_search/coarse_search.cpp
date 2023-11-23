@@ -44,31 +44,14 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller pic = PIcontroller(0.1, 0.1, 0.1);
+    DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
-    
-    float32_t iY = calcMfromLat(pos);
-    float32_t iX = calcMfromLon(pos);
-    float32_t tY = iY;
-    float32_t tX = iX;
-    addRandomLocation(&tY, &tX, -30, 30);
-    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
-    std::cout << "about to enter while loop: \n";
     int cnt = 0;
     while(true){
-        pos = vehicle->broadcast->getGlobalPosition(); 
-        droneAngle = QtoDEG(vehicle);
-        float32_t dY = calcMfromLat(pos)-iY;
-        float32_t dX = calcMfromLon(pos)-iX;
-        float32_t distanceTo = getSize(dY-tY, dX-tX);
-        float32_t signalStrength = searchRadius-distanceTo;
-        float32_t senderAngle = getAngle(dY-tY, dX-tX);
-        float32_t targetAngle = 180-2*senderAngle;
-        if (targetAngle < 0) {
-            targetAngle += 360;
-        }
-        float32_t diffAngle = targetAngle-droneAngle;
-        float32_t A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
-        float32_t A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
+        float32_t A1 = df.A1
+        float32_t A2 = df.A2;
+
+
         float32_t H = sqrt(pow(A1,2)+pow(A2,2));
         float32_t alg = acos((A1-A2)/H)-M_PI_2;
 
@@ -81,10 +64,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         cnt++;
         if(cnt > 100){
             std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-            //std::cout << "\t Position angle on sender: " << senderAngle << "\n";
-            //std::cout << "\t Drones angle: " << droneAngle<< "\n";
             std::cout << "\t Distance from sender: " << distanceTo << "\n";
-            //std::cout << "\t Target angle : " << targetAngle << "\n";
             std::cout << "\t Diff angle : " << diffAngle << "\n";
             std::cout << "\t Signal strength: " << signalStrength << "\n";
             std::cout << "\t A1: " << A1 << "\n";
@@ -126,6 +106,43 @@ float32_t QtoDEG(Vehicle* vehicle) {
         angle -= 360;
     }
     return angle;
+}
+
+void DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
+    Telemetry::GlobalPosition pos;
+    pos = vehicle->broadcast->getGlobalPosition(); 
+    sampleRate = sR;
+    sampleTime = sT;
+    
+    srand((unsigned) time(NULL));
+
+    iY = calcMfromLat(pos);
+    iX = calcMfromLon(pos);
+    tX = iX + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
+    tY = iY + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
+
+    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
+    std::cout << "about to enter while loop: \n";
+}
+
+void DataFaker::FakeAs(Vehicle* vehicle){
+        Telemetry::GlobalPosition pos;
+        droneAngle = QtoDEG(vehicle);
+        pos = vehicle->broadcast->getGlobalPosition(); 
+        float32_t dY = calcMfromLat(pos)-iY;
+        float32_t dX = calcMfromLon(pos)-iX;
+        float32_t distanceTo = getSize(dY-tY, dX-tX);
+        float32_t signalStrength = searchRadius-distanceTo;
+        float32_t senderAngle = getAngle(dY-tY, dX-tX);
+        float32_t targetAngle = 180-2*senderAngle;
+        if (targetAngle < 0) {
+            targetAngle += 360;
+        }
+        
+        float32_t diffAngle = targetAngle-droneAngle;
+        A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
+        A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
+
 }
 
 float32_t getSize(float32_t y, float32_t x) {
@@ -196,19 +213,12 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     return iX;
 }
 
-void addRandomLocation(float32_t *lat, float32_t *lon, int randomLow, int randomHigh){
-    srand((unsigned) time(NULL));
-    lat = lat + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
-    lon = lon + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
-}
-
 PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTime_in){
     Kp = Kp_in;
     Ki = Ki_in;
     sampleTime = sampleTime_in;
     pi = 0;
 }
-
 
 void PIcontroller::calculatePI(float32_t error){
     pi = Kp*error + (sampleTime/Ki)*error;
