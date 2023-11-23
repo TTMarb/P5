@@ -57,9 +57,14 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
 
-        
+        if(cnt < 70){
         A1 = df.A1;
         A2 = df.A2;
+        }else{
+            A1 = 0;
+            A2 = 0;
+        }
+
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/H)-M_PI_2;
 
@@ -77,7 +82,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         std::cout << "\t yaw rate: " << alg*100 << "\n";
-        usleep(100000);
+        if (cnt > 1000){
+            cnt = 0;
+        }
+        cnt++;
+        usleep(1000);
     }
 }
 
