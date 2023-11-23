@@ -19,7 +19,7 @@ void open_and_configure() {
 
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
     uint8_t bpw = 8;     // Bits per word (8, 16, etc.)
-    uint32_t speed = 100000;     // SPI speed (Hz)
+    uint32_t speed = 3500000;     // SPI speed (Hz)
 
     spi_fd = open(spi_device, O_RDWR); //Opens the the file "spi_device" in function O_RDWR "Read or write". Save file descriptor in spi_fd
     if (spi_fd < 0) {
