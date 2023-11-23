@@ -111,7 +111,7 @@ float32_t QtoDEG(Vehicle* vehicle) {
 void DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
     Telemetry::GlobalPosition pos;
     pos = vehicle->broadcast->getGlobalPosition(); 
-    sampleRate = sR;
+    searchRadius = sR;
     sampleTime = sT;
     
     srand((unsigned) time(NULL));
