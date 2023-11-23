@@ -48,7 +48,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     
     int cnt = 0;
     while(true){
-        float32_t A1 = df.A1
+        float32_t A1 = df.A1;
         float32_t A2 = df.A2;
 
 
@@ -62,7 +62,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         
         cnt++;
-        if(cnt > 100){
+        /*if(cnt > 100){
             std::cout << "dX: " << dX << ", dY: " << dY << "\n";
             std::cout << "\t Distance from sender: " << distanceTo << "\n";
             std::cout << "\t Diff angle : " << diffAngle << "\n";
@@ -73,7 +73,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
             std::cout << "yaw rate: " << alg*100 << "\n";
             cnt = 0;
-        }
+        }*/
         usleep(10000);
     }
 }
