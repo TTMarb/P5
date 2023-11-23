@@ -86,9 +86,6 @@ class DataFaker {
     float32_t tX;
     float32_t tY;
     int searchRadius;
-
-    randomHigh = 30;
-    randomLow = -30;
 };
 
 

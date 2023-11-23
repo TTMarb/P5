@@ -118,8 +118,8 @@ void DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
 
     iY = calcMfromLat(pos);
     iX = calcMfromLon(pos);
-    tX = iX + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
-    tY = iY + (randomLow - (rand() % (abs(randomLow)+abs(randomHigh))));
+    tX = iX + (-searchRadius - (rand() % 2*searchRadius));
+    tY = iY + (-searchRadius - (rand() % 2*searchRadius));
 
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
