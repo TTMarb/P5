@@ -87,10 +87,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         //std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //std::cout << "\t yaw rate: " << alg*100 << "\n";
+        cnt++;
         if (cnt > 100){
             cnt = 0;
         }
-        cnt++;
         usleep(10000);
     }
 }
@@ -162,8 +162,7 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
         A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
 
-        //std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-        //std::cout << "\t Distance from sender: " << distanceTo << "\n";
+        std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
         //std::cout << "\t Diff angle : " << diffAngle << "\n";
         //std::cout << "\t Signal strength: " << signalStrength << "\n";
 }
