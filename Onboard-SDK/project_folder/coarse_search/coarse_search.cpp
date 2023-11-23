@@ -54,30 +54,16 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     PIcontroller pic = PIcontroller(10, 20, sampleTime);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
-    int cnt = 0;
     float vel = 0;
     while(true){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
-
-        if(cnt < 7*(sampleTime/10)){
-            A1 = df.A1;
-            A2 = df.A2;
-        }else{
-            A1 = 0;
-            A2 = 0;
-        }
-
+        A1 = df.A1;
+        A2 = df.A2;
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
-        if(cnt < 1*(sampleTime/10)){
-            vel = (sqrt(2)*searchRadius-H);
-        }
-
-        if (sqrt(2)*searchRadius-H < 2){
-            std::cout << "Target found! \n";
-            break;
-        }
+        vel = (sqrt(2)*searchRadius-H);
+        
         pic.calculatePI(alg);
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         //Main loop
@@ -89,11 +75,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //std::cout << "\t yaw rate: " << alg*100 << "\n";
-        cnt++;
-        if (cnt > sampleTime*10){
-            cnt = 0;
+        if (sqrt(2)*searchRadius-H < 2){
+            std::cout << "Target found! \n";
+            break;
         }
-        usleep(sampleTime*1000);
+        usleep(10000);
     }
 }
 
