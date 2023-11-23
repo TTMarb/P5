@@ -63,6 +63,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/H)-M_PI_2;
 
+        if (sqrt(2)*searchRadius-H < 2){
+            std::cout << "Target found! \n";
+            break;
+        }
+
         //Main loop
         vX = (sqrt(2)*searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
         vY = (sqrt(2)*searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
