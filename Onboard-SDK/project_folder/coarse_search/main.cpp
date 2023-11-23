@@ -59,13 +59,15 @@ int main(int argc, char** argv) {
         if (ACK::getError(armAck)) {
             ACK::getErrorCodeMessage(armAck, __func__);
         }
-        
+
         std::cout << "About to take off \n";
+        sleep(2);
         ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
         if (ACK::getError(takeoffAck)) {
             ACK::getErrorCodeMessage(takeoffAck, __func__);
         }
-        sleep(5);
+        std::cout << "Took off \n";
+        sleep(10);
     } else{
         std::cout << "Drone already in air" << std::endl;
     }
