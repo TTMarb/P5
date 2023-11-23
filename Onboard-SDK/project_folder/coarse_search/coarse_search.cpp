@@ -67,7 +67,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         pic.calculatePI(alg);
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         //Main loop
-        vX = vel*cos(droneAngle*M_PI/180)*0.1;
+        vX = vel*cos(droneAngle*M_PI/180)*0.1; 
         vY = vel*sin(droneAngle*M_PI/180)*0.1;
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, pic.pi);
         //std::cout << "\t A1: " << A1 << "\n";
