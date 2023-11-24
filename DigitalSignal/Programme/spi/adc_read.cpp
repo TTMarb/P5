@@ -41,12 +41,14 @@ void open_and_configure() {
 int main() {
     open_and_configure();
     uint8_t data[256];
-    uint8_t buffer[1];
+    uint16_t buffer[1];
 
     struct spi_ioc_transfer tr; 
     tr.tx_buf = 0; // We are not sending any data
     tr.rx_buf = (unsigned long)buffer; // Buffer to store received data
     tr.len = ARRAY_SIZE(buffer); // Number of bytes to read
+    tr.cs_change = 1;
+
 
     if (ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
         perror("SPI transfer failed");
