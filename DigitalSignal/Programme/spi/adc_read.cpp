@@ -44,10 +44,6 @@ int main() {
         int bytes_read = read(spi_fd, buffer, sizeof(buffer));
         data[i] = buffer[0];
     }
-    sleep(1);
-    for (int i = 0; i < sizeof(data); i++) {
-        cout << buffer[i] << "\n" << endl;
-    }
 
     return 0;
 }
