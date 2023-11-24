@@ -18,7 +18,7 @@ void open_and_configure() {
 
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
     uint8_t bpw = 8;               // Bits per word (8, 16, etc.)
-    uint32_t speed = 3500000;      // SPI speed (Hz)
+    uint32_t speed = 32000000;      // SPI speed (Hz)
 
     spi_fd = open(
         spi_device,
