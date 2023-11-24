@@ -51,22 +51,22 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     while(true){
         //Get new data
         df.FakeAs(vehicle);
-        droneAngle = QtoDEG(vehicle);
         A1 = df.A1;
         A2 = df.A2;
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         vel = (sqrt(2)*searchRadius-H);
         
-        vX = vel*cos(droneAngle*(M_PI/180))*0.1; 
-        vY = vel*sin(droneAngle*(M_PI/180))*0.1;
 
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate
         for (int i = 0; i <100; i++){
-        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
+            droneAngle = QtoDEG(vehicle);
+            vX = vel*cos(droneAngle*(M_PI/180))*0.1; 
+            vY = vel*sin(droneAngle*(M_PI/180))*0.1;
+            vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*10);
         usleep(10000);
         }
         //std::cout << "\t A1: " << A1 << "\n";
