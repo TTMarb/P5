@@ -3,13 +3,16 @@
 #include <fcntl.h>
 #include <iostream>
 #include <linux/spi/spidev.h> // File that's located on the manifold in /usr/include/
-#include <string>
+#include <linux/types.h>
 #include <sys/ioctl.h> // File that's located on the manifold in /usr/include/
+#include <string>
 #include <cstdint>
 #include <thread>
 #include <unistd.h>
 
 using namespace std;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 const char* spi_device = "/dev/spidev3.0"; // SPI device file
 int spi_fd;
@@ -40,10 +43,16 @@ int main() {
     uint8_t data[256];
     uint8_t buffer[1];
 
-    for (int i = 0; i < sizeof(data); i++) {
-        int bytes_read = read(spi_fd, buffer, sizeof(buffer));
-        data[i] = buffer[0];
+    struct spi_ioc_transfer tr; 
+    tr.tx_buf = 0; // We are not sending any data
+    tr.rx_buf = (unsigned long)buffer; // Buffer to store received data
+    tr.len = ARRAY_SIZE(buffer); // Number of bytes to read
+
+    if (ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
+        perror("SPI transfer failed");
+        return -1; // Error handling
     }
+
 
     return 0;
 }
