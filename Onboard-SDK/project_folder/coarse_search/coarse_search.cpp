@@ -58,7 +58,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         vel = (sqrt(2)*searchRadius-H);
         yawRate.calculatePI(alg);
 
-        std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
+        std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         std::cout << "\t Drone angle: " << droneAngle << ", vX:"<< cos(droneAngle*(M_PI/180))<< ", vY:"<< sin(droneAngle*(M_PI/180)) << "\n";
         std::cout << "\t vX.pi: " << vX.pi << ", vY.pi: " << vY.pi << ", yawRate.pi: " << yawRate.pi << "\n";
         //Calculate velocity in x and y direction
