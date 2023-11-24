@@ -50,7 +50,7 @@ int main() {
     tr.len = ARRAY_SIZE(ibuffer); // Number of bytes to read
     tr.delay_usecs = 1;
 
-    if (ioctl(spi_fd, SPI_IOC_MESSAGE(2), &tr) < 0) {
+    if (ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
         perror("SPI transfer failed");
         return -1; // Error handling
     }
