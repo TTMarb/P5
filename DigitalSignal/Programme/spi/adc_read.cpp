@@ -40,8 +40,7 @@ void open_and_configure() {
 
 int main() {
     open_and_configure();
-    uint16_t buffer[1];
-    unsigned long result = static_cast<unsigned long>(buffer);
+    uint64_t buffer[1];
 
     struct spi_ioc_transfer tr; 
     tr.tx_buf = 0; // We are not sending any data
