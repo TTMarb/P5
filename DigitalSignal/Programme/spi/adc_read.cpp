@@ -37,10 +37,10 @@ void open_and_configure() {
 
 int main() {
     open_and_configure();
-    uint16_t data[256];
-    uint16_t buffer[1];
+    uint8_t data[256];
+    uint8_t buffer[1];
 
-    for (int i = 0; i < sizeof(data) / 2; i++) {
+    for (int i = 0; i < sizeof(data); i++) {
         int bytes_read = read(spi_fd, buffer, sizeof(buffer));
         if (bytes_read < 0) {
             perror("Error reading from SPI");
@@ -49,7 +49,7 @@ int main() {
         data[i] = buffer[0];
     }
     sleep(1);
-    for (int i = 0; i < sizeof(data) / 2; i++) {
+    for (int i = 0; i < sizeof(data); i++) {
         cout << buffer[i] << "\n" << endl;
     }
 
