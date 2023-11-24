@@ -42,10 +42,6 @@ int main() {
 
     for (int i = 0; i < sizeof(data); i++) {
         int bytes_read = read(spi_fd, buffer, sizeof(buffer));
-        if (bytes_read < 0) {
-            perror("Error reading from SPI");
-            break;
-        }
         data[i] = buffer[0];
     }
     sleep(1);
