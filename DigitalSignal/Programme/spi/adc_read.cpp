@@ -41,10 +41,11 @@ void open_and_configure() {
 int main() {
     open_and_configure();
     uint16_t buffer[1];
+    unsigned long result = static_cast<unsigned long>(buffer);
 
     struct spi_ioc_transfer tr; 
     tr.tx_buf = 0; // We are not sending any data
-    tr.rx_buf = buffer; // Buffer to store received data
+    tr.rx_buf = result; // Buffer to store received data
     tr.len = 2; // Number of bytes to read
     tr.cs_change = 1;
 
