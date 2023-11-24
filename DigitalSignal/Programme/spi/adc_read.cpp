@@ -41,12 +41,13 @@ void open_and_configure() {
 int main() {
     open_and_configure();
     uint8_t data[256];
-    uint16_t buffer[2];
+    uint16_t ibuffer[2];
+    uint16_t obuffer[2];
 
     struct spi_ioc_transfer tr; 
-    tr.tx_buf = 0; // We are not sending any data
-    tr.rx_buf = (unsigned long)buffer; // Buffer to store received data
-    tr.len = ARRAY_SIZE(buffer); // Number of bytes to read
+    tr.tx_buf = (unsigned long)obuffer;; // We are not sending any data
+    tr.rx_buf = (unsigned long)ibuffer; // Buffer to store received data
+    tr.len = ARRAY_SIZE(ibuffer); // Number of bytes to read
     tr.delay_usecs = 1;
 
     if (ioctl(spi_fd, SPI_IOC_MESSAGE(2), &tr) < 0) {
