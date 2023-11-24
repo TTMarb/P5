@@ -41,7 +41,7 @@ void open_and_configure() {
 int main() {
     open_and_configure();
     uint8_t data[256];
-    uint16_t buffer[1];
+    uint16_t buffer[2];
 
     struct spi_ioc_transfer tr; 
     tr.tx_buf = 0; // We are not sending any data
