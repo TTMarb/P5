@@ -66,7 +66,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             droneAngle = QtoDEG(vehicle);
             vX = vel*cos(droneAngle*(M_PI/180))*0.5; 
             vY = vel*sin(droneAngle*(M_PI/180))*0.5;
-            vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*500);
+            vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
             usleep(10000);
         }
         //std::cout << "\t A1: " << A1 << "\n";
