@@ -65,7 +65,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate
-        for int (i = 0; i <100; i++){
+        for (int i = 0; i <100; i++){
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         usleep(10000);
         }
