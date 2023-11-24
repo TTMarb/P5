@@ -1,14 +1,8 @@
-/*! @file mission_sample.cpp
- *  @version 3.3
- *  @date Jun 05 2017
+/*! @file coarse_search.cpp
+ *  @date Nov. 11, 2023
  *
  *  @brief
- *  GPS Missions API usage in a Linux environment.
- *  Shows example usage of the Waypoint Missions and Hotpoint Missions through
- * the
- *  Mission Manager API.
- *
- *  @Copyright (c) 2017 DJI
+ * @Copyright (c) 2017 DJI
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,16 +40,16 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t alg = 0;
     float32_t vX = 0;
     float32_t vY = 0;
-    //sampletime in ms
-    float32_t sampleTime = 10;
+    float32_t sampleFrequency = 1;
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller pic = PIcontroller(10, 20, sampleTime);
+    PIcontroller pic = PIcontroller(10, 20, sampleFrequency);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
     float vel = 0;
     while(true){
+        //Get new data
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
         A1 = df.A1;
@@ -63,48 +57,53 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         vel = (sqrt(2)*searchRadius-H);
-        
-        pic.calculatePI(alg);
+
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
-        //Main loop
-        vX = vel*cos(droneAngle*M_PI/180)*0.1; 
-        vY = vel*sin(droneAngle*M_PI/180)*0.1;
-        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, pic.pi);
+        //Calculate velocity in x and y direction
+        vX = vel*cos(droneAngle*(M_PI/180))*0.1; 
+        vY = vel*sin(droneAngle*(M_PI/180))*0.1;
+        //Sets velocity and yaw rate
+        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
         //std::cout << "\t A1: " << A1 << "\n";
         //std::cout << "\t A2: " << A2 << "\n";
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
         //std::cout << "\t yaw rate: " << alg*100 << "\n";
+        //Breakstatement
         if (sqrt(2)*searchRadius-H < 2){
             std::cout << "Target found! \n";
             break;
         }
-        usleep(10000);
+        //sampleFrequency => sampletime in us
+        sleep(1);
     }
 }
 
+//Converts x and y vectors to a direction
 float32_t getAngle(float32_t y, float32_t x) {
-    //std::cout << "y: " << y << ", x: " << x << "\n";
     float32_t angle = atan2(y, x);
+    //converts from -pi to pi to 0 to 2pi
     if (angle < 0) {
         angle += 2 * M_PI;
     }
+    //converts from radians to degrees
     angle *= 180.0 / M_PI;
     return angle;
 }
 
+//This function converts the quaternion to degrees
 float32_t QtoDEG(Vehicle* vehicle) {
-    //This function converts the quaternion to degrees
-    float32_t angle;
     Telemetry::Quaternion quaternion;
+    float32_t angle;
     quaternion = vehicle->broadcast->getQuaternion();
-    //Largely based on a mix of https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
+    //This code is largely based on a mix of 
+    //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
     //and the flight-control sample
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
 
-    //The +90 is to make the drone face the same way as the sender
-    //The -t1 is to make the drone rotate in the same direction as the sender
+    //We add +90 to correct the 0 degree angle to be east instead of north
+    //We multiply t1 with -1 to rotate anti-clockwise instead of clockwise
     angle = getAngle(-t1, t0)+90;
     //After adding 90, the angle can be above 360, so this makes sure it is between 0 and 360
     if (angle > 360) {
@@ -155,6 +154,7 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         //std::cout << "\t Signal strength: " << signalStrength << "\n";
 }
 
+//This functions finds the length of a vector
 float32_t getSize(float32_t y, float32_t x) {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
@@ -207,6 +207,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
 
+//This function converts the latitude to meters
 float64_t calcMfromLat(Telemetry::GlobalPosition pos){
     float64_t iY;
     //float32_t r_earth = 6378100;
@@ -215,6 +216,7 @@ float64_t calcMfromLat(Telemetry::GlobalPosition pos){
     return iY;
 }
 
+//This function converts the longitude to meters
 float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     float64_t iX;
     //float32_t r_earth = 6378100;
@@ -223,6 +225,10 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
     return iX;
 }
 
+//*************************************************************************************//
+//Implementation of the PIController class - This is an implementation of the controller used in the system
+//*************************************************************************************//
+//Constructor
 PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTime_in){
     Kp = Kp_in;
     Ki = Ki_in;
@@ -230,6 +236,8 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTim
     pi = 0;
 }
 
+/// @brief This function calculates the PI value
+/// @param error The error value that the PI controller should calculate from
 void PIcontroller::calculatePI(float32_t error){
     pi = Kp*error + (sampleTime/Ki)*error;
 }

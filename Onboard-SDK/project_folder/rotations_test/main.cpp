@@ -95,17 +95,10 @@ int main(int argc, char** argv) {
         ACK::getErrorCodeMessage(landAck, __func__);
     }
 
-    std::cout << "Arm motor \n";
+    std::cout << "disarm motor \n";
     ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
     if (ACK::getError(disarmAck)) {
         ACK::getErrorCodeMessage(disarmAck, __func__);
     }
-    std::cout << "About to take off \n";
-    std::cout << "Have slept for 30 secs \n";
-
-
-
-
-
     std::cout << "Program ended!" << std::endl;
 }
