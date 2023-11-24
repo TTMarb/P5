@@ -42,15 +42,15 @@ int main() {
 
     for (int i = 0; i < sizeof(data) / 2; i++) {
         int bytes_read = read(spi_fd, buffer, sizeof(buffer));
-        data[i] = buffer[0];
         if (bytes_read < 0) {
             perror("Error reading from SPI");
             break;
         }
+        data[i] = buffer[0];
     }
     sleep(1);
-    for (int i = 0; i < sizeof(buffer) / 2; i++) {
-        cout << buffer[i] << "/n" << endl;
+    for (int i = 0; i < sizeof(data) / 2; i++) {
+        cout << buffer[i] << "\n" << endl;
     }
 
     return 0;
