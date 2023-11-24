@@ -57,10 +57,6 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         vel = (sqrt(2)*searchRadius-H);
         yawRate.calculatePI(alg);
-
-        std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
-        std::cout << "\t Drone angle: " << droneAngle << ", vX:"<< cos(droneAngle*(M_PI/180))<< ", vY:"<< sin(droneAngle*(M_PI/180)) << "\n";
-        std::cout << "\t vX.pi: " << vX.pi << ", vY.pi: " << vY.pi << ", yawRate.pi: " << yawRate.pi << "\n";
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate
         for (int i = 0; i <100; i++){
@@ -70,6 +66,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             vehicle->control->velocityAndYawRateCtrl(vX.pi, vY.pi, 0, yawRate.pi);
             usleep(10000);
         }
+
+        std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
+        std::cout << "\t Drone angle: " << droneAngle << ", vX:"<< cos(droneAngle*(M_PI/180))<< ", vY:"<< sin(droneAngle*(M_PI/180)) << "\n";
+        std::cout << "\t vX.pi: " << vX.pi << ", vY.pi: " << vY.pi << ", yawRate.pi: " << yawRate.pi << "\n";
 
         //Breakstatement
         if (sqrt(2)*searchRadius-H < 2){
