@@ -38,8 +38,6 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t A2 = 0;
     float32_t H = 0;
     float32_t alg = 0;
-    float32_t vX = 0;
-    float32_t vY = 0;
     float32_t sampleFrequency = 1;
     float32_t vel = 0;
 
