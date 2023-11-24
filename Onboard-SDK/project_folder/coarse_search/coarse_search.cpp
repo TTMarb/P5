@@ -41,13 +41,15 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t vX = 0;
     float32_t vY = 0;
     float32_t sampleFrequency = 1;
+    float32_t vel = 0;
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller pic = PIcontroller(10, 20, sampleFrequency);
+    PIcontroller yawRate = PIcontroller(0.1, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.1, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(100, 2, sampleFrequency);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
-    float vel = 0;
     while(true){
         //Get new data
         df.FakeAs(vehicle);
@@ -56,23 +58,21 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         vel = (sqrt(2)*searchRadius-H);
-        
+        yawRate.calculatePI(alg);
 
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         std::cout << "\t Drone angle: " << droneAngle << ", vX:"<< cos(droneAngle*(M_PI/180))<< ", vY:"<< sin(droneAngle*(M_PI/180)) << "\n";
+        std::cout << "\t vX.pi: " << vX.pi << ", vY.pi: " << vY.pi << ", yawRate.pi: " << yawRate.pi << "\n";
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate
         for (int i = 0; i <100; i++){
             droneAngle = QtoDEG(vehicle);
-            vX = vel*cos(droneAngle*(M_PI/180))*0.1; 
-            vY = vel*sin(droneAngle*(M_PI/180))*0.1;
-            vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
+            vX.pi = calculatePIvel(cos(droneAngle*(M_PI/180)));
+            vY.pi = calculatePIvel(sin(droneAngle*(M_PI/180)));
+            vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, yawRate);
             usleep(10000);
         }
-        //std::cout << "\t A1: " << A1 << "\n";
-        //std::cout << "\t A2: " << A2 << "\n";
-        //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
-        //std::cout << "\t yaw rate: " << alg*100 << "\n";
+
         //Breakstatement
         if (sqrt(2)*searchRadius-H < 2){
             std::cout << "Target found! \n";
