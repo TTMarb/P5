@@ -204,10 +204,10 @@ int main(int argc, char** argv) {
                     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                     char param[] = "UserConfig.txt";
                     startProcess(antennaPID, path, param);
-                    return 0;
                     exit(EXIT_SUCCESS); // Exit process
                 }
             }
         }
     }
+    return 0;
 }

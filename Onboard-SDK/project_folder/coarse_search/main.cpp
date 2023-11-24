@@ -81,6 +81,5 @@ int main(int argc, char** argv) {
 
     // Setup variables for use
     tellMeAboutTheData(vehicle);
-
     return 0;
 }
