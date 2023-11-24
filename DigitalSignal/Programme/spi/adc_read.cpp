@@ -20,7 +20,7 @@ int spi_fd;
 void open_and_configure() {
 
     uint8_t spi_mode = SPI_MODE_0; // SPI mode (mode 0, 1, 2, or 3)
-    uint8_t bpw = 16;               // Bits per word (8, 16, etc.)
+    uint8_t bpw = 8;               // Bits per word (8, 16, etc.)
     uint32_t speed = 32000000;      // SPI speed (Hz)
 
     spi_fd = open(
@@ -40,17 +40,16 @@ void open_and_configure() {
 
 int main() {
     open_and_configure();
-    uint8_t data[256];
     uint16_t buffer[1];
 
     struct spi_ioc_transfer tr; 
     tr.tx_buf = 0; // We are not sending any data
-    tr.rx_buf = (unsigned long)buffer; // Buffer to store received data
-    tr.len = ARRAY_SIZE(buffer); // Number of bytes to read
+    tr.rx_buf = buffer; // Buffer to store received data
+    tr.len = 2; // Number of bytes to read
     tr.cs_change = 1;
 
 
-    if (ioctl(spi_fd, SPI_IOC_MESSAGE(1), &tr) < 0) {
+    if (ioctl(spi_fd, SPI_IOC_MESSAGE(2), &tr) < 0) {
         perror("SPI transfer failed");
         return -1; // Error handling
     }
