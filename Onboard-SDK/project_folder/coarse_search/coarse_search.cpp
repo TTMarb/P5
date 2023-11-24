@@ -57,13 +57,17 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         H = sqrt(pow(A1,2)+pow(A2,2));
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         vel = (sqrt(2)*searchRadius-H);
+        
+        vX = vel*cos(droneAngle*(M_PI/180))*0.1; 
+        vY = vel*sin(droneAngle*(M_PI/180))*0.1;
 
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         //Calculate velocity in x and y direction
-        vX = vel*cos(droneAngle*(M_PI/180))*0.1; 
-        vY = vel*sin(droneAngle*(M_PI/180))*0.1;
         //Sets velocity and yaw rate
+        for int (i = 0; i <100; i++){
         vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
+        usleep(10000);
+        }
         //std::cout << "\t A1: " << A1 << "\n";
         //std::cout << "\t A2: " << A2 << "\n";
         //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
@@ -75,7 +79,6 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             break;
         }
         //sampleFrequency => sampletime in us
-        sleep(1);
     }
 }
 
