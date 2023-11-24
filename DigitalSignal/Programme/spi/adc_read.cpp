@@ -40,20 +40,33 @@ void open_and_configure() {
 
 int main() {
     open_and_configure();
-    uint16_t buffer[1];
 
-    struct spi_ioc_transfer tr; 
-    tr.tx_buf = 0; // We are not sending any data
-    tr.rx_buf = (unsigned long)buffer; // Buffer to store received data
-    tr.len = 2; // Number of bytes to read
-    tr.cs_change = 1;
+    // Set up the two 16-bit messages
+    uint16_t message1 = 0;
+    uint16_t message2 = 0;
 
+    // Prepare the SPI transfer structure
+    struct spi_ioc_transfer tr[2];
 
+    tr[0].tx_buf = 0;  // We're not sending in this example
+    tr[0].rx_buf = (unsigned long)&message1;
+    tr[0].len = sizeof(message1);
+    tr[0].cs_change = 1;
+
+    tr[1].tx_buf = 0;  // We're not sending in this example
+    tr[1].rx_buf = (unsigned long)&message2;
+    tr[1].len = sizeof(message2);
+    tr[1].cs_change = 1;
+
+    // Perform SPI transfer
     if (ioctl(spi_fd, SPI_IOC_MESSAGE(2), &tr) < 0) {
-        perror("SPI transfer failed");
-        return -1; // Error handling
+        perror("Error during SPI transfer");
+        close(spi_fd);
+        return 1;
     }
 
+    // Close SPI device
+    close(spi_fd);
 
     return 0;
 }
