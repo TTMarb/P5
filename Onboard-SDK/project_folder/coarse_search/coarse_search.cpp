@@ -59,7 +59,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         
 
         std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
-        std::cout << "\t Drone angle: " << droneAngle << "\n";
+        std::cout << "\t Drone angle: " << droneAngle << ", vX:"<< cos(droneAngle*(M_PI/180))<< ", vY:"<< sin(droneAngle*(M_PI/180)) "\n";
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate
         for (int i = 0; i <100; i++){
