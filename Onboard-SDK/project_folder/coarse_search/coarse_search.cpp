@@ -241,4 +241,5 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTim
 /// @param error The error value that the PI controller should calculate from
 void PIcontroller::calculatePI(float32_t error){
     pi = Kp*error + (sampleTime/Ki)*error;
+    std::cout << "PI calculated: " << pi << "\n";
 }
