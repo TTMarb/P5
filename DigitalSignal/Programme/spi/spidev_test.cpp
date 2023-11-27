@@ -52,10 +52,15 @@ static void transfer(int fd)
 	tr.tx_buf = (unsigned long)tx;
 	tr.rx_buf = (unsigned long)rx;
 	tr.len = ARRAY_SIZE(tx);
-	tr.delay_usecs = delay;
+	tr.delay_usecs = 1;
 	tr.speed_hz = speed;
 	tr.bits_per_word = bits;
+	tr.cs_change = 1;
 
+	ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+	if (ret < 1)
+		pabort("can't send spi message");
+	
 	ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
 	if (ret < 1)
 		pabort("can't send spi message");
