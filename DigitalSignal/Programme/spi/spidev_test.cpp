@@ -55,6 +55,7 @@ static void transfer(int fd)
 	tr.delay_usecs = delay;
 	tr.speed_hz = speed;
 	tr.bits_per_word = bits;
+	tr.cs_change = 1;
 
 	ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
 	if (ret < 1)
