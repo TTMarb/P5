@@ -81,5 +81,17 @@ int main(int argc, char** argv) {
 
     // Setup variables for use
     tellMeAboutTheData(vehicle);
+
+    ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
+    if (ACK::getError(landAck)) {
+        ACK::getErrorCodeMessage(landAck, __func__);
+    }
+
+    std::cout << "disarm motor \n";
+    ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
+    if (ACK::getError(disarmAck)) {
+        ACK::getErrorCodeMessage(disarmAck, __func__);
+    }
+    std::cout << "Program ended!" << std::endl;
     return 0;
 }

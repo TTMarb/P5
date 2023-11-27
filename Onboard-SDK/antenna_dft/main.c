@@ -20,10 +20,6 @@ float buf[BUFFER_SIZE];
 int main() {
     /****** DFT CALCULATIONS ******/
 
-    // Read data from SPI
-    openAndConfigure();
-    readSPI(spi_fd);
-
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;

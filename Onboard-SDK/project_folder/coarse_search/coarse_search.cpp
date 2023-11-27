@@ -40,39 +40,46 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     Telemetry::Quaternion quaternion;
     int searchRadius = 50;
     float32_t droneAngle;
-    float32_t A1;
-    float32_t A2;
-    float32_t H;
-    float32_t alg;
-    float32_t vX;
-    float32_t vY;
+    float32_t A1 = 0;
+    float32_t A2 = 0;
+    float32_t H = 0;
+    float32_t alg = 0;
+    float32_t vX = 0;
+    float32_t vY = 0;
+    //sampletime in ms
+    float32_t sampleTime = 10;
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller pic = PIcontroller(0.1, 0.1, 0.1);
+    PIcontroller pic = PIcontroller(10, 20, sampleTime);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
-    int cnt = 0;
+    float vel = 0;
     while(true){
         df.FakeAs(vehicle);
         droneAngle = QtoDEG(vehicle);
-
-        
         A1 = df.A1;
         A2 = df.A2;
         H = sqrt(pow(A1,2)+pow(A2,2));
-        alg = acos((A1-A2)/H)-M_PI_2;
-
+        alg = acos((A1-A2)/(H+0.001))-M_PI_2;
+        vel = (sqrt(2)*searchRadius-H);
+        
+        pic.calculatePI(alg);
+        std::cout <<"!PIc: " << pic.pi <<", A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         //Main loop
-        vX = (sqrt(2)*searchRadius-H)*cos(droneAngle*M_PI/180)*0.1;
-        vY = (sqrt(2)*searchRadius-H)*sin(droneAngle*M_PI/180)*0.1;
-        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, alg*100);
-        std::cout << "\t A1: " << A1 << "\n";
-        std::cout << "\t A2: " << A2 << "\n";
-        std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
+        vX = vel*cos(droneAngle*M_PI/180)*0.1; 
+        vY = vel*sin(droneAngle*M_PI/180)*0.1;
+        vehicle->control->velocityAndYawRateCtrl(vX, vY, 0, pic.pi);
+        //std::cout << "\t A1: " << A1 << "\n";
+        //std::cout << "\t A2: " << A2 << "\n";
+        //std::cout << "\t vX: " << vX << ", vY: " << vY << "\n";
         std::cout << "\t Alg: " << alg << ", H: " << H << "\n";
-        std::cout << "\t yaw rate: " << alg*100 << "\n";
-        usleep(100000);
+        //std::cout << "\t yaw rate: " << alg*100 << "\n";
+        if (sqrt(2)*searchRadius-H < 2){
+            std::cout << "Target found! \n";
+            break;
+        }
+        usleep(10000);
     }
 }
 
@@ -111,15 +118,15 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
     pos = vehicle->broadcast->getGlobalPosition(); 
     searchRadius = sR;
     sampleTime = sT;
-    
-    srand((unsigned) time(NULL));
+    int random;
 
     iY = calcMfromLat(pos);
     iX = calcMfromLon(pos);
-    int rand1 = (-searchRadius + (rand() % 2*searchRadius));
-    int rand2 = (-searchRadius + (rand() % 2*searchRadius));
-    tX = rand1;
-    tY = rand2;
+    srand((unsigned) time(NULL));
+    random = (-searchRadius + (rand() % (2*searchRadius)));
+    tX = random;
+    random = (-searchRadius + (rand() % (2*searchRadius)));
+    tY = random;
 
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
@@ -143,10 +150,9 @@ void DataFaker::FakeAs(Vehicle* vehicle){
         A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
         A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
 
-        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-        std::cout << "\t Distance from sender: " << distanceTo << "\n";
-        std::cout << "\t Diff angle : " << diffAngle << "\n";
-        std::cout << "\t Signal strength: " << signalStrength << "\n";
+        std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
+        //std::cout << "\t Diff angle : " << diffAngle << "\n";
+        //std::cout << "\t Signal strength: " << signalStrength << "\n";
 }
 
 float32_t getSize(float32_t y, float32_t x) {
@@ -220,7 +226,7 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
 PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleTime_in){
     Kp = Kp_in;
     Ki = Ki_in;
-    sampleTime = sampleTime_in;
+    sampleTime = sampleTime_in/1000;
     pi = 0;
 }
 
