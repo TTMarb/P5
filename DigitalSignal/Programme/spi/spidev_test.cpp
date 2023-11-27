@@ -52,7 +52,7 @@ static void transfer(int fd)
 	tr.tx_buf = (unsigned long)tx;
 	tr.rx_buf = (unsigned long)rx;
 	tr.len = ARRAY_SIZE(tx);
-	tr.delay_usecs = delay;
+	tr.delay_usecs = 0;
 	tr.speed_hz = speed;
 	tr.bits_per_word = bits;
 	tr.cs_change = 1;
