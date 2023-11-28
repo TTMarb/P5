@@ -45,8 +45,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(1, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(10, 2, sampleFrequency);
-    PIcontroller vY = PIcontroller(10, 2, sampleFrequency);
+    PIcontroller vX = PIcontroller(1, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(1, 0, sampleFrequency);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
     while(true){
