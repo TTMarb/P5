@@ -73,7 +73,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         alg = alg*(180/M_PI);
         vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 5);
         if (lowest == true){
-            if (prevAlg < alg){
+            if (prevAlg > alg){
                 std::cout << "Lowest angle: " << prevAlg << "\n";
                 break;
             }
