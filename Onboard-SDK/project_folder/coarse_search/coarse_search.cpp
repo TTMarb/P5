@@ -64,6 +64,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //Sets velocity and yaw rate 
         for (int i = 0; i < sampleFrequency; i++){
             UAVAngle = QtoDEG(vehicle);
+            std::cout << "\t Drone angle: " << UAVAngle << std::endl;
             vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
             vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
