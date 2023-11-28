@@ -45,7 +45,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.075, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.1, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.1, 2, sampleFrequency);
     PIcontroller vY = PIcontroller(100, 2, sampleFrequency);
     DataFaker df = DataFaker(vehicle, 1000, searchRadius);
     
@@ -245,5 +245,5 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFre
 /// @param error The error value that the PI controller should calculate from
 void PIcontroller::updatePIController(float32_t error){
     PIvalue = Kp*error + (sampleTime/Ki)*error;
-    std::cout << "PI calculated: " << PIvalue << "\n";
+    //std::cout << "PI calculated: " << PIvalue << "\n";
 }
