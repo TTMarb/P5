@@ -47,7 +47,16 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     PIcontroller yawRate = PIcontroller(0.545, 0, sampleFrequency);
     PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
-    DataFaker df = DataFaker(vehicle, 1000, searchRadius);
+
+    std::cout << "X-location 4 transceiver: " << std::endl;
+    int xLoc
+    std::cin >> xLoc;
+    std::cout << "Y-location 4 transceiver: " << std::endl;
+    int yLoc;
+    std::cin >> yLoc;
+
+
+    DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
     
     while(true){
         //Get new data
@@ -130,20 +139,15 @@ float32_t QtoDEG(Vehicle* vehicle) {
 /// @param sT SampleTime - time between samples
 /// @param sR SearchRadius - The actual distance the antenna can reach
 /// @note Will be removed once actual data can be generated
-DataFaker::DataFaker(Vehicle* vehicle, int sT, int sR) {
+DataFaker::DataFaker(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
     Telemetry::GlobalPosition pos;
     pos = vehicle->broadcast->getGlobalPosition(); 
-    searchRadius = sR;
     sampleTime = sT;
 
-    int random;
     iY = calcMfromLat(pos);
     iX = calcMfromLon(pos);
-    srand((unsigned) time(NULL));
-    random = (-searchRadius + (rand() % (2*searchRadius)));
-    tX = random;
-    random = (-searchRadius + (rand() % (2*searchRadius)));
-    tY = random;
+    tX = xLoc;
+    tY = yLoc;
 
     std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
     std::cout << "about to enter while loop: \n";
