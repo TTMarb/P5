@@ -32,7 +32,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
-    int searchRadius = 0;
+    int searchRadius = 0.001;
     float32_t UAVAngle;
     float32_t A1 = 0;
     float32_t A2 = 0;
