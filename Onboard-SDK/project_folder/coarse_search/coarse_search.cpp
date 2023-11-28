@@ -61,7 +61,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         vel = (sqrt(2)*searchRadius-H);
         yawRate.updatePIController(alg);
         //Calculate velocity in x and y direction
-        //Sets velocity and yaw rate 
+        //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
             UAVAngle = QtoDEG(vehicle);
             vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
