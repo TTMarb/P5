@@ -48,8 +48,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.750, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.00005, 0.05, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.00005, 0.05, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.00005, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(0.00005, 0, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -60,6 +60,32 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
 
     DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
+    while(true){
+        bool lowest = false;
+        float32_t prevAlg = 3;
+        df.Fake(vehicle);
+        A1 = df.A1;
+        A2 = df.A2;
+        
+        H = sqrt(pow(A1,2)+pow(A2,2));
+        //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
+        alg = acos((A1-A2)/(H+0.001))-M_PI_2;
+        alg = alg*(180/M_PI);
+        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 5);
+        if (lowest == true){
+            if (prevAlg < alg){
+                std::cout << "Lowest angle: " << prevAlg << "\n";
+                break;
+            }
+        }
+        if (prevAlg < alg)
+        {
+            lowest = true;
+        }
+        
+        prevAlg = alg;
+        sleep(1);
+    }
     
     while(true){
         //Get new data
