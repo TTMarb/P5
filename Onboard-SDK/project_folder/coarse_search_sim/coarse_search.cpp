@@ -60,38 +60,13 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
 
     DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
-    while(true){
-        bool lowest = false;
-        float32_t prevAlg = 3;
-        df.Fake(vehicle);
-        A1 = df.A1;
-        A2 = df.A2;
-        
-        H = sqrt(pow(A1,2)+pow(A2,2));
-        //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
-        alg = acos((A1-A2)/(H+0.001))-M_PI_2;
-        alg = alg*(180/M_PI);
-        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 5);
-        if (lowest == true){
-            if (prevAlg > alg){
-                std::cout << "Lowest angle: " << prevAlg << "\n";
-                break;
-            }
-        }
-        if (prevAlg < alg)
-        {
-            lowest = true;
-        }
-        
-        prevAlg = alg;
-        sleep(1);
-    }
     
     while(true){
         //Get new data
         df.Fake(vehicle);
         A1 = df.A1;
         A2 = df.A2;
+        float32_t prevH;
         
         H = sqrt(pow(A1,2)+pow(A2,2));
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
@@ -99,6 +74,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         alg = alg*(180/M_PI);
         vel = maxHvalue - H;
         yawRate.updatePIController(alg);
+        if (H > prevH){
+            vel = -vel;
+        }
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
@@ -121,6 +99,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "Target found! \n";
             break;
         }
+        prevH = H;
         //sampleFrequency => sampletime in us
     }
 }
