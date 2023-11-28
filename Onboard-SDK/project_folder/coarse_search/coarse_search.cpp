@@ -57,6 +57,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         H = sqrt(pow(A1,2)+pow(A2,2));
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
+        alg = alg*(180/M_PI);
         vel = (sqrt(2)*searchRadius-H);
         yawRate.updatePIController(alg);
         //Calculate velocity in x and y direction
@@ -245,11 +246,8 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFre
 /// @brief This function calculates the PI value
 /// @param error The error value that the PI controller should calculate from
 void PIcontroller::updatePIController(float32_t error){
-    std::cout << "error in: " << error << "\n";
-    std::cout << "Kp: " << Kp << "\n";
-    std::cout << "PIv: " << PIvalue << "\n";
-
     PIvalue = Kp*error;
+    //Stops PI from becomming infinite
     if(Ki != 0){
         PIvalue += (sampleTime/Ki)*error;
     }
