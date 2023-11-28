@@ -86,7 +86,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t vX.pi: " << vX.PIvalue << ", vY.pi: " << vY.PIvalue << ", yawRate.pi: " << yawRate.PIvalue << "\n";
 
         //Break statement - Within 2x of the target
-        if (abs(1-H) < 2){
+        if (H > 0.95){
             //Stops the UAV
             vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
             std::cout << "Target found! \n";
