@@ -49,7 +49,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
-    int xLoc
+    int xLoc;
     std::cin >> xLoc;
     std::cout << "Y-location 4 transceiver: " << std::endl;
     int yLoc;
