@@ -32,7 +32,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
-    int searchRadius = 50;
+    int searchRadius = 0;
     float32_t UAVAngle;
     float32_t A1 = 0;
     float32_t A2 = 0;
@@ -56,7 +56,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         A2 = df.A2;
         H = sqrt(pow(A1,2)+pow(A2,2));
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
-        alg = acos((A1-A2)/(H+0.001));//-M_PI_2;
+        alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
         vel = (sqrt(2)*searchRadius-H);
         yawRate.updatePIController(alg);
@@ -66,7 +66,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             UAVAngle = QtoDEG(vehicle);
             vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
             vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
-            vehicle->control->velocityAndYawRateCtrl(vY.PIvalue, vX.PIvalue, 0, yawRate.PIvalue);
+            //vehicle->control->velocityAndYawRateCtrl(vY.PIvalue, vX.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             usleep(sampleTimeInMicroSeconds);
         }
