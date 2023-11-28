@@ -61,19 +61,19 @@ int main(int argc, char** argv) {
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
 
-    float K, volThreshold, minDist;
+    float K, volThreshold, minDist, hMax;
 
     /*
-     * The H field is approximated as H_max = K * 1/z^3, 
-     * where z is the distance to the transceiver. 
-    */
+     * The H field is approximated as H_max = K * 1/z^3,
+     * where z is the distance to the transceiver.
+     */
+    double K, volThreshold, minDist, hMax;
     minDist = 3; // Closest possible distance in m
     hMax = 4096; // Max ADC value
     // Isolate for K
-    K = 4096 * minDist
-        ^ 3 // Max ADC value at 3 m
-        // H field at 20 m
-        volThreshold = K * 1 / (20 ^ 3);
+    K = hMax * pow(minDist, 3); // Max ADC value at 3 m
+    // H field at 20 m
+    volThreshold = K * (1 / pow(20, 3));
 
     /********* WAYPOINT MISSION *********/
 
