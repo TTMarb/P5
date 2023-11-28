@@ -48,8 +48,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.545, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.01, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.01, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.001, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(0.001, 0, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -85,8 +85,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         }
 
         std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
-        std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< cos(UAVAngle*(M_PI/180))<< ", vY:"<< sin(UAVAngle*(M_PI/180)) << "\n";
-        std::cout << "\t vX.pi: " << vX.PIvalue << ", vY.pi: " << vY.PIvalue << ", yawRate.pi: " << yawRate.PIvalue << "\n";
+        std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< vX.PIvalue<< ", vY:"<< vY.PIvalue << "\n";
+        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << ", vX.pi: " << vX.PIvalue <<", xY.pi" << vY.PIvalue << "\n";
 
         //Break statement - Within 2x of the target
         if (H > (maxHvalue-10)){
