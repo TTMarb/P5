@@ -68,7 +68,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        vel = pow((sqrt(2)*searchRadius),3)-H;
+        vel = 1-H;
         yawRate.updatePIController(alg);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
