@@ -41,12 +41,15 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t sampleFrequency = 100;
     float32_t sampleTimeInSeconds = 1/sampleFrequency;
     float32_t vel = 0;
+    int maxADCvalue = 4096;
+    int closestDistance = 3;
+    int maxHvalue =pow(closestDistance,3)*maxADCvalue; //3^3
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.545, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(1, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(1, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.01, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(0.01, 0, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -68,7 +71,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        vel = 1-H;
+        vel = maxHvalue - H
         yawRate.updatePIController(alg);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
@@ -86,7 +89,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         std::cout << "\t vX.pi: " << vX.PIvalue << ", vY.pi: " << vY.PIvalue << ", yawRate.pi: " << yawRate.PIvalue << "\n";
 
         //Break statement - Within 2x of the target
-        if (H > 0.95){
+        if (H > (maxHvalue-10)){
             //Stops the UAV
             vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
             std::cout << "Target found! \n";
@@ -164,7 +167,10 @@ void DataFaker::Fake(Vehicle* vehicle){
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         float32_t distanceTo = getSize(dY-tY, dX-tX);
         std::cout << "distanceTo: " << distanceTo << "\n";
-        float32_t signalStrength = pow(sqrt(2)*searchRadius-distanceTo,3)/(2.84395e+07);
+        int maxADCvalue = 4096;
+        int closestDistance = 3;
+        int maxHvalue = pow(closestDistance, 3) * maxADCvalue; //3^3
+        float32_t signalStrength = maxHvalue * (1 / pow(distanceTo, 3));
         std::cout << "signalStrength: " << signalStrength << "\n";
         //Finds the difference between the UAVs angle and the targets angle
         float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
