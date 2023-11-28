@@ -164,7 +164,7 @@ void DataFaker::Fake(Vehicle* vehicle){
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         float32_t distanceTo = getSize(dY-tY, dX-tX);
         std::cout << "distanceTo: " << distanceTo << "\n";
-        float32_t signalStrength = sqrt(2)*searchRadius-distanceTo;
+        float32_t signalStrength = pow(sqrt(2)*searchRadius-distanceTo,3);
         std::cout << "signalStrength: " << signalStrength << "\n";
         //Finds the difference between the UAVs angle and the targets angle
         float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
