@@ -64,8 +64,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //Sets velocity and yaw rate 
         for (int i = 0; i < sampleFrequency; i++){
             UAVAngle = QtoDEG(vehicle);
-            vX.updatePIController(cos(UAVAngle*(M_PI/180)));
-            vY.updatePIController(sin(UAVAngle*(M_PI/180)));
+            vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
+            vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             usleep(sampleTimeInMicroSeconds);
@@ -86,7 +86,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     }
 }
 
-//Converts x and y vectors to a direction
+/// @brief Calculate the angle (in degrees) between two vectors
+/// @param vector1 
+/// @param vector2 
+/// @return Returns the angle between the vectors
 float32_t getAngle(float32_t vector1, float32_t vector2) {
     float32_t angleBetweenVectors = atan2(vector1, vector2);
     //converts from -pi to pi to 0 to 2pi
@@ -98,7 +101,9 @@ float32_t getAngle(float32_t vector1, float32_t vector2) {
     return angleBetweenVectors;
 }
 
-//This function converts the quaternion to degrees
+/// @brief Reads the Quaternation degrees, and converts them into a yaw degree.
+/// @param vehicle Pointer to the DJI vehicle class
+/// @return Returns the drones current angle on east
 float32_t QtoDEG(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
     float32_t angle;
