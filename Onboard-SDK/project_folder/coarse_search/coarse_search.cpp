@@ -66,7 +66,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             UAVAngle = QtoDEG(vehicle);
             vX.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
             vY.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
-            vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
+            vehicle->control->velocityAndYawRateCtrl(vY.PIvalue, vX.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             usleep(sampleTimeInMicroSeconds);
         }
