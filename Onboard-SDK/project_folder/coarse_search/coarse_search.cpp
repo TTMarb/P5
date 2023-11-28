@@ -165,8 +165,8 @@ void DataFaker::Fake(Vehicle* vehicle){
         }
         
         float32_t diffAngle = targetAngle-UAVAngle;
-        A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
-        A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
+        A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)));
+        A2 = fabs(signalStrength*sin((diffAngle*M_PI/180)));
 
         std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
         //std::cout << "\t Diff angle : " << diffAngle << "\n";
