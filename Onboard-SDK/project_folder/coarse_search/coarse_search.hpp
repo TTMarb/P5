@@ -66,7 +66,7 @@ class PIcontroller {
   public:
     float32_t PIvalue;
     PIcontroller(float32_t,float32_t,float32_t); // Constructor
-    void calculatePI(float32_t); // Serial port
+    void updatePIController(float32_t); // Serial port
 
   private:
     float32_t Kp;
