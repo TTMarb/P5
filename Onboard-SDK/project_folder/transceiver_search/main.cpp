@@ -46,8 +46,8 @@
 // Path for UNIX domain socket
 #define SERVER_PATH "/tmp/unix_sock.server"
 // Buffer for antenna data
-#define BUFFER_SIZE 10
-float buf[BUFFER_SIZE];
+#define BUFFER_SIZE 2
+float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
@@ -60,6 +60,20 @@ int main(int argc, char** argv) {
     antennaPID = fork(); // Fork the parent process to start new process
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
+
+    float K, volThreshold, minDist;
+
+    /*
+     * The H field is approximated as H_max = K * 1/z^3, 
+     * where z is the distance to the transceiver. 
+    */
+    minDist = 3; // Closest possible distance in m
+    hMax = 4096; // Max ADC value
+    // Isolate for K
+    K = 4096 * minDist
+        ^ 3 // Max ADC value at 3 m
+        // H field at 20 m
+        volThreshold = K * 1 / (20 ^ 3);
 
     /********* WAYPOINT MISSION *********/
 
@@ -191,23 +205,44 @@ int main(int argc, char** argv) {
                 printf("\nConnection restablished. Receiving data...\n");
                 timeOutSet = 0;
             }
-            // Iterate through buffer to read data values
-            int i;
-            for (i = 0; i < BUFFER_SIZE; i++) {
-                if (buf[i] >= 9.7) { // NB! edit to desired threshold
-                    close(client_sock);
-                    stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
-                    printf("Stopping waypoint mission...\n");
-                    printf("Starting coarse search!\n");
-                    pid_t coarsePID;
-                    coarsePID = fork(); // Fork the parent process to start new process
-                    char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
-                    char param[] = "UserConfig.txt";
-                    startProcess(antennaPID, path, param);
-                    exit(EXIT_SUCCESS); // Exit process
+
+            float avBuf[10];
+            index = 0;
+
+            avBuf[index] = buf[index] avBuf[index + 1] = buf[index + 1] index = index + 2;
+            if (index > 8) {
+                for (int i = 0; i < (n - 10); i++) {
+                    if (i % 2 == 0) { // A2 values
+                        sumA1 += avBuf[i];
+
+                    } else { // A1 values
+                        sumA2 += avBuf[i];
+                    }
                 }
+                hField = sqrt(sumA1 ^ 2 + sumA2 ^ 2);
+            }
+
+            // Increase the receiving buffer
+
+            // Average the antenna signal strength
+            int for (int i = 0; i <= (BUFFER_SIZE -))
+
+                // Matches a H-field strenghth at a distance of
+                if (hField >= 13.8) {
+                close(client_sock);
+                stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
+                printf("Stopping waypoint mission...\n");
+                printf("Starting coarse search!\n");
+                pid_t coarsePID;
+                coarsePID = fork(); // Fork the parent process to start new process
+                char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
+                char param[] = "UserConfig.txt";
+                startProcess(antennaPID, path, param);
+                exit(EXIT_SUCCESS); // Exit process
             }
         }
     }
-    return 0;
+}
+
+return 0;
 }
