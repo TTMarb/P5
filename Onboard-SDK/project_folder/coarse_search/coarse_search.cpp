@@ -251,6 +251,6 @@ void PIcontroller::updatePIController(float32_t error){
     std::cout << "ki: " << Ki << "\n";
     std::cout << "PIv: " << PIvalue << "\n";
 
-    PIvalue = Kp*error + (sampleTime/Ki)*error;
+    PIvalue = Kp*error;// + (sampleTime/Ki)*error;
     
 }
