@@ -32,7 +32,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
-    int searchRadius = 30;
+    int searchRadius = 20;
     float32_t UAVAngle;
     float32_t A1 = 0;
     float32_t A2 = 0;
@@ -41,12 +41,15 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t sampleFrequency = 100;
     float32_t sampleTimeInSeconds = 1/sampleFrequency;
     float32_t vel = 0;
+    int maxADCvalue = 4096;
+    int closestDistance = 3;
+    int maxHvalue =pow(closestDistance,3)*maxADCvalue; //3^3
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller yawRate = PIcontroller(0.545, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
+    PIcontroller yawRate = PIcontroller(0.750, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.00005, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(0.00005, 0, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -57,6 +60,32 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
 
     DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
+    while(true){
+        bool lowest = false;
+        float32_t prevAlg = 3;
+        df.Fake(vehicle);
+        A1 = df.A1;
+        A2 = df.A2;
+        
+        H = sqrt(pow(A1,2)+pow(A2,2));
+        //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
+        alg = acos((A1-A2)/(H+0.001))-M_PI_2;
+        alg = alg*(180/M_PI);
+        vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 5);
+        if (lowest == true){
+            if (prevAlg < alg){
+                std::cout << "Lowest angle: " << prevAlg << "\n";
+                break;
+            }
+        }
+        if (prevAlg < alg)
+        {
+            lowest = true;
+        }
+        
+        prevAlg = alg;
+        sleep(1);
+    }
     
     while(true){
         //Get new data
@@ -68,7 +97,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        vel = (sqrt(2)*searchRadius-H);
+        vel = maxHvalue - H;
         yawRate.updatePIController(alg);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
@@ -82,11 +111,11 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         }
 
         std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
-        std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< cos(UAVAngle*(M_PI/180))<< ", vY:"<< sin(UAVAngle*(M_PI/180)) << "\n";
-        std::cout << "\t vX.pi: " << vX.PIvalue << ", vY.pi: " << vY.PIvalue << ", yawRate.pi: " << yawRate.PIvalue << "\n";
+        std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< vX.PIvalue<< ", vY:"<< vY.PIvalue << "\n";
+        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << ", vX.pi: " << vX.PIvalue <<", xY.pi" << vY.PIvalue << "\n";
 
         //Break statement - Within 2x of the target
-        if (abs(sqrt(2)*searchRadius-H) < 2){
+        if (H > (maxHvalue-10)){
             //Stops the UAV
             vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
             std::cout << "Target found! \n";
@@ -164,7 +193,10 @@ void DataFaker::Fake(Vehicle* vehicle){
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         float32_t distanceTo = getSize(dY-tY, dX-tX);
         std::cout << "distanceTo: " << distanceTo << "\n";
-        float32_t signalStrength = sqrt(2)*searchRadius-distanceTo;
+        int maxADCvalue = 4096;
+        int closestDistance = 3;
+        int maxHvalue = pow(closestDistance, 3) * maxADCvalue; //3^3
+        float32_t signalStrength = maxHvalue * (1 / pow(distanceTo, 3));
         std::cout << "signalStrength: " << signalStrength << "\n";
         //Finds the difference between the UAVs angle and the targets angle
         float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
