@@ -12,13 +12,37 @@
 #include <sys/types.h>
 #include <sys/un.h>
 
+#include <math.h>
+#define EARTH_RADIUS (double)6378137.0
+#define searchRadius 10
 /* Path for UNIX domain socket */
-#define SERVER_PATH "/tmp/unix_sock.server"
-#define BUFFER_SIZE 10
-float buf[BUFFER_SIZE];
+#define SERVER_PATH  "/tmp/unix_sock.server"
+#define BUFFER_SIZE  2
+float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
+
+//This function converts the latitude to meters
+double calcMfromLat(double posLat) { return posLat * EARTH_RADIUS; }
+
+//This function converts the longitude to meters
+double calcMfromLon(double posLat, double posLon) { return posLon * cos(posLat) * EARTH_RADIUS; }
+
+/// @brief Calculate the angle (in degrees) between two vectors
+/// @param vector1
+/// @param vector2
+/// @return Returns the angle between the vectors
+float getAngle(float vector1, float vector2) {
+    float angleBetweenVectors = atan2(vector1, vector2);
+    //converts from -pi to pi to 0 to 2pi
+    if (angleBetweenVectors < 0) {
+        angleBetweenVectors += 2 * M_PI;
+    }
+    //converts from radians to degrees
+    angleBetweenVectors *= 180.0 / M_PI;
+    return angleBetweenVectors;
+}
 
 int main() {
-    /****** DFT CALCULATIONS ******/
+    /****** DFT CALCULATION INIT ******/
 
     /* 
     * NB! due to errors in SPI driver on the DJI manifold
@@ -27,6 +51,20 @@ int main() {
     * the data output for the transceiver search and coarse
     * search is emulated.
     */
+
+    //PLACEHOLDER - Receive posLat, posLon, angle from transceiver search
+
+    double posLat;
+    double posLon;
+    double angle;
+
+    // Calculate position to send
+    iY = calcMfromLat(posLat);
+    iX = calcMfromLon(posLat, posLon);
+
+    // The transceiver position is set X and Y distance from take-off
+    tX = 12;
+    tY = 93;
 
     /****** UNIX DOMAIN SOCKET ******/
 
@@ -50,18 +88,36 @@ int main() {
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
 
-    float top = 10; // Define threshold for number generator
     int count = 0;
     int timeOutSet = 0;
 
     printf("Sending data...\n");
     while (1) {
-        // Generate random values below, placeholder for dft data
-        int i;
-        for (i = 0; i < BUFFER_SIZE; i++) {
-            float numGen = ((float)rand() / (float)(RAND_MAX)) * top;
-            buf[i] = numGen;
+
+        /****** START OF ANTENNA DATA GENERATION ******/
+
+        // Updates the distance
+        float dY = calcMfromLat(posLat) - iY;
+        float dX = calcMfromLon(posLat, posLon) - iX;
+        //calculates the distance between the UAV and the target
+        float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
+        //Approximates the signal strength based on the distance
+        int maxADCvalue = 4096;
+        int closestDistance = 3;
+        int maxHvalue = pow(closestDistance, 3) * maxADCvalue; //3^3
+        float signalStrength = maxHvalue * (1 / pow(distanceTo, 3));
+        //Finds the difference between the UAV's angle and the target's angle
+        float targetAngle = 180 - 2 * getAngle(dY - tY, dX - tX);
+        if (targetAngle < 0) {
+            targetAngle += 360;
         }
+
+        float diffAngle = targetAngle - UAVAngle;
+        A1 = fabs(signalStrength * cos((diffAngle * M_PI / 180) + M_PI_4));
+        A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
+        buf[0] = A1;
+        buf[1] = A2;
+        /****** END OF ANTENNA DATA GENERATION ******/
 
         // Send the data to server
         rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
