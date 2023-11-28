@@ -239,6 +239,7 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFre
     Ki = Ki_in;
     sampleTime = 1/sampleFrequency;
     PIvalue = 0;
+    std::cout << "Setup op PIcontroller done \n \t values: Kp: " << Kp << ", Ki: " << Ki << ", sampleTime: " <<sampleTime << ", init pi: " << PIvalue << std::endl;
 }
 
 /// @brief This function calculates the PI value
