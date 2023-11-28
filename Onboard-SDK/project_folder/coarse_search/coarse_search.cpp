@@ -245,6 +245,12 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFre
 /// @brief This function calculates the PI value
 /// @param error The error value that the PI controller should calculate from
 void PIcontroller::updatePIController(float32_t error){
+    std::cout << "error in: " << error << "\n";
+    std::cout << "Kp: " << Kp << "\n";
+    std::cout << "st: " << sampleTime << "\n";
+    std::cout << "ki: " << Ki << "\n";
+    std::cout << "PIv: " << PIvalue << "\n";
+
     PIvalue = Kp*error + (sampleTime/Ki)*error;
-    //std::cout << "PI calculated: " << PIvalue << "\n";
+    
 }
