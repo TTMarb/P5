@@ -38,6 +38,8 @@
 #include <math.h>
 #define _USE_MATH_DEFINES
 
+#define EARTH_RADIUS (double)6378137.0
+
 // DJI OSDK includes
 #include <dji_vehicle.hpp>
 
@@ -62,7 +64,7 @@ void addRandomLocation(float32_t*,float32_t*,int,int);
 
 class PIcontroller {
   public:
-    float32_t pi;
+    float32_t PIvalue;
     PIcontroller(float32_t,float32_t,float32_t); // Constructor
     void calculatePI(float32_t); // Serial port
 
@@ -75,7 +77,7 @@ class PIcontroller {
 class DataFaker {
   public:
     DataFaker(Vehicle* vehicle, int sT, int sR); // Constructor
-    void FakeAs(Vehicle* vehicle); // Serial port
+    void Fake(Vehicle* vehicle); // Serial port
     float32_t A1;
     float32_t A2;
 

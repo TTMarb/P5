@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 
     if (status.flight < 2) {
         sleep(5);
-        std::cout << "Preparing drone" << std::endl;
+        std::cout << "Preparing UAV" << std::endl;
 
         std::cout << "Arm motor \n";
         ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
