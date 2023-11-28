@@ -20,6 +20,14 @@ float buf[BUFFER_SIZE];
 int main() {
     /****** DFT CALCULATIONS ******/
 
+    /* 
+    * NB! due to errors in SPI driver on the DJI manifold
+    * the UAS DFT calculations for the antenna output are
+    * not included in code, but tested seperately. Instead
+    * the data output for the transceiver search and coarse
+    * search is emulated.
+    */
+
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;
