@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
     }
 
     std::cout << "disarm motor \n";
-    ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
+    ACK::ErrorCode disarmAck = vehicle->disArmMotors(functionTimeout);
     if (ACK::getError(disarmAck)) {
         ACK::getErrorCodeMessage(disarmAck, __func__);
     }
