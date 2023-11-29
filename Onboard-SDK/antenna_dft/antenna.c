@@ -1,4 +1,3 @@
-#include <math.h>
 #include "antenna.h"
 #define EARTH_RADIUS (double)6378137.0
 

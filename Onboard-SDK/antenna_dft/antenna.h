@@ -1,7 +1,7 @@
 #ifndef ANTENNA_H
 #define ANTENNA_H
 
-#include <math.h>
+#include <cmath>
 
 double calcMfromLat(double posLat);
 
