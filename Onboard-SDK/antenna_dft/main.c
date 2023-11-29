@@ -63,7 +63,7 @@ int main() {
     int timeOutSet = 0;
 
     // Variables for antenna data generation
-    double posLat, posLon, angle iX, iY;
+    double posLat, posLon, angle, iX, iY;
     float A1, A2;
     int runOnce = 0;
     // The transceiver position is set X and Y distance from take-off
@@ -75,7 +75,7 @@ int main() {
 
         // Receive data for data generation
         rc = recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                      &sizeof(server_adress));
+                      &(sizeof(server_adress)));
         if (rc == -1) {
             if (timeOutSet == 0) {
                 printf("RECEIVE ERROR\n");
