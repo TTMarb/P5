@@ -1,5 +1,5 @@
-#include "antenna.h"
 #include <math.h>
+#include "antenna.h"
 #define EARTH_RADIUS (double)6378137.0
 
 //This function converts the latitude to meters
