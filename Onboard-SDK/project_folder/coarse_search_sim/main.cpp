@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
         ACK::getErrorCodeMessage(disarmAck, __func__);
     }
 
-    vehicle->control->releaseCtrlAuthority(functionTimeout);
+    vehicle->releaseCtrlAuthority(functionTimeout);
     std::cout << "Program ended!" << std::endl;
     return 0;
 }
