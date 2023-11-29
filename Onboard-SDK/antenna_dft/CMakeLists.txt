@@ -3,10 +3,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(antenna_dft)
 
-#set(SOURCE_FILES main.c)
-#add_executable(antenna_dft ${SOURCE_FILES})
-
-
 add_executable(${PROJECT_NAME} main.c)
-#add_executable(${PROJECT_NAME} antenna.c)
+
+target_include_directories(${CMAKE_SOURCE_DIR})
+
 

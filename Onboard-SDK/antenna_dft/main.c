@@ -4,6 +4,7 @@
  */
 
 #include <errno.h>
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,35 +12,19 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include "antenna.h"
+#define EARTH_RADIUS     (double)6378137.0
+#define searchRadius     10
 
-#include <math.h>
-#define EARTH_RADIUS (double)6378137.0
-#define searchRadius 10
 /* Path for UNIX domain socket */
-#define SERVER_PATH  "/tmp/unix_sock.server"
-#define BUFFER_SIZE  2
+#define SERVER_PATH      "/tmp/unix_sock.server"
+
+// Buffer for sending the gps info for the data generator in antenna_dft
+#define RECV_BUFFER_SIZE 3
+double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
+
+#define BUFFER_SIZE 2
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
-
-//This function converts the latitude to meters
-double calcMfromLat(double posLat) { return posLat * EARTH_RADIUS; }
-
-//This function converts the longitude to meters
-double calcMfromLon(double posLat, double posLon) { return posLon * cos(posLat) * EARTH_RADIUS; }
-
-/// @brief Calculate the angle (in degrees) between two vectors
-/// @param vector1
-/// @param vector2
-/// @return Returns the angle between the vectors
-float getAngle(float vector1, float vector2) {
-    float angleBetweenVectors = atan2(vector1, vector2);
-    //converts from -pi to pi to 0 to 2pi
-    if (angleBetweenVectors < 0) {
-        angleBetweenVectors += 2 * M_PI;
-    }
-    //converts from radians to degrees
-    angleBetweenVectors *= 180.0 / M_PI;
-    return angleBetweenVectors;
-}
 
 int main() {
     /****** DFT CALCULATION INIT ******/
@@ -51,20 +36,6 @@ int main() {
     * the data output for the transceiver search and coarse
     * search is emulated.
     */
-
-    //PLACEHOLDER - Receive posLat, posLon, angle from transceiver search
-
-    double posLat;
-    double posLon;
-    double angle;
-
-    // Calculate position to send
-    iY = calcMfromLat(posLat);
-    iX = calcMfromLon(posLat, posLon);
-
-    // The transceiver position is set X and Y distance from take-off
-    tX = 12;
-    tY = 93;
 
     /****** UNIX DOMAIN SOCKET ******/
 
@@ -91,10 +62,34 @@ int main() {
     int count = 0;
     int timeOutSet = 0;
 
-    printf("Sending data...\n");
-    while (1) {
+    // Variables for antenna data generation
+    double posLat, posLon, angle;
+    int runOnce = 0;
+    // The transceiver position is set X and Y distance from take-off
+    int tX = 12;
+    int tY = 93;
 
+    while (1) {
         /****** START OF ANTENNA DATA GENERATION ******/
+
+        // Receive data for data generation
+        rc = recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                      sizeof(server_adress));
+        if (rc == -1) {
+            if (timeOutSet == 0) {
+                printf("RECEIVE ERROR\n");
+                timeOutSet = 1;
+            }
+        } else {
+            // Data is being received
+        }
+
+        // Calculate position to receive
+        if (runOnce == 0) {
+            double iY = calcMfromLat(posLat);
+            double iX = calcMfromLon(posLat, posLon);
+            runOnce = 1;
+        }
 
         // Updates the distance
         float dY = calcMfromLat(posLat) - iY;
@@ -103,9 +98,7 @@ int main() {
         float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
         //Approximates the signal strength based on the distance
         int maxADCvalue = 4096;
-        int closestDistance = 3;
-        int maxHvalue = pow(closestDistance, 3) * maxADCvalue; //3^3
-        float signalStrength = maxHvalue * (1 / pow(distanceTo, 3));
+        float signalStrength = maxADCvalue * (1 / pow(distanceTo, 3));
         //Finds the difference between the UAV's angle and the target's angle
         float targetAngle = 180 - 2 * getAngle(dY - tY, dX - tX);
         if (targetAngle < 0) {

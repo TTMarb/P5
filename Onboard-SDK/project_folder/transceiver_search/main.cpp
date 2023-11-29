@@ -44,8 +44,13 @@
 #include "transceiver_search.hpp"
 
 // Path for UNIX domain socket
-#define SERVER_PATH "/tmp/unix_sock.server"
-// Buffer for antenna data
+#define SERVER_PATH      "/tmp/unix_sock.server"
+
+// Buffer for sending the gps info for the data generator in antenna_dft
+#define RECV_BUFFER_SIZE 3
+double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
+
+// Buffer for receiving antenna data
 #define BUFFER_SIZE 2
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
@@ -55,11 +60,6 @@ using namespace DJI::OSDK::Telemetry;
 int main(int argc, char** argv) {
 
     /********* INITIALIZE DFT PROCESS *********/
-
-    pid_t antennaPID;
-    antennaPID = fork(); // Fork the parent process to start new process
-    char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
-    startProcess(antennaPID, path, NULL);
 
     /*
      * The H field is approximated as H_max = K * 1/z^3,
@@ -72,6 +72,11 @@ int main(int argc, char** argv) {
     K = hMax * pow(minDist, 3); // Max ADC value at 3 m
     // H field at 20 m
     volThreshold = K * (1 / pow(20, 3));
+
+    pid_t antennaPID;
+    antennaPID = fork(); // Fork the parent process to start new process
+    char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
+    startProcess(antennaPID, path, NULL);
 
     /********* WAYPOINT MISSION *********/
 
@@ -197,11 +202,27 @@ int main(int argc, char** argv) {
     float newAvgA1, newAvgA2;
     double hField;
 
-    printf("Waiting to receive...\n");
     while (1) {
+
+        // Transmit data to antenna_dft process
+        Telemetry::GlobalPosition pos;
+        pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
+        float ang = QtoDEG(vehicle);                   // Get the current UAS angle
+
+        recvBuf[0] = pos.longitude;
+        recvBuf[1] = pos.latitude;
+        recvBuf[2] = ang;
+
+        rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                    sizeof(server_adress));
+        if (rc == -1) {
+            printf("SEARCH SENDER ERROR!\n");
+        } else {
+            // Data is sent here!
+        }
+
         // Stay in a blocked state until data is received
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
-
         if (rc == -1) {
             if (timeOutSet == 0) {
                 printf("RECEIVE ERROR\n");
@@ -233,10 +254,11 @@ int main(int argc, char** argv) {
                 coarsePID = fork(); // Fork the parent process to start new process
                 char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                 char param[] = "UserConfig.txt";
-                startProcess(antennaPID, path, param);
+                startProcess(coarsePID, path, param);
                 exit(EXIT_SUCCESS); // Exit process
             }
         }
     }
+
     return 0;
 }
