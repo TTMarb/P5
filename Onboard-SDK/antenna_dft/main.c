@@ -81,9 +81,9 @@ int main() {
             }
         } else {
             // Data is being received
-            recvBuf[0] = posLon;
-            recvBuf[1] = posLat;
-            recvBuf[2] = angle;
+            posLon = recvBuf[0];
+            posLat = recvBuf[1];
+            angle = recvBuf[2];
 
             // Calculate position to receive
             if (runOnce == 0) {

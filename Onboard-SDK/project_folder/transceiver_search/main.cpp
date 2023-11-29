@@ -219,6 +219,7 @@ int main(int argc, char** argv) {
             printf("SEARCH SENDER ERROR!\n");
         } else {
             // Data is sent here!
+            printf("Send transceiver data...\n");
         }
 
         // Stay in a blocked state until data is received
