@@ -5,6 +5,6 @@ project(antenna_dft)
 
 add_executable(${PROJECT_NAME} main.c)
 
-target_include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR})
 
 
