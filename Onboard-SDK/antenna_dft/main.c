@@ -117,9 +117,10 @@ int main() {
         A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
         buf[0] = A1;
         buf[1] = A2;
+
         /****** END OF ANTENNA DATA GENERATION ******/
 
-        // Send the data to server
+        // Send the data to client
         rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
         if (rc == -1) {
