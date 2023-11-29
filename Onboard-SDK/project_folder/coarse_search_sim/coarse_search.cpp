@@ -30,9 +30,9 @@ int timecounterMilliseconds = 0;
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
+FIO fileIO = FIO();
 
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
-    FIO fileIO = FIO();
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
