@@ -58,7 +58,7 @@ int main() {
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-
+    len = sizeof(server_adress);
     int count = 0;
     int timeOutSet = 0;
 
@@ -74,8 +74,8 @@ int main() {
         /****** START OF ANTENNA DATA GENERATION ******/
 
         // Receive data for data generation
-        rc = recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                      &(sizeof(server_adress)));
+        rc =
+            recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
             if (timeOutSet == 0) {
                 printf("RECEIVE ERROR\n");
