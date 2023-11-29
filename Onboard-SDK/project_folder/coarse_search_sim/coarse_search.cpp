@@ -26,13 +26,12 @@
 int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
-#include "FIO.h"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
-FIO fileIO = FIO();
 
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
+    FIO fileIO = FIO();
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
@@ -70,7 +69,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int mult = 1;
     while(true){
         //Get new data
-        df.Fake(vehicle);
+        df.Fake(vehicle,fileIO);
         A1 = df.A1;
         A2 = df.A2;
         
@@ -161,7 +160,8 @@ float32_t QtoDEG(Vehicle* vehicle) {
 /// @param sT SampleTime - time between samples
 /// @param sR SearchRadius - The actual distance the antenna can reach
 /// @note Will be removed once actual data can be generated
-DataFaker::DataFaker(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
+DataFaker::DataFaker(Vehicle* vehicle, int sT, int xLoc, int yLoc, FIO fileIO) {
+    fio = fileIO;
     Telemetry::GlobalPosition pos;
     pos = vehicle->broadcast->getGlobalPosition(); 
     sampleTime = sT;
@@ -201,7 +201,7 @@ void DataFaker::Fake(Vehicle* vehicle){
         A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
         
         std::string data = std::to_string(timecounterMilliseconds) + "," + std::to_string(dX) + "," + std::to_string(dY)+ "," + std::to_string(A1)+ "," + std::to_string(A2)+ "," + std::to_string(signalStrength);
-        fileIO.write2file(data);
+        fio.write2file(data);
         
 
         std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
