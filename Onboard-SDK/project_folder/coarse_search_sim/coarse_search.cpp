@@ -72,7 +72,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
         vel = log1p(H);
-        yawRate.updatePIController(alg);
+        yawRate.updatePIController(-alg);
 /*        if (H > prevH){
             vel = -vel;
 	    std::cout << "\t\t\t changed velocityraptor" << std::endl;
