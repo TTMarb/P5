@@ -63,7 +63,8 @@ int main() {
     int timeOutSet = 0;
 
     // Variables for antenna data generation
-    double posLat, posLon, angle;
+    double posLat, posLon, angle iX, iY;
+    float A1, A2;
     int runOnce = 0;
     // The transceiver position is set X and Y distance from take-off
     int tX = 12;
@@ -74,7 +75,7 @@ int main() {
 
         // Receive data for data generation
         rc = recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                      sizeof(server_adress));
+                      &sizeof(server_adress));
         if (rc == -1) {
             if (timeOutSet == 0) {
                 printf("RECEIVE ERROR\n");
@@ -82,34 +83,37 @@ int main() {
             }
         } else {
             // Data is being received
-        }
+            recvBuf[0] = posLon;
+            recvBuf[1] = posLat;
+            recvBuf[2] = angle;
 
-        // Calculate position to receive
-        if (runOnce == 0) {
-            double iY = calcMfromLat(posLat);
-            double iX = calcMfromLon(posLat, posLon);
-            runOnce = 1;
-        }
+            // Calculate position to receive
+            if (runOnce == 0) {
+                iY = calcMfromLat(posLat);
+                iX = calcMfromLon(posLat, posLon);
+                runOnce = 1;
+            }
 
-        // Updates the distance
-        float dY = calcMfromLat(posLat) - iY;
-        float dX = calcMfromLon(posLat, posLon) - iX;
-        //calculates the distance between the UAV and the target
-        float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
-        //Approximates the signal strength based on the distance
-        int maxADCvalue = 4096;
-        float signalStrength = maxADCvalue * (1 / pow(distanceTo, 3));
-        //Finds the difference between the UAV's angle and the target's angle
-        float targetAngle = 180 - 2 * getAngle(dY - tY, dX - tX);
-        if (targetAngle < 0) {
-            targetAngle += 360;
-        }
+            // Updates the distance
+            float dY = calcMfromLat(posLat) - iY;
+            float dX = calcMfromLon(posLat, posLon) - iX;
+            //calculates the distance between the UAV and the target
+            float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
+            //Approximates the signal strength based on the distance
+            int maxADCvalue = 4096;
+            float signalStrength = maxADCvalue * (1 / pow(distanceTo, 3));
+            //Finds the difference between the UAV's angle and the target's angle
+            float targetAngle = 180 - 2 * getAngle(dY - tY, dX - tX);
+            if (targetAngle < 0) {
+                targetAngle += 360;
+            }
 
-        float diffAngle = targetAngle - UAVAngle;
-        A1 = fabs(signalStrength * cos((diffAngle * M_PI / 180) + M_PI_4));
-        A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
-        buf[0] = A1;
-        buf[1] = A2;
+            float diffAngle = targetAngle - angle;
+            A1 = fabs(signalStrength * cos((diffAngle * M_PI / 180) + M_PI_4));
+            A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
+            buf[0] = A1;
+            buf[1] = A2;
+        }
 
         /****** END OF ANTENNA DATA GENERATION ******/
 
