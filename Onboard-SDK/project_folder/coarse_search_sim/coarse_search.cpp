@@ -61,6 +61,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int yLoc;
     std::cin >> yLoc;
     std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
+    fileIO.changeActiveFile(filename);
+    fileIO.createFile();
 
 
     DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
