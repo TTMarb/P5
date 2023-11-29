@@ -48,8 +48,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.750, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(50, 1, sampleFrequency);
-    PIcontroller vY = PIcontroller(50, 1, sampleFrequency);
+    PIcontroller vX = PIcontroller(0.5, 1, sampleFrequency);
+    PIcontroller vY = PIcontroller(0.5, 1, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -90,10 +90,10 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
         std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< vX.PIvalue<< ", vY:"<< vY.PIvalue << "\n";
-        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << std::endl;//", vX.pi: " << vX.PIvalue <<", xY.pi" << vY.PIvalue << "\n";
+        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << std::endl;
 
         //Break statement - Within 2x of the target
-        if (H > (maxHvalue-10)){
+        if (H > (maxADCvalue-10)){
             //Stops the UAV
             vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
             std::cout << "Target found! \n";
