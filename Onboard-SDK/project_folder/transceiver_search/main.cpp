@@ -222,7 +222,7 @@ int main(int argc, char** argv) {
             if (index >= len) {
                 index = 0;
             }
-            hField = sqrt(newAvgA1 ^ 2 + newAvgA2 ^ 2);
+            hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
