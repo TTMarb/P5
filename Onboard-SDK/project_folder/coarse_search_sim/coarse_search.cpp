@@ -61,6 +61,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
     float32_t prevH;
+    int cnt = 0;
+    int mult = 1;
     while(true){
         //Get new data
         df.Fake(vehicle);
@@ -71,12 +73,15 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        vel = log1p(H);
+        if(cnt > (5+1)){
+            if (H < prevH){
+                mult *= -1;
+            std::cout << "\t\t\t changed velocityraptor" << std::endl;
+            }
+            cnt = 0;
+        }
+        vel = log1p(H)*mult;
         yawRate.updatePIController(-alg);
-        if (H < prevH){
-            vel = -vel;
-	    std::cout << "\t\t\t changed velocityraptor" << std::endl;
-       }
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
@@ -100,6 +105,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             break;
         }
         prevH = H;
+        cnt++;
         //sampleFrequency => sampletime in us
     }
 }
