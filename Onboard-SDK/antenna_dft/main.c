@@ -13,7 +13,6 @@
 #include <sys/types.h>
 #include <sys/un.h>
 #include "antenna.h"
-#define EARTH_RADIUS     (double)6378137.0
 #define searchRadius     10
 
 /* Path for UNIX domain socket */
