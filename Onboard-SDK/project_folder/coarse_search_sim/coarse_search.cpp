@@ -99,7 +99,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             timecounterMilliseconds += 10;
-            df.Fake(vehicle,fileIO,true);
+            df.Fake(vehicle,fileIO,false);
             usleep(sampleTimeInMicroSeconds);
         }
         std::cout << "Time: " << timecounterMilliseconds << std::endl;
