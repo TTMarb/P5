@@ -72,7 +72,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
         vel = log1p(H);
-        yawRate.updatePIController(-alg);
+        yawRate.updatePIController(alg);
 /*        if (H > prevH){
             vel = -vel;
 	    std::cout << "\t\t\t changed velocityraptor" << std::endl;
@@ -81,8 +81,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
             UAVAngle = QtoDEG(vehicle);
-            vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
-            vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
+            vX.updatePIController(-vel*cos(UAVAngle*(M_PI/180)));
+            vY.updatePIController(-vel*sin(UAVAngle*(M_PI/180)));
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             usleep(sampleTimeInMicroSeconds);
