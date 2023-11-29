@@ -26,6 +26,7 @@
 int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
+
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
@@ -68,7 +69,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int mult = 1;
     while(true){
         //Get new data
-        df.Fake(vehicle);
+        df.Fake(vehicle,fileIO);
         A1 = df.A1;
         A2 = df.A2;
         
@@ -175,7 +176,7 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
 
 /// @brief Generates the "fake" antenna data from GPS location and the UAV's current angle
 /// @param vehicle 
-void DataFaker::Fake(Vehicle* vehicle){
+void DataFaker::Fake(Vehicle* vehicle, FIO fileIO){
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); 
         float32_t UAVAngle = QtoDEG(vehicle);

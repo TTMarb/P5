@@ -37,6 +37,7 @@
 #include <vector>
 #include <math.h>
 #define _USE_MATH_DEFINES
+#include "FIO.h"
 
 #define EARTH_RADIUS (double)6378137.0
 
@@ -77,7 +78,7 @@ class PIcontroller {
 class DataFaker {
   public:
     DataFaker(Vehicle*, int, int, int); // Constructor
-    void Fake(Vehicle* vehicle); // Serial port
+    void Fake(Vehicle* vehicle,FIO); // Serial port
     float32_t A1;
     float32_t A2;
 
