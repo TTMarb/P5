@@ -48,8 +48,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.750, 0, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.00005, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.00005, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(50, 1, sampleFrequency);
+    PIcontroller vY = PIcontroller(50, 1, sampleFrequency);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -66,17 +66,17 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         df.Fake(vehicle);
         A1 = df.A1;
         A2 = df.A2;
-        float32_t prevH;
         
         H = sqrt(pow(A1,2)+pow(A2,2));
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        vel = maxHvalue - H;
+        vel = log(1/(H));
         yawRate.updatePIController(alg);
-        if (H > prevH){
+/*        if (H > prevH){
             vel = -vel;
-        }
+	    std::cout << "\t\t\t changed velocityraptor" << std::endl;
+       }*/
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
@@ -90,7 +90,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
         std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< vX.PIvalue<< ", vY:"<< vY.PIvalue << "\n";
-        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << ", vX.pi: " << vX.PIvalue <<", xY.pi" << vY.PIvalue << "\n";
+        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << std::endl;//", vX.pi: " << vX.PIvalue <<", xY.pi" << vY.PIvalue << "\n";
 
         //Break statement - Within 2x of the target
         if (H > (maxHvalue-10)){
@@ -99,7 +99,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             std::cout << "Target found! \n";
             break;
         }
-        prevH = H;
+//        prevH = H;
         //sampleFrequency => sampletime in us
     }
 }
@@ -275,5 +275,12 @@ void PIcontroller::updatePIController(float32_t error){
     if(Ki != 0){
         PIvalue += (sampleTime/Ki)*error;
     }
+    if(PIvalue > 10){
+	PIvalue = 10;
+    }
+    if (PIvalue < -10){
+        PIvalue = -10;
+    }
+
     
 }
