@@ -66,4 +66,6 @@ const int DEFAULT_PACKAGE_INDEX = 0;
 
 void startProcess(pid_t pid, char* path, char* param);
 
+float movingAvg(float* ptrArrNumbers, float* ptrSum, int pos, int len, float nextNum);
+
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

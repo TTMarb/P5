@@ -208,6 +208,15 @@ void startProcess(pid_t pid, char* path, char* param) {
     }
 }
 
+float movingAvg(float* ptrArrNumbers, float* ptrSum, int pos, int len, float nextNum) {
+    // Subtract the oldest number from the prev sum, add the new number
+    *ptrSum = *ptrSum - ptrArrNumbers[pos] + nextNum;
+    // Assign the nextNum to the position in the array
+    ptrArrNumbers[pos] = nextNum;
+
+    return *ptrSum / (float)len;
+}
+
 void setBroadcastFrequency(Vehicle* vehicle) {
     //To ensure a faster response, the broadcast frequency is set to 100Hz for Quaternion
     enum FREQ {

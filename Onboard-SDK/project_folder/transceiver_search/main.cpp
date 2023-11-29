@@ -61,19 +61,19 @@ int main(int argc, char** argv) {
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
 
-    float K, volThreshold, minDist;
+    float K, volThreshold, minDist, hMax;
 
     /*
-     * The H field is approximated as H_max = K * 1/z^3, 
-     * where z is the distance to the transceiver. 
-    */
+     * The H field is approximated as H_max = K * 1/z^3,
+     * where z is the distance to the transceiver.
+     */
+    double K, volThreshold, minDist, hMax;
     minDist = 3; // Closest possible distance in m
     hMax = 4096; // Max ADC value
     // Isolate for K
-    K = 4096 * minDist
-        ^ 3 // Max ADC value at 3 m
-        // H field at 20 m
-        volThreshold = K * 1 / (20 ^ 3);
+    K = hMax * pow(minDist, 3); // Max ADC value at 3 m
+    // H field at 20 m
+    volThreshold = K * (1 / pow(20, 3));
 
     /********* WAYPOINT MISSION *********/
 
@@ -189,6 +189,15 @@ int main(int argc, char** argv) {
 
     int count = 0;
     int timeOutSet = 0;
+
+    // Variables for averaging antenna data
+    int index = 0;
+    float sum = 0;
+    int len = sizeof(avBuf) / sizeof(float);
+    float avgA1[5] = {0};
+    float avgA2[5] = {0};
+    float newAvgA1, newAvgA2;
+
     printf("Waiting to receive...\n");
     while (1) {
         // Stay in a blocked state until data is received
@@ -206,29 +215,17 @@ int main(int argc, char** argv) {
                 timeOutSet = 0;
             }
 
-            float avBuf[10];
-            index = 0;
-
-            avBuf[index] = buf[index] avBuf[index + 1] = buf[index + 1] index = index + 2;
-            if (index > 8) {
-                for (int i = 0; i < (n - 10); i++) {
-                    if (i % 2 == 0) { // A2 values
-                        sumA1 += avBuf[i];
-
-                    } else { // A1 values
-                        sumA2 += avBuf[i];
-                    }
-                }
-                hField = sqrt(sumA1 ^ 2 + sumA2 ^ 2);
+            // Calculate moving average of the antenna voltages for 5 values
+            newAvgA1 = movingAvg(avgA1, &sum, index, len, buf[i]);
+            newAvgA2 = movingAvg(avgA2, &sum, index, len, buf[i + 1]);
+            index++;
+            if (index >= len) {
+                index = 0;
             }
+            hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
 
-            // Increase the receiving buffer
-
-            // Average the antenna signal strength
-            int for (int i = 0; i <= (BUFFER_SIZE -))
-
-                // Matches a H-field strenghth at a distance of
-                if (hField >= 13.8) {
+            // Matches a H-field strenghth at a distance of
+            if (hField >= volThreshold) {
                 close(client_sock);
                 stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
                 printf("Stopping waypoint mission...\n");
