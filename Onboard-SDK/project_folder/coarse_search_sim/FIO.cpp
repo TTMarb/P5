@@ -3,7 +3,7 @@
 //Constructor
 FIO::FIO() {
     //Appends string name to file buffer
-    FIO::folderName.append(getTimeStamp());
+    //FIO::folderName.append(getTimeStamp());
     //Creates directory with name from buffer
     if (mkdir(FIO::folderName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
         std::cout << "Folder created: " << folderName << std::endl;
