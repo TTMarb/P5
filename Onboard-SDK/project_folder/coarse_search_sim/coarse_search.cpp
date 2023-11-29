@@ -63,13 +63,13 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
 
 
-    DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
+    DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc,fileIO);
     float32_t prevH;
     int cnt = 0;
     int mult = 1;
     while(true){
         //Get new data
-        df.Fake(vehicle,fileIO);
+        df.Fake(vehicle);
         A1 = df.A1;
         A2 = df.A2;
         
