@@ -73,15 +73,17 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        if(cnt > (5+1)){
-            if (H < prevH){
+        if (H < prevH){
+            if(cnt > (5+1)){
                 mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
+            cnt = 0;
             }
+        } else { 
             cnt = 0;
         }
         vel = ((1-log1p(H))+(1/0.1))*mult;
-        yawRate.updatePIController(-alg);
+        yawRate.updatePIController(alg);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
