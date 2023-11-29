@@ -71,7 +71,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        vel = log(1/(H));
+        vel = log1p(H);
         yawRate.updatePIController(alg);
 /*        if (H > prevH){
             vel = -vel;
