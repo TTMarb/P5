@@ -63,6 +63,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     float32_t prevH;
     int cnt = 0;
     int mult = 1;
+    int timecounterMilliseconds = 0;
     while(true){
         //Get new data
         df.Fake(vehicle);
@@ -92,12 +93,13 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
+            timecounterMilliseconds += 10;
             usleep(sampleTimeInMicroSeconds);
         }
-
-        std::cout <<"A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
+        std::cout << "Time: " << timecounterMilliseconds << std::endl;
+        std::cout <<"\t A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
         std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< vX.PIvalue<< ", vY:"<< vY.PIvalue << "\n";
-        std::cout << "\t yawRate.pi: " << yawRate.PIvalue << std::endl;
+        std::cout << "\t yawRate.pi: " << yawRate.PIvalue <<  std::endl;
 
         //Break statement - Within 2x of the target
         if (H > (maxADCvalue-10)){
