@@ -26,7 +26,8 @@
 int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
-#inlcude "FIO.h"
+#include "FIO.h"
+
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
