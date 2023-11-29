@@ -23,12 +23,14 @@
  * SOFTWARE.
  *
  */
+int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
+    FIO fileIO = FIO();
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
@@ -57,13 +59,13 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Y-location 4 transceiver: " << std::endl;
     int yLoc;
     std::cin >> yLoc;
+    std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
 
 
     DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
     float32_t prevH;
     int cnt = 0;
     int mult = 1;
-    int timecounterMilliseconds = 0;
     while(true){
         //Get new data
         df.Fake(vehicle);
@@ -192,10 +194,13 @@ void DataFaker::Fake(Vehicle* vehicle){
         if (targetAngle < 0) {
             targetAngle += 360;
         }
-        
         float32_t diffAngle = targetAngle-UAVAngle;
         A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
         A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
+        
+        std::string data = std::to_string(timecounterMilliseconds) + "," + std::to_string(dX) + "," + std::to_string(dY)+ "," + std::to_string(A1)+ "," + std::to_string(A2)+ "," + std::to_string(signalStrength);
+        fileIO.write2file(data);
+        
 
         std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
         //std::cout << "\t Diff angle : " << diffAngle << "\n";
