@@ -14,7 +14,7 @@
 
 class FIO {
   public:
-    std::string folderName = "output";
+    std::string folderName = "";
     FIO(); // Constructor
     void changeActiveFile(std::string);
     int createFile();
