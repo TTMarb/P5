@@ -61,8 +61,6 @@ int main(int argc, char** argv) {
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
 
-    float K, volThreshold, minDist, hMax;
-
     /*
      * The H field is approximated as H_max = K * 1/z^3,
      * where z is the distance to the transceiver.
