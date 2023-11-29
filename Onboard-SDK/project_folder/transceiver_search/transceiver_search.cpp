@@ -217,6 +217,29 @@ float movingAvg(float* ptrArrNumbers, float* ptrSum, int pos, int len, float nex
     return *ptrSum / (float)len;
 }
 
+/// @brief Reads the Quaternation degrees, and converts them into a yaw degree.
+/// @param vehicle Pointer to the DJI vehicle class
+/// @return Returns the drones current angle on east
+float32_t QtoDEG(Vehicle* vehicle) {
+    Telemetry::Quaternion quaternion;
+    float32_t angle;
+    quaternion = vehicle->broadcast->getQuaternion();
+    //This code is largely based on a mix of
+    //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
+    //and the flight-control sample
+    double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
+    double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
+
+    //We add +90 to correct the 0 degree angle to be east instead of north
+    //We multiply t1 with -1 to rotate anti-clockwise instead of clockwise
+    angle = getAngle(-t1, t0) + 90;
+    //After adding 90, the angle can be above 360, so this makes sure it is between 0 and 360
+    if (angle > 360) {
+        angle -= 360;
+    }
+    return angle;
+}
+
 void setBroadcastFrequency(Vehicle* vehicle) {
     //To ensure a faster response, the broadcast frequency is set to 100Hz for Quaternion
     enum FREQ {
