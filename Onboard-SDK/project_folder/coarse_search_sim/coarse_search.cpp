@@ -80,7 +80,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             }
             cnt = 0;
         }
-        vel = log1p(H)*mult;
+        vel = log(H)*mult;
         yawRate.updatePIController(-alg);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
