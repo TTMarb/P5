@@ -68,6 +68,8 @@ void startProcess(pid_t pid, char* path, char* param);
 
 float32_t QtoDEG(Vehicle* vehicle);
 
+float32_t getAngle(float32_t vector1, float32_t vector2);
+
 float movingAvg(float* ptrArrNumbers, float* ptrSum, int pos, int len, float nextNum);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
