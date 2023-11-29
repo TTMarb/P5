@@ -191,10 +191,11 @@ int main(int argc, char** argv) {
     // Variables for averaging antenna data
     int index = 0;
     float sum = 0;
-    int len = sizeof(avBuf) / sizeof(float);
     float avgA1[5] = {0};
     float avgA2[5] = {0};
+    int length = sizeof(avgA1) / sizeof(float);
     float newAvgA1, newAvgA2;
+    double hField;
 
     printf("Waiting to receive...\n");
     while (1) {
@@ -214,10 +215,10 @@ int main(int argc, char** argv) {
             }
 
             // Calculate moving average of the antenna voltages for 5 values
-            newAvgA1 = movingAvg(avgA1, &sum, index, len, buf[i]);
-            newAvgA2 = movingAvg(avgA2, &sum, index, len, buf[i + 1]);
+            newAvgA1 = movingAvg(avgA1, &sum, index, length, buf[0]);
+            newAvgA2 = movingAvg(avgA2, &sum, index, length, buf[1]);
             index++;
-            if (index >= len) {
+            if (index >= length) {
                 index = 0;
             }
             hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
@@ -237,7 +238,5 @@ int main(int argc, char** argv) {
             }
         }
     }
-}
-
-return 0;
+    return 0;
 }
