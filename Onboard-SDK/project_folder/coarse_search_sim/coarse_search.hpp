@@ -77,8 +77,8 @@ class PIcontroller {
 
 class DataFaker {
   public:
-    DataFaker(Vehicle*, int, int, int, FIO); // Constructor
-    void Fake(Vehicle* vehicle); // Serial port
+    DataFaker(Vehicle*, int, int, int); // Constructor
+    void Fake(Vehicle* vehicle,FIO); // Serial port
     float32_t A1;
     float32_t A2;
 
@@ -89,7 +89,6 @@ class DataFaker {
     float32_t tX;
     float32_t tY;
     int searchRadius;
-    FIO fio;
 };
 
 
