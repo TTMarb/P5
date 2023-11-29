@@ -175,7 +175,7 @@ void DataFaker::Fake(Vehicle* vehicle){
         int maxADCvalue = 4096;
         int closestDistance = 3;
         int maxHvalue = pow(closestDistance, 3) * maxADCvalue; //3^3
-        float32_t signalStrength = maxHvalue * (1 / pow(distanceTo, 3));
+        float32_t signalStrength = maxADCvalue * (1 / pow(distanceTo, 3));
         std::cout << "signalStrength: " << signalStrength << "\n";
         //Finds the difference between the UAVs angle and the targets angle
         float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
