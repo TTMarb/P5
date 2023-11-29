@@ -78,7 +78,7 @@ class PIcontroller {
 class DataFaker {
   public:
     DataFaker(Vehicle*, int, int, int); // Constructor
-    void Fake(Vehicle* vehicle,FIO); // Serial port
+    void Fake(Vehicle*,FIO,bool); // Serial port
     float32_t A1;
     float32_t A2;
 

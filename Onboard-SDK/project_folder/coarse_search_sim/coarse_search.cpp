@@ -71,7 +71,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int mult = 1;
     while(true){
         //Get new data
-        df.Fake(vehicle,fileIO);
+        df.Fake(vehicle,fileIO,true);
         A1 = df.A1;
         A2 = df.A2;
         
@@ -99,6 +99,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             timecounterMilliseconds += 10;
+            df.Fake(vehicle,fileIO,true);
             usleep(sampleTimeInMicroSeconds);
         }
         std::cout << "Time: " << timecounterMilliseconds << std::endl;
@@ -178,12 +179,14 @@ DataFaker::DataFaker(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
 
 /// @brief Generates the "fake" antenna data from GPS location and the UAV's current angle
 /// @param vehicle 
-void DataFaker::Fake(Vehicle* vehicle, FIO fileIO){
+void DataFaker::Fake(Vehicle* vehicle, FIO fileIO,bool update){
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); 
         float32_t UAVAngle = QtoDEG(vehicle);
         float32_t dY = calcMfromLat(pos)-iY;
         float32_t dX = calcMfromLon(pos)-iX;
+        float32_t tA1;
+        float32_t tA2;
         std::cout << "dX: " << dX << ", dY: " << dY << "\n";
         float32_t distanceTo = getSize(dY-tY, dX-tX);
         std::cout << "distanceTo: " << distanceTo << "\n";
@@ -198,16 +201,16 @@ void DataFaker::Fake(Vehicle* vehicle, FIO fileIO){
             targetAngle += 360;
         }
         float32_t diffAngle = targetAngle-UAVAngle;
-        A1 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
-        A2 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
-        
-        std::string data = std::to_string(timecounterMilliseconds) + "," + std::to_string(dX) + "," + std::to_string(dY)+ "," + std::to_string(A1)+ "," + std::to_string(A2)+ "," + std::to_string(signalStrength);
-        fileIO.write2file(data);
-        
-
-        std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
-        //std::cout << "\t Diff angle : " << diffAngle << "\n";
-        //std::cout << "\t Signal strength: " << signalStrength << "\n";
+        tA1 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
+        tA2 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
+        if(update){
+            A1 = tA1;
+            A2 = tA2;
+            std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
+        }else{ 
+            std::string data = std::to_string(timecounterMilliseconds) + "," + std::to_string(dX) + "," + std::to_string(dY)+ "," + std::to_string(tA1)+ "," + std::to_string(tA2)+ "," + std::to_string(signalStrength);
+            fileIO.write2file(data);
+        }
 }
 
 //This functions finds the length of a vector
@@ -299,6 +302,4 @@ void PIcontroller::updatePIController(float32_t error){
     if (PIvalue < -10){
         PIvalue = -10;
     }
-
-    
 }
