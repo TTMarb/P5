@@ -81,6 +81,12 @@ int main() {
             }
         } else {
             // Data is being received
+            printf("Buffer: ");
+            for (int i = 0; i < RECV_BUFFER_SIZE; i++) {
+                printf("%f", recvBuf[i]);
+                fflush(stdout);
+            }
+
             posLon = recvBuf[0];
             posLat = recvBuf[1];
             angle = recvBuf[2];
