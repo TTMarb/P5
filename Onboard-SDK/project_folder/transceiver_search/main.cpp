@@ -213,6 +213,7 @@ int main(int argc, char** argv) {
             //printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
+            printf("Send data\n");
         }
 
         // Stay in a blocked state until data is received
