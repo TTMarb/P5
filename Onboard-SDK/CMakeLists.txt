@@ -43,6 +43,8 @@ if(WAYPT2_CORE)
 endif()
 
 add_subdirectory(osdk-core)
+add_subdirectory(antenna_dft)
+
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Linux)
   add_subdirectory(project_folder)
