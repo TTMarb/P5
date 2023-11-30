@@ -44,7 +44,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // Set up the sockaddr struct with the path
+        // Set up the sockaddr struct with the path
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
@@ -52,6 +52,7 @@ int main() {
     int count = 0;
     int timeOutSet = 0;
 
+    /*
     // Set the socket to non-blocking when receiving data
     int flags = fcntl(server_sock, F_GETFL, 0);
     if (flags == -1) {
@@ -62,6 +63,7 @@ int main() {
         perror("fcntl");
         exit(EXIT_FAILURE);
     }
+    */
 
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;

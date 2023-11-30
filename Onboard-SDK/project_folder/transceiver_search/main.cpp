@@ -215,8 +215,6 @@ int main(int argc, char** argv) {
             // Data is sent here!
         }
 
-        printf("Do reach here!\n");
-
         // Stay in a blocked state until data is received
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
@@ -239,6 +237,8 @@ int main(int argc, char** argv) {
                 index = 0;
             }
             hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
+
+            printf("Received %f\n");
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
