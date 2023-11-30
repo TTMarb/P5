@@ -45,7 +45,7 @@
 
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
-#define CLIENT_PATH      "tmp/unix_sock.client"
+#define CLIENT_PATH      "/tmp/unix_sock.client"
 // Buffer for sending the gps info for the data generator in antenna_dft
 #define SEND_BUFFER_SIZE 3
 double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
