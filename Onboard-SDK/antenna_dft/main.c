@@ -54,7 +54,7 @@ int main() {
     rc = bind(server_sock, (struct sockaddr*)&server_adress, sizeof(server_adress));
     if (rc == -1) {
         perror("bind");
-        close(server_adress);
+        close(server_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -161,7 +161,8 @@ int main() {
             rc = send(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
             if (rc == -1) {
                 if (count == 0) {
-                    printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
+                    perror("send");
+                    printf("WAITING");
                     fflush(stdout);
                     timeOutSet = 1;
                 } else if (count % 300 == 0) {

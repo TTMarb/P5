@@ -220,7 +220,7 @@ int main(int argc, char** argv) {
         sendBuf[1] = pos.latitude;
         sendBuf[2] = ang;
 
-        rc = send(client_sock, sendBuf, sizeof(float) * SEND_BUFFER_SIZE, 0);
+        rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
             printf("TRANSCEIVER SEND ERROR!\n");
         } else {
