@@ -30,12 +30,13 @@ int main() {
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;
-    struct sockaddr_un server_adress;
+    struct sockaddr_un server_adress, peer_sock;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
     memset(&server_adress, 0, sizeof(struct sockaddr_un));
+    memset(&peer_adress, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
@@ -48,6 +49,8 @@ int main() {
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    memset(recvBuf, 0, sizeof(float) * RECV_BUFFER_SIZE);
+
     len = sizeof(server_adress);
     int count = 0;
     int timeOutSet = 0;
@@ -98,8 +101,7 @@ int main() {
         fprintf(file, "Am here\n");
         fclose(file);
 
-        rc =
-            recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        rc = recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&peer_sock, &len);
         if (rc == -1) {
             //printf("ANTENNA RECEIVE ERROR\n");
             perror("recvfrom");
