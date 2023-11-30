@@ -93,7 +93,7 @@ int main() {
             perror("recvfrom");
         } else {
             // Data is being received
-            printf("Receiving buffer %f, %f, %f", recvBuf[0], recvBuf[1], recvBuf[2]);
+            printf("Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
 
             posLon = recvBuf[0];
             posLat = recvBuf[1];
