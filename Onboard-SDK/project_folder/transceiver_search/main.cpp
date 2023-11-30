@@ -195,6 +195,7 @@ int main(int argc, char** argv) {
     float newAvgA1, newAvgA2;
     double hField;
 
+    sleep(5);
     while (1) {
 
         // Transmit data to antenna_dft process
@@ -212,10 +213,9 @@ int main(int argc, char** argv) {
             //printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
-            printf("Send transceiver data...\n");
         }
 
-        printf("Do i reach here!\n");
+        printf("Do reach here!\n");
 
         // Stay in a blocked state until data is received
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);

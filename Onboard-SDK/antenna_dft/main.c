@@ -86,7 +86,7 @@ int main() {
         rc =
             recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
-            printf("ANTENNA RECEIVE ERROR\n");
+            //printf("ANTENNA RECEIVE ERROR\n");
         } else {
             // Data is being received
             printf("Buffer: ");
