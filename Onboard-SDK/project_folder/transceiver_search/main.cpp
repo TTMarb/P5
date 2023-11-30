@@ -125,13 +125,6 @@ int main(int argc, char** argv) {
             break;
         }
 
-        std::cout << "About to sleep for 30 secs" << std::endl;
-        for (int i = 0; i < 30; i++) {
-            std::cout << i << std::endl;
-            sleep(1);
-        }
-        std::cout << "Have slept for 30 secs" << std::endl;
-
         // Calculations for avalanche size inputs
         searchWidth = 10;
         avLength = avLength - (2 * searchWidth);
