@@ -209,7 +209,7 @@ int main(int argc, char** argv) {
         printf("Sending data\n");
         rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&client_sockaddr, len);
         if (rc == -1) {
-            //printf("TRANSCEIVER SEND ERROR!\n");
+            printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
             printf("Send data\n");
@@ -228,6 +228,7 @@ int main(int argc, char** argv) {
                 printf("\nConnection restablished. Receiving data...\n");
                 timeOutSet = 0;
             }
+            printf("Buffer content %f, %f\n", buf[0], buf[1]);
 
             // Calculate moving average of the antenna voltages for 5 values
             newAvgA1 = movingAvg(avgA1, &sum, index, length, buf[0]);
@@ -238,7 +239,7 @@ int main(int argc, char** argv) {
             }
             hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
 
-            printf("Received %f\n");
+            printf("Received %f\n", hField);
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
