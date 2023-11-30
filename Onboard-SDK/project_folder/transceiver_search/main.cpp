@@ -195,9 +195,8 @@ int main(int argc, char** argv) {
     float newAvgA1, newAvgA2;
     double hField;
 
-    sleep(5);
     while (1) {
-
+        sleep(1);
         // Transmit data to antenna_dft process
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
