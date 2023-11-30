@@ -175,7 +175,8 @@ int main(int argc, char** argv) {
     client_sockaddr.sun_family = AF_UNIX;
     strcpy(client_sockaddr.sun_path, SERVER_PATH);
     len = sizeof(client_sockaddr);
-    unlink(SERVER_PATH);
+
+        unlink(SERVER_PATH);
     rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
     if (rc == -1) {
         printf("BIND ERROR\n");

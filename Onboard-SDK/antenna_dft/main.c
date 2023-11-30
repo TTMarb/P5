@@ -37,6 +37,8 @@ int main() {
     */
     memset(&server_adress, 0, sizeof(struct sockaddr_un));
     memset(&peer_sock, 0, sizeof(struct sockaddr_un));
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    memset(recvBuf, 0, sizeof(float) * RECV_BUFFER_SIZE);
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
@@ -48,10 +50,17 @@ int main() {
     // Set up the sockaddr struct with the path
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    memset(recvBuf, 0, sizeof(float) * RECV_BUFFER_SIZE);
 
     len = sizeof(server_adress);
+
+    unlink(SERVER_PATH);
+    rc = bind(server_sock, (struct sockaddr*)&server_adress, len);
+    if (rc == -1) {
+        printf("BIND ERROR\n");
+        close(server_adress);
+        exit(EXIT_FAILURE);
+    }
+
     int count = 0;
     int timeOutSet = 0;
 
