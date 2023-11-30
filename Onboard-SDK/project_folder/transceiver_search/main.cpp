@@ -245,11 +245,13 @@ int main(int argc, char** argv) {
                 stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
                 printf("Stopping waypoint mission...\n");
                 printf("Starting coarse search!\n");
+                /*
                 pid_t coarsePID;
                 coarsePID = fork(); // Fork the parent process to start new process
                 char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                 char param[] = "UserConfig.txt";
                 startProcess(coarsePID, path, param);
+                */
                 exit(EXIT_SUCCESS); // Exit process
             }
         }
