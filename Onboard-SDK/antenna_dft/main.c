@@ -44,7 +44,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-        // Set up the sockaddr struct with the path
+    // Set up the sockaddr struct with the path
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
@@ -89,6 +89,7 @@ int main() {
             recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
             //printf("ANTENNA RECEIVE ERROR\n");
+            perror("recvfrom");
         } else {
             // Data is being received
             printf("Buffer: ");
