@@ -189,7 +189,7 @@ int main(int argc, char** argv) {
     }
 
     // Connect client to server filename
-    rc = connect(client_sock, (struc sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
+    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
     if (rc == 1) {
         perror("connect");
         exit(EXIT_FAILURE);
