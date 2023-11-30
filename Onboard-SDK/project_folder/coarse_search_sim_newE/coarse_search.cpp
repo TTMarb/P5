@@ -50,9 +50,9 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
+    PIcontroller yawRate = PIcontroller(1, 0.02, 0);
+    PIcontroller vX = PIcontroller(20, 0, 0.01);
+    PIcontroller vY = PIcontroller(20, 0, 0.01);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
@@ -79,7 +79,7 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
         //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
         alg = acos((A1-A2)/(H+0.001))-M_PI_2;
         alg = alg*(180/M_PI);
-        if (H < prevH){
+        /*if (H < prevH){
             if(cnt > (5+1)){
                 mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
@@ -87,15 +87,16 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             }
         } else { 
             cnt = 0;
-        }
+        }*/
         vel = ((1-log1p(H))+(1/0.1))*mult;
-        yawRate.updatePIController(alg);
+        yawRate.updatePIController(alg, 0);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
             UAVAngle = QtoDEG(vehicle);
-            vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
-            vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
+            //DELTA VEL!
+            vX.updatePIController(H,0);
+            vY.updatePIController(H,0);
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             timecounterMilliseconds += 10;
@@ -280,25 +281,19 @@ float64_t calcMfromLon(Telemetry::GlobalPosition pos){
 //Implementation of the PIController class - This is an implementation of the controller used in the system
 //*************************************************************************************//
 //Constructor
-PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFrequency){
-    Kp = Kp_in;
-    Ki = Ki_in;
-    sampleTime = 1/sampleFrequency;
+PIcontroller::PIcontroller(float32_t Kp, float32_t Ki, float32_t Kd){
+    K1 = Kp + Ki + Kd;
+    K2 = -Kp-2*Kd;
+    K3 = Kd;
     PIvalue = 0;
-    std::cout << "Setup op PIcontroller done \n \t values: Kp: " << Kp << ", Ki: " << Ki << ", sampleTime: " <<sampleTime << ", init pi: " << PIvalue << std::endl;
+    std::cout << "Setup op PIcontroller done \n \t values: Kp: " << Kp << ", Ki: " << Ki << ", Kd: " << Kd << ", init pi: " << PIvalue << std::endl;
 }
 
 /// @brief This function calculates the PI value
 /// @param error The error value that the PI controller should calculate from
-void PIcontroller::updatePIController(float32_t error){
-    PIvalue = Kp;
-    //Stops PI from becomming infinite
-    if(Ki != 0){
-        PIvalue += (sampleTime/Ki)*error;
-    }
-    if(abs(PIvalue) > 10){
-	PIvalue = (PIvalue/abs(PIvalue))*10;
-    }
-    sMinus2 = sMinus1;
-    sMinus1 = error;
+void PIcontroller::updatePIController(float32_t error, float32_t currentSample){
+    PIvalue = sMinus1 + K1*error + K2*eMinus1 + K3*eMinus2;
+    sMinus1 = currentSample;
+    eMinus2 = eMinus1;
+    eMinus1 = error;
 }

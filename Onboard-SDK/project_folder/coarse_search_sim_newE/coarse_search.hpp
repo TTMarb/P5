@@ -67,14 +67,15 @@ class PIcontroller {
   public:
     float32_t PIvalue = 0.0;
     PIcontroller(float32_t,float32_t,float32_t); // Constructor
-    void updatePIController(float32_t); // Serial port
+    void updatePIController(float32_t,float32_t); // Serial port
 
   private:
-    float32_t Kp = 0.0;
-    float32_t Ki = 0.0;
-    float32_t sampleTime = 0;
+    float32_t K1 = 0.0;
+    float32_t K2 = 0.0;
+    float32_t K3 = 0.0;
     float32_t sMinus1 = 0;
-    float32_t sMinus2 = 0;
+    float32_t eMinus1 = 0;
+    float32_t eMinus2 = 0;
 };
 
 class DataFaker {
