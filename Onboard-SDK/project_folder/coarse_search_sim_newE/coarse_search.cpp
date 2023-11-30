@@ -89,14 +89,14 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
             cnt = 0;
         }*/
         vel = ((1-log1p(H))+(1/0.1))*mult;
-        yawRate.updatePIController(alg, QtoDEG(vehicle));
+        yawRate.updatePIController(alg, 0);
         //Calculate velocity in x and y direction
         //Sets velocity and yaw rate  
         for (int i = 0; i < sampleFrequency; i++){
             UAVAngle = QtoDEG(vehicle);
             //DELTA VEL!
-            vX.updatePIController(H,vel*cos(UAVAngle*(M_PI/180)));
-            vY.updatePIController(H,vel*sin(UAVAngle*(M_PI/180)));
+            vX.updatePIController(H,0);
+            vY.updatePIController(H,0);
             vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
             float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
             timecounterMilliseconds += 10;
