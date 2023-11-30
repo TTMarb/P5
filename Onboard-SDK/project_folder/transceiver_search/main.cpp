@@ -206,7 +206,7 @@ int main(int argc, char** argv) {
         sendBuf[0] = pos.longitude;
         sendBuf[1] = pos.latitude;
         sendBuf[2] = ang;
-        rc = sendto(client_sock, sendBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&client_sockaddr, len);
+        rc = sendto(client_sock, sendBuf, sizeof(float) * SEND_BUFFER_SIZE, 0, (struct sockaddr*)&client_sockaddr, len);
         if (rc == -1) {
             printf("TRANSCEIVER SEND ERROR!\n");
         } else {
