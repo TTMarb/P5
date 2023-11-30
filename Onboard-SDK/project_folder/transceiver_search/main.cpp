@@ -163,7 +163,7 @@ int main(int argc, char** argv) {
     * where some implementations have non-standard fields. 
     */
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
     client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
