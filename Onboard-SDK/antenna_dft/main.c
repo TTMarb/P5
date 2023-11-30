@@ -36,7 +36,7 @@ int main() {
     * where some implementations have non-standard fields. 
     */
     memset(&server_adress, 0, sizeof(struct sockaddr_un));
-    memset(&peer_adress, 0, sizeof(struct sockaddr_un));
+    memset(&peer_sock, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
