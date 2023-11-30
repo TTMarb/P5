@@ -187,9 +187,6 @@ int main(int argc, char** argv) {
         close(client_sock);
         exit(EXIT_FAILURE);
     }
-
-    printf("Got here\n");
-
     // Connect client to server filename
     rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
     if (rc == 1) {
@@ -222,13 +219,14 @@ int main(int argc, char** argv) {
 
         rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
-            printf("TRANSCEIVER SEND ERROR!\n");
+            perror("send");
         } else {
             // Data is sent here!
             printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
         }
 
         // Stay in a blocked state until data is received
+        printf("Transceiver not receiving\n");
         rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
