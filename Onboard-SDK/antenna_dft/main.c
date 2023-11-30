@@ -65,16 +65,6 @@ int main() {
     }
     */
 
-    // Open a file for writing
-    FILE* file = fopen("output.txt", "w");
-    if (file == NULL) {
-        perror("Error opening file");
-    }
-
-    fprintf(file, "TEST\n");
-
-    fclose(file);
-
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
@@ -103,8 +93,12 @@ int main() {
             perror("recvfrom");
         } else {
             // Data is being received
+            FILE* file = fopen("output.txt", "w");
+            if (file == NULL) {
+                perror("Error opening file");
+            }
             fprintf(file, "Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
-
+            fclose(file);
             posLon = recvBuf[0];
             posLat = recvBuf[1];
             angle = recvBuf[2];
@@ -168,13 +162,18 @@ int main() {
                     timeOutSet = 0;
                 }
                 // Data is being sent here!
+                FILE* file = fopen("output.txt", "w");
+                if (file == NULL) {
+                    perror("Error opening file");
+                }
                 fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
+
+                fclose(file);
 
                 calComplete = 0;
             }
         }
     }
-    fclose(file);
 
     return 0;
 }
