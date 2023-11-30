@@ -292,7 +292,7 @@ PIcontroller::PIcontroller(float32_t Kp, float32_t Ki, float32_t Kd){
 /// @brief This function calculates the PI value
 /// @param error The error value that the PI controller should calculate from
 void PIcontroller::updatePIController(float32_t error, float32_t currentSample){
-    PIvalue = sMinus1 + K1*error + K2*sMinus1 + K3*sMinus2;
+    PIvalue = sMinus1 + K1*error + K2*eMinus1 + K3*eMinus2;
     sMinus1 = currentSample;
     eMinus2 = eMinus1;
     eMinus1 = error;
