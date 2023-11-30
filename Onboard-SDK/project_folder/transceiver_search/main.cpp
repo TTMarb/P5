@@ -45,7 +45,7 @@
 
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
-
+#define CLIENT_PATH      "tmp/unix_sock.client"
 // Buffer for sending the gps info for the data generator in antenna_dft
 #define SEND_BUFFER_SIZE 3
 double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
@@ -157,30 +157,41 @@ int main(int argc, char** argv) {
 
     int client_sock, rc;
     uint32_t len;
-    struct sockaddr_un client_sockaddr, server_adress;
+    struct sockaddr_un client_sockaddr, server_sockaddr;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
     client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (client_sock == -1) {
-        printf("SOCKET ERROR\n");
+        perror("socket");
         exit(EXIT_FAILURE);
     }
 
+    // Get socket path for both server and client
     client_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, SERVER_PATH);
-    len = sizeof(client_sockaddr);
+    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
 
-    unlink(SERVER_PATH);
-    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
+    server_sockaddr.sun_family = AF_UNIX;
+    strcpy(client_sockaddr.sun_path, SERVER_PATH);
+
+    // Bind the client to the client filename
+    unlink(CLIENT_PATH);
+    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, sizeof(client_sockaddr));
     if (rc == -1) {
-        printf("BIND ERROR\n");
+        perror("bind");
         close(client_sock);
+        exit(EXIT_FAILURE);
+    }
+
+    // Connect client to server filename
+    rc = connect(client_sock, (struc sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
+    if (rc == 1) {
+        perror("connect");
         exit(EXIT_FAILURE);
     }
 
@@ -206,7 +217,8 @@ int main(int argc, char** argv) {
         sendBuf[0] = pos.longitude;
         sendBuf[1] = pos.latitude;
         sendBuf[2] = ang;
-        rc = sendto(client_sock, sendBuf, sizeof(float) * SEND_BUFFER_SIZE, 0, (struct sockaddr*)&client_sockaddr, len);
+
+        rc = send(client_sock, sendBuf, sizeof(float) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
             printf("TRANSCEIVER SEND ERROR!\n");
         } else {
@@ -215,7 +227,7 @@ int main(int argc, char** argv) {
         }
 
         // Stay in a blocked state until data is received
-        rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
                 printf("TRANSCEIVER RECEIVE ERROR\n");

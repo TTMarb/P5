@@ -78,10 +78,11 @@ int main() {
     */
     FILE* file = fopen("output.txt", "w");
     if (file == NULL) {
-        perror("Error opening file");
+        printf("Error opening file\n");
     }
     fprintf(file, "OUTPUT\n");
     fclose(file);
+
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
@@ -90,7 +91,6 @@ int main() {
     // The transceiver position is set X and Y distance from take-off
     int tX = 12;
     int tY = 93;
-    printf("Start antenna_dft process\n");
     while (1) {
         /****** START OF ANTENNA DATA GENERATION ******/
 
@@ -105,12 +105,13 @@ int main() {
         // Receive data for data generation
         FILE* file = fopen("output.txt", "a");
         if (file == NULL) {
-            perror("Error opening file");
+            printf("Error opening file\n");
         }
         fprintf(file, "Am here\n");
         fclose(file);
 
-        rc = recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&peer_sock, &len);
+        // Keep in a blocked state until receiving data
+        rc = recv(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0);
         if (rc == -1) {
             //printf("ANTENNA RECEIVE ERROR\n");
             perror("recvfrom");
@@ -118,7 +119,7 @@ int main() {
             // Data is being received
             FILE* file = fopen("output.txt", "a");
             if (file == NULL) {
-                perror("Error opening file");
+                printf("Error opening file\n");
             }
             fprintf(file, "Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
             fclose(file);
@@ -154,14 +155,13 @@ int main() {
             buf[1] = A2;
 
             calComplete = 1;
-        }
 
-        /****** END OF ANTENNA DATA GENERATION ******/
+            /****** END OF ANTENNA DATA GENERATION ******/
+        }
 
         // Send the data to client after completion of calculation
         if (calComplete == 1) {
-            rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                        sizeof(server_adress));
+            rc = send(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
             if (rc == -1) {
                 if (count == 0) {
                     printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
@@ -187,7 +187,7 @@ int main() {
                 // Data is being sent here!
                 FILE* file = fopen("output.txt", "a");
                 if (file == NULL) {
-                    perror("Error opening file");
+                    printf("Error opening file\n");
                 }
                 fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
 
