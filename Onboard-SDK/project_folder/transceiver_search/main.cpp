@@ -177,7 +177,7 @@ int main(int argc, char** argv) {
     strcpy(client_sockaddr.sun_path, CLIENT_PATH);
 
     server_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, SERVER_PATH);
+    strcpy(server_sockaddr.sun_path, SERVER_PATH);
 
     // Bind the client to the client filename
     unlink(CLIENT_PATH);
