@@ -215,10 +215,10 @@ int main(int argc, char** argv) {
             printf("Send transceiver data...\n");
         }
 
-        printf("Do i reach here!\n")
+        printf("Do i reach here!\n");
 
-            // Stay in a blocked state until data is received
-            rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        // Stay in a blocked state until data is received
+        rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
             if (timeOutSet == 0) {
                 printf("TRANSCEIVER RECEIVE ERROR\n");
