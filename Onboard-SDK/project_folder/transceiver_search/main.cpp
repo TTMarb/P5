@@ -45,10 +45,10 @@
 
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
-
+#define CLIENT_PATH      "/tmp/unix_sock.client"
 // Buffer for sending the gps info for the data generator in antenna_dft
-#define RECV_BUFFER_SIZE 3
-double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
+#define SEND_BUFFER_SIZE 3
+double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 
 // Buffer for receiving antenna data
 #define BUFFER_SIZE 2
@@ -157,29 +157,43 @@ int main(int argc, char** argv) {
 
     int client_sock, rc;
     uint32_t len;
-    struct sockaddr_un client_sockaddr, server_adress;
+    struct sockaddr_un client_sockaddr, server_sockaddr;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
 
     // Create a socket
     client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (client_sock == -1) {
-        printf("SOCKET ERROR\n");
+        perror("socket");
         exit(EXIT_FAILURE);
     }
 
+    // Get socket path for both server and client
     client_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, SERVER_PATH);
-    len = sizeof(client_sockaddr);
-    unlink(SERVER_PATH);
-    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, len);
+    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
+
+    server_sockaddr.sun_family = AF_UNIX;
+    strcpy(server_sockaddr.sun_path, SERVER_PATH);
+
+    // Bind the client to the client filename
+    unlink(CLIENT_PATH);
+    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, sizeof(client_sockaddr));
     if (rc == -1) {
-        printf("BIND ERROR\n");
+        perror("bind");
         close(client_sock);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Got here\n");
+
+    // Connect client to server filename
+    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
+    if (rc == 1) {
+        perror("connect");
         exit(EXIT_FAILURE);
     }
 
@@ -196,30 +210,29 @@ int main(int argc, char** argv) {
     double hField;
 
     while (1) {
-
+        sleep(1);
         // Transmit data to antenna_dft process
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float ang = QtoDEG(vehicle);                   // Get the current UAS angle
 
-        recvBuf[0] = pos.longitude;
-        recvBuf[1] = pos.latitude;
-        recvBuf[2] = ang;
+        sendBuf[0] = pos.longitude;
+        sendBuf[1] = pos.latitude;
+        sendBuf[2] = ang;
 
-        rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                    sizeof(server_adress));
+        rc = send(client_sock, sendBuf, sizeof(float) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
-            printf("SEARCH SENDER ERROR!\n");
+            printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
-            printf("Send transceiver data...\n");
+            printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
         }
 
         // Stay in a blocked state until data is received
-        rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
-                printf("RECEIVE ERROR\n");
+                printf("TRANSCEIVER RECEIVE ERROR\n");
                 timeOutSet = 1;
             }
         } else {
@@ -228,6 +241,7 @@ int main(int argc, char** argv) {
                 printf("\nConnection restablished. Receiving data...\n");
                 timeOutSet = 0;
             }
+            printf("Buffer content %f, %f\n", buf[0], buf[1]);
 
             // Calculate moving average of the antenna voltages for 5 values
             newAvgA1 = movingAvg(avgA1, &sum, index, length, buf[0]);
@@ -238,17 +252,21 @@ int main(int argc, char** argv) {
             }
             hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
 
+            printf("Received %f\n", hField);
+
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
                 close(client_sock);
                 stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
                 printf("Stopping waypoint mission...\n");
                 printf("Starting coarse search!\n");
+                /*
                 pid_t coarsePID;
                 coarsePID = fork(); // Fork the parent process to start new process
                 char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                 char param[] = "UserConfig.txt";
                 startProcess(coarsePID, path, param);
+                */
                 exit(EXIT_SUCCESS); // Exit process
             }
         }

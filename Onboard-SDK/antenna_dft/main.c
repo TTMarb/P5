@@ -4,6 +4,7 @@
  */
 
 #include <errno.h>
+#include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,15 +26,6 @@ double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 int main() {
-    /****** DFT CALCULATION INIT ******/
-
-    /* 
-    * NB! due to errors in SPI driver on the DJI manifold
-    * the UAS DFT calculations for the antenna output are
-    * not included in code, but tested seperately. Instead
-    * the data output for the transceiver search and coarse
-    * search is emulated.
-    */
 
     /****** UNIX DOMAIN SOCKET ******/
 
@@ -44,50 +36,90 @@ int main() {
     * where some implementations have non-standard fields. 
     */
     memset(&server_adress, 0, sizeof(struct sockaddr_un));
+    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
+    memset(recvBuf, 0, sizeof(float) * RECV_BUFFER_SIZE);
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (server_sock == -1) {
-        printf("SOCKET ERROR\n");
+        perror("socket");
         exit(EXIT_FAILURE);
     }
 
     // Set up the sockaddr struct with the path
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    len = sizeof(server_adress);
+
+    unlink(SERVER_PATH);
+    rc = bind(server_sock, (struct sockaddr*)&server_adress, sizeof(server_adress));
+    if (rc == -1) {
+        perror("bind");
+        close(server_adress);
+        exit(EXIT_FAILURE);
+    }
+
     int count = 0;
     int timeOutSet = 0;
+
+    /*
+    // Set the socket to non-blocking when receiving data
+    int flags = fcntl(server_sock, F_GETFL, 0);
+    if (flags == -1) {
+        perror("fcntl");
+        exit(EXIT_FAILURE);
+    }
+    if (fcntl(server_sock, F_SETFL, flags | O_NONBLOCK) == -1) {
+        perror("fcntl");
+        exit(EXIT_FAILURE);
+    }
+    */
+    FILE* file = fopen("output.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file\n");
+    }
+    fprintf(file, "OUTPUT\n");
+    fclose(file);
 
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
     int runOnce = 0;
+    int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
     int tX = 12;
     int tY = 93;
-    printf("Start antenna_dft process\n");
     while (1) {
         /****** START OF ANTENNA DATA GENERATION ******/
 
+        /* 
+        * NB! due to errors in SPI driver on the DJI manifold
+        * the UAS DFT calculations for the antenna output are
+        * not included in code, but tested seperately. Instead
+        * the data output for the transceiver search and coarse
+        * search is emulated.
+        */
+
         // Receive data for data generation
-        rc =
-            recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
+        FILE* file = fopen("output.txt", "a");
+        if (file == NULL) {
+            printf("Error opening file\n");
+        }
+        fprintf(file, "Am here\n");
+        fclose(file);
+
+        // Keep in a blocked state until receiving data
+        rc = recv(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0);
         if (rc == -1) {
-            if (timeOutSet == 0) {
-                printf("RECEIVE ERROR\n");
-                timeOutSet = 1;
-            }
+            //printf("ANTENNA RECEIVE ERROR\n");
+            perror("recvfrom");
         } else {
             // Data is being received
-            printf("Buffer: ");
-            int i;
-            for (i = 0; i < RECV_BUFFER_SIZE; i++) {
-                printf("%f", recvBuf[i]);
-                fflush(stdout);
+            FILE* file = fopen("output.txt", "a");
+            if (file == NULL) {
+                printf("Error opening file\n");
             }
-
+            fprintf(file, "Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
+            fclose(file);
             posLon = recvBuf[0];
             posLat = recvBuf[1];
             angle = recvBuf[2];
@@ -118,36 +150,48 @@ int main() {
             A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
             buf[0] = A1;
             buf[1] = A2;
+
+            calComplete = 1;
+
+            /****** END OF ANTENNA DATA GENERATION ******/
         }
 
-        /****** END OF ANTENNA DATA GENERATION ******/
+        // Send the data to client after completion of calculation
+        if (calComplete == 1) {
+            rc = send(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
+            if (rc == -1) {
+                if (count == 0) {
+                    printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
+                    fflush(stdout);
+                    timeOutSet = 1;
+                } else if (count % 300 == 0) {
+                    printf(".");
+                    fflush(stdout);
+                    // If no clients are available after 2 min, stop data transfer and close process
+                } else if (count > 12000) {
+                    count = 0;
+                    printf("\nNo client timing out...\n");
+                    close(server_sock);
+                    exit(EXIT_FAILURE);
+                }
+                usleep(10000); // 10 ms
+                count++;
+            } else {
+                if (timeOutSet == 1) {
+                    printf("\nConnection reestablished. Sending data...\n");
+                    timeOutSet = 0;
+                }
+                // Data is being sent here!
+                FILE* file = fopen("output.txt", "a");
+                if (file == NULL) {
+                    printf("Error opening file\n");
+                }
+                fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
 
-        // Send the data to client
-        rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                    sizeof(server_adress));
-        if (rc == -1) {
-            if (count == 0) {
-                printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
-                fflush(stdout);
-                timeOutSet = 1;
-            } else if (count % 300 == 0) {
-                printf(".");
-                fflush(stdout);
-                // If no clients are available after 60 s, stop data transfer and close process
-            } else if (count > 6000) {
-                count = 0;
-                printf("\nNo client timing out...\n");
-                close(server_sock);
-                exit(EXIT_FAILURE);
+                fclose(file);
+
+                calComplete = 0;
             }
-            usleep(10000); // 10 ms
-            count++;
-        } else {
-            if (timeOutSet == 1) {
-                printf("\nConnection reestablished. Sending data...\n");
-                timeOutSet = 0;
-            }
-            // Data is being sent here!
         }
     }
 

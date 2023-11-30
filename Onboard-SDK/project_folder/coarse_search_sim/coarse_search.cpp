@@ -291,15 +291,14 @@ PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFre
 /// @brief This function calculates the PI value
 /// @param error The error value that the PI controller should calculate from
 void PIcontroller::updatePIController(float32_t error){
-    PIvalue = Kp*error;
+    PIvalue = Kp;
     //Stops PI from becomming infinite
     if(Ki != 0){
         PIvalue += (sampleTime/Ki)*error;
     }
-    if(PIvalue > 10){
-	PIvalue = 10;
+    if(abs(PIvalue) > 10){
+	PIvalue = (PIvalue/abs(PIvalue))*10;
     }
-    if (PIvalue < -10){
-        PIvalue = -10;
-    }
+    sMinus2 = sMinus1;
+    sMinus1 = error;
 }
