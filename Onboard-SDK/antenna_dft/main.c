@@ -91,6 +91,13 @@ int main() {
         */
 
         // Receive data for data generation
+        FILE* file = fopen("output.txt", "a");
+        if (file == NULL) {
+            perror("Error opening file");
+        }
+        fprintf(file, "Am here\n");
+        fclose(file);
+
         rc =
             recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
