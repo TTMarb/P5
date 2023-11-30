@@ -154,7 +154,7 @@ int main() {
         // Send the data to client after completion of calculation
         if (calComplete == 1) {
             rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-            sizeof(server_adress);
+                        sizeof(server_adress));
             if (rc == -1) {
                 if (count == 0) {
                     perror("send");
