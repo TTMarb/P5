@@ -97,7 +97,7 @@ int main() {
         // Receive data for data generation
 
         // Keep in a blocked state until receiving data
-        rc = recv(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0);
+        rc = recv(server_sock, recvBuf, sizeof(double) * RECV_BUFFER_SIZE, 0);
         if (rc == -1) {
             //printf("ANTENNA RECEIVE ERROR\n");
             perror("recvfrom");
