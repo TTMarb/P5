@@ -65,6 +65,19 @@ int main() {
     }
     */
 
+    // Open a file for writing
+    FILE* file = fopen("output.txt", "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        exit(EXIT_FAILURE);
+    }
+
+    // Redirect stdout to the file
+    if (freopen("output.txt", "w", stdout) == NULL) {
+        perror("freopen");
+        exit(EXIT_FAILURE);
+    }
+
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
