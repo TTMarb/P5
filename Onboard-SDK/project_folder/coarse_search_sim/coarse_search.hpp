@@ -73,6 +73,8 @@ class PIcontroller {
     float32_t Kp = 0.0;
     float32_t Ki = 0.0;
     float32_t sampleTime = 0;
+    float32_t sMinus1 = 0;
+    float32_t sMinus2 = 0;
 };
 
 class DataFaker {
