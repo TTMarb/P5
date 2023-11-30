@@ -51,8 +51,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
     PIcontroller yawRate = PIcontroller(0.75, 0.02, 0);
-    PIcontroller vX = PIcontroller(0.05, 0, 0.5);
-    PIcontroller vY = PIcontroller(0.05, 0, 0.5);
+    PIcontroller vX = PIcontroller(0.05, 0, 0.05);
+    PIcontroller vY = PIcontroller(0.05, 0, 0.05);
 
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
