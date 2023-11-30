@@ -30,20 +30,19 @@ int main() {
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;
-    struct sockaddr_un server_adress, peer_sock;
+    struct sockaddr_un server_adress;
     /* 
     * Clear the whole struct to avoid portability issues,
     * where some implementations have non-standard fields. 
     */
     memset(&server_adress, 0, sizeof(struct sockaddr_un));
-    memset(&peer_sock, 0, sizeof(struct sockaddr_un));
     memset(buf, 0, sizeof(float) * BUFFER_SIZE);
     memset(recvBuf, 0, sizeof(float) * RECV_BUFFER_SIZE);
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (server_sock == -1) {
-        printf("SOCKET ERROR\n");
+        perror("socket");
         exit(EXIT_FAILURE);
     }
 
@@ -51,12 +50,10 @@ int main() {
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
 
-    len = sizeof(server_adress);
-
     unlink(SERVER_PATH);
-    rc = bind(server_sock, (struct sockaddr*)&server_adress, len);
+    rc = bind(server_sock, (struct sockaddr*)&server_adress, sizeof(server_adress));
     if (rc == -1) {
-        printf("BIND ERROR\n");
+        perror("bind");
         close(server_adress);
         exit(EXIT_FAILURE);
     }
