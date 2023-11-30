@@ -95,12 +95,6 @@ int main() {
         */
 
         // Receive data for data generation
-        FILE* file = fopen("output.txt", "a");
-        if (file == NULL) {
-            printf("Error opening file\n");
-        }
-        fprintf(file, "Am here\n");
-        fclose(file);
 
         // Keep in a blocked state until receiving data
         rc = recv(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0);
@@ -152,6 +146,14 @@ int main() {
         }
 
         // Send the data to client after completion of calculation
+
+        FILE* file = fopen("output.txt", "a");
+        if (file == NULL) {
+            printf("Error opening file\n");
+        }
+        fprintf(file, "Got here\n");
+        fclose(file);
+
         if (calComplete == 1) {
             rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                         sizeof(server_adress));
@@ -179,12 +181,12 @@ int main() {
                     timeOutSet = 0;
                 }
                 // Data is being sent here!
+
                 FILE* file = fopen("output.txt", "a");
                 if (file == NULL) {
                     printf("Error opening file\n");
                 }
                 fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
-
                 fclose(file);
 
                 calComplete = 0;
