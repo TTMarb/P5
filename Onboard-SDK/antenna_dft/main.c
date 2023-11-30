@@ -106,7 +106,7 @@ int main() {
             perror("recvfrom");
         } else {
             // Data is being received
-            printf("Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
+            fprintf(file, "Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
 
             posLon = recvBuf[0];
             posLat = recvBuf[1];
@@ -171,10 +171,13 @@ int main() {
                     timeOutSet = 0;
                 }
                 // Data is being sent here!
+                fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
+
                 calComplete = 0;
             }
         }
     }
+    fclose(file);
 
     return 0;
 }
