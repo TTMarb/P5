@@ -195,6 +195,7 @@ int main(int argc, char** argv) {
     float newAvgA1, newAvgA2;
     double hField;
 
+    sleep(5);
     while (1) {
 
         // Transmit data to antenna_dft process
@@ -205,21 +206,21 @@ int main(int argc, char** argv) {
         recvBuf[0] = pos.longitude;
         recvBuf[1] = pos.latitude;
         recvBuf[2] = ang;
-
+        printf("Sending data\n");
         rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
         if (rc == -1) {
-            printf("SEARCH SENDER ERROR!\n");
+            //printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
-            printf("Send transceiver data...\n");
+            printf("Send data\n");
         }
 
         // Stay in a blocked state until data is received
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
             if (timeOutSet == 0) {
-                printf("RECEIVE ERROR\n");
+                printf("TRANSCEIVER RECEIVE ERROR\n");
                 timeOutSet = 1;
             }
         } else {
@@ -237,6 +238,8 @@ int main(int argc, char** argv) {
                 index = 0;
             }
             hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
+
+            printf("Received %f\n");
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {

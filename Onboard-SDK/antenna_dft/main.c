@@ -4,6 +4,7 @@
  */
 
 #include <errno.h>
+#include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,15 +26,6 @@ double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 int main() {
-    /****** DFT CALCULATION INIT ******/
-
-    /* 
-    * NB! due to errors in SPI driver on the DJI manifold
-    * the UAS DFT calculations for the antenna output are
-    * not included in code, but tested seperately. Instead
-    * the data output for the transceiver search and coarse
-    * search is emulated.
-    */
 
     /****** UNIX DOMAIN SOCKET ******/
 
@@ -60,6 +52,19 @@ int main() {
     int count = 0;
     int timeOutSet = 0;
 
+    /*
+    // Set the socket to non-blocking when receiving data
+    int flags = fcntl(server_sock, F_GETFL, 0);
+    if (flags == -1) {
+        perror("fcntl");
+        exit(EXIT_FAILURE);
+    }
+    if (fcntl(server_sock, F_SETFL, flags | O_NONBLOCK) == -1) {
+        perror("fcntl");
+        exit(EXIT_FAILURE);
+    }
+    */
+
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
@@ -71,14 +76,20 @@ int main() {
     while (1) {
         /****** START OF ANTENNA DATA GENERATION ******/
 
+        /* 
+        * NB! due to errors in SPI driver on the DJI manifold
+        * the UAS DFT calculations for the antenna output are
+        * not included in code, but tested seperately. Instead
+        * the data output for the transceiver search and coarse
+        * search is emulated.
+        */
+
         // Receive data for data generation
         rc =
             recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
-            if (timeOutSet == 0) {
-                printf("RECEIVE ERROR\n");
-                timeOutSet = 1;
-            }
+            //printf("ANTENNA RECEIVE ERROR\n");
+            perror("recvfrom");
         } else {
             // Data is being received
             printf("Buffer: ");
@@ -133,8 +144,8 @@ int main() {
             } else if (count % 300 == 0) {
                 printf(".");
                 fflush(stdout);
-                // If no clients are available after 60 s, stop data transfer and close process
-            } else if (count > 6000) {
+                // If no clients are available after 2 min, stop data transfer and close process
+            } else if (count > 12000) {
                 count = 0;
                 printf("\nNo client timing out...\n");
                 close(server_sock);
