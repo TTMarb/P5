@@ -31,13 +31,6 @@ int main() {
 
     int server_sock, len, rc;
     struct sockaddr_un server_adress;
-    /* 
-    * Clear the whole struct to avoid portability issues,
-    * where some implementations have non-standard fields. 
-    */
-    memset(&server_adress, 0, sizeof(struct sockaddr_un));
-    memset(buf, 0, sizeof(float) * BUFFER_SIZE);
-    memset(recvBuf, 0, sizeof(float) * RECV_BUFFER_SIZE);
 
     // Create a socket
     server_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
@@ -47,9 +40,11 @@ int main() {
     }
 
     // Set up the sockaddr struct with the path
+    memset(&server_adress, 0, sizeof(struct sockaddr_un));
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
 
+    // Bind the local socket
     unlink(SERVER_PATH);
     rc = bind(server_sock, (struct sockaddr*)&server_adress, sizeof(server_adress));
     if (rc == -1) {
@@ -158,7 +153,8 @@ int main() {
 
         // Send the data to client after completion of calculation
         if (calComplete == 1) {
-            rc = send(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
+            rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0), (struct sockaddr*)&server_adress,
+            sizeof(server_adress);
             if (rc == -1) {
                 if (count == 0) {
                     perror("send");
