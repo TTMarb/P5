@@ -209,7 +209,7 @@ int main(int argc, char** argv) {
         rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
         if (rc == -1) {
-            printf("SEARCH SENDER ERROR!\n");
+            printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
             printf("Send transceiver data...\n");
@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
         rc = recvfrom(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
             if (timeOutSet == 0) {
-                printf("RECEIVE ERROR\n");
+                printf("TRANSCEIVER RECEIVE ERROR\n");
                 timeOutSet = 1;
             }
         } else {

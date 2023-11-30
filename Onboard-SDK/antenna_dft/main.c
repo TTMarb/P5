@@ -87,7 +87,7 @@ int main() {
             recvfrom(server_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress, &len);
         if (rc == -1) {
             if (timeOutSet == 0) {
-                printf("RECEIVE ERROR\n");
+                printf("ANTENNA RECEIVE ERROR\n");
                 timeOutSet = 1;
             }
         } else {
@@ -144,8 +144,8 @@ int main() {
             } else if (count % 300 == 0) {
                 printf(".");
                 fflush(stdout);
-                // If no clients are available after 60 s, stop data transfer and close process
-            } else if (count > 6000) {
+                // If no clients are available after 2 min, stop data transfer and close process
+            } else if (count > 12000) {
                 count = 0;
                 printf("\nNo client timing out...\n");
                 close(server_sock);
