@@ -67,7 +67,7 @@ int main() {
     // The transceiver position is set X and Y distance from take-off
     int tX = 12;
     int tY = 93;
-
+    printf("Start antenna_dft process\n");
     while (1) {
         /****** START OF ANTENNA DATA GENERATION ******/
 
