@@ -206,7 +206,7 @@ int main(int argc, char** argv) {
         recvBuf[0] = pos.longitude;
         recvBuf[1] = pos.latitude;
         recvBuf[2] = ang;
-
+        printf("Sending data\n");
         rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                     sizeof(server_adress));
         if (rc == -1) {
