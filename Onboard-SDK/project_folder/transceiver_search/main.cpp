@@ -47,8 +47,8 @@
 #define SERVER_PATH      "/tmp/unix_sock.server"
 
 // Buffer for sending the gps info for the data generator in antenna_dft
-#define RECV_BUFFER_SIZE 3
-double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
+#define SEND_BUFFER_SIZE 3
+double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 
 // Buffer for receiving antenna data
 #define BUFFER_SIZE 2
@@ -203,16 +203,15 @@ int main(int argc, char** argv) {
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float ang = QtoDEG(vehicle);                   // Get the current UAS angle
 
-        recvBuf[0] = pos.longitude;
-        recvBuf[1] = pos.latitude;
-        recvBuf[2] = ang;
-        printf("Sending data\n");
-        rc = sendto(client_sock, recvBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&client_sockaddr, len);
+        sendBuf[0] = pos.longitude;
+        sendBuf[1] = pos.latitude;
+        sendBuf[2] = ang;
+        rc = sendto(client_sock, sendBuf, sizeof(float) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&client_sockaddr, len);
         if (rc == -1) {
             printf("TRANSCEIVER SEND ERROR!\n");
         } else {
             // Data is sent here!
-            printf("Send data\n");
+            printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
         }
 
         // Stay in a blocked state until data is received

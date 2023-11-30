@@ -69,6 +69,7 @@ int main() {
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
     int runOnce = 0;
+    int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
     int tX = 12;
     int tY = 93;
@@ -124,36 +125,41 @@ int main() {
             A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
             buf[0] = A1;
             buf[1] = A2;
+
+            calComplete = 1;
         }
 
         /****** END OF ANTENNA DATA GENERATION ******/
 
-        // Send the data to client
-        rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
-                    sizeof(server_adress));
-        if (rc == -1) {
-            if (count == 0) {
-                printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
-                fflush(stdout);
-                timeOutSet = 1;
-            } else if (count % 300 == 0) {
-                printf(".");
-                fflush(stdout);
-                // If no clients are available after 2 min, stop data transfer and close process
-            } else if (count > 12000) {
-                count = 0;
-                printf("\nNo client timing out...\n");
-                close(server_sock);
-                exit(EXIT_FAILURE);
+        // Send the data to client after completion of calculation
+        if (calComplete == 1) {
+            rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                        sizeof(server_adress));
+            if (rc == -1) {
+                if (count == 0) {
+                    printf("SEND ERROR: NO SOCKET AVAILABLE. WAITING");
+                    fflush(stdout);
+                    timeOutSet = 1;
+                } else if (count % 300 == 0) {
+                    printf(".");
+                    fflush(stdout);
+                    // If no clients are available after 2 min, stop data transfer and close process
+                } else if (count > 12000) {
+                    count = 0;
+                    printf("\nNo client timing out...\n");
+                    close(server_sock);
+                    exit(EXIT_FAILURE);
+                }
+                usleep(10000); // 10 ms
+                count++;
+            } else {
+                if (timeOutSet == 1) {
+                    printf("\nConnection reestablished. Sending data...\n");
+                    timeOutSet = 0;
+                }
+                // Data is being sent here!
+                calComplete = 0;
             }
-            usleep(10000); // 10 ms
-            count++;
-        } else {
-            if (timeOutSet == 1) {
-                printf("\nConnection reestablished. Sending data...\n");
-                timeOutSet = 0;
-            }
-            // Data is being sent here!
         }
     }
 
