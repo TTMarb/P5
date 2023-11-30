@@ -188,6 +188,8 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
+    printf("Got here\n");
+
     // Connect client to server filename
     rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
     if (rc == 1) {
