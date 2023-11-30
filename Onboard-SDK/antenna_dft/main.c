@@ -69,8 +69,11 @@ int main() {
     FILE* file = fopen("output.txt", "w");
     if (file == NULL) {
         perror("Error opening file");
-        exit(EXIT_FAILURE);
     }
+
+    fprintf(file, "TEST\n");
+
+    fclose(file);
 
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
