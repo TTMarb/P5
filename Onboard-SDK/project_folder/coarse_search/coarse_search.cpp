@@ -49,27 +49,27 @@ void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO){
 }
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
-    return sqrt(pow(A1,2)+pow(A2,2));
+    return sqrt(pow(*A1,2)+pow(*A2,2));
 }
 
 float calcAlg(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
-        return (acos((A1-A2)/(H+0.001))-M_PI_2)*(180/M_PI);
+        return (acos((*A1-*A2)/(H+0.001))-M_PI_2)*(180/M_PI);
 }
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float *H, float *prevH, int *cnt, int *mult){
     if (H < prevH){
-        if(cnt > (5+1)){
-            mult *= -1;
+        if(*cnt > (5+1)){
+            *mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
         }
     } else { 
         cnt = 0;
     }
-    return vel = ((1-log1p(H))+(1/0.1))*mult;
+    return ((1-log1p(*H))+(1/0.1))*mult;
 }
 
-void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
+void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;

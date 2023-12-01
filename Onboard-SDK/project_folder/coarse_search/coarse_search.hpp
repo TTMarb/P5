@@ -50,7 +50,7 @@
 #include <dji_linux_helpers.hpp>
 
 void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
-void controlVehicle(DJI::OSDK::Vehicle*, float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller*, int);
+void controlVehicle(DJI::OSDK::Vehicle*, float*,float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller*, int);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
