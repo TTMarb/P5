@@ -230,7 +230,7 @@ int main(int argc, char** argv) {
         rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
-                printf("TRANSCEIVER RECEIVE ERROR\n");
+                perror("recv");
                 timeOutSet = 1;
             }
         } else {

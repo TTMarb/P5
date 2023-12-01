@@ -140,6 +140,9 @@ int main() {
             buf[0] = A1;
             buf[1] = A2;
 
+            // Reset the buffer
+            memset(recvBuf, 0, sizeof(double) * RECV_BUFFER_SIZE);
+
             calComplete = 1;
 
             /****** END OF ANTENNA DATA GENERATION ******/
@@ -188,6 +191,8 @@ int main() {
                 }
                 fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
                 fclose(file);
+
+                memset(buf, 0, sizeof(double) * BUFFER_SIZE);
 
                 calComplete = 0;
             }
