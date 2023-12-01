@@ -83,8 +83,8 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    int tX = 12;
-    int tY = 93;
+    int tX = 0;
+    int tY = 72;
     while (1) {
         /****** START OF ANTENNA DATA GENERATION ******/
 
