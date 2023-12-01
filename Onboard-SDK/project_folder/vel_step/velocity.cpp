@@ -133,7 +133,7 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetVelocity, float32_t* currVelo
     //Calculates the offset of the two angles
     float32_t offset = fabs(fabs(targetVelocity) - fabs(*currVelocity));
     //Counts to make sure the system is stable - Setteling time and such
-    if (offset < 0.1) {
+    if (offset < 0.01) {
         *counter = *counter + 1;
     } else {
         *counter = 0;
