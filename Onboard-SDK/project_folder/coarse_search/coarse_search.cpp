@@ -69,7 +69,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float *H, float *prevH, int *cnt, int
     return vel = ((1-log1p(H))+(1/0.1))*mult;
 }
 
-void controlVehicle(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
+void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
