@@ -142,25 +142,62 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    int timeOutset = 0;
+    int timeOutSet = 0;
 
     /*********END OF DOMAIN SOCKET *********/
 
-    while (true) {
-        df.Fake(vehicle, fileIO, true);
-        A1 = df.A1;
-        A2 = df.A2;
-        controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency);
+    while (1) {
 
-        //Break statement - Within 2x of the target
-        if (H > (4096 * 10)) {
-            //Stops the UAV
-            vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
-            std::cout << "Target found! \n";
-            break;
+        / Transmit data to antenna_dft process Telemetry::GlobalPosition pos;
+        pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
+        float ang = QtoDEG(vehicle);                   // Get the current UAS angle
+
+        sendBuf[0] = pos.longitude;
+        sendBuf[1] = pos.latitude;
+        sendBuf[2] = ang;
+
+        rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
+        if (rc == -1) {
+            perror("send");
+        } else {
+            // Data is sent here!
+            printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
         }
-        prevH = H;
-        cnt++;
+
+        // Stay in a blocked state until data is received
+        rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
+        if (rc == -1) {
+            if (timeOutSet == 0) {
+                perror("recv");
+                timeOutSet = 1;
+            }
+        } else {
+            // Error message if connection was briefly lost
+            if (timeOutSet == 1) {
+                printf("\nConnection restablished. Receiving data...\n");
+                timeOutSet = 0;
+            }
+            printf("Received %f %f", buf[0], buf[1]);
+            A1 = buf[0];
+            A2 = buf[1];
+            /*
+            df.Fake(vehicle, fileIO, true);
+            A1 = df.A1;
+            A2 = df.A2;
+            */
+
+            controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency);
+
+            //Break statement - Within 2x of the target
+            if (H > (4096 * 10)) {
+                //Stops the UAV
+                vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
+                std::cout << "Target found! \n";
+                break;
+            }
+            prevH = H;
+            cnt++;
+        }
     }
 
     ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
