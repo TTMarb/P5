@@ -252,8 +252,14 @@ int main(int argc, char** argv) {
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
-
-                vehicle->control->velocityAndYawRateCtrl(0, 0, 0);
+                vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
+                /*    
+                ACK::ErrorCode stopAck = vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
+                if (ACK::getError(stopAck)) {
+                    std::cout << "ERROR in Stopping Waypoint Mission.\n";
+                    ACK::getErrorCodeMessage(stopAck, __func__);
+                }
+                */
                 //stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
 
                 close(client_sock);
