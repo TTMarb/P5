@@ -53,7 +53,11 @@ float calcH(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
 }
 
 float calcAlg(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
+    if(*H == 0){
+        return NULL;}
+    else{
         return (acos((*A1-*A2)/(H+0.001))-M_PI_2)*(180/M_PI);
+    }
 }
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float *H, float *prevH, int *cnt, int *mult){
