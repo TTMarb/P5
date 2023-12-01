@@ -88,7 +88,7 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, FIO* file
         vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
         float sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
         timecounterMilliseconds += 10;
-        df.Fake(vehicle,fileIO,false);
+        //df.Fake(vehicle,fileIO,false);
         usleep(sampleTimeInMicroSeconds);
     }
 }
