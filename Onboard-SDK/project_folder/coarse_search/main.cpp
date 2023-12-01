@@ -148,7 +148,8 @@ int main(int argc, char** argv) {
 
     while (1) {
 
-        / Transmit data to antenna_dft process Telemetry::GlobalPosition pos;
+        // Transmit data to antenna_dft process
+        Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float ang = QtoDEG(vehicle);                   // Get the current UAS angle
 
