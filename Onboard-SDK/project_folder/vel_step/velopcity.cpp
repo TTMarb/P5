@@ -60,7 +60,7 @@ void getRotation(Vehicle* vehicle, float32_t targetVelocity, std::string filenam
     int timestepInMS = 10;
     while (isTargetHit(vehicle, targetVelocity, &currVelocity, &counter, 10)) {
         time = time + timestepInMS;
-        std::string data = std::to_string(time) + "," + std::to_string(fabs(currAngle));
+        std::string data = std::to_string(time) + "," + std::to_string(fabs(currVelocity));
         fileIO.write2file(data);
         std::cout << data << "\n";
         usleep(timestepInMS * 1000);
