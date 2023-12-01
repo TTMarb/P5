@@ -31,4 +31,10 @@ class DataFaker {
     int searchRadius;
 };
 
+
+float64_t calcMfromLat(Telemetry::GlobalPosition);
+
+float64_t calcMfromLon(Telemetry::GlobalPosition);
+
+
 #endif // DATA_FAKER_HPP

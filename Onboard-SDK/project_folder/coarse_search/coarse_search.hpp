@@ -67,9 +67,5 @@ float32_t getSize(float32_t, float32_t);
 // Only required for testing
 void setBroadcastFrequency(Vehicle* vehicle);
 
-float64_t calcMfromLat(Telemetry::GlobalPosition);
-
-float64_t calcMfromLon(Telemetry::GlobalPosition);
-
 void addRandomLocation(float32_t*, float32_t*, int, int);
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

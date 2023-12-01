@@ -182,9 +182,3 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
-
-//This function converts the latitude to meters
-double calcMfromLat(Telemetry::GlobalPosition pos) { return pos.latitude * EARTH_RADIUS; }
-
-//This function converts the longitude to meters
-double calcMfromLon(Telemetry::GlobalPosition pos) { return pos.longitude * cos(pos.latitude) * EARTH_RADIUS; }
