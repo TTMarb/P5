@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
     UAVland(vehicle,functionTimeout);
     // Setup variables for use
     FIO fileIO = FIO();
-    fileIO.changeActiveFile(filename);
+    fileIO.changeActiveFile("test.txt");
     fileIO.createFile();
     //DataFaker df = DataFaker();
     //initializeFake(vehicle, &df, &fileIO);
