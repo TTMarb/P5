@@ -1,9 +1,5 @@
 #include "DataFaker.h"
 
-
-int timecounterMilliseconds = 0;
-
-
 /// @brief Initiated the DataFaker class, which "Fakes" the Antenna data.
 /// @param vehicle Vehicle pointer to the DJI vechicle class
 /// @param sT SampleTime - time between samples
@@ -35,7 +31,7 @@ void DataFaker::init(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
 
 /// @brief Generates the "fake" antenna data from GPS location and the UAV's current angle
 /// @param vehicle 
-void DataFaker::Fake(Vehicle* vehicle, FIO fileIO,bool update){
+void DataFaker::Fake(Vehicle* vehicle, FIO fileIO,bool update, int timecounterMilliseconds){
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); 
         float UAVAngle = QtoDEG(vehicle);

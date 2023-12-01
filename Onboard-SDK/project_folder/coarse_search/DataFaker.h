@@ -19,7 +19,7 @@ class DataFaker {
   public:
     DataFaker(); // Constructor
     void init(Vehicle*, int, int, int); // Constructor
-    void Fake(Vehicle*, FIO, bool); // Serial port
+    void Fake(Vehicle*, FIO, bool, int); // Serial port
     float32_t A1;
     float32_t A2;
 
