@@ -59,6 +59,7 @@
 
 void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
 void controlVehicle(DJI::OSDK::Vehicle*, float*, float*, FIO*, PIcontroller*, PIcontroller*, PIcontroller*, int, int*);
+void UAVtakoff(Vehicle*, int);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
