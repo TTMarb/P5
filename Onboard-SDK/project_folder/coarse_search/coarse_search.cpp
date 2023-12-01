@@ -42,8 +42,8 @@ void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO){
     int yLoc;
     std::cin >> yLoc;
     std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
-    fileIO.changeActiveFile(filename);
-    fileIO.createFile();
+    fileIO->changeActiveFile(filename);
+    fileIO->createFile();
     df = DataFaker(vehicle, 1000, xLoc, yLoc);
 }
 

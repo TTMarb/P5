@@ -1,3 +1,5 @@
+#include "PIcontroller.h"
+
 //Constructor
 PIcontroller::PIcontroller(float Kp_in, float Ki_in, float sampleFrequency){
     Kp = Kp_in;
