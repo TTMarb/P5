@@ -264,6 +264,7 @@ int main(int argc, char** argv) {
                 char param[] = "UserConfig.txt";
                 startProcess(coarsePID, path, param);
                 */
+
                 exit(EXIT_SUCCESS); // Exit process
             }
         }

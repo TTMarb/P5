@@ -17,9 +17,7 @@
 
 /* Path for UNIX domain socket */
 #define SERVER_PATH      "/tmp/unix_sock.server"
-#define CLIENT_PATH      "/tmp/unix_sock.client"
 
-// Buffer for sending the gps info for the data generator in antenna_dft
 #define RECV_BUFFER_SIZE 3
 double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 
@@ -58,25 +56,6 @@ int main() {
     int count = 0;
     int timeOutSet = 0;
 
-    /*
-    // Set the socket to non-blocking when receiving data
-    int flags = fcntl(server_sock, F_GETFL, 0);
-    if (flags == -1) {
-        perror("fcntl");
-        exit(EXIT_FAILURE);
-    }
-    if (fcntl(server_sock, F_SETFL, flags | O_NONBLOCK) == -1) {
-        perror("fcntl");
-        exit(EXIT_FAILURE);
-    }
-    */
-    FILE* file = fopen("output.txt", "w");
-    if (file == NULL) {
-        printf("Error opening file\n");
-    }
-    fprintf(file, "OUTPUT\n");
-    fclose(file);
-
     // Variables for antenna data generation
     double posLat, posLon, angle, iX, iY;
     float A1, A2;
@@ -93,25 +72,19 @@ int main() {
         * the UAS DFT calculations for the antenna output are
         * not included in code, but tested seperately. Instead
         * the data output for the transceiver search and coarse
-        * search is emulated.
+        * search is emulated by receving longitude, latitude,
+        * and angle. The data is used to approximate increasing
+        * voltages for the antennas, when approaching the trans-
+        * ceiver 
         */
 
         // Receive data for data generation
-
-        // Keep in a blocked state until receiving data
         rc = recvfrom(server_sock, recvBuf, sizeof(double) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                       &len);
         if (rc == -1) {
-            //printf("ANTENNA RECEIVE ERROR\n");
             perror("recvfrom");
         } else {
             // Data is being received
-            FILE* file = fopen("output.txt", "a");
-            if (file == NULL) {
-                printf("Error opening file\n");
-            }
-            fprintf(file, "Receiving buffer %f, %f, %f\n", recvBuf[0], recvBuf[1], recvBuf[2]);
-            fclose(file);
             posLon = recvBuf[0];
             posLat = recvBuf[1];
             angle = recvBuf[2];
@@ -143,23 +116,12 @@ int main() {
             buf[0] = A1;
             buf[1] = A2;
 
-            // Reset the buffer
-            memset(recvBuf, 0, sizeof(double) * RECV_BUFFER_SIZE);
-
+            memset(recvBuf, 0, sizeof(double) * RECV_BUFFER_SIZE); // Reset the buffer
             calComplete = 1;
-
-            /****** END OF ANTENNA DATA GENERATION ******/
         }
+        /****** END OF ANTENNA DATA GENERATION ******/
 
         // Send the data to client after completion of calculation
-
-        FILE* file = fopen("output.txt", "a");
-        if (file == NULL) {
-            printf("Error opening file\n");
-        }
-        fprintf(file, "Got here\n");
-        fclose(file);
-
         if (calComplete == 1) {
             rc = sendto(server_sock, buf, sizeof(float) * BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
                         sizeof(server_adress));
@@ -187,16 +149,7 @@ int main() {
                     timeOutSet = 0;
                 }
                 // Data is being sent here!
-
-                FILE* file = fopen("output.txt", "a");
-                if (file == NULL) {
-                    printf("Error opening file\n");
-                }
-                fprintf(file, "Sending data %f, %f\n", buf[0], buf[1]);
-                fclose(file);
-
-                memset(buf, 0, sizeof(double) * BUFFER_SIZE);
-
+                memset(buf, 0, sizeof(double) * BUFFER_SIZE); // Reset buffer
                 calComplete = 0;
             }
         }
