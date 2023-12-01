@@ -78,6 +78,8 @@ int main(int argc, char** argv) {
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
 
+    printf("The PID IS: %d\n", antennaPID);
+
     /********* WAYPOINT MISSION *********/
 
     int functionTimeout = 60;
