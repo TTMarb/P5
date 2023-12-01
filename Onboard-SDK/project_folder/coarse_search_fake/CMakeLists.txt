@@ -42,6 +42,6 @@ add_executable(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/dji_linux_environment.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/dji_linux_helpers.cpp
     main.cpp
-    coarse_search.cpp
-    FIO.cpp)
+    /lib/coarse_search.cpp
+    /lib/FIO.cpp)
 target_link_libraries(${PROJECT_NAME} djiosdk-core)
