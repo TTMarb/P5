@@ -54,44 +54,9 @@ int main(int argc, char** argv) {
         std::cout << "Vehicle not initialized, exiting.\n";
         return -1;
     }
-
-    setBroadcastFrequency(vehicle);
-    Telemetry::Status status = vehicle->broadcast->getStatus();
-
+    
     int functionTimeout = 60;
-
-    std::cout << "About to take control \n";
-
-    ACK::ErrorCode ctrlAuth = vehicle->obtainCtrlAuthority(functionTimeout);
-    if (ACK::getError(ctrlAuth)) {
-        ACK::getErrorCodeMessage(ctrlAuth, __func__);
-    }
-
-    if (status.flight < 2) {
-        sleep(5);
-        std::cout << "Preparing UAV" << std::endl;
-
-        std::cout << "Arm motor \n";
-        ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
-        if (ACK::getError(armAck)) {
-            ACK::getErrorCodeMessage(armAck, __func__);
-        }
-
-        std::cout << "About to take off \n";
-        sleep(5);
-
-        ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
-        if (ACK::getError(takeoffAck)) {
-            ACK::getErrorCodeMessage(takeoffAck, __func__);
-        }
-
-        std::cout << "Took off \n";
-        sleep(10);
-    } else {
-        std::cout << "Drone already in air" << std::endl;
-    }
-    sleep(1);
-
+    UAVland(vehicle,functionTimeout);
     // Setup variables for use
     FIO fileIO = FIO();
     DataFaker df = DataFaker();
@@ -202,18 +167,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
-    if (ACK::getError(landAck)) {
-        ACK::getErrorCodeMessage(landAck, __func__);
-    }
-
-    std::cout << "disarm motor \n";
-    ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
-    if (ACK::getError(disarmAck)) {
-        ACK::getErrorCodeMessage(disarmAck, __func__);
-    }
-
-    vehicle->releaseCtrlAuthority(functionTimeout);
-    std::cout << "Program ended!" << std::endl;
+    UAVland(vehicle,functionTimeout);
     return 0;
 }
