@@ -23,8 +23,6 @@
  * SOFTWARE.
  *
  */
-int timecounterMilliseconds = 0;
-
 #include "coarse_search.hpp"
 #include "DataFaker.h"
 #include "coarse_search.hpp"
