@@ -58,7 +58,7 @@ void stepVel(Vehicle* vehicle, int targetVelocity, std::string filename, FIO fil
     //Creates timing for plotting
     int time = 0;
     int timestepInMS = 10;
-    while (isTargetHit(vehicle, targetVelocity, &currVelocity, &counter, 10)) {
+    while (isTargetHit(vehicle, targetVelocity, &currVelocity, &counter, 100)) {
         time = time + timestepInMS;
         std::string data = std::to_string(time) + "," + std::to_string(fabs(currVelocity));
         fileIO.write2file(data);
