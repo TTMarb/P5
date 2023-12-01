@@ -143,6 +143,7 @@ DataFaker::DataFaker() {
 /// @param sT SampleTime - time between samples
 /// @param sR SearchRadius - The actual distance the antenna can reach
 /// @note Will be removed once actual data can be generated
+
 void DataFaker::init(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
     Telemetry::GlobalPosition pos;
     pos = vehicle->broadcast->getGlobalPosition(); 
