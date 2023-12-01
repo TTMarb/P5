@@ -127,7 +127,7 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetVelocity, float32_t* currVelo
     //Main loop
     //Asks the control to move to target angle
     ///@todo: Change to velocity control
-    vehicle->control->velocityAndYawCtrl(targetVelocity, 0, 0, 0);
+    vehicle->control->velocityAndYawRateCtrl(targetVelocity, 0, 0, 0);
     //Gets the current angle og the system
     *currVelocity = getVelocity(vehicle);
     //Calculates the offset of the two angles
