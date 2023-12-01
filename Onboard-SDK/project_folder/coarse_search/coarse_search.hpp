@@ -49,7 +49,6 @@
 
 void controlVehicle(DJI::OSDK::Vehicle*, float*, float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller* int);
 
-
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
 float32_t getSize(float32_t, float32_t);

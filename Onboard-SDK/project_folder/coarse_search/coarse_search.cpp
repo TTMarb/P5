@@ -30,7 +30,7 @@ int timecounterMilliseconds = 0;
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker *df, FIO * fileIO){
+void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO){
     Telemetry::GlobalPosition pos;
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
@@ -67,7 +67,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float *H, float *prevH, int *cnt, int
     return vel = ((1-log1p(H))+(1/0.1))*mult;
 }
 
-void controlVehicle(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, FIO* fileIO, PIcontroller *yawRate, PIcontroller *vX, PIcontroller *vY, int sampleFrequency){
+void controlVehicle(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
