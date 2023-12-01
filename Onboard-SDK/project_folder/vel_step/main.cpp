@@ -53,6 +53,7 @@ int main(int argc, char** argv) {
     std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
     
+    /*
     std::cout << "About to sleep for 5 secs \n";
     for(int i = 0 ; i < 5; i++){
         std::cout << i << std::endl;
@@ -70,7 +71,7 @@ int main(int argc, char** argv) {
     ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
     if (ACK::getError(takeoffAck)) {
         ACK::getErrorCodeMessage(takeoffAck, __func__);
-    }
+    }*/
 
     sleep(5);
 
