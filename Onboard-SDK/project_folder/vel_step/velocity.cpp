@@ -40,7 +40,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void stepVel(Vehicle* vehicle, float32_t targetVelocity, std::string filename, FIO fileIO) {
+void stepVel(Vehicle* vehicle, int targetVelocity, std::string filename, FIO fileIO) {
     fileIO.changeActiveFile(filename);
     fileIO.createFile();
 
