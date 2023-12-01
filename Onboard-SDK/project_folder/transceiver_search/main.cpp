@@ -46,6 +46,7 @@
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
 #define CLIENT_PATH      "/tmp/unix_sock.client"
+
 // Buffer for sending the gps info for the data generator in antenna_dft
 #define SEND_BUFFER_SIZE 3
 double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
@@ -193,9 +194,7 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    int count = 0;
     int timeOutSet = 0;
-
     // Variables for averaging antenna data
     int index = 0;
     float sum = 0;

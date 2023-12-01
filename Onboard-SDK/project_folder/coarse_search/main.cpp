@@ -32,6 +32,18 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
+// Path for UNIX domain socket
+#define SERVER_PATH      "/tmp/unix_sock.server"
+#define CLIENT_PATH      "/tmp/unix_sock.client"
+
+// Buffer for sending the gps info for the data generator in antenna_dft
+#define SEND_BUFFER_SIZE 3
+double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
+
+// Buffer for receiving antenna data
+#define BUFFER_SIZE 2
+float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
+
 int main(int argc, char** argv) {
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
@@ -91,6 +103,49 @@ int main(int argc, char** argv) {
     PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
     PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
+
+    /********* START OF DOMAIN SOCKET *********/
+
+    int client_sock, rc;
+    uint32_t len;
+    struct sockaddr_un client_sockaddr, server_sockaddr;
+
+    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
+    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
+
+    // Create a socket
+    client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
+    if (client_sock == -1) {
+        perror("socket");
+        exit(EXIT_FAILURE);
+    }
+
+    // Get socket path for both server and client
+    client_sockaddr.sun_family = AF_UNIX;
+    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
+
+    server_sockaddr.sun_family = AF_UNIX;
+    strcpy(server_sockaddr.sun_path, SERVER_PATH);
+
+    // Bind the client to the client filename
+    unlink(CLIENT_PATH);
+    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, sizeof(client_sockaddr));
+    if (rc == -1) {
+        perror("bind");
+        close(client_sock);
+        exit(EXIT_FAILURE);
+    }
+    // Connect client to server filename
+    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
+    if (rc == 1) {
+        perror("connect");
+        exit(EXIT_FAILURE);
+    }
+
+    int timeOutset = 0;
+
+    /*********END OF DOMAIN SOCKET *********/
+
     while (true) {
         df.Fake(vehicle, fileIO, true);
         A1 = df.A1;
