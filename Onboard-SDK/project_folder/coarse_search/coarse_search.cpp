@@ -82,8 +82,8 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
     //Sets velocity and yaw rate
     for (int i = 0; i < sampleFrequency; i++) {
         UAVAngle = QtoDEG(vehicle)*(M_PI / 180);
-        float eX = vel * cosf(UAVAngle);
-        float eY = vel * sinf(UAVAngle);
+        float eX = vel * cos(UAVAngle);
+        float eY = vel * sin(UAVAngle);
         vX->updatePIController(eX);
         vY->updatePIController(eY);
         vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
