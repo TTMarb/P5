@@ -97,10 +97,8 @@ int main(int argc, char** argv) {
         A2 = df.A2;
         controlVehicle(vehicle,&vel,&alg,&fileIO,&yawRate,&vX,&vY,sampleFrequency);
 
-        
-    
         //Break statement - Within 2x of the target
-        if (H > (4096*10)){
+        if (*H > (4096*10)){
             //Stops the UAV
             vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
             std::cout << "Target found! \n";
