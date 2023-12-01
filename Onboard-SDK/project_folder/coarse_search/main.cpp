@@ -43,6 +43,7 @@ double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 // Buffer for receiving antenna data
 #define BUFFER_SIZE 2
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
+int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv) {
     // Setup OSDK.
@@ -148,8 +149,7 @@ int main(int argc, char** argv) {
 
     while (1) {
 
-        // Transmit data to antenna_dft process
-        Telemetry::GlobalPosition pos;
+        / Transmit data to antenna_dft process Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float ang = QtoDEG(vehicle);                   // Get the current UAS angle
 
@@ -187,7 +187,7 @@ int main(int argc, char** argv) {
             A2 = df.A2;
             */
 
-            controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency);
+            controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
 
             //Break statement - Within 2x of the target
             if (H > (4096 * 10)) {
