@@ -6,6 +6,7 @@
 #include <vector>
 #include <math.h>
 #include "FIO.h"
+#include "coarse_search.hpp"
 #define _USE_MATH_DEFINES
 
 // DJI OSDK includes
@@ -30,5 +31,11 @@ class DataFaker {
     float32_t tY;
     int searchRadius;
 };
+
+
+float64_t calcMfromLat(Telemetry::GlobalPosition);
+
+float64_t calcMfromLon(Telemetry::GlobalPosition);
+
 
 #endif // DATA_FAKER_HPP
