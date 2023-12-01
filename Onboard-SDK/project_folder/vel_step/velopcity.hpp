@@ -46,7 +46,7 @@
 void getRotation(Vehicle*, int, std::string, FIO);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
-float32_t getVel(Vehicle*);
+float32_t getVelocity(Vehicle*);
 void setBroadcastFrequency(Vehicle*);
 bool isTargetHit(Vehicle*, float32_t, float32_t*, int*, int);
 
