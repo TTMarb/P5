@@ -207,7 +207,6 @@ int main(int argc, char** argv) {
     double hField;
 
     while (1) {
-        sleep(1);
         // Transmit data to antenna_dft process
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
@@ -226,7 +225,6 @@ int main(int argc, char** argv) {
         }
 
         // Stay in a blocked state until data is received
-        printf("Transceiver not receiving\n");
         rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
