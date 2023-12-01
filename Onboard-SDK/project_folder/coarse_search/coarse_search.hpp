@@ -67,7 +67,7 @@ void addRandomLocation(float32_t*,float32_t*,int,int);
 class DataFaker {
   public:
     DataFaker(); // Constructor
-    init(Vehicle*, int, int, int); // Constructor
+    void init(Vehicle*, int, int, int); // Constructor
     void Fake(Vehicle*,FIO,bool); // Serial port
     float32_t A1;
     float32_t A2;
