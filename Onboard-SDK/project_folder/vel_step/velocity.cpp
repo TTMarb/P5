@@ -30,7 +30,7 @@
  *
  */
 
-#include "velopcity.hpp"
+#include "velocity.hpp"
 #include "FIO.h"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
@@ -41,7 +41,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void getRotation(Vehicle* vehicle, float32_t targetVelocity, std::string filename, FIO fileIO) {
+void stepVel(Vehicle* vehicle, float32_t targetVelocity, std::string filename, FIO fileIO) {
     fileIO.changeActiveFile(filename);
     fileIO.createFile();
 

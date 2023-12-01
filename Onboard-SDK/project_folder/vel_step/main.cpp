@@ -27,7 +27,7 @@
  */
 
 #include <cmath>
-#include "velopcity.hpp"
+#include "velocity.hpp"
 #include "FIO.h"
 
 using namespace DJI::OSDK;
@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
     for (int TA : testangles){
         std::cout << "Going for velocity: " << TA << std::endl;
         std::string filename = "vel" + std::to_string(TA) + ".csv";
-        getRotation(vehicle, TA, filename, fileIO);
+        stepVel(vehicle, TA, filename, fileIO);
     }
 
     ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
