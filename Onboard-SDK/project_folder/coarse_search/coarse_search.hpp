@@ -48,7 +48,7 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-void controlVehicle(DJI::OSDK::Vehicle*, float*, float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller* int);
+void controlVehicle(DJI::OSDK::Vehicle*, float*, float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller*, int);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
