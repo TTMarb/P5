@@ -30,7 +30,7 @@
  *
  */
 
-#include "rotation.hpp"
+#include "velopcity.hpp"
 #include "FIO.h"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
@@ -138,6 +138,6 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetVel, float32_t* currVel, int*
     } else {
         *counter = 0;
     }
-    
+
     return (*counter < counterGoal);
 }

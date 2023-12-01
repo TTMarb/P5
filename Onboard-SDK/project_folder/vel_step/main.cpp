@@ -27,7 +27,7 @@
  */
 
 #include <cmath>
-#include "rotation.hpp"
+#include "velopcity.hpp"
 #include "FIO.h"
 
 using namespace DJI::OSDK;
@@ -53,8 +53,8 @@ int main(int argc, char** argv) {
     std::cout << "About to take control \n";
     vehicle->obtainCtrlAuthority(functionTimeout);
     
-    std::cout << "About to sleep for 30 secs \n";
-    for(int i = 0 ; i < 30; i++){
+    std::cout << "About to sleep for 5 secs \n";
+    for(int i = 0 ; i < 5; i++){
         std::cout << i << std::endl;
         sleep(1);
     }
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
         ACK::getErrorCodeMessage(armAck, __func__);
     }
     std::cout << "About to take off \n";
-    std::cout << "Have slept for 30 secs \n";
+    std::cout << "Have slept for 5 secs \n";
 
     ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
     if (ACK::getError(takeoffAck)) {
