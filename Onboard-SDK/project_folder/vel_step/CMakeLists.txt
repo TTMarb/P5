@@ -42,6 +42,6 @@ add_executable(${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/dji_linux_environment.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/dji_linux_helpers.cpp
     main.cpp
-    velopcity.cpp
+    velocity.cpp
     FIO.cpp)
 target_link_libraries(${PROJECT_NAME} djiosdk-core)
