@@ -59,6 +59,8 @@ int main(int argc, char** argv) {
     UAVland(vehicle,functionTimeout);
     // Setup variables for use
     FIO fileIO = FIO();
+    fileIO.changeActiveFile(filename);
+    fileIO.createFile();
     //DataFaker df = DataFaker();
     //initializeFake(vehicle, &df, &fileIO);
     float alg, vel, A1, A2, H, prevH, sampleFrequency;
