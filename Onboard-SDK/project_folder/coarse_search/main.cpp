@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
     } else {
         std::cout << "Drone already in air" << std::endl;
     }
-    sleep(5);
+    sleep(1);
 
     // Setup variables for use
     tellMeAboutTheData(vehicle);
@@ -92,6 +92,8 @@ int main(int argc, char** argv) {
     if (ACK::getError(disarmAck)) {
         ACK::getErrorCodeMessage(disarmAck, __func__);
     }
+
+    vehicle->releaseCtrlAuthority(functionTimeout);
     std::cout << "Program ended!" << std::endl;
     return 0;
 }
