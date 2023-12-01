@@ -45,7 +45,7 @@ void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO){
     std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
     fileIO->changeActiveFile(filename);
     fileIO->createFile();
-    df = DataFaker(vehicle, 1000, xLoc, yLoc);
+    df->DataFaker(vehicle, 1000, xLoc, yLoc);
 }
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
@@ -85,7 +85,7 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, FIO* file
         UAVAngle = QtoDEG(vehicle);
         vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
         vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
-        vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
+        vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
         float sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
         timecounterMilliseconds += 10;
         //df.Fake(vehicle,fileIO,false);
