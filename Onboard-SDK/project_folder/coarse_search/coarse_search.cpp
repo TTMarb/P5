@@ -51,7 +51,7 @@ void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
 float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
-    return (acos((*A1 - *A2) / (H + 0.001)) - M_PI_2) * (180 / M_PI);
+    return (acos((*A1 - *A2) / (*H + 0.001)) - M_PI_2) * (180 / M_PI);
 }
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult) {
@@ -64,7 +64,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
     } else {
         cnt = 0;
     }
-    return ((1 - log1p(*H)) + (1 / 0.1)) * mult;
+    return ((1 - log1p(*H)) + (1 / 0.1)) * (*mult);
 }
 
 void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate,
@@ -81,9 +81,11 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
     //Calculate velocity in x and y direction
     //Sets velocity and yaw rate
     for (int i = 0; i < sampleFrequency; i++) {
-        UAVAngle = QtoDEG(vehicle);
-        vX->updatePIController(vel * cos(UAVAngle * (M_PI / 180)));
-        vY->updatePIController(vel * sin(UAVAngle * (M_PI / 180)));
+        UAVAngle = QtoDEG(vehicle)*(M_PI / 180);
+        float eX = vel * cos(UAVAngle);
+        float eY = vel * sin(UAVAngle);
+        vX->updatePIController(eX);
+        vY->updatePIController(eY);
         vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
         float sampleTimeInMicroSeconds = sampleTimeInSeconds * 1000 * 1000;
         timecounterMilliseconds += 10;
