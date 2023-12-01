@@ -27,6 +27,7 @@ int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
 #include "coarse_search.hpp"
+#include "DataFaker.h"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
