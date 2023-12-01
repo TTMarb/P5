@@ -34,12 +34,13 @@
 
 // System Includes & definitions
 #include <cmath>
-#include <vector>
+#include <libgen.h>
 #include <math.h>
+#include <vector>
 #define _USE_MATH_DEFINES
+#include "DataFaker.h"
 #include "FIO.h"
 #include "PIcontroller.h"
-#include "DataFaker.h"
 
 #define EARTH_RADIUS (double)6378137.0
 
@@ -50,19 +51,18 @@
 #include <dji_linux_helpers.hpp>
 
 void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
-void controlVehicle(DJI::OSDK::Vehicle*, float*,float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller*, int);
+void controlVehicle(DJI::OSDK::Vehicle*, float*, float*, FIO*, PIcontroller*, PIcontroller*, PIcontroller*, int);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
 float32_t getSize(float32_t, float32_t);
 
-//Ikke nødvendigt i den endelige version, men her kan det bruges til test
+// Only required for testing
 void setBroadcastFrequency(Vehicle* vehicle);
-
 
 float64_t calcMfromLat(Telemetry::GlobalPosition);
 
 float64_t calcMfromLon(Telemetry::GlobalPosition);
 
-void addRandomLocation(float32_t*,float32_t*,int,int);
+void addRandomLocation(float32_t*, float32_t*, int, int);
 #endif // DJIOSDK_MISSIONSAMPLE_HPP

@@ -91,16 +91,16 @@ int main(int argc, char** argv) {
     PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
     PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
-    while(true){
-        df.Fake(vehicle,fileIO,true);
+    while (true) {
+        df.Fake(vehicle, fileIO, true);
         A1 = df.A1;
         A2 = df.A2;
-        controlVehicle(vehicle,&vel,&alg,&fileIO,&yawRate,&vX,&vY,sampleFrequency);
+        controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency);
 
         //Break statement - Within 2x of the target
-        if (*H > (4096*10)){
+        if (*H > (4096 * 10)) {
             //Stops the UAV
-            vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
+            vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
             std::cout << "Target found! \n";
             break;
         }

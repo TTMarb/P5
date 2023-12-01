@@ -26,67 +26,66 @@
 int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
-#include "coarse_search.hpp"
 #include "DataFaker.h"
+#include "coarse_search.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO){
+void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
     Telemetry::GlobalPosition pos;
-    std::cout << "Bout to calculate init position: \n";  
+    std::cout << "Bout to calculate init position: \n";
     pos = vehicle->broadcast->getGlobalPosition();
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
-    std::cin >> xLoc; 
+    std::cin >> xLoc;
     std::cout << "Y-location 4 transceiver: " << std::endl;
     int yLoc;
     std::cin >> yLoc;
-    std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
+    std::string filename = "trace" + std::to_string(xLoc) + std::to_string(yLoc) + ".csv";
     fileIO->changeActiveFile(filename);
     fileIO->createFile();
     df->init(vehicle, 1000, xLoc, yLoc);
 }
 
-float calcH(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
-    return sqrt(pow(*A1,2)+pow(*A2,2));
+float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
+
+float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
+    return (acos((*A1 - *A2) / (H + 0.001)) - M_PI_2) * (180 / M_PI);
 }
 
-float calcAlg(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
-    return (acos((*A1-*A2)/(H+0.001))-M_PI_2)*(180/M_PI);
-}
-
-float calcVel(DJI::OSDK::Vehicle* vehicle, float *H, float *prevH, int *cnt, int *mult){
-    if (H < prevH){
-        if(*cnt > (5+1)){
+float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult) {
+    if (H < prevH) {
+        if (*cnt > (5 + 1)) {
             *mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
         }
-    } else { 
+    } else {
         cnt = 0;
     }
-    return ((1-log1p(*H))+(1/0.1))*(*mult);
+    return ((1 - log1p(*H)) + (1 / 0.1)) * (*mult);
 }
 
-void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
+void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate,
+                    PIcontroller* vX, PIcontroller* vY, int sampleFrequency) {
     std::cout << "Entered tellMeAboutTheData: \n";
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
     int searchRadius = 20;
     float UAVAngle;
-    float sampleTimeInSeconds = 1/sampleFrequency;
+    float sampleTimeInSeconds = 1 / sampleFrequency;
     int maxADCvalue = 4096;
 
     yawRate->updatePIController(alg);
     //Calculate velocity in x and y direction
-    //Sets velocity and yaw rate  
-    for (int i = 0; i < sampleFrequency; i++){
+    //Sets velocity and yaw rate
+    for (int i = 0; i < sampleFrequency; i++) {
         UAVAngle = QtoDEG(vehicle);
-        vX->updatePIController(vel*cos(UAVAngle*(M_PI/180)));
-        vY->updatePIController(vel*sin(UAVAngle*(M_PI/180)));
+        vX->updatePIController(vel * cos(UAVAngle * (M_PI / 180)));
+        vY->updatePIController(vel * sin(UAVAngle * (M_PI / 180)));
         vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
-        float sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
+        float sampleTimeInMicroSeconds = sampleTimeInSeconds * 1000 * 1000;
         timecounterMilliseconds += 10;
         //df.Fake(vehicle,fileIO,false);
         usleep(sampleTimeInMicroSeconds);
@@ -94,8 +93,8 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
 }
 
 /// @brief Calculate the angle (in degrees) between two vectors
-/// @param vector1 
-/// @param vector2 
+/// @param vector1
+/// @param vector2
 /// @return Returns the angle between the vectors
 float getAngle(float vector1, float vector2) {
     float angleBetweenVectors = atan2(vector1, vector2);
@@ -115,7 +114,7 @@ float QtoDEG(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
     float angle;
     quaternion = vehicle->broadcast->getQuaternion();
-    //This code is largely based on a mix of 
+    //This code is largely based on a mix of
     //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
     //and the flight-control sample
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
@@ -123,7 +122,7 @@ float QtoDEG(Vehicle* vehicle) {
 
     //We add +90 to correct the 0 degree angle to be east instead of north
     //We multiply t1 with -1 to rotate anti-clockwise instead of clockwise
-    angle = getAngle(-t1, t0)+90;
+    angle = getAngle(-t1, t0) + 90;
     //After adding 90, the angle can be above 360, so this makes sure it is between 0 and 360
     if (angle > 360) {
         angle -= 360;
@@ -132,9 +131,7 @@ float QtoDEG(Vehicle* vehicle) {
 }
 
 //This functions finds the length of a vector
-float getSize(float y, float x) {
-    return sqrt(pow(x, 2) + pow(y, 2));
-}
+float getSize(float y, float x) { return sqrt(pow(x, 2) + pow(y, 2)); }
 
 //Ikke nødvendigt i den endelige version, men her kan det bruges til test
 void setBroadcastFrequency(Vehicle* vehicle) {
@@ -185,11 +182,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 }
 
 //This function converts the latitude to meters
-double calcMfromLat(Telemetry::GlobalPosition pos){
-    return pos.latitude*EARTH_RADIUS;
-}
+double calcMfromLat(Telemetry::GlobalPosition pos) { return pos.latitude * EARTH_RADIUS; }
 
 //This function converts the longitude to meters
-double calcMfromLon(Telemetry::GlobalPosition pos){
-    return pos.longitude*cos(pos.latitude)*EARTH_RADIUS;
-}
+double calcMfromLon(Telemetry::GlobalPosition pos) { return pos.longitude * cos(pos.latitude) * EARTH_RADIUS; }

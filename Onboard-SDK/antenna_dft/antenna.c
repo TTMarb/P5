@@ -1,5 +1,5 @@
 #include "antenna.h"
-#define EARTH_RADIUS (double)6378137.0
+#define EARTH_RADIUS (double)6378100
 
 //This function converts the latitude to meters
 double calcMfromLat(double posLat) { return posLat * EARTH_RADIUS; }
