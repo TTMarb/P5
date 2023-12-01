@@ -49,7 +49,7 @@ void getRotation(Vehicle* vehicle, float32_t targetVelocity, std::string filenam
     setBroadcastFrequency(vehicle);
 
     //Initialises different parameters used for the rotation
-    float32_t currVel;
+    float32_t currVelocity;
     int counter = 0;
 
     //Print 2 confirm starting angle
@@ -58,7 +58,7 @@ void getRotation(Vehicle* vehicle, float32_t targetVelocity, std::string filenam
     //Creates timing for plotting
     int time = 0;
     int timestepInMS = 10;
-    while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
+    while (isTargetHit(vehicle, targetVelocity, &currVelocity, &counter, 10)) {
         time = time + timestepInMS;
         std::string data = std::to_string(time) + "," + std::to_string(fabs(currAngle));
         fileIO.write2file(data);
@@ -67,7 +67,7 @@ void getRotation(Vehicle* vehicle, float32_t targetVelocity, std::string filenam
     }
 }
 
-float32_t getVel(Vehicle* vehicle) {
+float32_t getVelocity(Vehicle* vehicle) {
     //This function converts the quaternion to degrees
     Telemetry::Vector3f vel;
     vel = vehicle->broadcast->getVelocity();
@@ -123,15 +123,15 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
 
-bool isTargetHit(Vehicle* vehicle, float32_t targetVel, float32_t* currVel, int* counter, int counterGoal) {
+bool isTargetHit(Vehicle* vehicle, float32_t targetVelocity, float32_t* currVelocity, int* counter, int counterGoal) {
     //Main loop
     //Asks the control to move to target angle
     ///@todo: Change to velocity control
-    vehicle->control->velocityAndYawCtrol(targetVel, 0, 0, 0);
+    vehicle->control->velocityAndYawCtrol(targetVelocity, 0, 0, 0);
     //Gets the current angle og the system
-    *currVel = getVel(vehicle);
+    *currVelocity = getVelocity(vehicle);
     //Calculates the offset of the two angles
-    float32_t offset = fabs(fabs(targetVel) - fabs(*currVel));
+    float32_t offset = fabs(fabs(targetVelocity) - fabs(*currVelocity));
     //Counts to make sure the system is stable - Setteling time and such
     if (offset < 0.1) {
         *counter = *counter + 1;
