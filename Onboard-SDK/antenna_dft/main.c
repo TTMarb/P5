@@ -26,6 +26,8 @@ float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 int main() {
 
+    signal(SIGHUP, ignoreSIGHUP);
+
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;

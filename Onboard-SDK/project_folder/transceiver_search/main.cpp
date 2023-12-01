@@ -65,20 +65,17 @@ int main(int argc, char** argv) {
      * The H field is approximated as H_max = K * 1/z^3,
      * where z is the distance to the transceiver.
      */
-    double K, volThreshold, minDist, hMax;
+    double volThreshold, minDist, hMax;
     minDist = 3; // Closest possible distance in m
     hMax = 4096; // Max ADC value
-    // Isolate for K
-    K = hMax * pow(minDist, 3); // Max ADC value at 3 m
     // H field at 20 m
-    volThreshold = K * (1 / pow(20, 3));
+    volThreshold = hMax * (1 / pow(20, 3));
 
+    // Starts the antenna_dft process
     pid_t antennaPID;
     antennaPID = fork(); // Fork the parent process to start new process
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
-
-    printf("The PID IS: %d\n", antennaPID);
 
     /********* WAYPOINT MISSION *********/
 
