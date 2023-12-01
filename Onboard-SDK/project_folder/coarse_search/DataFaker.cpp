@@ -1,3 +1,5 @@
+#include "DataFaker.hpp"
+
 /// @brief Initiated the DataFaker class, which "Fakes" the Antenna data.
 /// @param vehicle Vehicle pointer to the DJI vechicle class
 /// @param sT SampleTime - time between samples
