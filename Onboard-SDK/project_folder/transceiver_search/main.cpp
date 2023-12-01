@@ -252,8 +252,9 @@ int main(int argc, char** argv) {
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
+                // Removed responseTimeout
+                stopMission(vehicle, 0, 0); // Stop waypoint mission if threshold is reached
                 close(client_sock);
-                stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
                 printf("Stopping waypoint mission...\n");
                 printf("Starting coarse search!\n");
                 /*
