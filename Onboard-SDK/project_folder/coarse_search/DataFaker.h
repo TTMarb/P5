@@ -6,6 +6,7 @@
 #include <vector>
 #include <math.h>
 #include "FIO.h"
+#include "coarse_search.h"
 #define _USE_MATH_DEFINES
 
 // DJI OSDK includes
