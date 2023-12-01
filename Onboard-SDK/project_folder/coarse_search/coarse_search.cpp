@@ -26,34 +26,16 @@
 int timecounterMilliseconds = 0;
 
 #include "coarse_search.hpp"
+#include "coarse_search.hpp"
+#include "DataFaker.h"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
-    FIO fileIO = FIO();
-    std::cout << "Entered tellMeAboutTheData: \n";
+void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO){
     Telemetry::GlobalPosition pos;
-    Telemetry::Quaternion quaternion;
-    int searchRadius = 20;
-    float32_t UAVAngle;
-    float32_t A1 = 0;
-    float32_t A2 = 0;
-    float32_t H = 0;
-    float32_t alg = 0;
-    float32_t sampleFrequency = 100;
-    float32_t sampleTimeInSeconds = 1/sampleFrequency;
-    float32_t vel = 0;
-    int maxADCvalue = 4096;
-    int closestDistance = 3;
-    int maxHvalue =pow(closestDistance,3)*maxADCvalue; //3^3
-
     std::cout << "Bout to calculate init position: \n";  
     pos = vehicle->broadcast->getGlobalPosition();
-    PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
-
     std::cout << "X-location 4 transceiver: " << std::endl;
     int xLoc;
     std::cin >> xLoc; 
@@ -61,62 +43,53 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
     int yLoc;
     std::cin >> yLoc;
     std::string filename = "trace" + std::to_string(xLoc)+ std::to_string(yLoc) + ".csv";
-    fileIO.changeActiveFile(filename);
-    fileIO.createFile();
+    fileIO->changeActiveFile(filename);
+    fileIO->createFile();
+    df->init(vehicle, 1000, xLoc, yLoc);
+}
 
+float calcH(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
+    return sqrt(pow(A1,2)+pow(A2,2));
+}
 
-    DataFaker df = DataFaker(vehicle, 1000, xLoc, yLoc);
-    float32_t prevH;
-    int cnt = 0;
-    int mult = 1;
-    while(true){
-        //Get new data
-        df.Fake(vehicle,fileIO,true);
-        A1 = df.A1;
-        A2 = df.A2;
-        
-        H = sqrt(pow(A1,2)+pow(A2,2));
-        //@TODO: istedet for at tilføje 0.001 til H, skal vi have lavet en if else statement :D
-        alg = acos((A1-A2)/(H+0.001))-M_PI_2;
-        alg = alg*(180/M_PI);
-        if (H < prevH){
-            if(cnt > (5+1)){
-                mult *= -1;
+float calcAlg(DJI::OSDK::Vehicle* vehicle, float *A1, float *A2, float *H){
+        return (acos((A1-A2)/(H+0.001))-M_PI_2)*(180/M_PI);
+}
+
+float calcVel(DJI::OSDK::Vehicle* vehicle, float *H, float *prevH, int *cnt, int *mult){
+    if (H < prevH){
+        if(cnt > (5+1)){
+            mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
-            }
-        } else { 
-            cnt = 0;
         }
-        vel = ((1-log1p(H))+(1/0.1))*mult;
-        yawRate.updatePIController(alg);
-        //Calculate velocity in x and y direction
-        //Sets velocity and yaw rate  
-        for (int i = 0; i < sampleFrequency; i++){
-            UAVAngle = QtoDEG(vehicle);
-            vX.updatePIController(vel*cos(UAVAngle*(M_PI/180)));
-            vY.updatePIController(vel*sin(UAVAngle*(M_PI/180)));
-            vehicle->control->velocityAndYawRateCtrl(vX.PIvalue, vY.PIvalue, 0, yawRate.PIvalue);
-            float32_t sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
-            timecounterMilliseconds += 10;
-            df.Fake(vehicle,fileIO,false);
-            usleep(sampleTimeInMicroSeconds);
-        }
-        std::cout << "Time: " << timecounterMilliseconds << std::endl;
-        std::cout <<"\t A1: " << A1 << ", A2: " << A2 << ", H: " << H << ", alg: " << alg << ", vel: " << vel << "\n";
-        std::cout << "\t Drone angle: " << UAVAngle << ", vX:"<< vX.PIvalue<< ", vY:"<< vY.PIvalue << "\n";
-        std::cout << "\t yawRate.pi: " << yawRate.PIvalue <<  std::endl;
+    } else { 
+        cnt = 0;
+    }
+    return vel = ((1-log1p(H))+(1/0.1))*mult;
+}
 
-        //Break statement - Within 2x of the target
-        if (H > (4096*10)){
-            //Stops the UAV
-            vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
-            std::cout << "Target found! \n";
-            break;
-        }
-        prevH = H;
-        cnt++;
-        //sampleFrequency => sampletime in us
+void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, FIO* fileIO, PIcontroller* yawRate, PIcontroller* vX, PIcontroller* vY, int sampleFrequency){
+    std::cout << "Entered tellMeAboutTheData: \n";
+    Telemetry::GlobalPosition pos;
+    Telemetry::Quaternion quaternion;
+    int searchRadius = 20;
+    float UAVAngle;
+    float sampleTimeInSeconds = 1/sampleFrequency;
+    int maxADCvalue = 4096;
+
+    yawRate->updatePIController(alg);
+    //Calculate velocity in x and y direction
+    //Sets velocity and yaw rate  
+    for (int i = 0; i < sampleFrequency; i++){
+        UAVAngle = QtoDEG(vehicle);
+        vX->updatePIController(vel*cos(UAVAngle*(M_PI/180)));
+        vY->updatePIController(vel*sin(UAVAngle*(M_PI/180)));
+        vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
+        float sampleTimeInMicroSeconds = sampleTimeInSeconds*1000*1000;
+        timecounterMilliseconds += 10;
+        //df.Fake(vehicle,fileIO,false);
+        usleep(sampleTimeInMicroSeconds);
     }
 }
 
@@ -124,8 +97,8 @@ void tellMeAboutTheData(DJI::OSDK::Vehicle* vehicle){
 /// @param vector1 
 /// @param vector2 
 /// @return Returns the angle between the vectors
-float32_t getAngle(float32_t vector1, float32_t vector2) {
-    float32_t angleBetweenVectors = atan2(vector1, vector2);
+float getAngle(float vector1, float vector2) {
+    float angleBetweenVectors = atan2(vector1, vector2);
     //converts from -pi to pi to 0 to 2pi
     if (angleBetweenVectors < 0) {
         angleBetweenVectors += 2 * M_PI;
@@ -138,9 +111,9 @@ float32_t getAngle(float32_t vector1, float32_t vector2) {
 /// @brief Reads the Quaternation degrees, and converts them into a yaw degree.
 /// @param vehicle Pointer to the DJI vehicle class
 /// @return Returns the drones current angle on east
-float32_t QtoDEG(Vehicle* vehicle) {
+float QtoDEG(Vehicle* vehicle) {
     Telemetry::Quaternion quaternion;
-    float32_t angle;
+    float angle;
     quaternion = vehicle->broadcast->getQuaternion();
     //This code is largely based on a mix of 
     //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
@@ -158,61 +131,8 @@ float32_t QtoDEG(Vehicle* vehicle) {
     return angle;
 }
 
-/// @brief Initiated the DataFaker class, which "Fakes" the Antenna data.
-/// @param vehicle Vehicle pointer to the DJI vechicle class
-/// @param sT SampleTime - time between samples
-/// @param sR SearchRadius - The actual distance the antenna can reach
-/// @note Will be removed once actual data can be generated
-DataFaker::DataFaker(Vehicle* vehicle, int sT, int xLoc, int yLoc) {
-    Telemetry::GlobalPosition pos;
-    pos = vehicle->broadcast->getGlobalPosition(); 
-    sampleTime = sT;
-
-    iY = calcMfromLat(pos);
-    iX = calcMfromLon(pos);
-    tX = xLoc;
-    tY = yLoc;
-
-    std::cout << "target position calculated: tX = " << tX << ", tY = " << tY << "\n";
-    std::cout << "about to enter while loop: \n";
-}
-
-/// @brief Generates the "fake" antenna data from GPS location and the UAV's current angle
-/// @param vehicle 
-void DataFaker::Fake(Vehicle* vehicle, FIO fileIO,bool update){
-        Telemetry::GlobalPosition pos;
-        pos = vehicle->broadcast->getGlobalPosition(); 
-        float32_t UAVAngle = QtoDEG(vehicle);
-        float32_t dY = calcMfromLat(pos)-iY;
-        float32_t dX = calcMfromLon(pos)-iX;
-        float32_t tA1;
-        float32_t tA2;
-        std::cout << "dX: " << dX << ", dY: " << dY << "\n";
-        float32_t distanceTo = getSize(dY-tY, dX-tX);
-        std::cout << "distanceTo: " << distanceTo << "\n";
-        int maxADCvalue = 4096;
-        float32_t signalStrength = maxADCvalue * (1 / pow(distanceTo, 3));
-        std::cout << "signalStrength: " << signalStrength << "\n";
-        //Finds the difference between the UAVs angle and the targets angle
-        float32_t targetAngle = 180-2*getAngle(dY-tY, dX-tX);
-        if (targetAngle < 0) {
-            targetAngle += 360;
-        }
-        float32_t diffAngle = targetAngle-UAVAngle;
-        tA1 = fabs(signalStrength*cos((diffAngle*M_PI/180)+M_PI_4));
-        tA2 = fabs(signalStrength*cos((diffAngle*M_PI/180)-M_PI_4));
-        if(update){
-            A1 = tA1;
-            A2 = tA2;
-            std::cout << "\t Distance from sender: " << distanceTo << "dX: " << dX << ", dY: " << dY << "\n";
-        }else{ 
-            std::string data = std::to_string(timecounterMilliseconds) + "," + std::to_string(dX) + "," + std::to_string(dY)+ "," + std::to_string(tA1)+ "," + std::to_string(tA2)+ "," + std::to_string(signalStrength);
-            fileIO.write2file(data);
-        }
-}
-
 //This functions finds the length of a vector
-float32_t getSize(float32_t y, float32_t x) {
+float getSize(float y, float x) {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
@@ -265,38 +185,11 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 }
 
 //This function converts the latitude to meters
-float64_t calcMfromLat(Telemetry::GlobalPosition pos){
+double calcMfromLat(Telemetry::GlobalPosition pos){
     return pos.latitude*EARTH_RADIUS;
 }
 
 //This function converts the longitude to meters
-float64_t calcMfromLon(Telemetry::GlobalPosition pos){
+double calcMfromLon(Telemetry::GlobalPosition pos){
     return pos.longitude*cos(pos.latitude)*EARTH_RADIUS;
-}
-
-//*************************************************************************************//
-//Implementation of the PIController class - This is an implementation of the controller used in the system
-//*************************************************************************************//
-//Constructor
-PIcontroller::PIcontroller(float32_t Kp_in, float32_t Ki_in, float32_t sampleFrequency){
-    Kp = Kp_in;
-    Ki = Ki_in;
-    sampleTime = 1/sampleFrequency;
-    PIvalue = 0;
-    std::cout << "Setup op PIcontroller done \n \t values: Kp: " << Kp << ", Ki: " << Ki << ", sampleTime: " <<sampleTime << ", init pi: " << PIvalue << std::endl;
-}
-
-/// @brief This function calculates the PI value
-/// @param error The error value that the PI controller should calculate from
-void PIcontroller::updatePIController(float32_t error){
-    PIvalue = Kp;
-    //Stops PI from becomming infinite
-    if(Ki != 0){
-        PIvalue += (sampleTime/Ki)*error;
-    }
-    if(abs(PIvalue) > 10){
-	PIvalue = (PIvalue/abs(PIvalue))*10;
-    }
-    sMinus2 = sMinus1;
-    sMinus1 = error;
 }

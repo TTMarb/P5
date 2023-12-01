@@ -38,8 +38,6 @@
 #include <math.h>
 #define _USE_MATH_DEFINES
 #include "FIO.h"
-#include "PIcontroller.h"
-#include "DataFaker.h"
 
 #define EARTH_RADIUS (double)6378137.0
 
@@ -49,8 +47,7 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
-void controlVehicle(DJI::OSDK::Vehicle*, float*,FIO*,PIcontroller*, PIcontroller*, PIcontroller*, int);
+void tellMeAboutTheData(DJI::OSDK::Vehicle*);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
@@ -65,4 +62,36 @@ float64_t calcMfromLat(Telemetry::GlobalPosition);
 float64_t calcMfromLon(Telemetry::GlobalPosition);
 
 void addRandomLocation(float32_t*,float32_t*,int,int);
+
+class PIcontroller {
+  public:
+    float32_t PIvalue = 0.0;
+    PIcontroller(float32_t,float32_t,float32_t); // Constructor
+    void updatePIController(float32_t); // Serial port
+
+  private:
+    float32_t Kp = 0.0;
+    float32_t Ki = 0.0;
+    float32_t sampleTime = 0;
+    float32_t sMinus1 = 0;
+    float32_t sMinus2 = 0;
+};
+
+class DataFaker {
+  public:
+    DataFaker(Vehicle*, int, int, int); // Constructor
+    void Fake(Vehicle*,FIO,bool); // Serial port
+    float32_t A1;
+    float32_t A2;
+
+  private:
+    float32_t sampleTime;
+    float32_t iX;
+    float32_t iY;
+    float32_t tX;
+    float32_t tY;
+    int searchRadius;
+};
+
+
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
