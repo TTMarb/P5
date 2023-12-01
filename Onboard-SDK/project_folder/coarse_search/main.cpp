@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
         df.Fake(vehicle,fileIO,true);
         A1 = df.A1;
         A2 = df.A2;
-        controlVehicle(vehicle,&A1,&A1,&fileIO,&yawRate,&vX,&vY,sampleFrequency);
+        controlVehicle(vehicle,&vel,&fileIO,&yawRate,&vX,&vY,sampleFrequency);
 
         
     
