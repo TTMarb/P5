@@ -17,6 +17,7 @@
 
 /* Path for UNIX domain socket */
 #define SERVER_PATH      "/tmp/unix_sock.server"
+#define CLIENT_PATH      "/tmp/unix_sock.client"
 
 // Buffer for sending the gps info for the data generator in antenna_dft
 #define RECV_BUFFER_SIZE 3
@@ -43,6 +44,7 @@ int main() {
     memset(&server_adress, 0, sizeof(struct sockaddr_un));
     server_adress.sun_family = AF_UNIX;
     strcpy(server_adress.sun_path, SERVER_PATH);
+    len = sizeof(server_adress);
 
     // Bind the local socket
     unlink(SERVER_PATH);
@@ -97,7 +99,8 @@ int main() {
         // Receive data for data generation
 
         // Keep in a blocked state until receiving data
-        rc = recv(server_sock, recvBuf, sizeof(double) * RECV_BUFFER_SIZE, 0);
+        rc = recvfrom(server_sock, recvBuf, sizeof(double) * RECV_BUFFER_SIZE, 0, (struct sockaddr*)&server_adress,
+                      &len);
         if (rc == -1) {
             //printf("ANTENNA RECEIVE ERROR\n");
             perror("recvfrom");
