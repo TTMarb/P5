@@ -82,12 +82,12 @@ int main(int argc, char** argv) {
     //Request the desired angle
     std::cout << "Beginning tests" << std::endl;
 
-    std::vector<int> testangles={1,2,5,10};
+    std::vector<int> testVelocities={1,2,5,10};
 
-    for (int TA : testangles){
-        std::cout << "Going for velocity: " << TA << std::endl;
+    for (int TV : testVelocities){
+        std::cout << "Going for velocity: " << TV << std::endl;
         std::string filename = "vel" + std::to_string(TA) + ".csv";
-        stepVel(vehicle, TA, filename, fileIO);
+        stepVel(vehicle, TV, filename, fileIO);
     }
 
     ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
