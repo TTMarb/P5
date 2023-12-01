@@ -31,7 +31,6 @@
  */
 
 #include "velocity.hpp"
-#include "FIO.h"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
 #include <fstream>
