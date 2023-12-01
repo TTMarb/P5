@@ -47,7 +47,7 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-void controlVehicle(DJI::OSDK::Vehicle*, float, float, int);
+void tellMeAboutTheData(DJI::OSDK::Vehicle*);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);
@@ -79,8 +79,7 @@ class PIcontroller {
 
 class DataFaker {
   public:
-    DataFaker(); // Constructor
-    init(Vehicle*, int, int, int); // Constructor
+    DataFaker(Vehicle*, int, int, int); // Constructor
     void Fake(Vehicle*,FIO,bool); // Serial port
     float32_t A1;
     float32_t A2;

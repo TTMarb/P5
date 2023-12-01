@@ -80,35 +80,7 @@ int main(int argc, char** argv) {
     sleep(1);
 
     // Setup variables for use
-    FIO fileIO = FIO();
-    DataFaker df = DataFaker();
-    initializeFake(vehicle, &df, &fileIO);
-    float alg, vel, A1, A2, H, prevH, sampleFrequency;
-    int cnt, mult;
-    A1 = 0;
-    A2 = 0;
-    sampleFrequency = 100;
-    PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
-    while(true){
-        df.Fake(vehicle,fileIO,true);
-        A1 = df.A1;
-        A2 = df.A2;
-        controlVehicle(vehicle,&A1,&A1,&fileIO,&yawRate,&vX,&vY,sampleFrequency);
-
-        
-    
-        //Break statement - Within 2x of the target
-        if (H > (4096*10)){
-            //Stops the UAV
-            vehicle->control->velocityAndYawRateCtrl(0,0,0,0);
-            std::cout << "Target found! \n";
-            break;
-        }
-        prevH = H;
-        cnt++;
-    }
+    tellMeAboutTheData(vehicle);
 
     ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
     if (ACK::getError(landAck)) {
