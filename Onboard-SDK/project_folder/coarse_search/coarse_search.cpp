@@ -24,13 +24,13 @@
  *
  */
 #include "coarse_search.hpp"
-#include "DataFaker.h"
+//#include "DataFaker.h"
 #include "coarse_search.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
+/*void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
     Telemetry::GlobalPosition pos;
     std::cout << "Bout to calculate init position: \n";
     pos = vehicle->broadcast->getGlobalPosition();
@@ -44,7 +44,7 @@ void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
     fileIO->changeActiveFile(filename);
     fileIO->createFile();
     df->init(vehicle, 1000, xLoc, yLoc);
-}
+}*/
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
