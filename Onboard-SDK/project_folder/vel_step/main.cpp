@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 
     for (int TV : testVelocities){
         std::cout << "Going for velocity: " << TV << std::endl;
-        std::string filename = "vel" + std::to_string(TA) + ".csv";
+        std::string filename = "vel" + std::to_string(TV) + ".csv";
         stepVel(vehicle, TV, filename, fileIO);
     }
 
