@@ -69,4 +69,4 @@ float32_t getSize(float32_t, float32_t);
 void setBroadcastFrequency(Vehicle* vehicle);
 
 void addRandomLocation(float32_t*, float32_t*, int, int);
-#endif // DJIOSDK_MISSIONSAMPLE_HPP
+#endif // DJIOSDK_MISSIONSAMPLE_HPP 

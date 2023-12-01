@@ -228,6 +228,6 @@ void UAVland(Vehicle* vehicle, int functionTimeout) {
         ACK::getErrorCodeMessage(disarmAck, __func__);
     }
 
-    std::cout << "Release control authority \n"
+    std::cout << "Release control authority. \n"
     vehicle->releaseCtrlAuthority(functionTimeout);
 }
