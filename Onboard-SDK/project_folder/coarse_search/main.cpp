@@ -142,7 +142,7 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    int timeOutset = 0;
+    int timeOutSet = 0;
 
     /*********END OF DOMAIN SOCKET *********/
 
