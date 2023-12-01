@@ -46,6 +46,7 @@ void stepVel(Vehicle* vehicle, int targetVelocity, std::string filename, FIO fil
 
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
+    vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
 
     //Initialises different parameters used for the rotation
     float32_t currVelocity;
