@@ -156,7 +156,7 @@ int main(int argc, char** argv) {
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
 
             //Break statement - Within 2x of the target
-            if (H > (4096 * 10)) {
+            if (H > (4096 * 10)) { //<- Within 0.5 m :P
                 //Stops the UAV
                 vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
                 std::cout << "Target found! \n";
