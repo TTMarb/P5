@@ -73,7 +73,7 @@ float32_t getVelocity(Vehicle* vehicle) {
     vel = vehicle->broadcast->getVelocity();
     //Largely based on a mix of https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_(in_3-2-1_sequence)_conversion
     //and the flight-control sample
-    return vel.y;
+    return vel.x;
 }
 
 void setBroadcastFrequency(Vehicle* vehicle) {
