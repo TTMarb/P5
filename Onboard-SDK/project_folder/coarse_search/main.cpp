@@ -74,7 +74,6 @@ int main(int argc, char** argv) {
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
 
     /********* START OF DOMAIN SOCKET *********/
-
     int client_sock, rc;
     uint32_t len;
     struct sockaddr_un client_sockaddr, server_sockaddr;
