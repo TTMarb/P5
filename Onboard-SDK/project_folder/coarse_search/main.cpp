@@ -57,6 +57,7 @@ int main(int argc, char** argv) {
     
     int functionTimeout = 60;
     UAVland(vehicle,functionTimeout);
+    
     // Setup variables for use
     FIO fileIO = FIO();
     fileIO.changeActiveFile("test.txt");
@@ -115,7 +116,6 @@ int main(int argc, char** argv) {
     /*********END OF DOMAIN SOCKET *********/
 
     while (1) {
-
         // Transmit data to antenna_dft process
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
@@ -169,6 +169,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    UAVland(vehicle,functionTimeout);
+    //Set the bool to true to land the UAV, false to stay in the air
+    UAVstop(vehicle,true,functionTimeout);
     return 0;
 }
