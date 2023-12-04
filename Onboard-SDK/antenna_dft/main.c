@@ -61,8 +61,8 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    int tX = 0;
-    int tY = 33;
+    double tX = 10.035833333333333;
+    double tY = 57.0611111;
     while (1) {
         sleep(1);
 
@@ -94,12 +94,14 @@ int main() {
             if (runOnce == 0) {
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
+                tY = calcMfromLat(tY);
+                tX = calcMfromLon(tY, tX);
                 runOnce = 1;
             }
 
             // Updates the distance
-            float dY = calcMfromLat(posLat) - iY;
-            float dX = calcMfromLon(posLat, posLon) - iX;
+            float dY = calcMfromLat(posLat);// - iY;
+            float dX = calcMfromLon(posLat);//, posLon) - iX;
             //calculates the distance between the UAV and the target
             float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
             //Approximates the signal strength based on the distance
