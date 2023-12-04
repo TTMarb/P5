@@ -54,7 +54,7 @@ float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult, float Kp) {
     if (H < prevH) {
-        if (*cnt > 5) {
+        if (*cnt > 5) { 
             *mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
@@ -64,6 +64,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
     }
     float log1pH = log1p(*H);
     float returnvalue = ((1 - log1pH) + (4));
+    printf("H: %f, log1pH: %f, returnvalue: %f, mult: %i\n", *H, log1pH, returnvalue, mult);
     return returnvalue * (*mult);
 }
 
