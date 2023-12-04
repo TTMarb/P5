@@ -45,6 +45,7 @@ using namespace DJI::OSDK::Telemetry;
     fileIO->createFile();
     df->init(vehicle, 1000, xLoc, yLoc);
 }*/
+int cnt;
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
@@ -58,6 +59,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
     }
     if (*H < *prevH) {
         printf("H small %i times!", *cnt)
+        cnt++;
         if (*cnt > 5) {
             *mult = (*mult) * (-1);
             std::cout << "\t\t\t changed velocityraptor" << std::endl;

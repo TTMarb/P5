@@ -63,7 +63,7 @@ void UAVstop(Vehicle*,bool, int);
 
 float calcH(DJI::OSDK::Vehicle*, float*, float*, float*);
 float calcAlg(DJI::OSDK::Vehicle*, float*, float*, float*);
-float calcVel(DJI::OSDK::Vehicle*, float*, float*, int*, int*, float);
+float calcVel(DJI::OSDK::Vehicle*, float*, float*, int*, float);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);

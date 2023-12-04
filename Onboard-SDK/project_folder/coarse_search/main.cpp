@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
     //DataFaker df = DataFaker();
     //initializeFake(vehicle, &df, &fileIO);
     float alg, vel, A1, A2, H, prevH, sampleFrequency,velKp;
-    int cnt, mult;
+    int mult;
     A1 = 0;
     A2 = 0;
     sampleFrequency = 100;
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         if (soc.receive(&A1, &A2)) {
             H = calcH(vehicle, &A1, &A2, &H);
             alg = calcAlg(vehicle, &A1, &A2, &H);
-            vel = calcVel(vehicle, &H, &prevH, &cnt, &mult, velKp);
+            vel = calcVel(vehicle, &H, &prevH, &mult, velKp);
             std::cout << "\tH: " << H << " Alg: " << alg << " Vel: " << vel << std::endl;
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
             std::cout << "\tyawRate: " << yawRate.PIvalue << " vX: " << vX.PIvalue << " vY: " << vY.PIvalue
@@ -86,7 +86,6 @@ int main(int argc, char** argv) {
                 break;
             }
             prevH = H;
-            cnt++;
         }
     }
     close(soc.client_sock);
