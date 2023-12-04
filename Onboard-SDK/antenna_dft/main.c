@@ -25,7 +25,7 @@ double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 int main() {
-
+    sleep(1);
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;
