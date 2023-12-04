@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
     A1 = 0;
     A2 = 0;
     sampleFrequency = 100;
-    velKp = 0.05;
+    velKp = 0.1;
     PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
     PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
             std::cout << "\tyawRate: " << yawRate.PIvalue << " vX: " << vX.PIvalue << " vY: " << vY.PIvalue
                       << std::endl;
             //Break statement - Within 2x of the target
-            if (H > (4096 * 10)) { //<- Within 0.5 m :P
+            if (H > (151)) { //<- Within 3 m :P
                 //Stops the UAV
                 vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
                 std::cout << "Target found! \n";
