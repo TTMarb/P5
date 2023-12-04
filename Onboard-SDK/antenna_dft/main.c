@@ -61,8 +61,8 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    double tY = 10.035939*(3.14159265359/180);
     double tX = 57.061285*(3.14159265359/180);
+    double tY = 10.035939*(3.14159265359/180);
     while (1) {
         sleep(1);
 
@@ -95,8 +95,8 @@ int main() {
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
                 printf("\t\ttX: %f, tY: %f\n", tX, tY);
-                tY = calcMfromLat(tY);
-                tX = calcMfromLon(tY, tX);
+                tX = calcMfromLat(tX);
+                tY = calcMfromLon(tX, tY);
                 printf("\t\ttX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
