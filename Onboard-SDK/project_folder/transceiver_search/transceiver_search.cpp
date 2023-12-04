@@ -156,8 +156,8 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
 
         if (i % 2 != 0) {
             mult = mult * -1;
-            dX = (cos(angle * (M_PI / 180)) * latM)*mult;
-            dY = (sin(angle * (M_PI / 180)) * latM)*mult;
+            dX = (cos(angle * (M_PI / 180)) * latM) * mult;
+            dY = (sin(angle * (M_PI / 180)) * latM) * mult;
 
         } else // Side ways increment
         {
@@ -201,17 +201,16 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
 void startProcess(pid_t pid, char* path, char* param, pid_t prevPid) {
     char* bname = basename(path); // Get process name from path argument
     char PID[20];
-    //sprintf(PID, "%d", prevPid);
+    sprintf(PID, "%d", prevPid);
 
     if (pid == -1) {
         printf("Error while forking %s\n", bname);
         // Close write and read end of pipe
-
         exit(EXIT_FAILURE);
     } else if (pid == 0) { // Child process
         printf("Child process %s initiated. PID is %d\n", bname, getpid());
-        char* const args[] = {param};
-        char* const envp[] = {"PID=bar", NULL};
+        char* const args[] = {param, NULL};
+        char* const envp[] = {PID, NULL};
         execve(path, args, envp); // Override the child process with the binary file
         perror("execve");
         exit(EXIT_FAILURE); // Exit the child process if it fails

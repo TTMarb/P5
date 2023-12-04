@@ -30,17 +30,10 @@
 
 int timecounterMilliseconds = 0;
 
-int main(int argc, char** argv) {
-
-    char* envVar = getenv("PID");
-    if (envVar == NULL) {
-        printf("envp not found\n");
-    } else {
-        printf("envp %s\n", envVar);
-    }
-
+int main(int argc, char** argv, char** envp) {
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
+
     //Initialize vehicle
     Vehicle* vehicle = linuxEnvironment.getVehicle();
     if (vehicle == NULL) {
@@ -68,6 +61,13 @@ int main(int argc, char** argv) {
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();
+
+    // Get the antenna_dft process pid to terminate it later
+    std::vector<std::string> envPID;
+    while (*envp != nullptr) {
+        envPID.push_back(*envp);
+        envp++;
+    }
 
     while (1) {
         // Transmit data to antenna_dft process
@@ -99,8 +99,16 @@ int main(int argc, char** argv) {
     close(soc.client_sock);
 
     //Set the bool to true to land the UAV, false to stay in the air
+
     UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
+    int pidNum = std::stoi(envPID);
+    pid_t pidTemp = static_cast<pid_t>(pid_int);
+    if (kill(envPID, SIGTERM) == 0) {
+        std::cout << "Terminating antenna_dft" << std::endl;
+    } else {
+        perror("kill");
+    }
     exit(EXIT_SUCCESS);
     return 0;
 }
