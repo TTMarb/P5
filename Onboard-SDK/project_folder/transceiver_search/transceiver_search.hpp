@@ -42,6 +42,7 @@
 
 // Helpers
 #include <dji_linux_helpers.hpp>
+#include "sock.h"
 
 #define EARTH_RADIUS (double)6378137.0
 

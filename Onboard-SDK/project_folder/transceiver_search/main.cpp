@@ -42,7 +42,10 @@
 #include <sys/types.h>
 #include <sys/un.h>
 #include <sys/wait.h>
+
 #include "transceiver_search.hpp"
+#include "sock.h"
+
 
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
@@ -163,55 +166,15 @@ int main(int argc, char** argv) {
         runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM, angle);
     }
 
-    /********* START OF DOMAIN SOCKET *********/
+    sock soc = sock();
 
-    int client_sock, rc;
-    uint32_t len;
-    struct sockaddr_un client_sockaddr, server_sockaddr;
-    /* 
-    * Clear the whole struct to avoid portability issues,
-    * where some implementations have non-standard fields. 
-    */
-    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
-
-    // Create a socket
-    client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
-    if (client_sock == -1) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-
-    // Get socket path for both server and client
-    client_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
-
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-
-    // Bind the client to the client filename
-    unlink(CLIENT_PATH);
-    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, sizeof(client_sockaddr));
-    if (rc == -1) {
-        perror("bind");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    }
-    // Connect client to server filename
-    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
-    if (rc == 1) {
-        perror("connect");
-        exit(EXIT_FAILURE);
-    }
-
-    int timeOutSet = 0;
     // Variables for averaging antenna data
     int index = 0;
     float sum = 0;
     float avgA1[5] = {0};
     float avgA2[5] = {0};
     int length = sizeof(avgA1) / sizeof(float);
-    float newAvgA1, newAvgA2;
+    float newAvgA1, newAvgA2, A1, A2;
     double hField;
 
     while (1) {
@@ -220,36 +183,12 @@ int main(int argc, char** argv) {
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float ang = QtoDEG(vehicle);                   // Get the current UAS angle
 
-        sendBuf[0] = pos.longitude;
-        sendBuf[1] = pos.latitude;
-        sendBuf[2] = ang;
+        soc.sendit(pos.longitude, pos.latitude, ang);
 
-        rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
-        if (rc == -1) {
-            perror("send");
-        } else {
-            // Data is sent here!
-            //printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
-        }
-
-        // Stay in a blocked state until data is received
-        rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
-        if (rc == -1) {
-            if (timeOutSet == 0) {
-                perror("recv");
-                timeOutSet = 1;
-            }
-        } else {
-            // Error message if connection was briefly lost
-            if (timeOutSet == 1) {
-                printf("\nConnection restablished. Receiving data...\n");
-                timeOutSet = 0;
-            }
-            printf("Buffer content %f, %f\n", buf[0], buf[1]);
-
+        if (soc.receive(&A1, &A2)) {
             // Calculate moving average of the antenna voltages for 5 values
-            newAvgA1 = movingAvg(avgA1, &sum, index, length, buf[0]);
-            newAvgA2 = movingAvg(avgA2, &sum, index, length, buf[1]);
+            newAvgA1 = movingAvg(avgA1, &sum, index, length, A1);
+            newAvgA2 = movingAvg(avgA2, &sum, index, length, A2);
             index++;
             if (index >= length) {
                 index = 0;
