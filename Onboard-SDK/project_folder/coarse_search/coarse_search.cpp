@@ -62,9 +62,9 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
     } else {
         cnt = 0;
     }
-    float returnvalue = ((1 - log1p(*H)) + (1 / Kp)) * (*mult);
-    printf("Velocity: %f\n", returnvalue);
-    return returnvalue;
+    float log1pH = log1p(*H);
+    float returnvalue = ((1 - log1pH) + (1 / Kp));
+    return returnvalue * (*mult);
 }
 
 void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate,
