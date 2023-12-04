@@ -52,7 +52,7 @@ float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
     return (acos((*A1 - *A2) / (*H + 0.001)) - M_PI_2) * (180 / M_PI);
 }
 
-float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult, int Kp) {
+float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult, float Kp) {
     if (H < prevH) {
         if (*cnt > 5) {
             *mult *= -1;
@@ -63,9 +63,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
         cnt = 0;
     }
     float log1pH = log1p(*H);
-    printf("log1pH: %f\n", log1pH);
     float returnvalue = ((1 - log1pH) + (1 / Kp));
-    printf("returnvalue: %f\n", returnvalue);
     return returnvalue * (*mult);
 }
 
