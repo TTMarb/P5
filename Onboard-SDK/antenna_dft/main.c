@@ -62,7 +62,7 @@ int main() {
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
     int tX = 0;
-    int tY = 73;
+    int tY = 33;
     while (1) {
         sleep(1);
 

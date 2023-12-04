@@ -45,6 +45,7 @@ using namespace DJI::OSDK::Telemetry;
     fileIO->createFile();
     df->init(vehicle, 1000, xLoc, yLoc);
 }*/
+int cnt;
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
@@ -52,17 +53,26 @@ float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
     return (acos((*A1 - *A2) / (*H + 0.001)) - M_PI_2) * (180 / M_PI);
 }
 
-float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult) {
-    if (H < prevH) {
-        if (*cnt > (5 + 1)) {
-            *mult *= -1;
+float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* mult, float Kp) {
+    if (abs(*mult) > 1) {
+        *mult = 1;
+    }
+    if (*H < *prevH) {
+        printf("H small %i times!", cnt);
+        cnt++;
+        if (cnt > 5) {
+            *mult = (*mult) * (-1);
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
         }
     } else {
+        printf("H big!");
         cnt = 0;
     }
-    return ((1 - log1p(*H)) + (1 / 0.1)) * (*mult);
+    float log1pH = log1p(*H);
+    float returnvalue = ((1 - log1pH) + (4));
+    printf("H: %f, log1pH: %f, returnvalue: %f, mult: %i\n", *H, log1pH, returnvalue, *mult);
+    return returnvalue * (*mult);
 }
 
 void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate,
