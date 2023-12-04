@@ -58,7 +58,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* mult, fl
         *mult = 1;
     }
     if (*H < *prevH) {
-        printf("H small %i times!\n", cnt);
+        printf("\tH small %i times!\n", cnt);
         cnt++;
         if (cnt > 5) {
             *mult = (*mult) * (-1);
@@ -66,12 +66,11 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* mult, fl
             cnt = 0;
         }
     } else {
-        printf("H big!\n");
+        printf("\tH big!\n");
         cnt = 0;
     }
     float log1pH = log1p(*H);
     float returnvalue = ((1 - log1pH) + (4));
-    printf("H: %f, log1pH: %f, returnvalue: %f, mult: %i\n", *H, log1pH, returnvalue, *mult);
     return returnvalue * (*mult);
 }
 
