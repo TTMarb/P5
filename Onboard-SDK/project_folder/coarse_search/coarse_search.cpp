@@ -57,12 +57,14 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
         *mult = 1;
     }
     if (*H < *prevH) {
-        if (*cnt > 5) { 
+        printf("H small %i times!", *cnt)
+        if (*cnt > 5) {
             *mult = (*mult) * (-1);
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
         }
     } else {
+        printf("H big!")
         cnt = 0;
     }
     float log1pH = log1p(*H);
