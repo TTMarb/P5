@@ -51,7 +51,7 @@ void readSPI(int spi_fd) {
 
         if (bytes_read > 0) {
             for (int i = 0; i < bytes_read; ++i) {
-                cout << static_cast<int>(buffer[i]) << " ";
+                cout << static_cast<char>(buffer[i]) << " ";
             }
             cout << endl;
         }
