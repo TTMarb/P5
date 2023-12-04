@@ -94,8 +94,8 @@ int main() {
             if (runOnce == 0) {
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
-                tY = calcMfromLat(tY*(M_PI/180));
-                tX = calcMfromLon(tY*(M_PI/180), tX*(M_PI/180));
+                tY = calcMfromLat(tY);
+                tX = calcMfromLon(tY, tX);
                 printf("\t\ttX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
