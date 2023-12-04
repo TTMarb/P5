@@ -111,7 +111,8 @@ int main(int argc, char** argv, char** envp) {
     close(soc.client_sock);
 
     //Set the bool to true to land the UAV, false to stay in the air
-    kill UAVstop(vehicle, true, functionTimeout);
+
+    UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
     exit(EXIT_SUCCESS);
     return 0;
