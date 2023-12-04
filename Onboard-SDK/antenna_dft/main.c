@@ -56,13 +56,13 @@ int main() {
     int timeOutSet = 0;
 
     // Variables for antenna data generation
-    double posLat, posLon, angle, iX, iY;
+    double posLat, posLon, angle, iX, iY,tY,tX;
     float A1, A2;
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    double tX = 57.061285*(3.14159265359/180);
-    double tY = 10.035939*(3.14159265359/180);
+    double tLat = 57.061285*(3.14159265359/180);
+    double tLon = 10.035939*(3.14159265359/180);
     while (1) {
         sleep(1);
 
@@ -94,10 +94,10 @@ int main() {
             if (runOnce == 0) {
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
-                printf("\t\ttX: %f, tY: %f\n", tX, tY);
-                tX = calcMfromLat(tX);
-                tY = calcMfromLon(tX, tY);
-                printf("\t\ttX: %f, tY: %f\n", tX, tY);
+                printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
+                tY = calcMfromLat(tLat);
+                tX = calcMfromLon(tLat,tLon);
+                printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
                 runOnce = 1;
             }
 
