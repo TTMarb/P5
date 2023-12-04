@@ -92,19 +92,22 @@ int main(int argc, char** argv, char** envp) {
     close(soc.client_sock);
 
     //Set the bool to true to land the UAV, false to stay in the air
-
     UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
 
-    // Get the antenna_dft process pid to terminate it
+    // Get the antenna_dft process pid
     std::vector<std::string> envPID;
     while (*envp != nullptr) {
         envPID.push_back(*envp);
         envp++;
     }
-    int pidNum = std::stoi(envPID);
+    // Convert to pid_t
+    std::string tempStr = accumulate(begin(envPID), end(envPID), tempStr);
+    int pidNum = std::stoi(tempStr);
     pid_t pidTemp = static_cast<pid_t>(pidNum);
-    if (kill(envPID, SIGTERM) == 0) {
+
+    // Terminate the process
+    if (kill(pidTemp, SIGTERM) == 0) {
         std::cout << "Terminating antenna_dft" << std::endl;
     } else {
         perror("kill");
