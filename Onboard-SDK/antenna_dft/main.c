@@ -106,6 +106,7 @@ int main() {
             printf("\t\tdX: %f, dY: %f\n", dX, dY);
             //calculates the distance between the UAV and the target
             float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
+            printf("\t\tdistanceTo : %f\n", distanceTo);
             //Approximates the signal strength based on the distance
             int maxADCvalue = 4096;
             float signalStrength = maxADCvalue * (1 / pow(distanceTo, 3));
