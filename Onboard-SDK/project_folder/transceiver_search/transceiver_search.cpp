@@ -191,19 +191,25 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
     std::cout << "Succes: Stopping Waypoint Mission.\n";
 }
 
-void startProcess(pid_t pid, char* path, char* param) {
-    char* bname = basename(path);
+//
+void startProcess(pid_t pid, char* path, char* param, pid_t prevPid) {
+    char* bname = basename(path); // Get process name from path argument
+    char PID[20];
+    strcpy(PID, "foo");
+
     if (pid == -1) {
         printf("Error while forking %s\n", bname);
+        // Close write and read end of pipe
+
         exit(EXIT_FAILURE);
-    } else if (pid == 0) {
+    } else if (pid == 0) { // Child process
         printf("Child process %s initiated. PID is %d\n", bname, getpid());
         char* const args[] = {param};
-        char* const envp[] = {NULL};
-        execve(path, args, envp); // Override the child process with the BIN file
+        char* const envp[] = {PID, NULL};
+        execve(path, args, envp); // Override the child process with the binary file
         perror("execve");
         exit(EXIT_FAILURE); // Exit the child process if it fails
-    } else if (pid > 0) {
+    } else if (pid > 0) {   // Parent process
         printf("Parent process running. PID is %d\n", getpid());
     }
 }

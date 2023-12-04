@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
     pid_t antennaPID, wpid;
     antennaPID = fork(); // Fork the parent process to start new process
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
-    startProcess(antennaPID, path, NULL);
+    startProcess(antennaPID, path, NULL, NULL);
     int pStatus = 0;
     /********* WAYPOINT MISSION *********/
 
@@ -265,7 +265,7 @@ int main(int argc, char** argv) {
                 coarsePID = fork(); // Fork the parent process to start new process
                 char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                 char param[] = "UserConfig.txt";
-                startProcess(coarsePID, path, param);
+                startProcess(coarsePID, path, param, antennaPID);
 
                 /*
                 // Wait for the antennaDFT to complete

@@ -31,6 +31,14 @@
 int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv) {
+
+    char* envVar = getenv(PID);
+    if (envVar == NULL) {
+        printf("envp not found\n");
+    } else {
+        printf("envp %s\n", envVar);
+    }
+
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
     //Initialize vehicle
@@ -49,14 +57,14 @@ int main(int argc, char** argv) {
     fileIO.createFile();
     //DataFaker df = DataFaker();
     //initializeFake(vehicle, &df, &fileIO);
-    float alg, vel, A1, A2, H, prevH, sampleFrequency,velKp;
+    float alg, vel, A1, A2, H, prevH, sampleFrequency, velKp;
     int mult;
     A1 = 0;
     A2 = 0;
     sampleFrequency = 100;
     velKp = 0.15;
     PIcontroller yawRate = PIcontroller(0.25, 0.02, sampleFrequency);
-    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency); 
+    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();

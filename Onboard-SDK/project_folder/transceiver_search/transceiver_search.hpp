@@ -64,7 +64,7 @@ void setBroadcastFrequency(Vehicle* vehicle);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 
-void startProcess(pid_t pid, char* path, char* param);
+void startProcess(pid_t pid, char* path, char* param, pid_t prevPid);
 
 float32_t QtoDEG(Vehicle* vehicle);
 
