@@ -27,7 +27,7 @@ class sock {
   public:
     int client_sock, rc;
     sock(); // Constructor
-    bool send(double,double,double);
+    bool sendit(double,double,double);
     bool receive(float*, float*);
   private:
     double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
