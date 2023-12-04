@@ -13,7 +13,6 @@
 #include <sys/un.h>
 #include <libgen.h>
 
-
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
 #define CLIENT_PATH      "/tmp/unix_sock.client"

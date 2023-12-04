@@ -41,7 +41,7 @@ bool sock::send(double longitude, double latitude, double UAVangle) {
         sendBuf[0] = longitude;
         sendBuf[1] = latitude;
         sendBuf[2] = UAVangle;
-        
+
         rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
             perror("send");
@@ -66,8 +66,8 @@ bool sock::receive(float* A1, float* A2){
                 timeOutSet = 0;
             }
             printf("Received %f %f", buf[0], buf[1]);
-            A1 = buf[0];
-            A2 = buf[1];
+            *A1 = buf[0];
+            *A2 = buf[1];
             return true;
         }
 }
