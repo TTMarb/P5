@@ -1,8 +1,7 @@
 #include "sock.h"
 
-//Constructor
+// constructor
 sock::sock() {
-    /********* START OF DOMAIN SOCKET *********/
     memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
     memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
 
@@ -34,40 +33,39 @@ sock::sock() {
         perror("connect");
         exit(EXIT_FAILURE);
     }
-
 }
 
 bool sock::sendit(double longitude, double latitude, double UAVangle) {
-        sendBuf[0] = longitude;
-        sendBuf[1] = latitude;
-        sendBuf[2] = UAVangle;
+    sendBuf[0] = longitude;
+    sendBuf[1] = latitude;
+    sendBuf[2] = UAVangle;
 
-        rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
-        if (rc == -1) {
-            perror("send");
-        } else {
-            // Data is sent here!
-            printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
-        }
+    rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
+    if (rc == -1) {
+        perror("send");
+    } else {
+        // Data is sent here!
+        //printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
+    }
 }
 
-bool sock::receive(float* A1, float* A2){
+bool sock::receive(float* A1, float* A2) {
     int rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
-        if (rc == -1) {
-            if (timeOutSet == 0) {
-                perror("recv");
-                timeOutSet = 1;
-                return false;
-            }
-        }else{
-            // Error message if connection was briefly lost
-            if (timeOutSet == 1) {
-                printf("\nConnection restablished. Receiving data...\n");
-                timeOutSet = 0;
-            }
-            printf("\tReceived A1: %f, A2: %f\n", buf[0], buf[1]);
-            *A1 = buf[0];
-            *A2 = buf[1];
-            return true;
+    if (rc == -1) {
+        if (timeOutSet == 0) {
+            perror("recv");
+            timeOutSet = 1;
+            return false;
         }
+    } else {
+        // Error message if connection was briefly lost
+        if (timeOutSet == 1) {
+            printf("\nConnection restablished. Receiving data...\n");
+            timeOutSet = 0;
+        }
+        printf("Received A1: %f, A2: %f\n", buf[0], buf[1]);
+        *A1 = buf[0];
+        *A2 = buf[1];
+        return true;
+    }
 }

@@ -253,11 +253,10 @@ int main(int argc, char** argv) {
             if (hField >= volThreshold) {
 
                 stopMission(vehicle, responseTimeout, 0); // Stop waypoint mission if threshold is reached
-                
 
                 std::cout << "Release control authority. \n";
                 vehicle->releaseCtrlAuthority(functionTimeout);
-                
+
                 close(client_sock);
                 printf("Stopping waypoint mission...\n");
 

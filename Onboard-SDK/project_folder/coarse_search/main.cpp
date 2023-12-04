@@ -40,20 +40,9 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    /*******STARTS ANTENNA DTF FOR DEBUG******
-    // Starts the antenna_dft process
-    pid_t antennaPID, wpid;
-    antennaPID = fork(); // Fork the parent process to start new process
-    char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
-    startProcess(antennaPID, path, NULL);
-    int pStatus = 0;
-    /*******DELETE SOON!****************/
-
-
-    
     int functionTimeout = 60;
-    UAVtakoff(vehicle,functionTimeout);
-    
+    UAVtakoff(vehicle, functionTimeout);
+
     // Setup variables for use
     FIO fileIO = FIO();
     fileIO.changeActiveFile("test.txt");
@@ -75,20 +64,21 @@ int main(int argc, char** argv) {
         // Transmit data to antenna_dft process
         DJI::OSDK::Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
-        float UAVangle = QtoDEG(vehicle);                   // Get the current UAS angle
-        
+        float UAVangle = QtoDEG(vehicle);              // Get the current UAS angle
+
         soc.sendit(pos.longitude, pos.latitude, UAVangle);
-        
+
         // Stay in a blocked state until data is received
         if (soc.receive(&A1, &A2)) {
             {
-            H = calcH(vehicle, &A1, &A2, &H);
-            alg = calcAlg(vehicle, &A1, &A2, &H);
-            vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
-            std::cout << "\tH: " << H << " Alg: " << alg << " Vel: " << vel << std::endl;
+                H = calcH(vehicle, &A1, &A2, &H);
+                alg = calcAlg(vehicle, &A1, &A2, &H);
+                vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
+                std::cout << "\tH: " << H << " Alg: " << alg << " Vel: " << vel << std::endl;
             }
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
-            std::cout << "\tyawRate: " << yawRate.PIvalue << " vX: " << vX.PIvalue << " vY: " << vY.PIvalue << std::endl;
+            std::cout << "\tyawRate: " << yawRate.PIvalue << " vX: " << vX.PIvalue << " vY: " << vY.PIvalue
+                      << std::endl;
             //Break statement - Within 2x of the target
             if (H > (4096 * 10)) { //<- Within 0.5 m :P
                 //Stops the UAV
@@ -102,8 +92,8 @@ int main(int argc, char** argv) {
     }
     close(soc.client_sock);
 
-    //Set the bool to true to land the UAV, false to stay in the air 
-    UAVstop(vehicle,true,functionTimeout);
+    //Set the bool to true to land the UAV, false to stay in the air
+    UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
     exit(EXIT_SUCCESS);
     return 0;
