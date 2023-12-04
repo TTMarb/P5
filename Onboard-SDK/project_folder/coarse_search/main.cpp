@@ -71,9 +71,11 @@ int main(int argc, char** argv) {
 
         // Stay in a blocked state until data is received
         if (soc.receive(&A1, &A2)) {
-            printf("Received something!\n");
+            printf("About to calc H!\n");
             H = calcH(vehicle, &A1, &A2, &H);
+            printf("About to calc alg!\n");
             alg = calcAlg(vehicle, &A1, &A2, &H);
+            printf("About to calc vel!\n");
             vel = calcVel(vehicle, &H, &prevH, &cnt, &mult, velKp);
             std::cout << "\tH: " << H << " Alg: " << alg << " Vel: " << vel << std::endl;
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
