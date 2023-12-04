@@ -44,6 +44,5 @@ add_executable(${PROJECT_NAME}
     main.cpp
     coarse_search.cpp
     FIO.cpp
-    DataFaker.cpp
     PIcontroller.cpp)
 target_link_libraries(${PROJECT_NAME} djiosdk-core)

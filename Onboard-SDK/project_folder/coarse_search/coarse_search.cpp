@@ -24,13 +24,13 @@
  *
  */
 #include "coarse_search.hpp"
-#include "DataFaker.h"
+//#include "DataFaker.h"
 #include "coarse_search.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
+/*void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
     Telemetry::GlobalPosition pos;
     std::cout << "Bout to calculate init position: \n";
     pos = vehicle->broadcast->getGlobalPosition();
@@ -44,7 +44,7 @@ void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
     fileIO->changeActiveFile(filename);
     fileIO->createFile();
     df->init(vehicle, 1000, xLoc, yLoc);
-}
+}*/
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
@@ -189,10 +189,10 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
     if (ACK::getError(ctrlAuth)) {
         ACK::getErrorCodeMessage(ctrlAuth, __func__);
     }
+    //Checks if the flight is already in air
     if (status.flight < 2) {
         sleep(5);
         std::cout << "Preparing UAV" << std::endl;
-
         std::cout << "Arm motor \n";
         ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
         if (ACK::getError(armAck)) {
@@ -216,18 +216,21 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
 }
 
 
-void UAVland(Vehicle* vehicle, int functionTimeout) {
-    ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
-    if (ACK::getError(landAck)) {
-        ACK::getErrorCodeMessage(landAck, __func__);
+void UAVstop(Vehicle* vehicle, bool land, int functionTimeout) {
+    if (land) {
+        std::cout << "Landing \n";
+        ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
+        if (ACK::getError(landAck)) {
+            ACK::getErrorCodeMessage(landAck, __func__);
+        }
+
+        std::cout << "disarm motor \n";
+        ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
+        if (ACK::getError(disarmAck)) {
+            ACK::getErrorCodeMessage(disarmAck, __func__);
+        }
     }
 
-    std::cout << "disarm motor \n";
-    ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
-    if (ACK::getError(disarmAck)) {
-        ACK::getErrorCodeMessage(disarmAck, __func__);
-    }
-
-    std::cout << "Release control authority. \n"
+    std::cout << "Release control authority. \n";
     vehicle->releaseCtrlAuthority(functionTimeout);
 }

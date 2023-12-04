@@ -27,7 +27,7 @@
  */
 
 #include <cmath>
-#include "coarse_search.hpp"
+#include "./lib/coarse_search.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;

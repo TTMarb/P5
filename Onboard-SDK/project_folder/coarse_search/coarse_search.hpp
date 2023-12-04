@@ -45,7 +45,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
-#include "DataFaker.h"
+//#include "DataFaker.h"
 #include "FIO.h"
 #include "PIcontroller.h"
 
@@ -57,9 +57,10 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
+//void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
 void controlVehicle(DJI::OSDK::Vehicle*, float*, float*, FIO*, PIcontroller*, PIcontroller*, PIcontroller*, int, int*);
 void UAVtakoff(Vehicle*, int);
+void UAVstop(Vehicle*,bool, int);
 
 float32_t getAngle(float32_t, float32_t);
 float32_t QtoDEG(Vehicle*);

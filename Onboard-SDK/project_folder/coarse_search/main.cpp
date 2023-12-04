@@ -54,48 +54,16 @@ int main(int argc, char** argv) {
         std::cout << "Vehicle not initialized, exiting.\n";
         return -1;
     }
-
-    setBroadcastFrequency(vehicle);
-    Telemetry::Status status = vehicle->broadcast->getStatus();
-
+    
     int functionTimeout = 60;
-
-    std::cout << "About to take control \n";
-
-    ACK::ErrorCode ctrlAuth = vehicle->obtainCtrlAuthority(functionTimeout);
-    if (ACK::getError(ctrlAuth)) {
-        ACK::getErrorCodeMessage(ctrlAuth, __func__);
-    }
-
-    if (status.flight < 2) {
-        sleep(5);
-        std::cout << "Preparing UAV" << std::endl;
-
-        std::cout << "Arm motor \n";
-        ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
-        if (ACK::getError(armAck)) {
-            ACK::getErrorCodeMessage(armAck, __func__);
-        }
-
-        std::cout << "About to take off \n";
-        sleep(5);
-
-        ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
-        if (ACK::getError(takeoffAck)) {
-            ACK::getErrorCodeMessage(takeoffAck, __func__);
-        }
-
-        std::cout << "Took off \n";
-        sleep(10);
-    } else {
-        std::cout << "Drone already in air" << std::endl;
-    }
-    sleep(1);
-
+    UAVland(vehicle,functionTimeout);
+    
     // Setup variables for use
     FIO fileIO = FIO();
-    DataFaker df = DataFaker();
-    initializeFake(vehicle, &df, &fileIO);
+    fileIO.changeActiveFile("test.txt");
+    fileIO.createFile();
+    //DataFaker df = DataFaker();
+    //initializeFake(vehicle, &df, &fileIO);
     float alg, vel, A1, A2, H, prevH, sampleFrequency;
     int cnt, mult;
     A1 = 0;
@@ -148,7 +116,6 @@ int main(int argc, char** argv) {
     /*********END OF DOMAIN SOCKET *********/
 
     while (1) {
-
         // Transmit data to antenna_dft process
         Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
@@ -182,16 +149,13 @@ int main(int argc, char** argv) {
             printf("Received %f %f", buf[0], buf[1]);
             A1 = buf[0];
             A2 = buf[1];
-            /*
-            df.Fake(vehicle, fileIO, true);
-            A1 = df.A1;
-            A2 = df.A2;
-            */
 
+            H = calcH(vehicle, &A1, &A2, &H);
+            alg = calcAlg(vehicle, &A1, &A2, &H);
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
 
             //Break statement - Within 2x of the target
-            if (H > (4096 * 10)) {
+            if (H > (4096 * 10)) { //<- Within 0.5 m :P
                 //Stops the UAV
                 vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
                 std::cout << "Target found! \n";
@@ -201,19 +165,11 @@ int main(int argc, char** argv) {
             cnt++;
         }
     }
+    close(client_sock);
 
-    ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
-    if (ACK::getError(landAck)) {
-        ACK::getErrorCodeMessage(landAck, __func__);
-    }
-
-    std::cout << "disarm motor \n";
-    ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
-    if (ACK::getError(disarmAck)) {
-        ACK::getErrorCodeMessage(disarmAck, __func__);
-    }
-
-    vehicle->releaseCtrlAuthority(functionTimeout);
-    std::cout << "Program ended!" << std::endl;
+    //Set the bool to true to land the UAV, false to stay in the air
+    UAVstop(vehicle,true,functionTimeout);
+    std::cout << "Stopping coarse_search" << std::endl;
+    exit(EXIT_SUCCESS);
     return 0;
 }
