@@ -25,7 +25,6 @@ double recvBuf[RECV_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 int main() {
-    sleep(1);
     /****** UNIX DOMAIN SOCKET ******/
 
     int server_sock, len, rc;
@@ -65,6 +64,8 @@ int main() {
     int tX = 0;
     int tY = 73;
     while (1) {
+        sleep(1);
+
         /****** START OF ANTENNA DATA GENERATION ******/
 
         /* 
