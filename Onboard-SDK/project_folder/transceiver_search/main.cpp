@@ -205,7 +205,7 @@ int main(int argc, char** argv) {
                 std::cout << "Release control authority. \n";
                 vehicle->releaseCtrlAuthority(functionTimeout);
 
-                close(client_sock);
+                close(soc.client_sock);
                 printf("Stopping waypoint mission...\n");
 
                 printf("Starting coarse search!\n");
