@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     }
     
     int functionTimeout = 60;
-    UAVland(vehicle,functionTimeout);
+    UAVtakoff(vehicle,functionTimeout);
     
     // Setup variables for use
     FIO fileIO = FIO();
