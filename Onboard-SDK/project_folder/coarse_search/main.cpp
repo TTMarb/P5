@@ -62,13 +62,6 @@ int main(int argc, char** argv, char** envp) {
 
     sock soc = sock();
 
-    // Get the antenna_dft process pid to terminate it later
-    std::vector<std::string> envPID;
-    while (*envp != nullptr) {
-        envPID.push_back(*envp);
-        envp++;
-    }
-
     while (1) {
         // Transmit data to antenna_dft process
         DJI::OSDK::Telemetry::GlobalPosition pos;
@@ -102,6 +95,13 @@ int main(int argc, char** argv, char** envp) {
 
     UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
+
+    // Get the antenna_dft process pid to terminate it
+    std::vector<std::string> envPID;
+    while (*envp != nullptr) {
+        envPID.push_back(*envp);
+        envp++;
+    }
     int pidNum = std::stoi(envPID);
     pid_t pidTemp = static_cast<pid_t>(pid_int);
     if (kill(envPID, SIGTERM) == 0) {
@@ -109,6 +109,6 @@ int main(int argc, char** argv, char** envp) {
     } else {
         perror("kill");
     }
-    exit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS); //Exit the coarse_search process
     return 0;
 }
