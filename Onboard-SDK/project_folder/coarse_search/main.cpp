@@ -56,8 +56,8 @@ int main(int argc, char** argv, char** envp) {
     A2 = 0;
     sampleFrequency = 100;
     velKp = 0.15;
-    PIcontroller yawRate = PIcontroller(0.1, 0, sampleFrequency);//0.02
-    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
+    PIcontroller yawRate = PIcontroller(0.1, 0, sampleFrequency);//0.02 
+    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency); 
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();
