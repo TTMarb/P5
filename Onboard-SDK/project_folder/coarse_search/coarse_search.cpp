@@ -64,7 +64,7 @@ float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int
     }
     float log1pH = log1p(*H);
     float returnvalue = ((1 - log1pH) + (4));
-    printf("H: %f, log1pH: %f, returnvalue: %f, mult: %i\n", *H, log1pH, returnvalue, mult);
+    printf("H: %f, log1pH: %f, returnvalue: %f, mult: %i\n", *H, log1pH, returnvalue, *mult);
     return returnvalue * (*mult);
 }
 
