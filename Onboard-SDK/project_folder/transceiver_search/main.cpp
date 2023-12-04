@@ -223,8 +223,6 @@ int main(int argc, char** argv) {
         sendBuf[0] = pos.longitude;
         sendBuf[1] = pos.latitude;
         sendBuf[2] = ang;
-        std::cout << "pos.longitude: " << pos.longitude*(180/M_PI) << std::endl;
-        std::cout << "pos.latitude: " << pos.latitude*(180/M_PI) << std::endl;
 
         rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
