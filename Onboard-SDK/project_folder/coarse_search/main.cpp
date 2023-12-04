@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
 
         // Stay in a blocked state until data is received
         if (soc.receive(&A1, &A2)) {
+            printf("Received something!\n");
             H = calcH(vehicle, &A1, &A2, &H);
             alg = calcAlg(vehicle, &A1, &A2, &H);
             vel = calcVel(vehicle, &H, &prevH, &cnt, &mult, velKp);
