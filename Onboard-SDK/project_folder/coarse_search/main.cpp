@@ -103,7 +103,7 @@ int main(int argc, char** argv, char** envp) {
     UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
     if (kill(envPID, SIGTERM) == 0) {
-        std::cout << "Terminating antenna_dft" << std : endl;
+        std::cout << "Terminating antenna_dft" << std::endl;
     } else {
         perror("kill");
     }
