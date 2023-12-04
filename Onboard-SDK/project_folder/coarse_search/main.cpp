@@ -102,7 +102,7 @@ int main(int argc, char** argv, char** envp) {
         envp++;
     }
     // Convert to pid_t
-    std::string tempStr = accumulate(begin(envPID), end(envPID), tempStr);
+    std::string tempStr = std::accumulate(begin(envPID), end(envPID), tempStr);
     int pidNum = std::stoi(tempStr);
     pid_t pidTemp = static_cast<pid_t>(pidNum);
 
