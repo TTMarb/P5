@@ -156,8 +156,8 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
 
         if (i % 2 != 0) {
             mult = mult * -1;
-            dX = cos(angle * (M_PI / 180)) * latM;
-            dY = sin(angle * (M_PI / 180)) * latM;
+            dX = (cos(angle * (M_PI / 180)) * latM)*mult;
+            dY = (sin(angle * (M_PI / 180)) * latM)*mult;
 
         } else // Side ways increment
         {
@@ -165,7 +165,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
             dY = sin(angle * (M_PI / 180) + M_PI_2) * lonM;
         }
         wp.latitude = (prevWp->latitude + ((dY / EARTH_RADIUS)));
-        wp.longitude = (prevWp->longitude + (((dX / EARTH_RADIUS) / cos(wp.latitude)) * mult));
+        wp.longitude = (prevWp->longitude + (((dX / EARTH_RADIUS) / cos(wp.latitude))));
         wp.altitude = (prevWp->altitude);
         wp_list.push_back(wp);
     }
