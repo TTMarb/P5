@@ -32,12 +32,27 @@ int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv, char** envp) {
 
+    /*
+    printf("No buffer\n");
     while (*envp) {
-        printf("%s\n", *envp++);
+        printf("%s\n", *envp);
+        *envp++;
+    }
+    */
+    std::vector<std::string> envVariables;
+
+    while (*envp != nullptr) {
+        envVariables.push_back(*envp);
+        envp++;
+    }
+
+    for (const auto& envVar : envVariables) {
+        std::cout << envVar << std::endl;
     }
 
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
+
     //Initialize vehicle
     Vehicle* vehicle = linuxEnvironment.getVehicle();
     if (vehicle == NULL) {
@@ -96,7 +111,7 @@ int main(int argc, char** argv, char** envp) {
     close(soc.client_sock);
 
     //Set the bool to true to land the UAV, false to stay in the air
-    UAVstop(vehicle, true, functionTimeout);
+    kill UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
     exit(EXIT_SUCCESS);
     return 0;
