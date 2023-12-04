@@ -11,6 +11,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include <libgen.h>
 
 
 // Path for UNIX domain socket
