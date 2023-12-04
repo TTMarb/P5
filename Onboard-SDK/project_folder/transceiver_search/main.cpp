@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
     pid_t antennaPID, wpid;
     antennaPID = fork(); // Fork the parent process to start new process
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
-    startProcess(antennaPID, path, NULL, NULL);
+    startProcess(antennaPID, path, NULL, 0);
     int pStatus = 0;
     /********* WAYPOINT MISSION *********/
 

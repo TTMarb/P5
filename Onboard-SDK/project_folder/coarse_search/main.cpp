@@ -32,7 +32,7 @@ int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv) {
 
-    char* envVar = getenv(PID);
+    char* envVar = getenv("PID");
     if (envVar == NULL) {
         printf("envp not found\n");
     } else {
