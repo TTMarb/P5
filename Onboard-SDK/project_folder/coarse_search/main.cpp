@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     }
     
     int functionTimeout = 60;
-    UAVland(vehicle,functionTimeout);
+    UAVtakoff(vehicle,functionTimeout);
     
     // Setup variables for use
     FIO fileIO = FIO();
@@ -74,7 +74,6 @@ int main(int argc, char** argv) {
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
 
     /********* START OF DOMAIN SOCKET *********/
-
     int client_sock, rc;
     uint32_t len;
     struct sockaddr_un client_sockaddr, server_sockaddr;
@@ -152,6 +151,7 @@ int main(int argc, char** argv) {
 
             H = calcH(vehicle, &A1, &A2, &H);
             alg = calcAlg(vehicle, &A1, &A2, &H);
+            vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
 
             //Break statement - Within 2x of the target
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
     }
     close(client_sock);
 
-    //Set the bool to true to land the UAV, false to stay in the air
+    //Set the bool to true to land the UAV, false to stay in the air 
     UAVstop(vehicle,true,functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
     exit(EXIT_SUCCESS);
