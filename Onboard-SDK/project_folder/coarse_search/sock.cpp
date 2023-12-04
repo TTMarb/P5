@@ -37,7 +37,7 @@ sock::sock() {
 
 }
 
-bool sock::send(double longitude, double latitude, double UAVangle) {
+bool sock::sendit(double longitude, double latitude, double UAVangle) {
         sendBuf[0] = longitude;
         sendBuf[1] = latitude;
         sendBuf[2] = UAVangle;
