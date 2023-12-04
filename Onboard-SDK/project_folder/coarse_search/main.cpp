@@ -28,17 +28,6 @@
 #include <cmath>
 #include "coarse_search.hpp"
 
-// Path for UNIX domain socket
-/*#define SERVER_PATH      "/tmp/unix_sock.server"
-#define CLIENT_PATH      "/tmp/unix_sock.client"
-
-// Buffer for sending the gps info for the data generator in antenna_dft
-#define SEND_BUFFER_SIZE 3
-double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
-
-// Buffer for receiving antenna data
-#define BUFFER_SIZE 2
-float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time*/
 int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv) {
@@ -50,6 +39,17 @@ int main(int argc, char** argv) {
         std::cout << "Vehicle not initialized, exiting.\n";
         return -1;
     }
+
+    /*******STARTS ANTENNA DTF FOR DEBUG******
+    // Starts the antenna_dft process
+    pid_t antennaPID, wpid;
+    antennaPID = fork(); // Fork the parent process to start new process
+    char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
+    startProcess(antennaPID, path, NULL);
+    int pStatus = 0;
+    /*******DELETE SOON!****************/
+
+
     
     int functionTimeout = 60;
     UAVtakoff(vehicle,functionTimeout);
@@ -71,47 +71,6 @@ int main(int argc, char** argv) {
 
     sock soc = sock();
 
-    /********* START OF DOMAIN SOCKET ********
-    int client_sock, rc;
-    uint32_t len;
-    struct sockaddr_un client_sockaddr, server_sockaddr;
-
-    memset(&client_sockaddr, 0, sizeof(struct sockaddr_un));
-    memset(&server_sockaddr, 0, sizeof(struct sockaddr_un));
-
-    // Create a socket
-    client_sock = socket(AF_UNIX, SOCK_DGRAM, 0);
-    if (client_sock == -1) {
-        perror("socket");
-        exit(EXIT_FAILURE);
-    }
-
-    // Get socket path for both server and client
-    client_sockaddr.sun_family = AF_UNIX;
-    strcpy(client_sockaddr.sun_path, CLIENT_PATH);
-
-    server_sockaddr.sun_family = AF_UNIX;
-    strcpy(server_sockaddr.sun_path, SERVER_PATH);
-
-    // Bind the client to the client filename
-    unlink(CLIENT_PATH);
-    rc = bind(client_sock, (struct sockaddr*)&client_sockaddr, sizeof(client_sockaddr));
-    if (rc == -1) {
-        perror("bind");
-        close(client_sock);
-        exit(EXIT_FAILURE);
-    }
-    // Connect client to server filename
-    rc = connect(client_sock, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr));
-    if (rc == 1) {
-        perror("connect");
-        exit(EXIT_FAILURE);
-    }*/
-
-    int timeOutSet = 0;
-
-    /*********END OF DOMAIN SOCKET *********/
-
     while (1) {
         // Transmit data to antenna_dft process
         DJI::OSDK::Telemetry::GlobalPosition pos;
@@ -119,45 +78,17 @@ int main(int argc, char** argv) {
         float UAVangle = QtoDEG(vehicle);                   // Get the current UAS angle
         
         soc.sendit(pos.longitude, pos.latitude, UAVangle);
-        /*
-        sendBuf[0] = pos.longitude;
-        sendBuf[1] = pos.latitude;
-        sendBuf[2] = UAVangle;
-
-        rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
-        if (rc == -1) {
-            perror("send");
-        } else {
-            // Data is sent here!
-            printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
-        }
-        */
-
+        
         // Stay in a blocked state until data is received
-        if (soc.receive(&A1, &A2) == false) {
-            continue;
-        }/*
-        rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
-        if (rc == -1) {
-            if (timeOutSet == 0) {
-                perror("recv");
-                timeOutSet = 1;
-            }
-        } else {
-            // Error message if connection was briefly lost
-            if (timeOutSet == 1) {
-                printf("\nConnection restablished. Receiving data...\n");
-                timeOutSet = 0;
-            }
-            printf("Received %f %f", buf[0], buf[1]);
-            A1 = buf[0];
-            A2 = buf[1];*/
-            else{
+        if (soc.receive(&A1, &A2)) {
+            {
             H = calcH(vehicle, &A1, &A2, &H);
             alg = calcAlg(vehicle, &A1, &A2, &H);
             vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
+            std::cout << "\tH: " << H << " Alg: " << alg << " Vel: " << vel << std::endl;
+            }
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
-
+            std::cout << "\tyawRate: " << yawRate.PIvalue << " vX: " << vX.PIvalue << " vY: " << vY.PIvalue << std::endl;
             //Break statement - Within 2x of the target
             if (H > (4096 * 10)) { //<- Within 0.5 m :P
                 //Stops the UAV
@@ -174,7 +105,6 @@ int main(int argc, char** argv) {
     //Set the bool to true to land the UAV, false to stay in the air 
     UAVstop(vehicle,true,functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
-    //killall("antenna_dft");
     exit(EXIT_SUCCESS);
     return 0;
 }
