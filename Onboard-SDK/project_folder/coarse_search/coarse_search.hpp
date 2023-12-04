@@ -39,10 +39,10 @@
 #include <vector>
 #define _USE_MATH_DEFINES
 #include <errno.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 //#include "DataFaker.h"
 #include "FIO.h"
 #include "PIcontroller.h"
@@ -59,7 +59,7 @@
 //void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
 void controlVehicle(DJI::OSDK::Vehicle*, float*, float*, FIO*, PIcontroller*, PIcontroller*, PIcontroller*, int, int*);
 void UAVtakoff(Vehicle*, int);
-void UAVstop(Vehicle*,bool, int);
+void UAVstop(Vehicle*, bool, int);
 
 float calcH(DJI::OSDK::Vehicle*, float*, float*, float*);
 float calcAlg(DJI::OSDK::Vehicle*, float*, float*, float*);
@@ -73,4 +73,4 @@ float32_t getSize(float32_t, float32_t);
 void setBroadcastFrequency(Vehicle* vehicle);
 
 void addRandomLocation(float32_t*, float32_t*, int, int);
-#endif // DJIOSDK_MISSIONSAMPLE_HPP 
+#endif // DJIOSDK_MISSIONSAMPLE_HPP
