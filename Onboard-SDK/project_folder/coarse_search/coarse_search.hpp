@@ -46,6 +46,7 @@
 //#include "DataFaker.h"
 #include <cstdlib>
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include "FIO.h"
