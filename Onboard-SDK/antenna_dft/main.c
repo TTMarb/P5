@@ -96,13 +96,14 @@ int main() {
                 iX = calcMfromLon(posLat, posLon);
                 tY = calcMfromLat(tY);
                 tX = calcMfromLon(tY, tX);
-                printf("tX: %f, tY: %f\n", tX, tY);
+                printf("\t\ttX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
 
             // Updates the distance
             float dY = calcMfromLat(posLat);// - iY;
             float dX = calcMfromLon(posLat, posLon);// - iX;
+            printf("\t\tdX: %f, dY: %f\n", dX, dY);
             //calculates the distance between the UAV and the target
             float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
             //Approximates the signal strength based on the distance
