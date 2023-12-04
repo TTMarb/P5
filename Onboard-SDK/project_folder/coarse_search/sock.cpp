@@ -65,7 +65,7 @@ bool sock::receive(float* A1, float* A2){
                 printf("\nConnection restablished. Receiving data...\n");
                 timeOutSet = 0;
             }
-            printf("\tReceived %f %f\n", buf[0], buf[1]);
+            printf("\tReceived A1: %f, A2: %f\n", buf[0], buf[1]);
             *A1 = buf[0];
             *A2 = buf[1];
             return true;
