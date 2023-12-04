@@ -41,6 +41,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include <sys/wait.h>
 #include "transceiver_search.hpp"
 
 // Path for UNIX domain socket
@@ -73,11 +74,11 @@ int main(int argc, char** argv) {
     volThreshold = hMax * (1 / pow(20, 3));
 
     // Starts the antenna_dft process
-    pid_t antennaPID;
+    pid_t antennaPID, wpid;
     antennaPID = fork(); // Fork the parent process to start new process
     char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/antenna_dft";
     startProcess(antennaPID, path, NULL);
-
+    int pStatus = 0;
     /********* WAYPOINT MISSION *********/
 
     int functionTimeout = 60;
@@ -261,8 +262,8 @@ int main(int argc, char** argv) {
                 char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                 char param[] = "UserConfig.txt";
                 startProcess(coarsePID, path, param);
-
-                exit(EXIT_SUCCESS); // End process
+                while (wpid = wait(&pStatus) > 0) {}; // Wait for the child processes to finish
+                exit(EXIT_SUCCESS);                   // End process
             }
         }
     }
