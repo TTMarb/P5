@@ -231,14 +231,17 @@ void UAVstop(Vehicle* vehicle, bool land, int functionTimeout) {
         if (ACK::getError(landAck)) {
             ACK::getErrorCodeMessage(landAck, __func__);
         }
+        sleep(5);
 
-        std::cout << "disarm motor \n";
+        std::cout << "Disarm motor \n";
         ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
         if (ACK::getError(disarmAck)) {
             ACK::getErrorCodeMessage(disarmAck, __func__);
         }
+        sleep(5);
     }
 
+    sleep(5);
     std::cout << "Release control authority. \n";
     vehicle->releaseCtrlAuthority(functionTimeout);
 }
