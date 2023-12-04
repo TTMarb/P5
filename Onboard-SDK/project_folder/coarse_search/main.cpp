@@ -149,12 +149,9 @@ int main(int argc, char** argv) {
             printf("Received %f %f", buf[0], buf[1]);
             A1 = buf[0];
             A2 = buf[1];
-            /*
-            df.Fake(vehicle, fileIO, true);
-            A1 = df.A1;
-            A2 = df.A2;
-            */
 
+            H = calcH(vehicle, &A1, &A2, &H);
+            alg = calcAlg(vehicle, &A1, &A2, &H);
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
 
             //Break statement - Within 2x of the target
@@ -168,8 +165,11 @@ int main(int argc, char** argv) {
             cnt++;
         }
     }
+    close(client_sock);
 
     //Set the bool to true to land the UAV, false to stay in the air
     UAVstop(vehicle,true,functionTimeout);
+    std::cout << "Stopping coarse_search" << std::endl;
+    exit(EXIT_SUCCESS);
     return 0;
 }
