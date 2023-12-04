@@ -61,8 +61,11 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    double tLat = 57.061018;//57.061285; 
-    double tLon = 10.035955;//10.035939;
+    //Another test location, next to the fence: 
+        //double tLat = 57.061018
+        //double tLon = 10.035955;
+    double tLat = 57.061285;
+    double tLon = 10.035939;
     while (1) {
         sleep(1);
 
