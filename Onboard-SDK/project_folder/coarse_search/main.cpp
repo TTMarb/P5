@@ -30,13 +30,10 @@
 
 int timecounterMilliseconds = 0;
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv, char** envp) {
 
-    char* envVar = getenv("PID");
-    if (envVar == NULL) {
-        printf("envp not found\n");
-    } else {
-        printf("envp %s\n", envVar);
+    while (*envp) {
+        printf("%s\n", *envp++);
     }
 
     // Setup OSDK.
