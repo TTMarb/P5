@@ -49,14 +49,15 @@ int main(int argc, char** argv) {
     fileIO.createFile();
     //DataFaker df = DataFaker();
     //initializeFake(vehicle, &df, &fileIO);
-    float alg, vel, A1, A2, H, prevH, sampleFrequency;
+    float alg, vel, A1, A2, H, prevH, sampleFrequency,velKp;
     int cnt, mult;
     A1 = 0;
     A2 = 0;
     sampleFrequency = 100;
+    velKp = 0.05;
     PIcontroller yawRate = PIcontroller(0.75, 0.02, sampleFrequency);
-    PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
-    PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
+    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();
 
@@ -73,7 +74,7 @@ int main(int argc, char** argv) {
             {
                 H = calcH(vehicle, &A1, &A2, &H);
                 alg = calcAlg(vehicle, &A1, &A2, &H);
-                vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
+                vel = calcVel(vehicle, &H, &prevH, &cnt, &mult, velKp);
                 std::cout << "\tH: " << H << " Alg: " << alg << " Vel: " << vel << std::endl;
             }
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
