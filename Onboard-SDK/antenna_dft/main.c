@@ -101,7 +101,7 @@ int main() {
 
             // Updates the distance
             float dY = calcMfromLat(posLat);// - iY;
-            float dX = calcMfromLon(posLat);//, posLon) - iX;
+            float dX = calcMfromLon(posLat, posLon);// - iX;
             //calculates the distance between the UAV and the target
             float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
             //Approximates the signal strength based on the distance
