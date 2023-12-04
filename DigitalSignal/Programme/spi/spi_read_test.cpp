@@ -38,7 +38,7 @@ void open_and_configure() {
 }
 
 void readSPI(int spi_fd) {
-    uint8_t buffer[1];
+    char buffer[1];
     
     while (true) {
 
