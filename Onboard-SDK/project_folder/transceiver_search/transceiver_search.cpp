@@ -149,7 +149,7 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         WayPointSettings* prevWp = &wp_list[i - 1];
         setWaypointDefaults(&wp);
         wp.index = i;
-        float dX, dy;
+        float dX, dY;
         // Downwards increment
 
         if (i % 2 != 0) {
