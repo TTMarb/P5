@@ -29,7 +29,7 @@
 #include "coarse_search.hpp"
 
 // Path for UNIX domain socket
-#define SERVER_PATH      "/tmp/unix_sock.server"
+/*#define SERVER_PATH      "/tmp/unix_sock.server"
 #define CLIENT_PATH      "/tmp/unix_sock.client"
 
 // Buffer for sending the gps info for the data generator in antenna_dft
@@ -38,7 +38,7 @@ double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 
 // Buffer for receiving antenna data
 #define BUFFER_SIZE 2
-float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
+float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time*/
 int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv) {
