@@ -40,7 +40,7 @@ sock::sock() {
 bool sock::send(std::string string) {
 }
 
-bool sock::receive(){
+bool sock::receive(float* A1, float* A2){
     int rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
@@ -54,6 +54,8 @@ bool sock::receive(){
                 printf("\nConnection restablished. Receiving data...\n");
                 timeOutSet = 0;
             }
+            A1 = buf[0];
+            A2 = buf[1];
             return true;
         }
 }

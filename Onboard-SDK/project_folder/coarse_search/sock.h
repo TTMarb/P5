@@ -19,19 +19,19 @@
 
 // Buffer for sending the gps info for the data generator in antenna_dft
 #define SEND_BUFFER_SIZE 3
-double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 
 // Buffer for receiving antenna data
 #define BUFFER_SIZE 2
-float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
 
 class sock {
   public:
+  float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
   int client_sock, rc;
     sock(); // Constructor
-    bool send(std::string);
-    bool receive(std::string);
+    bool send(double,double,double);
+    void receive(float*, float*);
   private:
+    double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
     int timeOutSet;
     uint32_t len;
     struct sockaddr_un client_sockaddr, server_sockaddr;
