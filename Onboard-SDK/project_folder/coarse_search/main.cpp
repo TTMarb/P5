@@ -169,7 +169,7 @@ int main(int argc, char** argv) {
     //Set the bool to true to land the UAV, false to stay in the air 
     UAVstop(vehicle,true,functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
-    killall("antenna_dft");
+    //killall("antenna_dft");
     exit(EXIT_SUCCESS);
     return 0;
 }
