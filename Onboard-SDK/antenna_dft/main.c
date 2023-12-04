@@ -61,8 +61,8 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    double tLat = 57.061285*(3.14159265359/180);
-    double tLon = 10.035939*(3.14159265359/180);
+    double tLat = 57.061285;
+    double tLon = 10.035939;
     while (1) {
         sleep(1);
 
@@ -92,12 +92,14 @@ int main() {
 
             // Calculate position to receive
             if (runOnce == 0) {
+                tLat = tLat * (3.14159265359 / 180);
+                tLon = tLon * (3.14159265359 / 180);
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
                 printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
                 tY = calcMfromLat(tLat);
                 tX = calcMfromLon(tLat,tLon);
-                printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
+                printf("\t\tX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
 
