@@ -41,6 +41,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include <sys/wait.h>
 #include "transceiver_search.hpp"
 
 // Path for UNIX domain socket
