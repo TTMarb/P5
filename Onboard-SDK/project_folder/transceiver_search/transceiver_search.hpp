@@ -42,8 +42,6 @@
 
 // Helpers
 #include <dji_linux_helpers.hpp>
-#include "sock.h"
-
 #define EARTH_RADIUS (double)6378137.0
 
 bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM,
