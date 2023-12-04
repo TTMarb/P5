@@ -102,7 +102,6 @@ int main() {
                 printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
                 tY = calcMfromLat(tLat);
                 tX = calcMfromLon(tLat,tLon);
-                printf("\t\tX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
 
@@ -110,7 +109,6 @@ int main() {
             float dY = calcMfromLat(posLat);// - iY;
             float dX = calcMfromLon(posLat, posLon);// - iX;
             printf("\t\tposLat: %f, posLon: %f\n", posLat, posLon);
-            printf("\t\tdX: %f, dY: %f\n", dX, dY);
             //calculates the distance between the UAV and the target
             float distanceTo = sqrt(pow((dX - tX), 2) + pow((dY - tY), 2));
             printf("\t\tdistanceTo : %f\n", distanceTo);
