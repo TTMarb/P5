@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
     // Sets S and W parameters for transceiver search
     float64_t latM; // Y distance per module
     float64_t lonM; // X distance per module
-    float avLength, avWidth, searchWidth, pathLength;
+    float avLength, avWidth, searchWidth, pathLength, angle;
 
     //Delay before stopping mission - purely for testing purposes
     int delayBeforeStop;
@@ -122,6 +122,14 @@ int main(int argc, char** argv) {
         if (avWidth <= 50.0 && avWidth > 0.0) {
         } else {
             std::cout << "Error: Width is not within interval. Please try again.\n";
+            errorFlag = 1;
+            break;
+        }
+        std::cout << "Input angle of avalanche (0-360) (0 is north): " << std::endl;
+        std::cin >> angle;
+        if (angle <= 360.0 && angle > 0.0) {
+        } else {
+            std::cout << "Error: invalid angle. Please try again.\n";
             errorFlag = 1;
             break;
         }
@@ -151,7 +159,7 @@ int main(int argc, char** argv) {
     if (errorFlag == 0) {
         std::cout << "Starting mission.\n";
         std::cout << "The number of waypoints is " << numWaypoints << std::endl;
-        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM);
+        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM, angle);
     }
 
     /********* START OF DOMAIN SOCKET *********/
