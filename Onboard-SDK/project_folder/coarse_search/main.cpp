@@ -28,7 +28,7 @@
 #include <cmath>
 #include "coarse_search.hpp"
 
-using namespace DJI::OSDK;
+//using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 // Path for UNIX domain socket
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
 
     while (1) {
         // Transmit data to antenna_dft process
-        Telemetry::GlobalPosition pos;
+        DJI::OSDK::Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float ang = QtoDEG(vehicle);                   // Get the current UAS angle
 
