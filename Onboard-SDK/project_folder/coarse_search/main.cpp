@@ -48,8 +48,7 @@ int main(int argc, char** argv, char** envp) {
     FIO fileIO = FIO();
     fileIO.changeActiveFile("test.txt");
     fileIO.createFile();
-    //DataFaker df = DataFaker();
-    //initializeFake(vehicle, &df, &fileIO);
+    fileIO.write2file("H, alg, vel, pos.longitude, pos.latitude, UAVangle, A1, A2");
     float alg, vel, A1, A2, H, prevH, sampleFrequency, velKp;
     int mult;
     A1 = 0;
@@ -70,6 +69,7 @@ int main(int argc, char** argv, char** envp) {
 
         soc.sendit(pos.longitude, pos.latitude, UAVangle);
 
+
         // Stay in a blocked state until data is received
         if (soc.receive(&A1, &A2)) {
             H = calcH(vehicle, &A1, &A2, &H);
@@ -86,6 +86,9 @@ int main(int argc, char** argv, char** envp) {
                 std::cout << "Target found! \n";
                 break;
             }
+            fileIO.write2file(std::to_string(H) + "," + std::to_string(alg) + "," + std::to_string(vel) + "," +
+                              std::to_string(pos.longitude) + "," + std::to_string(pos.latitude) + "," +
+                              std::to_string(UAVangle) + "," + std::to_string(A1) + "," + std::to_string(A2));
             prevH = H;
         }
     }

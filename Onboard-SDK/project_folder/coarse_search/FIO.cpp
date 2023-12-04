@@ -3,7 +3,7 @@
 //Constructor
 FIO::FIO() {
     //Appends string name to file buffer
-    //FIO::folderName.append(getTimeStamp());
+    FIO::folderName.append(getTimeStamp());
     //Creates directory with name from buffer
     if (mkdir(FIO::folderName.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
         std::cout << "Folder created: " << folderName << std::endl;
@@ -29,7 +29,7 @@ int FIO::createFile() {
 
 int FIO::write2file(std::string data) {
     std::ofstream outputFile(activeFile.c_str(), std::ios::app); // create a new output file
-    if (outputFile.is_open()) {                                       // check if the file was opened successfully
+    if (outputFile.is_open()) {                                  // check if the file was opened successfully
         outputFile << data << std::endl;
         outputFile.close(); // close the file when done
     } else {
