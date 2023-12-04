@@ -95,8 +95,8 @@ int main() {
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
                 printf("\t\ttX: %f, tY: %f\n", tX, tY);
-                tX = calcMfromLat(tX);
-                tY = calcMfromLon(tX, tY);
+                tY = calcMfromLat(tY);
+                tX = calcMfromLon(tY, tX);
                 printf("\t\ttX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
