@@ -61,8 +61,8 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    double tX = 10.035939;
-    double tY = 57.061285;;
+    double tY = 10.035939;
+    double tX = 57.061285;
     while (1) {
         sleep(1);
 
