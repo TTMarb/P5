@@ -267,8 +267,12 @@ int main(int argc, char** argv) {
                 char path[] = "/home/ubuntu/Documents/P5/Onboard-SDK/build/bin/coarse_search";
                 char param[] = "UserConfig.txt";
                 startProcess(coarsePID, path, param);
+
+                /*
+                // Wait for the antennaDFT to complete
                 while ((wpid = waitpid(antennaPID, &pStatus, WUNTRACED | WCONTINUED)) > 0) {
-                };                  // Wait for the child processes to finish
+                };
+                */
                 exit(EXIT_SUCCESS); // End process
             }
         }
