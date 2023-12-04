@@ -86,8 +86,8 @@ int main() {
             perror("recvfrom");
         } else {
             // Data is being received
-            posLon = recvBuf[0];
-            posLat = recvBuf[1];
+            posLon = recvBuf[0]*(180/3.1415);
+            posLat = recvBuf[1]*(180/3.1415);
             angle = recvBuf[2];
 
             // Calculate position to receive
