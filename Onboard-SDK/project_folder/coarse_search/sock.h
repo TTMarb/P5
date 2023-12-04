@@ -11,6 +11,8 @@
 #include <errno.h>
 #include <stdlib.h>
 
+#include <unistd.h>
+
 //socket related includes
 #include <sys/socket.h>
 #include <sys/types.h>
