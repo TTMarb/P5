@@ -44,5 +44,6 @@ add_executable(${PROJECT_NAME}
     main.cpp
     coarse_search.cpp
     FIO.cpp
-    PIcontroller.cpp)
+    PIcontroller.cpp
+    sock.cpp)
 target_link_libraries(${PROJECT_NAME} djiosdk-core)

@@ -28,11 +28,8 @@
 #include <cmath>
 #include "coarse_search.hpp"
 
-using namespace DJI::OSDK;
-using namespace DJI::OSDK::Telemetry;
-
 // Path for UNIX domain socket
-#define SERVER_PATH      "/tmp/unix_sock.server"
+/*#define SERVER_PATH      "/tmp/unix_sock.server"
 #define CLIENT_PATH      "/tmp/unix_sock.client"
 
 // Buffer for sending the gps info for the data generator in antenna_dft
@@ -41,7 +38,7 @@ double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
 
 // Buffer for receiving antenna data
 #define BUFFER_SIZE 2
-float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
+float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time*/
 int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv) {
@@ -72,7 +69,9 @@ int main(int argc, char** argv) {
     PIcontroller vX = PIcontroller(0.05, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(0.05, 0, sampleFrequency);
 
-    /********* START OF DOMAIN SOCKET *********/
+    sock soc = sock();
+
+    /********* START OF DOMAIN SOCKET ********
     int client_sock, rc;
     uint32_t len;
     struct sockaddr_un client_sockaddr, server_sockaddr;
@@ -107,7 +106,7 @@ int main(int argc, char** argv) {
     if (rc == 1) {
         perror("connect");
         exit(EXIT_FAILURE);
-    }
+    }*/
 
     int timeOutSet = 0;
 
@@ -115,13 +114,15 @@ int main(int argc, char** argv) {
 
     while (1) {
         // Transmit data to antenna_dft process
-        Telemetry::GlobalPosition pos;
+        DJI::OSDK::Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
-        float ang = QtoDEG(vehicle);                   // Get the current UAS angle
-
+        float UAVangle = QtoDEG(vehicle);                   // Get the current UAS angle
+        
+        soc.send(pos.longitude, pos.latitude, UAVangle);
+        /*
         sendBuf[0] = pos.longitude;
         sendBuf[1] = pos.latitude;
-        sendBuf[2] = ang;
+        sendBuf[2] = UAVangle;
 
         rc = send(client_sock, sendBuf, sizeof(double) * SEND_BUFFER_SIZE, 0);
         if (rc == -1) {
@@ -130,8 +131,12 @@ int main(int argc, char** argv) {
             // Data is sent here!
             printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
         }
+        */
 
         // Stay in a blocked state until data is received
+        if (soc.receive(&A1, &A2) == false) {
+            continue;
+        }/*
         rc = recv(client_sock, buf, sizeof(float) * BUFFER_SIZE, 0);
         if (rc == -1) {
             if (timeOutSet == 0) {
@@ -146,8 +151,8 @@ int main(int argc, char** argv) {
             }
             printf("Received %f %f", buf[0], buf[1]);
             A1 = buf[0];
-            A2 = buf[1];
-
+            A2 = buf[1];*/
+            else{
             H = calcH(vehicle, &A1, &A2, &H);
             alg = calcAlg(vehicle, &A1, &A2, &H);
             vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
@@ -164,12 +169,12 @@ int main(int argc, char** argv) {
             cnt++;
         }
     }
-    close(client_sock);
+    close(soc.client_sock);
 
     //Set the bool to true to land the UAV, false to stay in the air 
     UAVstop(vehicle,true,functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
-    killall("antenna_dft");
+    //killall("antenna_dft");
     exit(EXIT_SUCCESS);
     return 0;
 }
