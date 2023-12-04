@@ -36,7 +36,7 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM) {
+bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM, float32_t angle) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
@@ -55,7 +55,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
     std::cout << "Initializing Waypoint Mission..\n";
 
     // Waypoint Mission: Create Waypoints
-    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt);
+    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt, angle);
     std::cout << "Creating Waypoints..\n";
 
     // Waypoint Mission: Upload the waypoints
@@ -108,7 +108,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
 }
 
 std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
-                                                         float64_t lonM, float32_t start_alt) {
+                                                         float64_t lonM, float32_t start_alt,float32_t angle) {
     // Create Start Waypoint
     WayPointSettings start_wp;
     setWaypointDefaults(&start_wp);
@@ -125,12 +125,12 @@ std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* veh
     printf("Initial location at (LLA): %f \t%f \t%f\n", broadcastGPosition.latitude, broadcastGPosition.longitude,
            start_alt);
 
-    std::vector<DJI::OSDK::WayPointSettings> wpVector = generateWaypoints(&start_wp, numWaypoints, latM, lonM);
+    std::vector<DJI::OSDK::WayPointSettings> wpVector = generateWaypoints(&start_wp, numWaypoints, latM, lonM, angle);
     return wpVector;
 }
 
 std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* start_data, int num_wp, float64_t latM,
-                                                           float64_t lonM) {
+                                                           float64_t lonM, float32_t angle) {
 
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
@@ -149,17 +149,21 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         WayPointSettings* prevWp = &wp_list[i - 1];
         setWaypointDefaults(&wp);
         wp.index = i;
+        float dX, dY;
         // Downwards increment
+
         if (i % 2 != 0) {
             mult = mult * -1;
-            wp.latitude = (prevWp->latitude);
-            wp.longitude = (prevWp->longitude + (((latM / r_earth) / cos(wp.latitude)) * mult));
+            dX = cos(angle*(M_PI/180))*latM;
+            dY = sin(angle*(M_PI/180))*latM;
 
         } else // Side ways increment
         {
-            wp.longitude = (prevWp->longitude);
-            wp.latitude = (prevWp->latitude + ((lonM / r_earth)));
+            dX = cos(angle*(M_PI/180)+M_PI_2)*lonM;
+            dY = sin(angle*(M_PI/180)+M_PI_2)*lonM;
         }
+            wp.latitude = (prevWp->latitude + ((dY / EARTH_RADIUS)));
+            wp.longitude = (prevWp->longitude + (((dX / EARTH_RADIUS) / cos(wp.latitude)) * mult));
         wp.altitude = (prevWp->altitude);
         wp_list.push_back(wp);
     }
