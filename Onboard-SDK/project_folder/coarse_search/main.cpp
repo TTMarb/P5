@@ -151,6 +151,7 @@ int main(int argc, char** argv) {
 
             H = calcH(vehicle, &A1, &A2, &H);
             alg = calcAlg(vehicle, &A1, &A2, &H);
+            vel = calcVel(vehicle, &H, &prevH, &cnt, &mult);
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
 
             //Break statement - Within 2x of the target
