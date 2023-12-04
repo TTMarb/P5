@@ -53,21 +53,17 @@ float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
 }
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* cnt, int* mult, int Kp) {
-    printf("Calcing vel!\n");
     if (H < prevH) {
-        printf("H small!\n");
         if (*cnt > 5) {
-            printf("cnt bigger than 5!\n");
             *mult *= -1;
             std::cout << "\t\t\t changed velocityraptor" << std::endl;
             cnt = 0;
         }
     } else {
-        printf("H big!\n");
         cnt = 0;
     }
-    printf("returning value!!\n");
-    return ((1 - log1p(*H)) + (1 / Kp)) * (*mult);
+    float returnvalue = ((1 - log1p(*H)) + (1 / Kp)) * (*mult);
+    return returnvalue;
 }
 
 void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fileIO, PIcontroller* yawRate,
