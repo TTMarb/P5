@@ -44,6 +44,10 @@
 #include <stdlib.h>
 #include <string.h>
 //#include "DataFaker.h"
+#include <cstdlib>
+#include <iostream>
+#include <sstream>
+#include <string>
 #include "FIO.h"
 #include "PIcontroller.h"
 #include "sock.h"
