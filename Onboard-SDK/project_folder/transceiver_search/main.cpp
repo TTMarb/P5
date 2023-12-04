@@ -127,7 +127,8 @@ int main(int argc, char** argv) {
         }
         std::cout << "Input angle of avalanche (0-360) (0 is north): " << std::endl;
         std::cin >> angle;
-        if (angle <= 360.0 && angle > 0.0) {
+        angle = 360-angle;
+        if (angle <= 360.0 && angle >= 0.0) {
         } else {
             std::cout << "Error: invalid angle. Please try again.\n";
             errorFlag = 1;
