@@ -7,6 +7,10 @@
 #include <string>
 #include <cstring>
 
+
+#include <errno.h>
+#include <stdlib.h>
+
 //socket related includes
 #include <sys/socket.h>
 #include <sys/types.h>
