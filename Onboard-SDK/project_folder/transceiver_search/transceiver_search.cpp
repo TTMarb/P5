@@ -45,7 +45,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
 
-    float32_t start_alt = 1.5;
+    float32_t start_alt = 4;
 
     ACK::ErrorCode initAck = vehicle->missionManager->init(DJI_MISSION_TYPE::WAYPOINT, responseTimeout, &fdata);
     if (ACK::getError(initAck)) {
