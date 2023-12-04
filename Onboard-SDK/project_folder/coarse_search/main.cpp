@@ -31,25 +31,6 @@
 int timecounterMilliseconds = 0;
 
 int main(int argc, char** argv, char** envp) {
-
-    /*
-    printf("No buffer\n");
-    while (*envp) {
-        printf("%s\n", *envp);
-        *envp++;
-    }
-    */
-    std::vector<std::string> envVariables;
-
-    while (*envp != nullptr) {
-        envVariables.push_back(*envp);
-        envp++;
-    }
-
-    for (const auto& envVar : envVariables) {
-        std::cout << envVar << std::endl;
-    }
-
     // Setup OSDK.
     LinuxSetup linuxEnvironment(argc, argv);
 
@@ -80,6 +61,13 @@ int main(int argc, char** argv, char** envp) {
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();
+
+    // Get the antenna_dft process pid to terminate it later
+    std::vector<std::string> envPID;
+    while (*envp != nullptr) {
+        envPID.push_back(*envp);
+        envp++;
+    }
 
     while (1) {
         // Transmit data to antenna_dft process
@@ -114,6 +102,11 @@ int main(int argc, char** argv, char** envp) {
 
     UAVstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
+    if (kill(envPID, SIGTERM) == 0) {
+        std::cout << "Terminating antenna_dft" << std : endl;
+    } else {
+        perror("kill");
+    }
     exit(EXIT_SUCCESS);
     return 0;
 }
