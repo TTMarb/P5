@@ -36,7 +36,8 @@
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM, float32_t angle) {
+bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM,
+                        float32_t angle) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
@@ -55,7 +56,8 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
     std::cout << "Initializing Waypoint Mission..\n";
 
     // Waypoint Mission: Create Waypoints
-    std::vector<WayPointSettings> generatedWaypts = createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt, angle);
+    std::vector<WayPointSettings> generatedWaypts =
+        createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt, angle);
     std::cout << "Creating Waypoints..\n";
 
     // Waypoint Mission: Upload the waypoints
@@ -108,7 +110,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
 }
 
 std::vector<DJI::OSDK::WayPointSettings> createWaypoints(DJI::OSDK::Vehicle* vehicle, int numWaypoints, float64_t latM,
-                                                         float64_t lonM, float32_t start_alt,float32_t angle) {
+                                                         float64_t lonM, float32_t start_alt, float32_t angle) {
     // Create Start Waypoint
     WayPointSettings start_wp;
     setWaypointDefaults(&start_wp);
@@ -154,16 +156,16 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
 
         if (i % 2 != 0) {
             mult = mult * -1;
-            dX = cos(angle*(M_PI/180))*latM;
-            dY = sin(angle*(M_PI/180))*latM;
+            dX = cos(angle * (M_PI / 180)) * latM;
+            dY = sin(angle * (M_PI / 180)) * latM;
 
         } else // Side ways increment
         {
-            dX = cos(angle*(M_PI/180)+M_PI_2)*lonM;
-            dY = sin(angle*(M_PI/180)+M_PI_2)*lonM;
+            dX = cos(angle * (M_PI / 180) + M_PI_2) * lonM;
+            dY = sin(angle * (M_PI / 180) + M_PI_2) * lonM;
         }
-            wp.latitude = (prevWp->latitude + ((dY / EARTH_RADIUS)));
-            wp.longitude = (prevWp->longitude + (((dX / EARTH_RADIUS) / cos(wp.latitude)) * mult));
+        wp.latitude = (prevWp->latitude + ((dY / EARTH_RADIUS)));
+        wp.longitude = (prevWp->longitude + (((dX / EARTH_RADIUS) / cos(wp.latitude)) * mult));
         wp.altitude = (prevWp->altitude);
         wp_list.push_back(wp);
     }
@@ -199,7 +201,7 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
 void startProcess(pid_t pid, char* path, char* param, pid_t prevPid) {
     char* bname = basename(path); // Get process name from path argument
     char PID[20];
-    strcpy(PID, "foo");
+    //sprintf(PID, "%d", prevPid);
 
     if (pid == -1) {
         printf("Error while forking %s\n", bname);
@@ -209,7 +211,7 @@ void startProcess(pid_t pid, char* path, char* param, pid_t prevPid) {
     } else if (pid == 0) { // Child process
         printf("Child process %s initiated. PID is %d\n", bname, getpid());
         char* const args[] = {param};
-        char* const envp[] = {PID, NULL};
+        char* const envp[] = {"PID=bar", NULL};
         execve(path, args, envp); // Override the child process with the binary file
         perror("execve");
         exit(EXIT_FAILURE); // Exit the child process if it fails
