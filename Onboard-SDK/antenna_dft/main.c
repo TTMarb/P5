@@ -86,16 +86,16 @@ int main() {
             perror("recvfrom");
         } else {
             // Data is being received
-            posLon = recvBuf[0]*(180/3.1415);
-            posLat = recvBuf[1]*(180/3.1415);
+            posLon = recvBuf[0];
+            posLat = recvBuf[1];
             angle = recvBuf[2];
 
             // Calculate position to receive
             if (runOnce == 0) {
                 iY = calcMfromLat(posLat);
                 iX = calcMfromLon(posLat, posLon);
-                tY = calcMfromLat(tY);
-                tX = calcMfromLon(tY, tX);
+                tY = calcMfromLat((180-tY)*(M_PI/180));
+                tX = calcMfromLon((180-tY)*(M_PI/180), (180-tX)*(M_PI/180));
                 printf("\t\ttX: %f, tY: %f\n", tX, tY);
                 runOnce = 1;
             }
