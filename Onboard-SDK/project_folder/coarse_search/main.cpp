@@ -54,10 +54,10 @@ int main(int argc, char** argv) {
     A1 = 0;
     A2 = 0;
     sampleFrequency = 100;
-    velKp = 0.2;
+    velKp = 0.15;
     PIcontroller yawRate = PIcontroller(0.25, 0.02, sampleFrequency);
-    PIcontroller vX = PIcontroller(velKp, 0.01, sampleFrequency);
-    PIcontroller vY = PIcontroller(velKp, 0.01, sampleFrequency);
+    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
+    PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();
 
