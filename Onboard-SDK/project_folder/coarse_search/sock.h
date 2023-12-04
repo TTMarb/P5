@@ -28,7 +28,7 @@ class sock {
     int client_sock, rc;
     sock(); // Constructor
     bool send(double,double,double);
-    void receive(float*, float*);
+    bool receive(float*, float*);
   private:
     double sendBuf[SEND_BUFFER_SIZE]; // Contains longitude, latitude, and angle
     float buf[BUFFER_SIZE]; // Contains only A1 and A2 data at a time
