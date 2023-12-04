@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
         float UAVangle = QtoDEG(vehicle);                   // Get the current UAS angle
         
-        soc.send(pos.longitude, pos.latitude, UAVangle)
+        soc.send(pos.longitude, pos.latitude, UAVangle);
         /*
         sendBuf[0] = pos.longitude;
         sendBuf[1] = pos.latitude;
