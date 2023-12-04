@@ -29,7 +29,7 @@
 #include "coarse_search.hpp"
 
 //using namespace DJI::OSDK;
-using namespace DJI::OSDK::Telemetry;
+//using namespace DJI::OSDK::Telemetry;
 
 // Path for UNIX domain socket
 #define SERVER_PATH      "/tmp/unix_sock.server"
