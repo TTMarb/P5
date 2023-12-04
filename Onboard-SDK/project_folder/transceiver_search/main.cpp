@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
         }
         std::cout << "Input angle of avalanche (0-360) (0 is north): " << std::endl;
         std::cin >> angle;
-        angle = 360-angle;
+        angle = 360 - angle;
         if (angle <= 360.0 && angle >= 0.0) {
         } else {
             std::cout << "Error: invalid angle. Please try again.\n";
@@ -229,7 +229,7 @@ int main(int argc, char** argv) {
             perror("send");
         } else {
             // Data is sent here!
-            printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
+            //printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
         }
 
         // Stay in a blocked state until data is received
@@ -256,7 +256,7 @@ int main(int argc, char** argv) {
             }
             hField = sqrt(pow(newAvgA1, 2) + pow(newAvgA2, 2));
 
-            printf("Received %f\n", hField);
+            printf("H-field: %f\n", hField);
 
             // Matches a H-field strenghth at a distance of
             if (hField >= volThreshold) {
