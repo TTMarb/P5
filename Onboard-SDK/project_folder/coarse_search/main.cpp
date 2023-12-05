@@ -98,17 +98,16 @@ int main(int argc, char** argv, char** envp) {
     std::cout << "Stopping coarse_search" << std::endl;
 
     // Get the antenna_dft process pid
-    //std::vector<std::string> envPID;
     std::string envPID;
     while (*envp != nullptr) {
-        //envPID.push_back(*envp);
         envPID += *envp;
         envp++;
     }
-    std::cout << "ENV BEFORE CONVERSION " << pidNum << std::endl;
+    std::cout << "ENV BEFORE CONVERSION " << envPID << std::endl;
 
     // Convert to pid_t
-    int pidNum = std::stoi(envPID);
+
+    //int pidNum = std::stoi(envPID);
 
     pid_t pidTemp = static_cast<pid_t>(pidNum);
     std::cout << "ENV VAR: " << pidNum << std::endl;
