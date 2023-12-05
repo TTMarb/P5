@@ -103,15 +103,9 @@ int main(int argc, char** argv, char** envp) {
         envPID += *envp;
         envp++;
     }
-    std::cout << "ENV BEFORE CONVERSION " << envPID << std::endl;
-
-    // Convert to pid_t
-
     int pidNum = std::stoi(envPID);
-
     pid_t pidTemp = static_cast<pid_t>(pidNum);
-    std::cout << "ENV VAR: " << pidNum << std::endl;
-
+    std::cout << "antenna_dft pid: " << pidNum << std::endl;
     // Terminate the process
     if (kill(pidTemp, SIGTERM) == 0) {
         std::cout << "Terminating antenna_dft" << std::endl;
