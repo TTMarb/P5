@@ -55,8 +55,8 @@ int main(int argc, char** argv, char** envp) {
     A2 = 0;
     sampleFrequency = 100;
     velKp = 0.15;
-    PIcontroller yawRate = PIcontroller(0.1, 0, sampleFrequency);//0.02 
-    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency); 
+    PIcontroller yawRate = PIcontroller(0.1, 0, sampleFrequency); //0.02
+    PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);
 
     sock soc = sock();
@@ -68,7 +68,6 @@ int main(int argc, char** argv, char** envp) {
         float UAVangle = QtoDEG(vehicle);              // Get the current UAS angle
 
         soc.sendit(pos.longitude, pos.latitude, UAVangle);
-
 
         // Stay in a blocked state until data is received
         if (soc.receive(&A1, &A2)) {
@@ -86,9 +85,9 @@ int main(int argc, char** argv, char** envp) {
                 std::cout << "Target found! \n";
                 break;
             }
-            fileIO.write2file(std::to_string(H) + "," + std::to_string(alg) + "," + std::to_string(vel) + "," +
-                              std::to_string(pos.longitude) + "," + std::to_string(pos.latitude) + "," +
-                              std::to_string(UAVangle) + "," + std::to_string(A1) + "," + std::to_string(A2));
+            fileIO.write2file(std::to_string(H) + "," + std::to_string(alg) + "," + std::to_string(vel) + ","
+                              + std::to_string(pos.longitude) + "," + std::to_string(pos.latitude) + ","
+                              + std::to_string(UAVangle) + "," + std::to_string(A1) + "," + std::to_string(A2));
             prevH = H;
         }
     }
@@ -99,14 +98,18 @@ int main(int argc, char** argv, char** envp) {
     std::cout << "Stopping coarse_search" << std::endl;
 
     // Get the antenna_dft process pid
-    std::vector<std::string> envPID;
+    //std::vector<std::string> envPID;
+
+    std::string envPID;
     while (*envp != nullptr) {
-        envPID.push_back(*envp);
+        //envPID.push_back(*envp);
+        envPID += *envp;
         envp++;
     }
     // Convert to pid_t
-    std::string tempStr = std::accumulate(begin(envPID), end(envPID), tempStr);
-    int pidNum = std::stoi(tempStr);
+    int pidNum = std::stoi(envPID);
+    std::cout << "ENV VAR: " << pidNum << std::endl;
+
     pid_t pidTemp = static_cast<pid_t>(pidNum);
 
     // Terminate the process
