@@ -107,7 +107,7 @@ int main(int argc, char** argv, char** envp) {
 
     // Convert to pid_t
 
-    //int pidNum = std::stoi(envPID);
+    int pidNum = std::stoi(envPID);
 
     pid_t pidTemp = static_cast<pid_t>(pidNum);
     std::cout << "ENV VAR: " << pidNum << std::endl;
