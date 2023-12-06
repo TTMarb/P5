@@ -45,6 +45,9 @@ void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO fileI
     fileIO.changeActiveFile(filename);
     fileIO.createFile();
 
+    
+    Telemetry::Vector3f vel;
+
     //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
     setBroadcastFrequency(vehicle);
 
@@ -72,8 +75,9 @@ void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO fileI
     int time = 0;
     int timestepInMS = 10;
     while (isTargetHit(vehicle, targetAngle, &currAngle, &counter, 10)) {
+        vel = vehicle->control->getVelocity();
         time = time + timestepInMS;
-        std::string data = std::to_string(time) + "," + std::to_string(fabs(currAngle));
+        std::string data = std::to_string(time) + "," + std::to_string(fabs(currAngle)) + "," + std::to_string(vel.x)+ "," + std::to_string(vel.y)+ "," + std::to_string(vel.z);
         fileIO.write2file(data);
         std::cout << data << "\n";
         usleep(timestepInMS * 1000);
