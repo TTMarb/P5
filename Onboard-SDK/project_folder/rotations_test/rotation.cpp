@@ -92,14 +92,15 @@ float32_t QtoDEG(Vehicle* vehicle) {
     //and the flight-control sample
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
-    float32_t angle = atan2(-t1, t0) * 180 / M_PI;
+    float32_t angle = atan2(t1, t0) * 180 / M_PI;
+    /*float32_t angle = atan2(-t1, t0) * 180 / M_PI;
 
     //Following code is implemented to change direction and offset of angle, to rotate anti-clockwise
     //and start with 0 degrees at the right
     angle += 90;
     if (angle > 360) {
         angle -= 360;
-    }
+    }*/
     return angle;
 }
 
