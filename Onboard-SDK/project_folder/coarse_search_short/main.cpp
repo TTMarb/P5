@@ -123,3 +123,25 @@ int main(int argc, char** argv, char** envp) {
     exit(EXIT_SUCCESS); //Exit the coarse_search process
     return 0;
 }
+
+//
+void startProcess(pid_t pid, char* path, char* param, pid_t prevPid) {
+    char* bname = basename(path); // Get process name from path argument
+    char PID[20];
+    sprintf(PID, "%d", prevPid);
+
+    if (pid == -1) {
+        printf("Error while forking %s\n", bname);
+        // Close write and read end of pipe
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) { // Child process
+        printf("Child process %s initiated. PID is %d\n", bname, getpid());
+        char* const args[] = {param, NULL};
+        char* const envp[] = {PID, NULL};
+        execve(path, args, envp); // Override the child process with the binary file
+        perror("execve");
+        exit(EXIT_FAILURE); // Exit the child process if it fails
+    } else if (pid > 0) {   // Parent process
+        printf("Parent process running. PID is %d\n", getpid());
+    }
+}
