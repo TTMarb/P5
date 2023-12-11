@@ -4,3 +4,6 @@ C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/CMakeFiles/ZERO_C
 C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/osdk-core/CMakeFiles/djiosdk-core.dir
 C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/osdk-core/CMakeFiles/INSTALL.dir
 C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/osdk-core/CMakeFiles/ALL_BUILD.dir
+C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/antenna_dft/CMakeFiles/antenna_dft.dir
+C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/antenna_dft/CMakeFiles/INSTALL.dir
+C:/Users/rdybs/Desktop/gitnstuff/P5/Onboard-SDK/project_folder/antenna_dft/CMakeFiles/ALL_BUILD.dir
