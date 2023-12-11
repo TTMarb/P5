@@ -29,6 +29,8 @@
 #include "coarse_search.hpp"
 
 int timecounterMilliseconds = 0;
+void startProcess(pid_t pid, char* path, char* param, pid_t prevPid);
+
 
 int main(int argc, char** argv, char** envp) {
     // Setup OSDK.
