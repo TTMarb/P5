@@ -49,7 +49,7 @@ int cnt;
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
 float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
-    return (acos((*A1 - *A2) / (*H + 0.001)) - M_PI_2) * (180 / M_PI);
+    return -(acos((*A1 - *A2) / (*H + 0.001)) - M_PI_2) * (180 / M_PI);
 }
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* mult, float Kp) {
@@ -83,7 +83,7 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
     float sampleTimeInSeconds = 1 / sampleFrequency;
     int maxADCvalue = 4096;
 
-    yawRate->updatePIController(-(*alg));
+    yawRate->updatePIController(alg);
     //Calculate velocity in x and y direction
     //Sets velocity and yaw rate
     for (int i = 0; i < sampleFrequency; i++) {
