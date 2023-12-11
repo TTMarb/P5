@@ -56,7 +56,7 @@ int main() {
     int timeOutSet = 0;
 
     // Variables for antenna data generation
-    double positionLatitude, positionLongitude, angle,Tranceiver_Y_location,Tranceiver_X_location;
+    double positionLatitude, positionLongitude, UAVangle,Tranceiver_Y_location,Tranceiver_X_location;
     float A1, A2;
     int runOnce = 0;
     int calComplete = 0;
@@ -91,7 +91,7 @@ int main() {
             // Data is being received
             positionLongitude = recvBuf[0];
             positionLatitude = recvBuf[1];
-            angle = recvBuf[2];
+            UAVangle = recvBuf[2];
 
             // Calculate position to receive
             if (runOnce == 0) {
