@@ -112,7 +112,8 @@ int main() {
             int maxADCvalue = 4096;
             float signalStrength = maxADCvalue * (1 / pow(distance, 3));
             //Finds the difference between the UAV's angle and the target's angle
-            float targetAngle = 180 - 2 * getAngle(dY - tY, dX - tX);
+            //float targetAngle = 180 - 2 * getAngle(dY - tY, dX - tX);
+            float targetAngle = 90 + getAngle(dY - tY, dX - tX);
             if (targetAngle < 0) {
                 targetAngle += 360;
             }
