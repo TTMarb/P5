@@ -64,8 +64,8 @@ int main() {
     //Another test location, next to the fence: 
         //double tLat = 57.061018
         //double tLon = 10.035955;
-    double tLat = 57.060662;//57.061285;
-    double tLon = 10.036491000000002;//10.035939;
+    double tLat = 57.061285;
+    double tLon = 10.035939;
     while (1) {
         sleep(1);
 
@@ -98,8 +98,8 @@ int main() {
                 tLat = tLat * (3.14159265359 / 180);
                 tLon = tLon * (3.14159265359 / 180);
                 printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
-                Tranceiver_Y_location = calcMfromLat(tLat)+14;
-                Tranceiver_X_location = calcMfromLon(tLat,tLon)+14;
+                Tranceiver_Y_location = calcMfromLat(tLat);
+                Tranceiver_X_location = calcMfromLon(tLat,tLon);
                 runOnce = 1;
             }
 
