@@ -83,7 +83,7 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
     float sampleTimeInSeconds = 1 / sampleFrequency;
     int maxADCvalue = 4096;
 
-    yawRate->updatePIController(-alg);
+    yawRate->updatePIController(-(*alg));
     //Calculate velocity in x and y direction
     //Sets velocity and yaw rate
     for (int i = 0; i < sampleFrequency; i++) {
