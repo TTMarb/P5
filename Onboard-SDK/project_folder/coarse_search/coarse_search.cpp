@@ -22,28 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 #include "coarse_search.hpp"
-//#include "DataFaker.h"
 #include "coarse_search.hpp"
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
-/*void initializeFake(DJI::OSDK::Vehicle* vehicle, DataFaker* df, FIO* fileIO) {
-    Telemetry::GlobalPosition pos;
-    std::cout << "Bout to calculate init position: \n";
-    pos = vehicle->broadcast->getGlobalPosition();
-    std::cout << "X-location 4 transceiver: " << std::endl;
-    int xLoc;
-    std::cin >> xLoc;
-    std::cout << "Y-location 4 transceiver: " << std::endl;
-    int yLoc;
-    std::cin >> yLoc;
-    std::string filename = "trace" + std::to_string(xLoc) + std::to_string(yLoc) + ".csv";
-    fileIO->changeActiveFile(filename);
-    fileIO->createFile();
-    df->init(vehicle, 1000, xLoc, yLoc);
-}*/
 int cnt;
 
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
@@ -95,7 +80,6 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
         vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
         float sampleTimeInMicroSeconds = sampleTimeInSeconds * 1000 * 1000;
         timecounterMilliseconds += 10;
-        //df.Fake(vehicle,fileIO,false);
         usleep(sampleTimeInMicroSeconds);
     }
 }

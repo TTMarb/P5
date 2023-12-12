@@ -45,7 +45,6 @@ bool sock::sendit(double longitude, double latitude, double UAVangle) {
         perror("send");
     } else {
         // Data is sent here!
-        //printf("Sending buffer %f, %f, %f\n", sendBuf[0], sendBuf[1], sendBuf[2]);
     }
 }
 

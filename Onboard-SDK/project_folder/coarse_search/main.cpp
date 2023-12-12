@@ -78,8 +78,8 @@ int main(int argc, char** argv, char** envp) {
             controlVehicle(vehicle, &vel, &alg, &fileIO, &yawRate, &vX, &vY, sampleFrequency, &timecounterMilliseconds);
             std::cout << "\tyawRate: " << yawRate.PIvalue << " vX: " << vX.PIvalue << " vY: " << vY.PIvalue
                       << std::endl;
-            //Break statement - Within 2x of the target
-            if (H > (140)) { //<- Within 3 m
+            //Break statement - Within of the target
+            if (H > (140)) { //<- Within 3.08 m
                 //Stops the UAV
                 vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
                 std::cout << "Target found! \n";

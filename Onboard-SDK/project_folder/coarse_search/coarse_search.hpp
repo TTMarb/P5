@@ -61,7 +61,6 @@
 // Helpers
 #include <dji_linux_helpers.hpp>
 
-//void initializeFake(DJI::OSDK::Vehicle*, DataFaker*, FIO*);
 void controlVehicle(DJI::OSDK::Vehicle*, float*, float*, FIO*, PIcontroller*, PIcontroller*, PIcontroller*, int, int*);
 void UAVtakoff(Vehicle*, int);
 void UAVstop(Vehicle*, bool, int);
