@@ -4,7 +4,7 @@ Onboard-SDK/build/
 Onboard-SDK/project_folder/*
 !Onboard-SDK/project_folder/coarse_search/
 !Onboard-SDK/project_folder/common/
-!Onboard-SDK/project_folder/rotations_test/
+!Onboard-SDK/project_folder/rotation_test/
 !Onboard-SDK/project_folder/tranceiver_search/
 !Onboard-SDK/project_folder/CMakeLists.txt/
 */.vscode/
