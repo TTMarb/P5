@@ -1,0 +1,7 @@
+#*.*
+!coarse_search/
+!common/
+!osdk-core/
+!rotations_test/
+!tranceiver_search/
+!CMakeLists.txt/
