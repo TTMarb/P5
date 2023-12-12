@@ -65,13 +65,11 @@ using namespace DJI::OSDK::Telemetry;
 int main(int argc, char** argv) {
 
     /********* INITIALIZE DFT PROCESS *********/
-
     /*
      * The H field is approximated as H_max = K * 1/z^3,
      * where z is the distance to the transceiver.
      */
     double volThreshold, minDist, hMax;
-    minDist = 3; // Closest possible distance in m
     hMax = 4096; // Max ADC value
     // H field at 20 m
     volThreshold = hMax * (1 / pow(20, 3));
@@ -105,6 +103,7 @@ int main(int argc, char** argv) {
     float64_t latM; // Y distance per module
     float64_t lonM; // X distance per module
     float avLength, avWidth, searchWidth, pathLength, angle;
+    float32_t altitude = 4;
 
     //Delay before stopping mission - purely for testing purposes
     int delayBeforeStop;
@@ -163,7 +162,7 @@ int main(int argc, char** argv) {
     if (errorFlag == 0) {
         std::cout << "Starting mission.\n";
         std::cout << "The number of waypoints is " << numWaypoints << std::endl;
-        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM, angle);
+        runWaypointMission(vehicle, numWaypoints, responseTimeout, latM, lonM, angle, altitude);
     }
 
     sock soc = sock();

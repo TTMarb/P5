@@ -45,7 +45,7 @@
 #define EARTH_RADIUS (double)6378137.0
 
 bool runWaypointMission(DJI::OSDK::Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM,
-                        float64_t lonM, float32_t angle);
+                        float64_t lonM, float32_t angle,float32_t altitude);
 
 void setWaypointDefaults(DJI::OSDK::WayPointSettings* wp);
 void setWaypointInitDefaults(DJI::OSDK::WayPointInitSettings* fdata);

@@ -37,15 +37,13 @@ using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
 
 bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout, float64_t latM, float64_t lonM,
-                        float32_t angle) {
+                        float32_t angle, float32_t altitude) {
     // Waypoint Mission : Initialization
     WayPointInitSettings fdata;
     setWaypointInitDefaults(&fdata);
     setBroadcastFrequency(vehicle);
 
     fdata.indexNumber = numWaypoints + 1; // We add 1 to get the aircarft back to the start.
-
-    float32_t start_alt = 4;
 
     ACK::ErrorCode initAck = vehicle->missionManager->init(DJI_MISSION_TYPE::WAYPOINT, responseTimeout, &fdata);
     if (ACK::getError(initAck)) {
@@ -57,7 +55,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
 
     // Waypoint Mission: Create Waypoints
     std::vector<WayPointSettings> generatedWaypts =
-        createWaypoints(vehicle, numWaypoints, latM, lonM, start_alt, angle);
+        createWaypoints(vehicle, numWaypoints, latM, lonM, altitude, angle);
     std::cout << "Creating Waypoints..\n";
 
     // Waypoint Mission: Upload the waypoints
@@ -81,14 +79,16 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
 }
 
 void setWaypointDefaults(WayPointSettings* wp) {
-    wp->damping = 0;
+    wp->damping = 0; //Relevant for coordinated turns - not our scope
     wp->yaw = 0;
+    //gimbalPitch: Set to zero for a good orders sake :)
     wp->gimbalPitch = 0;
+    //turnMode: Clockwise or anti-clockwise
     wp->turnMode = 0;
-    wp->hasAction = 0;
-    wp->actionTimeLimit = 100;
+    wp->hasAction = 0; //No action flags
+    wp->actionTimeLimit = 100; //Limits each action to 100 seconds
     wp->actionNumber = 0;
-    wp->actionRepeat = 0;
+    wp->actionRepeat = 0; //No repeating of action
     for (int i = 0; i < 16; ++i) {
         wp->commandList[i] = 0;
         wp->commandParameter[i] = 0;
@@ -96,13 +96,13 @@ void setWaypointDefaults(WayPointSettings* wp) {
 }
 
 void setWaypointInitDefaults(WayPointInitSettings* fdata) {
-    fdata->maxVelocity = 10;
-    fdata->idleVelocity = 5;
-    fdata->finishAction = 0;
-    fdata->executiveTimes = 1;
+    fdata->maxVelocity = 10; //Max velocity 
+    fdata->idleVelocity = 5; //Cruise velocity
+    fdata->finishAction = 0; // No action on finish!
+    fdata->executiveTimes = 1; //Execute once
     fdata->yawMode = 0;
-    fdata->traceMode = 0;
-    fdata->RCLostAction = 1;
+    fdata->traceMode = 0; //Enables point-to-point, not coordinated
+    fdata->RCLostAction = 1; //Continue waypoints on RC lost
     fdata->gimbalPitch = 0;
     fdata->latitude = 0;
     fdata->longitude = 0;
@@ -137,8 +137,6 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
     // Let's create a vector to store our waypoints in.
     std::vector<DJI::OSDK::WayPointSettings> wp_list;
 
-    float64_t r_earth = 6378100;
-
     // First waypoint
     start_data->index = 0;
     wp_list.push_back(*start_data);
@@ -152,14 +150,12 @@ std::vector<DJI::OSDK::WayPointSettings> generateWaypoints(WayPointSettings* sta
         setWaypointDefaults(&wp);
         wp.index = i;
         float dX, dY;
-        // Downwards increment
-
-        if (i % 2 != 0) {
+        if (i % 2 != 0) { // Upwards increment
             mult = mult * -1;
             dX = (cos(angle * (M_PI / 180)) * latM) * mult;
             dY = (sin(angle * (M_PI / 180)) * latM) * mult;
 
-        } else // Side ways increment
+        } else //Side ways increment
         {
             dX = cos(angle * (M_PI / 180) + M_PI_2) * lonM;
             dY = sin(angle * (M_PI / 180) + M_PI_2) * lonM;
@@ -182,7 +178,6 @@ void uploadWaypoints(Vehicle* vehicle, std::vector<DJI::OSDK::WayPointSettings>&
     for (std::vector<WayPointSettings>::iterator wp = wp_list.begin(); wp != wp_list.end(); ++wp) {
         printf("Waypoint created at (LLA): %f \t%f \t%f\n ", wp->latitude, wp->longitude, wp->altitude);
         ACK::WayPointIndex wpDataACK = vehicle->missionManager->wpMission->uploadIndexData(&(*wp), responseTimeout);
-
         ACK::getErrorCodeMessage(wpDataACK.ack, __func__);
     }
 }
@@ -197,7 +192,6 @@ bool stopMission(DJI::OSDK::Vehicle* vehicle, int responseTimeout, int delayBefo
     std::cout << "Succes: Stopping Waypoint Mission.\n";
 }
 
-//
 void startProcess(pid_t pid, char* path, char* param, pid_t prevPid) {
     char* bname = basename(path); // Get process name from path argument
     char PID[20];
