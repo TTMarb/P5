@@ -1,3 +1,31 @@
+### HOW TO BUILD A PROJECT:
+1. Create the build folder and cd into it
+```
+mkdir build && cd build
+```
+2. Activate CMake files
+```
+cmake ..
+```
+3. Compile the files
+```
+make
+```
+4. Cd into the bin folder
+```
+cd ./bin/
+```
+5. Added the User config file
+```
+cp ./../../project_folder/common/UserConfig.txt .
+```
+6. Start the program
+```
+./myProgrammeName UserConfig.txt
+```
+Enjoy :D
+
+
 # DJI Onboard SDK (OSDK) 3.9
 
 [![Join the chat at https://gitter.im/dji-sdk/Onboard-SDK](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dji-sdk/Onboard-SDK?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
