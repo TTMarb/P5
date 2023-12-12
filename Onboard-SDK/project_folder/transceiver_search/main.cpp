@@ -214,15 +214,9 @@ int main(int argc, char** argv) {
                 char param[] = "UserConfig.txt";
                 startProcess(coarsePID, path, param, antennaPID);
 
-                /*
-                // Wait for the antennaDFT to complete
-                while ((wpid = waitpid(antennaPID, &pStatus, WUNTRACED | WCONTINUED)) > 0) {
-                };
-                */
                 exit(EXIT_SUCCESS); // End process
-            }
-        }
+            } 
+        } 
     }
-
     return 0;
 }
