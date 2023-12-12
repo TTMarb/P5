@@ -113,7 +113,6 @@ int main() {
             float signalStrength = maxADCvalue * (1 / pow(distance, 3));
             //Finds the difference between the UAS's angle and the target's angle
             float fieldAngle = 180 - 2 * getAngle(deltaY, deltaX);
-            //float fieldAngle = 90 + getAngle(deltaY, deltaX);
             if (fieldAngle < 0) {
                 fieldAngle += 360;
             }
