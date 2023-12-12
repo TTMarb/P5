@@ -64,7 +64,7 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
     Telemetry::GlobalPosition pos;
     Telemetry::Quaternion quaternion;
     int searchRadius = 20;
-    float UAVAngle;
+    float UASAngle;
     float sampleTimeInSeconds = 1 / sampleFrequency;
     int maxADCvalue = 4096;
 
@@ -72,9 +72,9 @@ void controlVehicle(DJI::OSDK::Vehicle* vehicle, float* vel, float* alg, FIO* fi
     //Calculate velocity in x and y direction
     //Sets velocity and yaw rate
     for (int i = 0; i < sampleFrequency; i++) {
-        UAVAngle = QtoDEG(vehicle)*(M_PI / 180);
-        float eX = *vel * cosf(UAVAngle);
-        float eY = *vel * sinf(UAVAngle);
+        UASAngle = QtoDEG(vehicle)*(M_PI / 180);
+        float eX = *vel * cosf(UASAngle);
+        float eY = *vel * sinf(UASAngle);
         vX->updatePIController(&eX);
         vY->updatePIController(&eY);
         vehicle->control->velocityAndYawRateCtrl(vX->PIvalue, vY->PIvalue, 0, yawRate->PIvalue);
@@ -173,7 +173,7 @@ void setBroadcastFrequency(Vehicle* vehicle) {
     ACK::ErrorCode ack = vehicle->broadcast->setBroadcastFreq(freq, TIMEOUT);
 }
 
-void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
+void UAStakoff(Vehicle* vehicle, int functionTimeout) {
     setBroadcastFrequency(vehicle);
     Telemetry::Status status = vehicle->broadcast->getStatus();
 
@@ -184,7 +184,7 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
     //Checks if the flight is already in air
     if (status.flight < 2) {
         sleep(5);
-        std::cout << "Preparing UAV" << std::endl;
+        std::cout << "Preparing UAS" << std::endl;
         std::cout << "Arm motor \n";
         ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
         if (ACK::getError(armAck)) {
@@ -200,7 +200,7 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
         }
 
         std::cout << "Took off \n";
-        sleep(10);
+        sleep(5);
     } else {
         std::cout << "Drone already in air" << std::endl;
     }
@@ -208,7 +208,7 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
 }
 
 
-void UAVstop(Vehicle* vehicle, bool land, int functionTimeout) {
+void UASstop(Vehicle* vehicle, bool land, int functionTimeout) {
     if (land) {
         std::cout << "Landing \n";
         ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);

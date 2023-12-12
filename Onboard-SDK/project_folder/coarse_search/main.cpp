@@ -42,13 +42,13 @@ int main(int argc, char** argv, char** envp) {
     }
 
     int functionTimeout = 60;
-    UAVtakoff(vehicle, functionTimeout);
+    UAStakoff(vehicle, functionTimeout);
 
     // Setup variables for use
     FIO fileIO = FIO();
     fileIO.changeActiveFile("test.txt");
     fileIO.createFile();
-    fileIO.write2file("H, alg, vel, pos.longitude, pos.latitude, UAVangle, A1, A2");
+    fileIO.write2file("H, alg, vel, pos.longitude, pos.latitude, UASangle, A1, A2");
     float alg, vel, A1, A2, H, prevH, sampleFrequency, velKp;
     int mult;
     A1 = 0;
@@ -65,9 +65,9 @@ int main(int argc, char** argv, char** envp) {
         // Transmit data to antenna_dft process
         DJI::OSDK::Telemetry::GlobalPosition pos;
         pos = vehicle->broadcast->getGlobalPosition(); // Get the current GNSS position
-        float UAVangle = QtoDEG(vehicle);              // Get the current UAS angle
+        float UASangle = QtoDEG(vehicle);              // Get the current UAS angle
 
-        soc.sendit(pos.longitude, pos.latitude, UAVangle);
+        soc.sendit(pos.longitude, pos.latitude, UASangle);
 
         // Stay in a blocked state until data is received
         if (soc.receive(&A1, &A2)) {
@@ -80,21 +80,21 @@ int main(int argc, char** argv, char** envp) {
                       << std::endl;
             //Break statement - Within of the target
             if (H > (140)) { //<- Within 3.08 m
-                //Stops the UAV
+                //Stops the UAS
                 vehicle->control->velocityAndYawRateCtrl(0, 0, 0, 0);
                 std::cout << "Target found! \n";
                 break;
             }
             fileIO.write2file(std::to_string(H) + "," + std::to_string(alg) + "," + std::to_string(vel) + ","
                               + std::to_string(pos.longitude) + "," + std::to_string(pos.latitude) + ","
-                              + std::to_string(UAVangle) + "," + std::to_string(A1) + "," + std::to_string(A2));
+                              + std::to_string(UASangle) + "," + std::to_string(A1) + "," + std::to_string(A2));
             prevH = H;
         }
     }
     close(soc.client_sock);
 
-    //Set the bool to true to land the UAV, false to stay in the air
-    UAVstop(vehicle, true, functionTimeout);
+    //Set the bool to true to land the UAS, false to stay in the air
+    UASstop(vehicle, true, functionTimeout);
     std::cout << "Stopping coarse_search" << std::endl;
 
     // Get the antenna_dft process pid

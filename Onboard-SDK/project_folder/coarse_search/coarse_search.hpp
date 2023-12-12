@@ -62,8 +62,8 @@
 #include <dji_linux_helpers.hpp>
 
 void controlVehicle(DJI::OSDK::Vehicle*, float*, float*, FIO*, PIcontroller*, PIcontroller*, PIcontroller*, int, int*);
-void UAVtakoff(Vehicle*, int);
-void UAVstop(Vehicle*, bool, int);
+void UAStakoff(Vehicle*, int);
+void UASstop(Vehicle*, bool, int);
 
 float calcH(DJI::OSDK::Vehicle*, float*, float*, float*);
 float calcAlg(DJI::OSDK::Vehicle*, float*, float*, float*);
