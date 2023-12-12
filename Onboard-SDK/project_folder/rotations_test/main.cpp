@@ -45,36 +45,8 @@ int main(int argc, char** argv) {
         return -1;
     }
     
-
-
-
-    // Obtain Control Authority
-    
-    std::cout << "About to take control \n";
-    vehicle->obtainCtrlAuthority(functionTimeout);
-    
-    std::cout << "About to sleep for 5 secs \n";
-    for(int i = 0 ; i < 5; i++){
-        std::cout << i << std::endl;
-        sleep(1);
-    }
-
-    std::cout << "Arm motor \n";
-    ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
-    if (ACK::getError(armAck)) {
-        ACK::getErrorCodeMessage(armAck, __func__);
-    }
-    std::cout << "About to take off \n";
-    std::cout << "Have slept for 5 secs \n";
-
-    ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
-    if (ACK::getError(takeoffAck)) {
-        ACK::getErrorCodeMessage(takeoffAck, __func__);
-    }
-
-    sleep(5);
-
-    // Setup variables for use
+    //Takeoff
+    UAVtakoff(vehicle, functionTimeout);
 
     std::cout << "Program about to start! \n" << std::endl;
     
@@ -89,16 +61,10 @@ int main(int argc, char** argv) {
         std::string filename = "deg" + std::to_string(TA) + ".csv";
         getRotation(vehicle, TA, filename, fileIO);
     }
+    
+    std::cout << "Test done!" << std::endl;
 
-    ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
-    if (ACK::getError(landAck)) {
-        ACK::getErrorCodeMessage(landAck, __func__);
-    }
+    UAVstop(vehicle, true, functionTimeout);
 
-    std::cout << "disarm motor \n";
-    ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
-    if (ACK::getError(disarmAck)) {
-        ACK::getErrorCodeMessage(disarmAck, __func__);
-    }
     std::cout << "Program ended!" << std::endl;
 }

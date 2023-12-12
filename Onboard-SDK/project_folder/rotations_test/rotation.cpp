@@ -34,9 +34,6 @@
 #include "FIO.h"
 #include <dji_broadcast.hpp>
 #include <dji_telemetry.hpp>
-#include <fstream>
-#include <iostream>
-#define _USE_MATH_DEFINES
 
 using namespace DJI::OSDK;
 using namespace DJI::OSDK::Telemetry;
@@ -45,13 +42,8 @@ void getRotation(Vehicle* vehicle, int setAngle, std::string filename, FIO fileI
     fileIO.changeActiveFile(filename);
     fileIO.createFile();
 
-    
-    Telemetry::Vector3f vel;
-
-    //Sets up the requested broadcast frequencies - specifically 100Hz on Quaternion
-    setBroadcastFrequency(vehicle);
-
     //Initialises different parameters used for the rotation
+    Telemetry::Vector3f vel;
     float32_t currAngle;
     float32_t offset;
     float32_t targetAngle = 0;
@@ -93,14 +85,6 @@ float32_t QtoDEG(Vehicle* vehicle) {
     double t1 = +2.0 * (quaternion.q1 * quaternion.q2 + quaternion.q0 * quaternion.q3);
     double t0 = -2.0 * (quaternion.q2 * quaternion.q2 + quaternion.q3 * quaternion.q3) + 1.0;
     float32_t angle = atan2(t1, t0) * 180 / M_PI;
-    /*float32_t angle = atan2(-t1, t0) * 180 / M_PI;
-
-    //Following code is implemented to change direction and offset of angle, to rotate anti-clockwise
-    //and start with 0 degrees at the right
-    angle += 90;
-    if (angle > 360) {
-        angle -= 360;
-    }*/
     return angle;
 }
 
@@ -116,7 +100,6 @@ void setBroadcastFrequency(Vehicle* vehicle) {
         FREQ_400HZ = 7,
         FREQ_HOLD = 5,
     };
-
     //Timeout is for acknowledgement
     const int TIMEOUT = 20;
     //Initialises the frequency array - 16 is the given lenght by documentation
@@ -153,20 +136,74 @@ void setBroadcastFrequency(Vehicle* vehicle) {
 
 bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, int* counter, int counterGoal) {
     //Main loop
+    int settelingAccuracy = 0.1;
     //Asks the control to move to target angle
     vehicle->control->positionAndYawCtrl(0, 0, 2.5, targetAngle);
     //Gets the current angle og the system
     *currAngle = QtoDEG(vehicle);
     //Calculates the offset of the two angles
-    float32_t offset = fabs(fabs(targetAngle) - fabs(*currAngle));
+    float32_t error = fabs(fabs(targetAngle) - fabs(*currAngle));
     //Counts to make sure the system is stable - Setteling time and such
-    if (offset < 0.1) {
+    if (error < settelingAccuracy) {
         *counter = *counter + 1;
     } else {
         *counter = 0;
     }
-    //Debug print statement
-    //std::cout << *counter << " < " << counterGoal << ": " << (*counter < counterGoal) << std::endl;
-    //If counter is above counterGoal, the while loops will be broken
     return (*counter < counterGoal);
+}
+
+void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
+    setBroadcastFrequency(vehicle);
+    Telemetry::Status status = vehicle->broadcast->getStatus();
+
+    ACK::ErrorCode ctrlAuth = vehicle->obtainCtrlAuthority(functionTimeout);
+    if (ACK::getError(ctrlAuth)) {
+        ACK::getErrorCodeMessage(ctrlAuth, __func__);
+    }
+    //Checks if the flight is already in air
+    if (status.flight < 2) {
+        sleep(5);
+        std::cout << "Preparing UAV" << std::endl;
+        std::cout << "Arm motor \n";
+        ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
+        if (ACK::getError(armAck)) {
+            ACK::getErrorCodeMessage(armAck, __func__);
+        }
+
+        std::cout << "About to take off \n";
+        sleep(5);
+
+        ACK::ErrorCode takeoffAck = vehicle->control->takeoff(functionTimeout);
+        if (ACK::getError(takeoffAck)) {
+            ACK::getErrorCodeMessage(takeoffAck, __func__);
+        }
+
+        std::cout << "Took off \n";
+        sleep(5);
+    } else {
+        std::cout << "Drone already in air" << std::endl;
+    }
+    sleep(1);
+}
+
+void UAVstop(Vehicle* vehicle, bool land, int functionTimeout) {
+    if (land) {
+        std::cout << "Landing \n";
+        ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);
+        if (ACK::getError(landAck)) {
+            ACK::getErrorCodeMessage(landAck, __func__);
+        }
+        sleep(5);
+
+        std::cout << "Disarm motor \n";
+        ACK::ErrorCode disarmAck = vehicle->control->disArmMotors(functionTimeout);
+        if (ACK::getError(disarmAck)) {
+            ACK::getErrorCodeMessage(disarmAck, __func__);
+        }
+        sleep(5);
+    }
+
+    sleep(5);
+    std::cout << "Release control authority. \n";
+    vehicle->releaseCtrlAuthority(functionTimeout);
 }

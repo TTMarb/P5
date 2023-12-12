@@ -35,6 +35,9 @@
 // System Includes
 #include <cmath>
 #include <vector>
+#include <fstream>
+#include <iostream>
+#define _USE_MATH_DEFINES
 
 // DJI OSDK includes
 #include <dji_vehicle.hpp>
@@ -45,9 +48,12 @@
 
 void getRotation(Vehicle*, int, std::string, FIO);
 
+void UAVtakoff(Vehicle*, int);
+void setBroadcastFrequency(Vehicle*);
+void UAVstop(Vehicle*, bool, int);
+
 const int DEFAULT_PACKAGE_INDEX = 0;
 float32_t QtoDEG(Vehicle*);
-void setBroadcastFrequency(Vehicle*);
 bool isTargetHit(Vehicle*, float32_t, float32_t*, int*, int);
 
 #endif // DJIOSDK_MISSIONSAMPLE_HPP
