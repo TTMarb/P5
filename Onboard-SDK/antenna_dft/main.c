@@ -14,6 +14,7 @@
 #include <sys/un.h>
 #include "antenna.h"
 #define searchRadius     10
+#define PI 3.14159265359
 
 /* Path for UNIX domain socket */
 #define SERVER_PATH      "/tmp/unix_sock.server"
@@ -61,9 +62,6 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    //Another test location, next to the fence: 
-        //double tLat = 57.061018
-        //double tLon = 10.035955;
     double tLat = 57.061285;
     double tLon = 10.035939;
     while (1) {
@@ -95,8 +93,8 @@ int main() {
 
             // Calculate position to receive
             if (runOnce == 0) {
-                tLat = tLat * (3.14159265359 / 180);
-                tLon = tLon * (3.14159265359 / 180);
+                tLat = tLat * (PI / 180);
+                tLon = tLon * (PI / 180);
                 printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
                 Tranceiver_Y_location = calcMfromLat(tLat);
                 Tranceiver_X_location = calcMfromLon(tLat,tLon);
@@ -119,10 +117,10 @@ int main() {
             if (fieldAngle < 0) {
                 fieldAngle += 360;
             }
-
-            float diffAngle = (fieldAngle - UASangle) * (M_PI / 180) ;
-            A1 = fabs(signalStrength * cos(diffAngle + M_PI_4));
-            A2 = fabs(signalStrength * cos(diffAngle - M_PI_4));
+            
+            float diffAngle = (fieldAngle - UASangle) * (PI / 180) ;
+            A1 = fabs(signalStrength * cos(diffAngle + (PI/4)));
+            A2 = fabs(signalStrength * cos(diffAngle - (PI/4)));
             buf[0] = A1;
             buf[1] = A2;
 
