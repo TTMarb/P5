@@ -46,7 +46,6 @@ add_subdirectory(logging)
 add_subdirectory(time-sync)
 add_subdirectory(payload-3rd-party)
 add_subdirectory(payloads)
-add_subdirectory(project_folder)
 
 if(ADVANCED_SENSING)
     add_definitions(-DADVANCED_SENSING)
