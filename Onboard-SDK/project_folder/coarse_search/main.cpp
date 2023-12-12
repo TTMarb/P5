@@ -54,7 +54,7 @@ int main(int argc, char** argv, char** envp) {
     A1 = 0;
     A2 = 0;
     sampleFrequency = 100;
-    velKp = 0.15;
+    velKp = 0.25;
     PIcontroller yawRate = PIcontroller(0.15, 0, sampleFrequency); //0.02
     PIcontroller vX = PIcontroller(velKp, 0, sampleFrequency);
     PIcontroller vY = PIcontroller(velKp, 0, sampleFrequency);

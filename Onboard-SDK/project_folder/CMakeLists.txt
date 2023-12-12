@@ -38,6 +38,4 @@ endif()
 
 add_subdirectory(transceiver_search)
 add_subdirectory(rotations_test)
-add_subdirectory(vel_step)
-add_subdirectory(rotationspeed_test)
 add_subdirectory(coarse_search)

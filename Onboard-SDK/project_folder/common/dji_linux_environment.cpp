@@ -31,7 +31,6 @@
 
 DJI_Environment::DJI_Environment(const std::string& config_file_path)
 {
-
   this->config_file_path   = config_file_path;
   this->config_read_result = this->parse(config_file_path);
 }

@@ -53,9 +53,10 @@ float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
 }
 
 float calcVel(DJI::OSDK::Vehicle* vehicle, float* H, float* prevH, int* mult, float Kp) {
-    if (abs(*mult) > 1) {
-        *mult = 1;
-    }
+    //Ensures that the velocity is between -1 and 1
+    *mult /= abs(*mult);
+
+    //Det her kan godt skrives pænere 
     if (*H < *prevH) {
         printf("\tH small %i times!\n", cnt);
         cnt++;
