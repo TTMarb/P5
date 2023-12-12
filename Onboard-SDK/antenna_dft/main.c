@@ -114,15 +114,15 @@ int main() {
             //Finds the difference between the UAV's angle and the target's angle
             float deltaX = UAV_X_location - Tranceiver_X_location;
             float deltaY = UAV_Y_location - Tranceiver_Y_location;
-            float targetAngle = 180 - 2 * getAngle(deltaX, deltaY);
-            //float targetAngle = 90 + getAngle(deltaX, deltaY);
-            if (targetAngle < 0) {
-                targetAngle += 360;
+            float fieldAngle = 180 - 2 * getAngle(deltaX, deltaY);
+            //float fieldAngle = 90 + getAngle(deltaX, deltaY);
+            if (fieldAngle < 0) {
+                fieldAngle += 360;
             }
 
-            float diffAngle = targetAngle - UAVangle;
-            A1 = fabs(signalStrength * cos((diffAngle * M_PI / 180) + M_PI_4));
-            A2 = fabs(signalStrength * cos((diffAngle * M_PI / 180) - M_PI_4));
+            float diffAngle = (fieldAngle - UAVangle) * (M_PI / 180) ;
+            A1 = fabs(signalStrength * cos(diffAngle + M_PI_4));
+            A2 = fabs(signalStrength * cos(diffAngle - M_PI_4));
             buf[0] = A1;
             buf[1] = A2;
 
