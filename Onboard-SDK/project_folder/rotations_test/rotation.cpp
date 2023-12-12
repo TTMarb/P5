@@ -152,7 +152,7 @@ bool isTargetHit(Vehicle* vehicle, float32_t targetAngle, float32_t* currAngle, 
     return (*counter < counterGoal);
 }
 
-void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
+void UAStakoff(Vehicle* vehicle, int functionTimeout) {
     setBroadcastFrequency(vehicle);
     Telemetry::Status status = vehicle->broadcast->getStatus();
 
@@ -163,7 +163,7 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
     //Checks if the flight is already in air
     if (status.flight < 2) {
         sleep(5);
-        std::cout << "Preparing UAV" << std::endl;
+        std::cout << "Preparing UAS" << std::endl;
         std::cout << "Arm motor \n";
         ACK::ErrorCode armAck = vehicle->control->armMotors(functionTimeout);
         if (ACK::getError(armAck)) {
@@ -186,7 +186,7 @@ void UAVtakoff(Vehicle* vehicle, int functionTimeout) {
     sleep(1);
 }
 
-void UAVstop(Vehicle* vehicle, bool land, int functionTimeout) {
+void UASstop(Vehicle* vehicle, bool land, int functionTimeout) {
     if (land) {
         std::cout << "Landing \n";
         ACK::ErrorCode landAck = vehicle->control->land(functionTimeout);

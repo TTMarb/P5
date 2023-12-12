@@ -48,9 +48,9 @@
 
 void getRotation(Vehicle*, int, std::string, FIO);
 
-void UAVtakoff(Vehicle*, int);
+void UAStakoff(Vehicle*, int);
 void setBroadcastFrequency(Vehicle*);
-void UAVstop(Vehicle*, bool, int);
+void UASstop(Vehicle*, bool, int);
 
 const int DEFAULT_PACKAGE_INDEX = 0;
 float32_t QtoDEG(Vehicle*);

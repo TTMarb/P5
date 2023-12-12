@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     }
     
     //Takeoff
-    UAVtakoff(vehicle, functionTimeout);
+    UAStakoff(vehicle, functionTimeout);
 
     std::cout << "Program about to start! \n" << std::endl;
     
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     
     std::cout << "Test done!" << std::endl;
 
-    UAVstop(vehicle, true, functionTimeout);
+    UASstop(vehicle, true, functionTimeout);
 
     std::cout << "Program ended!" << std::endl;
 }
