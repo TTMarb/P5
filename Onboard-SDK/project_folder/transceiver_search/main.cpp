@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
     float64_t latM; // Y distance per module
     float64_t lonM; // X distance per module
     float avLength, avWidth, searchWidth, pathLength, angle;
-    float32_t altitude = 4;
+    float altitude = 4;
 
     //Delay before stopping mission - purely for testing purposes
     int delayBeforeStop;
