@@ -79,7 +79,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
 }
 
 void setWaypointDefaults(WayPointSettings* wp) {
-    wp->damping = 1; //Relevant for coordinated turns - not our scope
+    wp->damping = 3; //Relevant for coordinated turns - not our scope
     wp->yaw = 0;
     //gimbalPitch: Set to zero for a good orders sake :)
     wp->gimbalPitch = 0;
