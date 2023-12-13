@@ -79,7 +79,7 @@ bool runWaypointMission(Vehicle* vehicle, int numWaypoints, int responseTimeout,
 }
 
 void setWaypointDefaults(WayPointSettings* wp) {
-    wp->damping = 3; //Relevant for coordinated turns - not our scope
+    wp->damping = 0; //Relevant for coordinated turns - not our scope
     wp->yaw = 0;
     //gimbalPitch: Set to zero for a good orders sake :)
     wp->gimbalPitch = 0;
@@ -101,7 +101,7 @@ void setWaypointInitDefaults(WayPointInitSettings* fdata) {
     fdata->finishAction = 0; // No action on finish!
     fdata->executiveTimes = 1; //Execute once
     fdata->yawMode = 0;
-    fdata->traceMode = 1; //Enables point-to-point, not coordinated
+    fdata->traceMode = 0; //Enables point-to-point, not coordinated
     fdata->RCLostAction = 1; //Continue waypoints on RC lost
     fdata->gimbalPitch = 0;
     fdata->latitude = 0;
