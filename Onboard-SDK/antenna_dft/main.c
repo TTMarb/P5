@@ -62,8 +62,8 @@ int main() {
     int runOnce = 0;
     int calComplete = 0;
     // The transceiver position is set X and Y distance from take-off
-    double tLat = 57.061285;
-    double tLon = 10.035939;
+    double tLat = 0;//57.061285;
+    double tLon = 0;//10.035939;
     while (1) {
         sleep(1);
 
@@ -96,8 +96,8 @@ int main() {
                 tLat = tLat * (PI / 180);
                 tLon = tLon * (PI / 180);
                 printf("\t\ttLon: %f, tLat: %f\n", tLon, tLat);
-                Tranceiver_Y_location = calcMfromLat(tLat);
-                Tranceiver_X_location = calcMfromLon(tLat,tLon);
+                Tranceiver_Y_location = calcMfromLat(tLat)+14;
+                Tranceiver_X_location = calcMfromLon(tLat,tLon)-14;
                 runOnce = 1;
             }
 
@@ -112,7 +112,8 @@ int main() {
             int maxADCvalue = 4096;
             float signalStrength = maxADCvalue * (1 / pow(distance, 3));
             //Finds the difference between the UAS's angle and the target's angle
-            float fieldAngle = 180 - 2 * getAngle(deltaY, deltaX);
+            float fieldAngle = 90 + getAngle(deltaY, deltaX);
+            //float fieldAngle = 180 - 2 * getAngle(deltaY, deltaX);
             if (fieldAngle < 0) {
                 fieldAngle += 360;
             }
