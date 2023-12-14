@@ -105,8 +105,8 @@ int main() {
             float UAS_Y_location = calcMfromLat(positionLatitude);
             float UAS_X_location = calcMfromLon(positionLatitude, positionLongitude);
             //calculates the distance between the UAS and the target
-            float deltaX = UAS_X_location - Tranceiver_X_location;
-            float deltaY = UAS_Y_location - Tranceiver_Y_location;
+            float deltaX = Tranceiver_X_location - UAS_X_location;
+            float deltaY = Tranceiver_Y_location - UAS_Y_location;
             float distance = sqrt(pow((deltaX), 2) + pow((deltaY), 2));
             //Approximates the signal strength based on the distance
             int maxADCvalue = 4096;
