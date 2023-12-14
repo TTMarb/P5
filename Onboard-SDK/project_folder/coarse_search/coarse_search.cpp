@@ -34,6 +34,7 @@ int cnt;
 float calcH(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) { return sqrt(pow(*A1, 2) + pow(*A2, 2)); }
 
 float calcAlg(DJI::OSDK::Vehicle* vehicle, float* A1, float* A2, float* H) {
+    //Error? H meget lille!
     return (acos((*A1 - *A2) / (*H + 0.001)) - M_PI_2) * (180 / M_PI);
 }
 
